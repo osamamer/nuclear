@@ -1,13 +1,12 @@
 import { FC } from 'react';
 
 import { cn } from '../../utils';
-import { formatTimeSeconds } from '../../utils/time';
 import { useSeekBar } from './useSeekBar';
 
 export type PlayerSeekBarProps = {
   progress: number;
-  elapsedSeconds: number;
-  remainingSeconds: number;
+  elapsedSeconds?: number;
+  remainingSeconds?: number;
   isLoading?: boolean;
   onSeek?: (percent: number) => void;
   className?: string;
@@ -15,8 +14,6 @@ export type PlayerSeekBarProps = {
 
 export const PlayerBarSeekBar: FC<PlayerSeekBarProps> = ({
   progress,
-  elapsedSeconds,
-  remainingSeconds,
   isLoading = false,
   onSeek,
   className = '',
@@ -28,43 +25,34 @@ export const PlayerBarSeekBar: FC<PlayerSeekBarProps> = ({
   });
 
   return (
-    <div className={cn('w-full select-none', className)}>
+    <div className={cn('w-full px-4 select-none', className)}>
       <div
         ref={containerRef}
         data-testid="player-seek-bar"
-        className={cn('relative h-4 w-full', {
+        className={cn('group relative h-4 w-full', {
           'pointer-events-none cursor-not-allowed': isLoading,
           'cursor-pointer': isInteractive,
         })}
         onClick={handleClick}
         aria-disabled={isLoading}
       >
-        <div
-          className={cn(
-            'border-border surface-seekbar-track absolute inset-0 border-t-(length:--border-width)',
-            {
-              'overflow-hidden': isLoading,
-            },
-          )}
-        >
-          <div className="absolute right-0 left-0 z-10 flex h-full flex-row items-center justify-between px-2 pt-0.5 text-xs leading-none">
-            <span className="tabular-nums">
-              {formatTimeSeconds(elapsedSeconds)}
-            </span>
-            <span className="tabular-nums">
-              {formatTimeSeconds(-Math.abs(remainingSeconds))}
-            </span>
-          </div>
+        <div className="surface-seekbar-track absolute inset-x-0 top-1/2 h-0.5 -translate-y-1/2 overflow-hidden rounded-full">
           {isLoading && (
-            <div className="bg-stripes-diagonal absolute inset-0 opacity-80" />
+            <div className="bg-stripes-diagonal absolute inset-0 opacity-70" />
           )}
           {!isLoading && (
             <div
-              className={cn('surface-seekbar h-full', 'transition-none')}
+              className="surface-seekbar h-full rounded-full transition-[width] duration-150"
               style={{ width: `${clamped}%` }}
             />
           )}
         </div>
+        {!isLoading && (
+          <div
+            className="surface-seekbar border-background pointer-events-none absolute top-1/2 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 opacity-0 shadow-sm transition-opacity group-hover:opacity-100"
+            style={{ left: `${clamped}%` }}
+          />
+        )}
       </div>
     </div>
   );

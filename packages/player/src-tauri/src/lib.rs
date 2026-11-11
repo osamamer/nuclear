@@ -2,6 +2,7 @@ pub mod bridge;
 pub mod commands;
 pub mod db;
 pub mod discord;
+pub mod downloads;
 pub mod history;
 pub mod http;
 pub mod http_api;
@@ -42,6 +43,8 @@ fn specta_builder() -> tauri_specta::Builder<tauri::Wry> {
         commands::copy_dir_recursive,
         commands::extract_zip,
         commands::download_file,
+        downloads::download_track,
+        downloads::track_file_exists,
         commands::sha256_file,
         http::http_fetch,
         ytdlp::ytdlp_search,

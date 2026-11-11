@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 
 export const queueItemVariants = cva(
-  'group relative flex items-center gap-2 overflow-hidden ring-offset-white transition-all',
+  'group relative flex items-center gap-3 overflow-hidden rounded-lg border border-transparent bg-transparent transition-colors',
   {
     variants: {
       status: {
@@ -11,12 +11,12 @@ export const queueItemVariants = cva(
         success: '',
       },
       isCurrent: {
-        true: 'surface-primary',
-        false: '',
+        true: 'bg-primary/10',
+        false: 'hover:bg-muted/70',
       },
       isCollapsed: {
         true: 'h-9 w-9 justify-center p-0',
-        false: 'w-full p-0',
+        false: 'h-14 w-full px-2 py-1.5',
       },
     },
     defaultVariants: {

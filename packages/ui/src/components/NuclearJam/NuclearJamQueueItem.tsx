@@ -17,19 +17,19 @@ export const NuclearJamQueueItem = forwardRef<
   NuclearJamQueueItemProps
 >(({ item, isCurrent, onRemove }, ref) => {
   const thumbnail = pickArtwork(item.track.artwork, 'thumbnail', 48);
-  const primaryArtist = item.track.artists[0]?.name;
+  const artists = item.track.artists.map((artist) => artist.name).join(', ');
 
   return (
     <div
       ref={ref}
       className={cn(
-        'border-border flex items-center gap-3 border-b-(length:--border-width) px-4 py-2',
-        isCurrent && 'surface-primary',
+        'flex h-14 items-center gap-3 rounded-lg px-2 transition-colors',
+        isCurrent ? 'bg-primary/10' : 'hover:bg-muted/70',
       )}
       data-testid="jam-queue-item"
       data-is-current={isCurrent}
     >
-      <div className="border-border bg-muted flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-md border-(length:--border-width)">
+      <div className="bg-muted flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md">
         {thumbnail?.url ? (
           <img
             src={thumbnail.url}
@@ -38,7 +38,7 @@ export const NuclearJamQueueItem = forwardRef<
           />
         ) : (
           <CassetteTape
-            size={40}
+            size={24}
             absoluteStrokeWidth
             className="text-muted-foreground opacity-20"
           />
@@ -46,9 +46,11 @@ export const NuclearJamQueueItem = forwardRef<
       </div>
 
       <div className="min-w-0 flex-1">
-        <div className="truncate text-sm font-bold">{item.track.title}</div>
-        {primaryArtist && (
-          <div className="truncate text-xs opacity-60">{primaryArtist}</div>
+        <div className="truncate text-sm leading-5 font-semibold">
+          {item.track.title}
+        </div>
+        {artists && (
+          <div className="text-foreground/60 truncate text-xs">{artists}</div>
         )}
       </div>
 

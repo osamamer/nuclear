@@ -1,11 +1,22 @@
-import { ComponentProps, FC, RefObject } from 'react';
+import { ComponentProps, FC, RefObject, useMemo } from 'react';
 
-import type { LineSyncedLyrics, WordSyncedLyrics } from '@nuclearplayer/model';
+import type {
+  LineSyncedLyrics,
+  LyricsSegment,
+  SyncedLyricsLine as SyncedLyricsLineModel,
+  TimedLyricsSegment,
+  WordSyncedLyrics,
+} from '@nuclearplayer/model';
 
 import { cn } from '../../../utils';
+import { flattenLines } from '../utils';
 import { CurrentLinePill } from './CurrentLinePill';
 import { SyncedLyricsLines } from './SyncedLyricsLines';
 import { useSyncedLyrics } from './useSyncedLyrics';
+
+type SyncedLyricsLine =
+  | SyncedLyricsLineModel<LyricsSegment>
+  | SyncedLyricsLineModel<TimedLyricsSegment>;
 
 type SyncedLyricsLabels = {
   currentLine: string;
@@ -30,12 +41,16 @@ export const SyncedLyrics: FC<SyncedLyricsProps> = ({
   className,
   ...props
 }) => {
+  const lines = useMemo(
+    () => flattenLines(lyrics.sections) as SyncedLyricsLine[],
+    [lyrics.sections],
+  );
   const {
     activeLineRef,
     activeLineIndex,
     activeLineDirection,
     scrollToActiveLine,
-  } = useSyncedLyrics({ lyrics, positionMs, viewportRef, autoScroll });
+  } = useSyncedLyrics({ lines, positionMs, viewportRef, autoScroll });
 
   return (
     <div
@@ -47,7 +62,8 @@ export const SyncedLyrics: FC<SyncedLyricsProps> = ({
     >
       <div className="h-2/10 shrink-0" />
       <SyncedLyricsLines
-        lyrics={lyrics}
+        lyricsType={lyrics.type}
+        lines={lines}
         positionMs={positionMs}
         activeLineIndex={activeLineIndex}
         activeLineRef={activeLineRef}

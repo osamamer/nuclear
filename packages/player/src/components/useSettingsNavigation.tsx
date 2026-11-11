@@ -1,4 +1,5 @@
 import {
+  BanIcon,
   BlocksIcon,
   KeyboardIcon,
   PaletteIcon,
@@ -11,6 +12,7 @@ import { useTranslation } from '@nuclearplayer/i18n';
 import { SettingsNavigationSection } from '@nuclearplayer/ui';
 
 import { useSettingsModalStore } from '../stores/settingsModalStore';
+import { Blacklist } from '../views/Blacklist';
 import { KeyboardShortcuts } from '../views/KeyboardShortcuts';
 import { Logs } from '../views/Logs/Logs';
 import { Plugins } from '../views/Plugins/Plugins';
@@ -20,6 +22,12 @@ import { Themes } from '../views/Themes/Themes';
 import { WhatsNew } from '../views/WhatsNew';
 
 const APP_TABS = [
+  {
+    id: 'blacklist',
+    labelKey: 'blacklist.title',
+    icon: <BanIcon />,
+    view: <Blacklist />,
+  },
   {
     id: 'shortcuts',
     labelKey: 'shortcuts.title',

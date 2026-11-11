@@ -17,6 +17,7 @@ export type TrackTableLabels = {
   trackOptions: string;
   remove: string;
   filterPlaceholder: string;
+  nowPlaying?: string;
 };
 
 export type TrackTableSkeletonColumnKind = 'icon' | 'thumbnail' | 'text';
@@ -27,6 +28,7 @@ export type TrackTableClasses = {
 
 export type TrackTableActions<T extends Track = Track> = {
   onReorder?: (fromIndex: number, toIndex: number) => void;
+  onRowClick?: (track: T) => void;
   onPlayNow?: (track: T) => void;
   onPlayNext?: (track: T) => void;
   onAddToQueue?: (track: T) => void;
@@ -70,6 +72,7 @@ export type TrackTableProps<T extends Track = Track> = {
   meta?: {
     isTrackFavorite?: (track: T) => boolean;
     ContextMenuWrapper?: FC<ContextMenuWrapperProps<T>>;
+    activeTrackKey?: string;
   };
   rowHeight?: number;
   overscan?: number;

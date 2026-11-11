@@ -97,7 +97,7 @@ export class PlaybackManager {
       return;
     }
 
-    useQueueStore.getState().goToNext();
+    useQueueStore.getState().goToNext('automatic');
   };
 
   sourceReady = (): void => {

@@ -10,7 +10,7 @@ exports[`PlaylistDetail view > (Snapshot) renders playlist detail with tracks 1`
   >
     <div
       animate="center"
-      class="absolute inset-0 h-full w-full will-change-[transform,filter]"
+      class="absolute inset-0 h-full w-full will-change-transform"
       exit="exit"
       initial="enter"
       transition="[object Object]"
@@ -398,7 +398,7 @@ exports[`PlaylistDetail view > (Snapshot) renders playlist detail with tracks 1`
                         aria-describedby="DndDescribedBy-0"
                         aria-disabled="false"
                         aria-roledescription="sortable"
-                        class="border-border bg-muted group border-b-(length:--border-width) select-none cursor-grab"
+                        class="border-border bg-muted group border-b-(length:--border-width) select-none cursor-pointer"
                         data-testid="track-row"
                         role="button"
                         style="height: 42px;"
@@ -594,7 +594,7 @@ exports[`PlaylistDetail view > (Snapshot) renders playlist detail with tracks 1`
                         aria-describedby="DndDescribedBy-0"
                         aria-disabled="false"
                         aria-roledescription="sortable"
-                        class="border-border bg-muted group border-b-(length:--border-width) select-none cursor-grab"
+                        class="border-border bg-muted group border-b-(length:--border-width) select-none cursor-pointer"
                         data-testid="track-row"
                         role="button"
                         style="height: 42px;"

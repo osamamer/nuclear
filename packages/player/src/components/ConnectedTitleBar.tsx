@@ -21,7 +21,6 @@ export const ConnectedTitleBar: FC = () => {
   return (
     isEnabled && (
       <TitleBar
-        title={t('title')}
         styleOverride={styleOverride}
         onMinimize={() => appWindow.minimize()}
         onMaximize={() => appWindow.toggleMaximize()}

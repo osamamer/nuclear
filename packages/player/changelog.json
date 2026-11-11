@@ -1,5 +1,65 @@
 [
   {
+    "date": "2026-11-12T00:00",
+    "description": "Update the desktop app icon across macOS, Windows, and Linux.",
+    "type": "improvement",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Appearance",
+        "color": "purple"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-12T00:00",
+    "description": "Refresh the player layout with a larger, unbranded title bar, a customizable sidebar, unified song rows, and a cleaner playback progress bar.",
+    "type": "improvement",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Appearance",
+        "color": "purple"
+      },
+      {
+        "label": "Playback",
+        "color": "green"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-12T00:00",
+    "description": "Improve animation smoothness during navigation and playback with synced lyrics.",
+    "type": "fix",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Performance",
+        "color": "orange"
+      },
+      {
+        "label": "Lyrics",
+        "color": "purple"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-12T00:00",
+    "description": "Show playlists in the sidebar, mark the active playlist track, add playlist track sorting and richer playlist cards, download playlist tracks in parallel, play local copies when available, and start tracks by clicking anywhere on their row.",
+    "type": "feature",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Playlists",
+        "color": "purple"
+      },
+      {
+        "label": "Playback",
+        "color": "green"
+      }
+    ]
+  },
+  {
     "date": "2026-11-04T00:00",
     "description": "Fix queue panel virtualization. Improves performance for large queues.",
     "type": "fix",

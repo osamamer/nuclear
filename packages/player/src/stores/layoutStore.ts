@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-export interface LayoutState {
+export type LayoutState = {
   leftSidebar: {
     isCollapsed: boolean;
     width: number;
@@ -14,7 +14,9 @@ export interface LayoutState {
   toggleRightSidebar: () => void;
   setLeftSidebarWidth: (width: number) => void;
   setRightSidebarWidth: (width: number) => void;
-}
+  hiddenSidebarItems: string[];
+  setSidebarItemVisible: (id: string, isVisible: boolean) => void;
+};
 
 export const useLayoutStore = create<LayoutState>()(
   persist(
@@ -27,6 +29,7 @@ export const useLayoutStore = create<LayoutState>()(
         isCollapsed: false,
         width: 200,
       },
+      hiddenSidebarItems: [],
       toggleLeftSidebar: () =>
         set((state) => ({
           leftSidebar: {
@@ -54,6 +57,12 @@ export const useLayoutStore = create<LayoutState>()(
             ...state.rightSidebar,
             width,
           },
+        })),
+      setSidebarItemVisible: (id, isVisible) =>
+        set((state) => ({
+          hiddenSidebarItems: isVisible
+            ? state.hiddenSidebarItems.filter((itemId) => itemId !== id)
+            : [...new Set([...state.hiddenSidebarItems, id])],
         })),
     }),
     {

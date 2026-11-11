@@ -708,7 +708,7 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
         >
           <div
             animate="center"
-            class="absolute inset-0 h-full w-full will-change-[transform,filter]"
+            class="absolute inset-0 h-full w-full will-change-transform"
             exit="exit"
             initial="enter"
             transition="[object Object]"

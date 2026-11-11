@@ -1,6 +1,6 @@
 export const queueLayout = {
   rowHeight: {
-    expanded: 72,
+    expanded: 60,
     collapsed: 40,
   },
   overscan: 8,

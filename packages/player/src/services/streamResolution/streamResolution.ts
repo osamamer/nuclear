@@ -5,6 +5,8 @@ import { stripResolutionState } from '@nuclearplayer/model';
 
 import { useQueueStore } from '../../stores/queueStore';
 import { useSoundStore } from '../../stores/soundStore';
+import { findDownloadedTrack } from '../downloads/trackDownloadCatalog';
+import { Logger } from '../logger';
 import { playbackManager } from '../playback';
 import { hasActiveStreamingProvider, streamingHost } from '../streamingHost';
 import { AudioSourceFactory } from './audioSource';
@@ -12,6 +14,7 @@ import { candidatesForTrack } from './candidateSource';
 
 export type ResolveOptions = {
   autoPlay: boolean;
+  skipDownloadedTrack?: boolean;
   startPositionSeconds?: number;
 };
 
@@ -29,6 +32,32 @@ export class StreamResolution {
       useSoundStore.getState().stop();
     }
     updateItemState(item.id, { status: 'loading', error: undefined });
+
+    if (!options.skipDownloadedTrack) {
+      try {
+        const fileName = await findDownloadedTrack(item.track);
+        if (signal.aborted) {
+          return;
+        }
+        if (fileName) {
+          const audioSource =
+            await this.audioSourceFactory.fromDownloadedFile(fileName);
+          if (signal.aborted) {
+            return;
+          }
+          updateItemState(item.id, { status: 'success' });
+          this.activeItemId = null;
+          playbackManager.startTrack(item, audioSource, {
+            autoPlay: options.autoPlay,
+          });
+          return;
+        }
+      } catch (error) {
+        Logger.streaming.warn(
+          `Failed to open downloaded track: ${String(error)}`,
+        );
+      }
+    }
 
     if (!hasActiveStreamingProvider()) {
       this.failItem(item.id, 'streaming:errors.noProviderAvailable');

@@ -12,12 +12,12 @@ export const NuclearJamSearchResultTrackSkeleton: FC<
 > = ({ className }) => (
   <div
     className={cn(
-      'border-border flex w-full items-center gap-3 border-b-(length:--border-width) px-4 py-2',
+      'flex h-14 w-full items-center gap-3 rounded-lg px-2',
       className,
     )}
     data-testid="jam-search-result-track-skeleton"
   >
-    <Skeleton className="size-12 shrink-0 rounded-md" />
+    <Skeleton className="size-10 shrink-0 rounded-md" />
 
     <div className="flex min-w-0 flex-1 flex-col">
       <div className="flex h-5 items-center">

@@ -83,11 +83,14 @@ function TrackTableBase<T extends Track = Track>({
     getSortedRowModel: getSortedRowModel(),
     meta: {
       displayQueueControls: resolvedDisplay.displayQueueControls,
+      displayThumbnail: resolvedDisplay.displayThumbnail,
+      displayArtist: resolvedDisplay.displayArtist,
       onAddToQueue: actions?.onAddToQueue,
       onToggleFavorite: actions?.onToggleFavorite,
       onRemove: actions?.onRemove,
       isTrackFavorite: meta?.isTrackFavorite,
       ContextMenuWrapper: meta?.ContextMenuWrapper,
+      activeTrackKey: meta?.activeTrackKey,
     },
   });
 
@@ -139,17 +142,17 @@ function TrackTableBase<T extends Track = Track>({
             <table
               role="table"
               className={cn(
-                'border-border relative w-full table-fixed border-(length:--border-width)',
+                'relative w-full table-fixed border-separate border-spacing-0',
                 classes?.root,
               )}
             >
               {resolvedFeatures?.header && (
-                <thead>
+                <thead className="sticky top-0 z-10">
                   {table.getHeaderGroups().map((headerGroup) => (
                     <tr
                       key={headerGroup.id}
                       role="row"
-                      className="border-border surface-primary border-b-(length:--border-width)"
+                      className="border-border/50 bg-background/95 text-foreground/55 border-b text-xs font-semibold tracking-wide uppercase backdrop-blur"
                     >
                       {headerGroup.headers.map((header) =>
                         flexRender(header.column.columnDef.header, {
@@ -175,6 +178,11 @@ function TrackTableBase<T extends Track = Track>({
                     itemId={getItemId(row.original, row.index)}
                     style={{ height: rowHeight }}
                     isReorderable={isReorderable}
+                    onClick={
+                      actions?.onRowClick
+                        ? () => actions.onRowClick?.(row.original)
+                        : undefined
+                    }
                     data-index={virtual.index}
                   />
                 )}

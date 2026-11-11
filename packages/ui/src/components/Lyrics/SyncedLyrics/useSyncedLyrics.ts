@@ -1,29 +1,35 @@
 import findLastIndex from 'lodash-es/findLastIndex';
 import { RefObject, useCallback, useEffect, useRef } from 'react';
 
-import type { LineSyncedLyrics, WordSyncedLyrics } from '@nuclearplayer/model';
+import type {
+  LyricsSegment,
+  SyncedLyricsLine as SyncedLyricsLineModel,
+  TimedLyricsSegment,
+} from '@nuclearplayer/model';
 
-import { flattenLines } from '../utils';
 import { useActiveLineDirection } from './useActiveLineDirection';
 
 const ANCHOR_RATIO = 0.3;
 
 type Options = {
-  lyrics: LineSyncedLyrics | WordSyncedLyrics;
+  lines: (
+    | SyncedLyricsLineModel<LyricsSegment>
+    | SyncedLyricsLineModel<TimedLyricsSegment>
+  )[];
   positionMs: number;
   viewportRef: RefObject<HTMLDivElement>;
   autoScroll: boolean;
 };
 
 export const useSyncedLyrics = ({
-  lyrics,
+  lines,
   positionMs,
   viewportRef,
   autoScroll,
 }: Options) => {
   const activeLineRef = useRef<HTMLButtonElement>(null);
   const activeLineIndex = findLastIndex(
-    flattenLines(lyrics.sections),
+    lines,
     (line) => line.startMs <= positionMs,
   );
   const activeLineDirection = useActiveLineDirection(

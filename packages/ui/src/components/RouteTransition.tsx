@@ -15,19 +15,16 @@ const slideVariants = {
     x: SLIDE_DISTANCE,
     scale: SCALE_FACTOR,
     opacity: 0,
-    filter: 'blur(4px)',
   },
   center: {
     x: 0,
     scale: 1,
     opacity: 1,
-    filter: 'blur(0px)',
   },
   exit: {
     x: -SLIDE_DISTANCE,
     scale: SCALE_FACTOR,
     opacity: 0,
-    filter: 'blur(4px)',
   },
 };
 
@@ -80,7 +77,7 @@ const AnimatedOutlet = forwardRef<HTMLDivElement>((_props, ref) => {
   return (
     <motion.div
       ref={ref}
-      className="absolute inset-0 h-full w-full will-change-[transform,filter]"
+      className="absolute inset-0 h-full w-full will-change-transform"
       variants={slideVariants}
       initial="enter"
       animate="center"

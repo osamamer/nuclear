@@ -33,6 +33,14 @@ export class AudioSourceFactory {
     return { url: proxyUrl, protocol: stream.protocol };
   }
 
+  async fromDownloadedFile(fileName: string): Promise<AudioSource> {
+    const port = await this.streamServerPort();
+    return {
+      url: `http://127.0.0.1:${port}/local/${encodeURIComponent(fileName)}`,
+      protocol: 'http',
+    };
+  }
+
   private async streamServerPort(): Promise<number> {
     if (this.cachedStreamServerPort === null) {
       this.cachedStreamServerPort = await invoke<number>('stream_server_port');

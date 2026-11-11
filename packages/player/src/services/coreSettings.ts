@@ -205,6 +205,15 @@ export const CORE_SETTINGS: SettingDefinition[] = [
     widget: { type: 'toggle' },
   },
   {
+    id: 'playback.autoDownloadPlaylists',
+    title: 'preferences.playback.autoDownloadPlaylistTracks.title',
+    description: 'preferences.playback.autoDownloadPlaylistTracks.description',
+    category: 'playback',
+    kind: 'boolean',
+    default: true,
+    widget: { type: 'toggle' },
+  },
+  {
     id: 'playback.streamVerificationAuthorId',
     title: 'preferences.playback.streamVerificationAuthorId.title',
     description: 'preferences.playback.streamVerificationAuthorId.description',

@@ -5,7 +5,6 @@ import { pickArtwork } from '@nuclearplayer/model';
 
 import { cn } from '../../utils';
 import { formatTimeMillis } from '../../utils/time';
-import { Box } from '../Box';
 import { Button } from '../Button';
 import type { QueueItemProps } from './types';
 import { queueItemVariants } from './variants';
@@ -19,16 +18,14 @@ export const QueueItemExpanded: FC<QueueItemProps> = ({
   labels,
   classes,
 }) => {
-  const thumbnail = pickArtwork(track.artwork, 'thumbnail', 64);
+  const thumbnail = pickArtwork(track.artwork, 'thumbnail', 48);
   const duration = formatTimeMillis(track.durationMs);
-  const primaryArtist = track.artists[0]?.name;
+  const artists = track.artists.map((artist) => artist.name).join(', ');
 
   return (
-    <Box
+    <div
       data-testid="queue-item"
       data-is-current={isCurrent}
-      variant="tertiary"
-      shadow="none"
       className={cn(
         'group',
         queueItemVariants({ status, isCurrent, isCollapsed: false }),
@@ -44,7 +41,7 @@ export const QueueItemExpanded: FC<QueueItemProps> = ({
       <div
         data-testid="queue-item-thumbnail"
         className={cn(
-          'bg-background flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-sm',
+          'bg-muted flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md',
           classes?.thumbnail,
         )}
       >
@@ -55,22 +52,25 @@ export const QueueItemExpanded: FC<QueueItemProps> = ({
             className="h-full w-full object-cover"
           />
         ) : (
-          <CassetteTape size={48} absoluteStrokeWidth className="opacity-20" />
+          <CassetteTape size={24} absoluteStrokeWidth className="opacity-25" />
         )}
       </div>
 
       <div className={cn('min-w-0 flex-1', classes?.content)}>
         <div
           data-testid="queue-item-title"
-          className={cn('truncate text-sm font-bold', classes?.title)}
+          className={cn(
+            'truncate text-sm leading-5 font-semibold',
+            classes?.title,
+          )}
         >
           {track.title}
         </div>
         <div
           data-testid="queue-item-artist"
-          className={cn('truncate text-xs', classes?.artist)}
+          className={cn('text-foreground/60 truncate text-xs', classes?.artist)}
         >
-          {primaryArtist}
+          {artists}
         </div>
         {status === 'error' && (
           <div
@@ -90,7 +90,10 @@ export const QueueItemExpanded: FC<QueueItemProps> = ({
         {duration && (
           <div
             data-testid="queue-item-duration"
-            className={cn('mr-4 text-sm tabular-nums', classes?.duration)}
+            className={cn(
+              'text-foreground/55 mr-3 text-xs tabular-nums',
+              classes?.duration,
+            )}
           >
             {duration}
           </div>
@@ -100,7 +103,7 @@ export const QueueItemExpanded: FC<QueueItemProps> = ({
           <Button
             data-testid="queue-item-remove-button"
             size="icon-sm"
-            variant="noShadow"
+            variant="text"
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();
@@ -109,7 +112,7 @@ export const QueueItemExpanded: FC<QueueItemProps> = ({
             onPointerDown={(e) => e.stopPropagation()}
             aria-label={labels?.removeButton}
             className={cn(
-              'absolute right-4 opacity-0 group-hover:opacity-100',
+              'absolute right-2 opacity-0 group-hover:opacity-100',
               classes?.removeButton,
             )}
           >
@@ -124,6 +127,6 @@ export const QueueItemExpanded: FC<QueueItemProps> = ({
           className="bg-stripes-diagonal absolute inset-x-0 bottom-0 h-1"
         />
       )}
-    </Box>
+    </div>
   );
 };

@@ -23,7 +23,7 @@ export const PlayerBarNowPlaying: FC<PlayerBarNowPlayingProps> = ({
   onArtistClick,
 }) => (
   <div className={cn('flex min-w-0 items-center gap-3', className)}>
-    <div className="border-border bg-muted size-12 shrink-0 overflow-hidden rounded-md border-(length:--border-width)">
+    <div className="bg-muted size-10 shrink-0 overflow-hidden rounded-md">
       {coverUrl ? (
         <img
           src={coverUrl}
@@ -42,7 +42,7 @@ export const PlayerBarNowPlaying: FC<PlayerBarNowPlayingProps> = ({
     </div>
     <div className="min-w-0 flex-1">
       <div
-        className={cn('truncate text-sm font-bold', {
+        className={cn('truncate text-sm leading-5 font-semibold', {
           'cursor-pointer hover:underline': onTitleClick,
         })}
         data-testid="now-playing-title"
@@ -51,7 +51,7 @@ export const PlayerBarNowPlaying: FC<PlayerBarNowPlayingProps> = ({
         {title}
       </div>
       <div
-        className={cn('truncate text-xs opacity-70', {
+        className={cn('text-foreground/60 truncate text-xs', {
           'cursor-pointer hover:underline': onArtistClick,
         })}
         data-testid="player-now-playing-artist"

@@ -14,12 +14,10 @@ export const getSkeletonColumns = (
   display: NonNullable<TrackTableProps['display']>,
 ): SkeletonColumn[] => {
   const columns: SkeletonColumnDefinition[] = [
-    { id: 'favorite', kind: 'icon', visible: display.displayFavorite },
     { id: 'position', kind: 'icon', visible: display.displayPosition },
-    { id: 'thumbnail', kind: 'thumbnail', visible: display.displayThumbnail },
-    { id: 'artist', kind: 'text', visible: true },
     { id: 'title', kind: 'text', visible: true, className: 'w-[40%]' },
     { id: 'album', kind: 'text', visible: display.displayAlbum },
+    { id: 'favorite', kind: 'icon', visible: display.displayFavorite },
     {
       id: 'duration',
       kind: 'text',

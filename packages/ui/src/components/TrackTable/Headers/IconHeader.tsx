@@ -29,9 +29,10 @@ export function IconHeader<T extends Track>({
   return (
     <th
       role="columnheader"
-      className={cn('w-10 text-center', {
-        'cursor-pointer': canSort,
-      })}
+      className={cn(
+        'text-foreground/55 w-10 py-2 text-center text-[11px] font-semibold tracking-wider uppercase',
+        { 'cursor-pointer': canSort },
+      )}
       onClick={onClick}
     >
       <span className="flex w-full items-center justify-center">

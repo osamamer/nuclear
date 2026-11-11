@@ -3,7 +3,7 @@ import { useState, type FC } from 'react';
 
 import { useTranslation } from '@nuclearplayer/i18n';
 import type { PlaylistIndexEntry } from '@nuclearplayer/model';
-import { Card } from '@nuclearplayer/ui';
+import { Card, formatTimeMillis } from '@nuclearplayer/ui';
 
 import { usePlaylistStore } from '../../../stores/playlistStore';
 import { usePlaylistFolderActions } from '../hooks/usePlaylistFolderActions';
@@ -29,6 +29,10 @@ export const PlaylistCard: FC<PlaylistCardProps> = ({ playlist, onClick }) => {
   const [openDialog, setOpenDialog] = useState<OpenDialog>(null);
   const closeDialog = () => setOpenDialog(null);
   const hasTracks = playlist.itemCount > 0;
+  const duration =
+    playlist.totalDurationMs > 0
+      ? formatTimeMillis(playlist.totalDurationMs)
+      : undefined;
 
   const handleDelete = async () => {
     closeDialog();
@@ -50,7 +54,9 @@ export const PlaylistCard: FC<PlaylistCardProps> = ({ playlist, onClick }) => {
           />
         }
         title={playlist.name}
-        subtitle={t('trackCount', { count: playlist.itemCount })}
+        subtitle={[t('trackCount', { count: playlist.itemCount }), duration]
+          .filter(Boolean)
+          .join(' · ')}
         onClick={onClick}
         onPlay={hasTracks ? play : undefined}
         menuItems={

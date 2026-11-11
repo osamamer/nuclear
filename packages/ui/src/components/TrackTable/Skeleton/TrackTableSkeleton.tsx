@@ -23,14 +23,15 @@ export const TrackTableSkeleton: FC<TrackTableSkeletonProps> = ({
   className,
   'data-testid': testId = 'track-table-skeleton',
 }) => {
-  const columns = getSkeletonColumns({ ...defaultDisplay, ...display });
+  const resolvedDisplay = { ...defaultDisplay, ...display };
+  const columns = getSkeletonColumns(resolvedDisplay);
 
   return (
     <table
       role="table"
       data-testid={testId}
       className={cn(
-        'border-border relative w-full table-fixed border-(length:--border-width)',
+        'relative w-full table-fixed border-separate border-spacing-0',
         className,
       )}
     >
@@ -41,7 +42,13 @@ export const TrackTableSkeleton: FC<TrackTableSkeletonProps> = ({
       )}
       <tbody>
         {range(rows).map((rowIndex) => (
-          <SkeletonRow key={rowIndex} columns={columns} rowIndex={rowIndex} />
+          <SkeletonRow
+            key={rowIndex}
+            columns={columns}
+            rowIndex={rowIndex}
+            displayThumbnail={resolvedDisplay.displayThumbnail}
+            displayArtist={resolvedDisplay.displayArtist}
+          />
         ))}
       </tbody>
     </table>

@@ -25,12 +25,7 @@ export const AlbumTrackList: FC<AlbumTrackListProps> = ({
   const tracks = useMemo(() => (album ? albumToTracks(album) : []), [album]);
 
   if (isLoading) {
-    return (
-      <TrackTable.Skeleton
-        display={{ displayThumbnail: false }}
-        data-testid="album-tracks-skeleton"
-      />
-    );
+    return <TrackTable.Skeleton data-testid="album-tracks-skeleton" />;
   }
 
   if (isError) {
@@ -53,7 +48,7 @@ export const AlbumTrackList: FC<AlbumTrackListProps> = ({
     <ConnectedTrackTable
       tracks={tracks}
       features={{ filterable: false, playAll: true, addAllToQueue: true }}
-      display={{ displayDuration: albumHasDuration, displayThumbnail: false }}
+      display={{ displayDuration: albumHasDuration }}
     />
   );
 };

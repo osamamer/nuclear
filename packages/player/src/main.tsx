@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import '@nuclearplayer/tailwind-config';
 import '@nuclearplayer/themes';
 import '@nuclearplayer/i18n';
+import './skipRefusal.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root')!);
 const isTauri = !!(window as Window & { __TAURI_INTERNALS__?: unknown })

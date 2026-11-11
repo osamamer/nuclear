@@ -19,7 +19,7 @@ type SkeletonHeaderRowProps = {
 };
 
 export const SkeletonHeaderRow: FC<SkeletonHeaderRowProps> = ({ columns }) => (
-  <tr className="border-border surface-primary border-b-(length:--border-width)">
+  <tr className="border-border/50 bg-background/95 text-foreground/55 border-b text-xs font-semibold tracking-wide uppercase backdrop-blur">
     {columns.map((column) => {
       const Header = headerByKind[column.kind];
       return <Header key={column.id} className={column.className} />;

@@ -1,0 +1,24 @@
+@keyframes blacklist-refusal-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  18%,
+  54% {
+    transform: translateX(-8px);
+  }
+  36%,
+  72% {
+    transform: translateX(8px);
+  }
+}
+
+.blacklist-refusal-shake {
+  animation: blacklist-refusal-shake 320ms ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blacklist-refusal-shake {
+    animation-duration: 120ms;
+  }
+}

@@ -1,16 +1,24 @@
 import { FC, Fragment, RefObject } from 'react';
 
-import type { LineSyncedLyrics, WordSyncedLyrics } from '@nuclearplayer/model';
+import type {
+  LyricsSegment,
+  SyncedLyricsLine as SyncedLyricsLineModel,
+  TimedLyricsSegment,
+} from '@nuclearplayer/model';
 
 import { InstrumentalBreak } from '../InstrumentalBreak';
 import {
   LineSyncedLyricsLine,
   WordSyncedLyricsLine,
 } from '../SyncedLyricsLine';
-import { flattenLines, getBreakBefore } from '../utils';
+import { getBreakBefore } from '../utils';
 
 type SyncedLyricsLinesProps = {
-  lyrics: LineSyncedLyrics | WordSyncedLyrics;
+  lyricsType: 'lineSynced' | 'wordSynced';
+  lines: (
+    | SyncedLyricsLineModel<LyricsSegment>
+    | SyncedLyricsLineModel<TimedLyricsSegment>
+  )[];
   positionMs: number;
   activeLineIndex: number;
   activeLineRef: RefObject<HTMLButtonElement>;
@@ -18,7 +26,8 @@ type SyncedLyricsLinesProps = {
 };
 
 export const SyncedLyricsLines: FC<SyncedLyricsLinesProps> = ({
-  lyrics,
+  lyricsType,
+  lines,
   positionMs,
   activeLineIndex,
   activeLineRef,
@@ -28,10 +37,7 @@ export const SyncedLyricsLines: FC<SyncedLyricsLinesProps> = ({
     index === activeLineIndex ? activeLineRef : undefined;
 
   const breakBefore = (index: number) => {
-    const instrumentalBreak = getBreakBefore(
-      flattenLines(lyrics.sections),
-      index,
-    );
+    const instrumentalBreak = getBreakBefore(lines, index);
     return (
       instrumentalBreak && (
         <InstrumentalBreak {...instrumentalBreak} positionMs={positionMs} />
@@ -39,29 +45,33 @@ export const SyncedLyricsLines: FC<SyncedLyricsLinesProps> = ({
     );
   };
 
-  if (lyrics.type === 'wordSynced') {
-    return flattenLines(lyrics.sections).map((line, index) => (
+  if (lyricsType === 'wordSynced') {
+    return (lines as SyncedLyricsLineModel<TimedLyricsSegment>[]).map(
+      (line, index) => (
+        <Fragment key={index}>
+          {breakBefore(index)}
+          <WordSyncedLyricsLine
+            ref={refFor(index)}
+            line={line}
+            positionMs={positionMs}
+            onClick={() => onLineClick(line.startMs)}
+          />
+        </Fragment>
+      ),
+    );
+  }
+
+  return (lines as SyncedLyricsLineModel<LyricsSegment>[]).map(
+    (line, index) => (
       <Fragment key={index}>
         {breakBefore(index)}
-        <WordSyncedLyricsLine
+        <LineSyncedLyricsLine
           ref={refFor(index)}
           line={line}
           positionMs={positionMs}
           onClick={() => onLineClick(line.startMs)}
         />
       </Fragment>
-    ));
-  }
-
-  return flattenLines(lyrics.sections).map((line, index) => (
-    <Fragment key={index}>
-      {breakBefore(index)}
-      <LineSyncedLyricsLine
-        ref={refFor(index)}
-        line={line}
-        positionMs={positionMs}
-        onClick={() => onLineClick(line.startMs)}
-      />
-    </Fragment>
-  ));
+    ),
+  );
 };

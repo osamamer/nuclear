@@ -9,6 +9,8 @@ import { SkeletonThumbnailCell } from './SkeletonThumbnailCell';
 
 type SkeletonCellProps = {
   rowIndex: number;
+  displayThumbnail?: boolean;
+  displayArtist?: boolean;
 };
 
 const cellByKind: Record<
@@ -23,17 +25,31 @@ const cellByKind: Record<
 type SkeletonRowProps = {
   columns: SkeletonColumn[];
   rowIndex: number;
+  displayThumbnail?: boolean;
+  displayArtist?: boolean;
 };
 
-export const SkeletonRow: FC<SkeletonRowProps> = ({ columns, rowIndex }) => (
+export const SkeletonRow: FC<SkeletonRowProps> = ({
+  columns,
+  rowIndex,
+  displayThumbnail,
+  displayArtist,
+}) => (
   <tr
     data-testid="track-row-skeleton"
     style={{ height: DEFAULT_ROW_HEIGHT }}
-    className="border-border bg-muted border-b-(length:--border-width)"
+    className="border-b border-transparent"
   >
     {columns.map((column) => {
       const Cell = cellByKind[column.kind];
-      return <Cell key={column.id} rowIndex={rowIndex} />;
+      return (
+        <Cell
+          key={column.id}
+          rowIndex={rowIndex}
+          displayThumbnail={column.id === 'title' && displayThumbnail}
+          displayArtist={column.id === 'title' && displayArtist}
+        />
+      );
     })}
   </tr>
 );

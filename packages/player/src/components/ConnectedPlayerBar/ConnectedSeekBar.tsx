@@ -19,7 +19,6 @@ export const ConnectedSeekBar: FC = () => {
   const safePosition = Number.isFinite(seek) ? seek : 0;
   const safeDuration = Number.isFinite(duration) ? duration : 0;
   const progress = safeDuration > 0 ? (safePosition / safeDuration) * 100 : 0;
-  const remaining = safeDuration - safePosition;
 
   const handleSeek = (percent: number) => {
     if (duration > 0) {
@@ -30,8 +29,6 @@ export const ConnectedSeekBar: FC = () => {
   return (
     <PlayerBar.SeekBar
       progress={progress}
-      elapsedSeconds={safePosition}
-      remainingSeconds={remaining}
       isLoading={currentItem?.status === 'loading'}
       onSeek={handleSeek}
     />

@@ -8,6 +8,7 @@ import { initBridgeHandler } from './services/bridge/bridgeHandler';
 import { registerBuiltInCoreSettings } from './services/coreSettings';
 import { initDiscordHandler } from './services/discordHandler';
 import { initDiscoveryService } from './services/discoveryService';
+import { startPlaylistDownloadService } from './services/downloads/playlistDownloadService';
 import { initHistoryService } from './services/history';
 import { initHttpApiHandler } from './services/httpApi';
 import {
@@ -19,6 +20,7 @@ import { initMcpHandler } from './services/mcp';
 import { initMpdHandler } from './services/mpd';
 import { initPlaybackEventBridge } from './services/playbackEventBridge';
 import { hydratePluginsFromRegistry } from './services/plugins/pluginBootstrap';
+import { initializeBlacklistStore } from './stores/blacklistStore';
 import { initializeFavoritesStore } from './stores/favoritesStore';
 import { initializePlaylistStore } from './stores/playlistStore';
 import { initializeQueueStore } from './stores/queueStore';
@@ -31,6 +33,7 @@ import { useUpdaterStore } from './stores/updaterStore';
 const initializeStores = () =>
   initializeSettingsStore()
     .then(() => initializeShortcutsStore())
+    .then(() => initializeBlacklistStore())
     .then(() => initializeQueueStore())
     .then(() => initializeFavoritesStore())
     .then(() => initializeStreamVerificationStore())
@@ -52,7 +55,10 @@ const initThemes = () =>
     .then(() => applyThemeFromSettingsIfAny());
 
 const startBackgroundTasks = () => {
-  void hydratePluginsFromRegistry();
+  void hydratePluginsFromRegistry().then(
+    startPlaylistDownloadService,
+    startPlaylistDownloadService,
+  );
   void useUpdaterStore.getState().checkForUpdate();
 };
 

@@ -19,5 +19,6 @@ export const useTrackTableLabels = (): TrackTableLabels => {
     trackOptions: t('trackOptions'),
     remove: t('remove'),
     filterPlaceholder: t('filterPlaceholder'),
+    nowPlaying: t('nowPlaying'),
   };
 };

@@ -707,7 +707,7 @@ exports[`Artist view > with bio provider > (Snapshot) renders the artist view 1`
         >
           <div
             animate="center"
-            class="absolute inset-0 h-full w-full will-change-[transform,filter]"
+            class="absolute inset-0 h-full w-full will-change-transform"
             exit="exit"
             initial="enter"
             transition="[object Object]"
@@ -2571,7 +2571,7 @@ exports[`Artist view > with social stats provider > (Snapshot) renders the artis
         >
           <div
             animate="center"
-            class="absolute inset-0 h-full w-full will-change-[transform,filter]"
+            class="absolute inset-0 h-full w-full will-change-transform"
             exit="exit"
             initial="enter"
             transition="[object Object]"

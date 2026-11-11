@@ -17,10 +17,17 @@ type ConnectedTrackTableProps = Omit<
   'actions' | 'meta' | 'labels'
 > & {
   actions?: Pick<TrackTableActions<Track>, 'onRemove' | 'onReorder'>;
+  activeTrackKey?: string;
+  playOnRowClick?: boolean;
 };
 
 export const ConnectedTrackTable: FC<ConnectedTrackTableProps> = (props) => {
-  const { actions: externalActions, ...restProps } = props;
+  const {
+    actions: externalActions,
+    activeTrackKey,
+    playOnRowClick,
+    ...restProps
+  } = props;
   const trackActions = useTrackActions();
   const queueActions = useQueueActions();
   const labels = useTrackTableLabels();
@@ -36,6 +43,7 @@ export const ConnectedTrackTable: FC<ConnectedTrackTableProps> = (props) => {
       actions={{
         onAddToQueue: trackActions.addToQueue,
         onPlayNow: trackActions.playNow,
+        onRowClick: playOnRowClick ? trackActions.playNow : undefined,
         onPlayNext: trackActions.addNext,
         onToggleFavorite: trackActions.toggleFavorite,
         onRemove: externalActions?.onRemove,
@@ -51,6 +59,7 @@ export const ConnectedTrackTable: FC<ConnectedTrackTableProps> = (props) => {
       meta={{
         isTrackFavorite: trackActions.isFavorite,
         ContextMenuWrapper: ConnectedTrackContextMenu,
+        activeTrackKey,
       }}
     />
   );

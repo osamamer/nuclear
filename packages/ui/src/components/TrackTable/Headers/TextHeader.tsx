@@ -29,9 +29,13 @@ export function TextHeader<T extends Track>({
   return (
     <th
       role="columnheader"
-      className={cn('px-2 text-left', className, {
-        'cursor-pointer': canSort,
-      })}
+      className={cn(
+        'text-foreground/55 px-2 py-2 text-left text-[11px] font-semibold tracking-wider uppercase',
+        className,
+        {
+          'cursor-pointer': canSort,
+        },
+      )}
       onClick={onClick}
     >
       <span className="flex items-center">

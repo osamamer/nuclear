@@ -3,7 +3,6 @@ import { FC } from 'react';
 import { Platform, usePlatform } from '../../providers/PlatformProvider';
 import { cn } from '../../utils';
 import { MacWindowControls } from './MacWindowControls';
-import { TitleText } from './TitleText';
 import { useTitleBarDrag } from './useTitleBarDrag';
 import { WindowsWindowControls } from './WindowsWindowControls';
 
@@ -21,7 +20,7 @@ export type WindowControlsProps = {
 };
 
 type TitleBarProps = {
-  title: string;
+  title?: string;
   onMinimize: () => void;
   onMaximize: () => void;
   onClose: () => void;
@@ -32,7 +31,6 @@ type TitleBarProps = {
 };
 
 export const TitleBar: FC<TitleBarProps> = ({
-  title,
   onMinimize,
   onMaximize,
   onClose,
@@ -67,13 +65,12 @@ export const TitleBar: FC<TitleBarProps> = ({
       data-testid="title-bar"
       onMouseDown={handleMouseDown}
       className={cn(
-        'border-border surface-background relative flex h-6 items-center border-b-2 select-none',
+        'border-border surface-background relative flex h-9 items-center border-b-2 select-none',
         isMac ? 'justify-start' : 'justify-end',
         className,
       )}
     >
       {controls}
-      <TitleText title={title} />
     </div>
   );
 };

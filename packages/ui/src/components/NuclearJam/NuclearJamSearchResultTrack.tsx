@@ -18,7 +18,7 @@ export const NuclearJamSearchResultTrack: FC<
   NuclearJamSearchResultTrackProps
 > = ({ track, onAdd, className }) => {
   const thumbnail = pickArtwork(track.artwork, 'thumbnail', THUMBNAIL_SIZE);
-  const primaryArtist = track.artists[0]?.name;
+  const artists = track.artists.map((artist) => artist.name).join(', ');
   const duration = formatTimeMillis(track.durationMs);
 
   const handleClick = () => {
@@ -30,12 +30,12 @@ export const NuclearJamSearchResultTrack: FC<
       type="button"
       onClick={handleClick}
       className={cn(
-        'border-border active:bg-primary flex w-full cursor-pointer items-center gap-3 border-b-(length:--border-width) px-4 py-2 text-left',
+        'hover:bg-muted/70 active:bg-primary/15 flex h-14 w-full cursor-pointer items-center gap-3 rounded-lg px-2 text-left transition-colors',
         className,
       )}
       data-testid="jam-search-result-track"
     >
-      <div className="border-border bg-muted flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-md border-(length:--border-width)">
+      <div className="bg-muted flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md">
         {thumbnail?.url ? (
           <img
             src={thumbnail.url}
@@ -44,7 +44,7 @@ export const NuclearJamSearchResultTrack: FC<
           />
         ) : (
           <CassetteTape
-            size={40}
+            size={24}
             absoluteStrokeWidth
             className="text-foreground opacity-20"
           />
@@ -52,13 +52,11 @@ export const NuclearJamSearchResultTrack: FC<
       </div>
 
       <div className="min-w-0 flex-1">
-        <div className="text-foreground truncate text-sm font-bold">
+        <div className="text-foreground truncate text-sm leading-5 font-semibold">
           {track.title}
         </div>
-        {primaryArtist && (
-          <div className="text-foreground/60 truncate text-xs">
-            {primaryArtist}
-          </div>
+        {artists && (
+          <div className="text-foreground/60 truncate text-xs">{artists}</div>
         )}
       </div>
 

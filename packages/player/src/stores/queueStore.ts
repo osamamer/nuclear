@@ -15,9 +15,12 @@ import { stripResolutionState } from '@nuclearplayer/model';
 
 import { eventBus } from '../services/eventBus';
 import { Logger } from '../services/logger';
+import { playSkipRefusalSound } from '../services/skipRefusalSound';
 import { errorMessage } from '../utils/errorMessage';
 import { secondsToMs } from '../utils/time';
+import { matchesBlacklistRule, useBlacklistStore } from './blacklistStore';
 import { getSetting } from './settingsStore';
+import { useSkipFeedbackStore } from './skipFeedbackStore';
 import { useSoundStore } from './soundStore';
 
 const QUEUE_FILE = 'queue.json';
@@ -39,7 +42,7 @@ type QueueStore = Queue & {
   updateCandidate: (itemId: string, candidate: StreamCandidate) => void;
   removeCandidate: (itemId: string, candidateId: string) => void;
   selectCandidate: (itemId: string, candidateId: string) => void;
-  goToNext: () => void;
+  goToNext: (reason?: 'manual' | 'automatic') => void;
   goToPrevious: () => void;
   goToIndex: (index: number) => void;
   goToId: (id: string) => void;
@@ -102,6 +105,30 @@ const emitSkip = (): void => {
   eventBus.emit('playbackSkipped', {
     positionMs: secondsToMs(useSoundStore.getState().seek),
   });
+};
+
+const blockedSkipAttempts = new Map<string, number>();
+
+const refuseBlacklistedSkip = (itemId: string, track: Track): boolean => {
+  const isBlacklisted = useBlacklistStore
+    .getState()
+    .rules.some((rule) => matchesBlacklistRule(rule, track));
+
+  if (!isBlacklisted) {
+    blockedSkipAttempts.delete(itemId);
+    return false;
+  }
+
+  const attempts = blockedSkipAttempts.get(itemId) ?? 0;
+  if (attempts >= 2) {
+    blockedSkipAttempts.delete(itemId);
+    return false;
+  }
+
+  blockedSkipAttempts.set(itemId, attempts + 1);
+  useSkipFeedbackStore.getState().refuseSkip(attempts === 0);
+  playSkipRefusalSound();
+  return true;
 };
 
 const saveToDisk = async (): Promise<void> => {
@@ -355,10 +382,21 @@ export const useQueueStore = create<QueueStore>((set, get) => ({
     });
   },
 
-  goToNext: withPersistence(() => {
+  goToNext: withPersistence((reason: 'manual' | 'automatic' = 'manual') => {
     const state = get();
     const nextIndex = getDirectionalIndex(state, 'forward');
     if (nextIndex !== state.currentIndex) {
+      const currentItem = state.getCurrentItem();
+      if (
+        reason === 'manual' &&
+        currentItem &&
+        refuseBlacklistedSkip(currentItem.id, currentItem.track)
+      ) {
+        return;
+      }
+      if (currentItem) {
+        blockedSkipAttempts.delete(currentItem.id);
+      }
       emitSkip();
       useSoundStore.getState().stop();
       set({ currentIndex: nextIndex });
@@ -370,6 +408,16 @@ export const useQueueStore = create<QueueStore>((set, get) => ({
     const state = get();
     const previousIndex = getDirectionalIndex(state, 'backward');
     if (previousIndex !== state.currentIndex) {
+      const currentItem = state.getCurrentItem();
+      if (
+        currentItem &&
+        refuseBlacklistedSkip(currentItem.id, currentItem.track)
+      ) {
+        return;
+      }
+      if (currentItem) {
+        blockedSkipAttempts.delete(currentItem.id);
+      }
       emitSkip();
       useSoundStore.getState().stop();
       set({ currentIndex: previousIndex });
