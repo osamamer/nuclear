@@ -20,6 +20,8 @@ export const TopBarNavigation: FC<TopBarNavigationProps> = ({
     <Button
       data-testid="top-bar-back"
       size="icon-sm"
+      variant="secondary"
+      className="text-foreground/75 hover:text-foreground"
       disabled={!canGoBack}
       onClick={onBack}
     >
@@ -28,6 +30,8 @@ export const TopBarNavigation: FC<TopBarNavigationProps> = ({
     <Button
       data-testid="top-bar-forward"
       size="icon-sm"
+      variant="secondary"
+      className="text-foreground/75 hover:text-foreground"
       disabled={!canGoForward}
       onClick={onForward}
     >

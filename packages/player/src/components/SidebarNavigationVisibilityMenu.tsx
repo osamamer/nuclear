@@ -77,15 +77,23 @@ export const SidebarNavigationVisibilityMenu: FC<
       trigger={
         <Button
           variant="text"
-          size={isCompact ? 'icon-sm' : 'sm'}
+          size="flexible"
           title={t('customizeSidebar')}
           aria-label={t('customizeSidebar')}
-          className={`text-foreground/60 hover:bg-muted/70 hover:text-foreground w-full gap-2 ${
-            isCompact ? 'justify-center px-0' : 'justify-start'
+          className={`text-foreground/70 hover:bg-muted/70 hover:text-foreground min-h-10 w-full min-w-0 gap-2 rounded-xl px-1.5 text-left transition-colors ${
+            isCompact
+              ? 'h-9 min-h-9 justify-center gap-0 px-0'
+              : 'justify-start'
           }`}
         >
-          <PanelLeft size={18} />
-          {!isCompact && <span>{t('customizeSidebar')}</span>}
+          <span className="text-foreground/55 flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px]">
+            <PanelLeft />
+          </span>
+          {!isCompact && (
+            <span className="min-w-0 truncate text-sm whitespace-nowrap">
+              {t('customizeSidebar')}
+            </span>
+          )}
         </Button>
       }
     >

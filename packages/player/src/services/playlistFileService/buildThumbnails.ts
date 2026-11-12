@@ -8,11 +8,21 @@ type PlaylistWithItems = {
 };
 
 const getUniqueTrackArtworkUrls = (playlist: PlaylistWithItems): string[] => {
-  const urls = playlist.items
-    .map((item) => pickArtwork(item.track.artwork, 'cover', 300)?.url)
-    .filter((url): url is string => url !== undefined);
+  const urls: string[] = [];
+  const seenUrls = new Set<string>();
 
-  return [...new Set(urls)];
+  for (const item of playlist.items) {
+    const url = pickArtwork(item.track.artwork, 'cover', 300)?.url;
+    if (url !== undefined && !seenUrls.has(url)) {
+      seenUrls.add(url);
+      urls.push(url);
+      if (urls.length === MOSAIC_SIZE) {
+        break;
+      }
+    }
+  }
+
+  return urls;
 };
 
 export const buildThumbnails = (playlist: PlaylistWithItems): string[] => {
@@ -23,8 +33,8 @@ export const buildThumbnails = (playlist: PlaylistWithItems): string[] => {
 
   const uniqueUrls = getUniqueTrackArtworkUrls(playlist);
 
-  if (uniqueUrls.length >= MOSAIC_SIZE) {
-    return uniqueUrls.slice(0, MOSAIC_SIZE);
+  if (uniqueUrls.length === MOSAIC_SIZE) {
+    return uniqueUrls;
   }
 
   return uniqueUrls.slice(0, 1);

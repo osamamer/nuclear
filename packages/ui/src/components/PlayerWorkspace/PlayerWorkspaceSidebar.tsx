@@ -1,5 +1,4 @@
 import { PanelLeft, PanelRight } from 'lucide-react';
-import { motion } from 'motion/react';
 import { FC, ReactNode, useRef } from 'react';
 
 import { cn } from '../../utils';
@@ -36,7 +35,7 @@ export const PlayerWorkspaceSidebar: FC<PlayerWorkspaceSidebarProps> = ({
   className = '',
 }) => {
   const sidebarRef = useRef<HTMLDivElement>(null);
-  const { handleMouseDown, isResizingState } = useSidebarResize(
+  const { handleMouseDown } = useSidebarResize(
     width,
     onWidthChange,
     side,
@@ -46,7 +45,7 @@ export const PlayerWorkspaceSidebar: FC<PlayerWorkspaceSidebarProps> = ({
   const currentWidth = isCollapsed ? SIDEBAR_CONFIG.COLLAPSED_WIDTH : width;
 
   return (
-    <motion.div
+    <div
       ref={sidebarRef}
       data-testid={`sidebar-${side}`}
       className={cn(
@@ -59,33 +58,19 @@ export const PlayerWorkspaceSidebar: FC<PlayerWorkspaceSidebarProps> = ({
         },
         className,
       )}
-      animate={{ width: currentWidth }}
-      transition={
-        isResizingState
-          ? { duration: 0 }
-          : {
-              type: 'spring',
-              stiffness: 300,
-              damping: 30,
-              mass: 0.8,
-            }
-      }
+      style={{ width: currentWidth }}
     >
       <span
-        className={cn('mb-4 flex flex-row items-center', {
-          'justify-end': side === 'left',
-          'justify-start': side === 'right',
-          'px-2 pt-2': !isCollapsed,
+        className={cn('mb-3 flex flex-row items-center', {
+          'justify-start px-2 pt-2': !isCollapsed,
+          'justify-center py-2': isCollapsed,
         })}
       >
         <Button
           data-testid={`sidebar-toggle-${side}`}
-          className={cn('top-2 px-2', {
-            'right-1': side === 'left',
-            'left-1': side === 'right',
-            'mx-1 mt-2': side === 'right' && isCollapsed,
-          })}
-          size="icon"
+          variant="text"
+          className="text-foreground/60 hover:bg-muted/70 hover:text-foreground size-8 justify-center p-0 [&>svg]:size-4"
+          size="icon-sm"
           onClick={onToggle}
         >
           {side === 'left' ? <PanelLeft /> : <PanelRight />}
@@ -121,6 +106,6 @@ export const PlayerWorkspaceSidebar: FC<PlayerWorkspaceSidebarProps> = ({
           onMouseDown={handleMouseDown}
         />
       )}
-    </motion.div>
+    </div>
   );
 };

@@ -185,10 +185,11 @@ const RootComponent = () => {
                           isFeatured={item.isFeatured}
                           exact={item.id === SIDEBAR_ITEM_IDS.playlists}
                         />
-                        {item.id === SIDEBAR_ITEM_IDS.playlists &&
-                          !leftSidebar.isCollapsed && (
-                            <PlaylistSidebarEntries />
-                          )}
+                        {item.id === SIDEBAR_ITEM_IDS.playlists && (
+                          <PlaylistSidebarEntries
+                            isCompact={leftSidebar.isCollapsed}
+                          />
+                        )}
                       </div>
                     ))}
                   <CustomViewSidebarEntries />

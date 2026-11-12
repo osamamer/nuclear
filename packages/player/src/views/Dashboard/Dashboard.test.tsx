@@ -2,6 +2,7 @@ import { act } from '@testing-library/react';
 
 import { useStartupStore } from '../../stores/startupStore';
 import { DashboardProviderBuilder } from '../../test/builders/DashboardProviderBuilder';
+import { PlaylistBuilder } from '../../test/builders/PlaylistBuilder';
 import { PlaylistProviderBuilder } from '../../test/builders/PlaylistProviderBuilder';
 import { TOP_TRACKS_RADIOHEAD } from '../../test/fixtures/dashboard';
 import { DashboardWrapper } from './Dashboard.test-wrapper';
@@ -17,6 +18,60 @@ describe('Dashboard view', () => {
     expect(DashboardWrapper.emptyState).toBeInTheDocument();
     expect(DashboardWrapper.emptyStateAction.element).toBeInTheDocument();
     expect(DashboardWrapper.topTracks.table).not.toBeInTheDocument();
+  });
+
+  it('shows local playlists first, including playlists inside folders', async () => {
+    DashboardWrapper.seedProvider(
+      DashboardWrapper.fixtures.topTracksProvider(),
+    );
+    DashboardWrapper.seedPlaylists(
+      new PlaylistBuilder()
+        .withId('older')
+        .withName('Older Mix')
+        .withLastModified('2026-10-01T00:00:00Z'),
+    );
+    DashboardWrapper.seedPlaylistFolder(
+      new PlaylistBuilder()
+        .withId('newer')
+        .withName('Newer Mix')
+        .withLastModified('2026-11-01T00:00:00Z'),
+    );
+
+    await DashboardWrapper.mount();
+
+    expect(DashboardWrapper.yourPlaylists.heading).toBeInTheDocument();
+    expect(DashboardWrapper.yourPlaylists.cards).toHaveLength(2);
+    expect(DashboardWrapper.yourPlaylists.cards[0]).toHaveTextContent(
+      'Newer Mix',
+    );
+    expect(DashboardWrapper.yourPlaylists.cards[1]).toHaveTextContent(
+      'Older Mix',
+    );
+    expect(
+      DashboardWrapper.yourPlaylists.section.compareDocumentPosition(
+        DashboardWrapper.topTracks.table!,
+      ),
+    ).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+  });
+
+  it('opens a local playlist from the dashboard', async () => {
+    DashboardWrapper.seedPlaylists(
+      new PlaylistBuilder().withId('favorite-mix').withName('Favorite Mix'),
+    );
+
+    const { router } = await DashboardWrapper.mount();
+    await DashboardWrapper.yourPlaylists.open('Favorite Mix');
+
+    expect(router.state.location.pathname).toBe('/playlists/favorite-mix');
+  });
+
+  it('shows local playlists without requiring a dashboard provider', async () => {
+    DashboardWrapper.seedPlaylists(new PlaylistBuilder().withName('Daily Mix'));
+
+    await DashboardWrapper.mount();
+
+    expect(DashboardWrapper.yourPlaylists.cards).toHaveLength(1);
+    expect(DashboardWrapper.emptyState).not.toBeInTheDocument();
   });
 
   it('opens the plugin store when clicking the empty state action', async () => {

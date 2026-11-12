@@ -61,6 +61,10 @@ pnpm --filter @nuclearplayer/ui test -- -u
 pnpm test -u
 ```
 
+## Local Debian install after changes
+
+After every change in this repository, run `./scripts/build-install-deb.sh` before reporting completion, starting with escalated execution access so desktop administrator authentication is available from the outset. Do not first run it sandboxed and retry only after authentication fails. The script builds the current working tree, creates a fresh `.deb` without release updater signing, installs it using desktop administrator authentication, and verifies the installed package. Do not substitute an older `.deb` or stop after compilation. Report any build or installation failure.
+
 ## Code Style
 
 ### General Principles

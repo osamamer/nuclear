@@ -1,5 +1,6 @@
 import {
   FC,
+  memo,
   MutableRefObject,
   ReactNode,
   useCallback,
@@ -40,58 +41,116 @@ const initialMetrics: ScrollMetrics = {
   clientWidth: 0,
 };
 
-function useScrollMetrics(fadeScrollbars: boolean, autoHideDelay: number) {
-  const ref = useRef<HTMLDivElement | null>(null);
+function useScrollMetrics(
+  containerRef: MutableRefObject<HTMLDivElement | null>,
+  fadeScrollbars: boolean,
+  autoHideDelay: number,
+) {
   const [metrics, setMetrics] = useState<ScrollMetrics>(initialMetrics);
   const [isScrolling, setIsScrolling] = useState(false);
+  const isScrollingRef = useRef(false);
   const hideTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
   const rafRef = useRef<number>();
 
-  const update = useCallback(() => {
-    const el = ref.current;
+  const updateDimensions = useCallback(() => {
+    const el = containerRef.current;
     if (!el) {
       return;
     }
-    setMetrics({
+
+    const nextMetrics = {
       scrollTop: el.scrollTop,
       scrollLeft: el.scrollLeft,
       scrollHeight: el.scrollHeight,
       scrollWidth: el.scrollWidth,
       clientHeight: el.clientHeight,
       clientWidth: el.clientWidth,
-    });
-  }, []);
+    };
+
+    setMetrics((current) =>
+      current.scrollTop === nextMetrics.scrollTop &&
+      current.scrollLeft === nextMetrics.scrollLeft &&
+      current.scrollHeight === nextMetrics.scrollHeight &&
+      current.scrollWidth === nextMetrics.scrollWidth &&
+      current.clientHeight === nextMetrics.clientHeight &&
+      current.clientWidth === nextMetrics.clientWidth
+        ? current
+        : nextMetrics,
+    );
+  }, [containerRef]);
+
+  const updateScrollPosition = useCallback(() => {
+    const el = containerRef.current;
+    if (!el) {
+      return;
+    }
+
+    const scrollTop = el.scrollTop;
+    const scrollLeft = el.scrollLeft;
+    setMetrics((current) =>
+      current.scrollTop === scrollTop && current.scrollLeft === scrollLeft
+        ? current
+        : { ...current, scrollTop, scrollLeft },
+    );
+  }, [containerRef]);
 
   const handleScroll = useCallback(() => {
     if (rafRef.current) {
       cancelAnimationFrame(rafRef.current);
     }
     rafRef.current = requestAnimationFrame(() => {
-      update();
+      updateScrollPosition();
       if (fadeScrollbars) {
-        setIsScrolling(true);
+        if (!isScrollingRef.current) {
+          isScrollingRef.current = true;
+          setIsScrolling(true);
+        }
         if (hideTimeoutRef.current) {
           clearTimeout(hideTimeoutRef.current);
         }
-        hideTimeoutRef.current = setTimeout(
-          () => setIsScrolling(false),
-          autoHideDelay,
-        );
+        hideTimeoutRef.current = setTimeout(() => {
+          isScrollingRef.current = false;
+          setIsScrolling(false);
+        }, autoHideDelay);
       }
     });
-  }, [fadeScrollbars, autoHideDelay, update]);
+  }, [fadeScrollbars, autoHideDelay, updateScrollPosition]);
 
   useEffect(() => {
-    const el = ref.current;
+    const el = containerRef.current;
     if (!el) {
       return;
     }
-    // initial
-    update();
-    const ro = new ResizeObserver(update);
-    ro.observe(el);
+
+    const resizeObserver = new ResizeObserver(updateDimensions);
+    const observedChildren = new Set<Element>();
+    const observeChildren = () => {
+      const currentChildren = new Set(Array.from(el.children));
+      observedChildren.forEach((child) => {
+        if (!currentChildren.has(child)) {
+          resizeObserver.unobserve(child);
+          observedChildren.delete(child);
+        }
+      });
+      currentChildren.forEach((child) => {
+        if (!observedChildren.has(child)) {
+          resizeObserver.observe(child);
+          observedChildren.add(child);
+        }
+      });
+      updateDimensions();
+    };
+
+    resizeObserver.observe(el);
+    observeChildren();
+    const mutationObserver = new MutationObserver(observeChildren);
+    mutationObserver.observe(el, { childList: true });
+    el.addEventListener('scroll', handleScroll, { passive: true });
+
     return () => {
-      ro.disconnect();
+      resizeObserver.disconnect();
+      mutationObserver.disconnect();
+      el.removeEventListener('scroll', handleScroll);
       if (rafRef.current) {
         cancelAnimationFrame(rafRef.current);
       }
@@ -99,16 +158,16 @@ function useScrollMetrics(fadeScrollbars: boolean, autoHideDelay: number) {
         clearTimeout(hideTimeoutRef.current);
       }
     };
-  }, [update]);
+  }, [containerRef, handleScroll, updateDimensions]);
 
-  return { ref, metrics, isScrolling, handleScroll };
+  return { metrics, isScrolling };
 }
 
 // Scrollbar (track + thumb)
 interface BarProps {
   orientation: 'vertical' | 'horizontal';
   metrics: ScrollMetrics;
-  containerRef: React.RefObject<HTMLDivElement>;
+  containerRef: MutableRefObject<HTMLDivElement | null>;
   fadeScrollbars: boolean;
   isScrolling: boolean;
 }
@@ -246,6 +305,51 @@ const Scrollbar: FC<BarProps> = ({
   );
 };
 
+type ScrollbarOverlayProps = {
+  containerRef: MutableRefObject<HTMLDivElement | null>;
+  fadeScrollbars: boolean;
+  autoHideDelay: number;
+};
+
+const ScrollbarOverlayImpl: FC<ScrollbarOverlayProps> = ({
+  containerRef,
+  fadeScrollbars,
+  autoHideDelay,
+}) => {
+  const { metrics, isScrolling } = useScrollMetrics(
+    containerRef,
+    fadeScrollbars,
+    autoHideDelay,
+  );
+  const needsVertical = metrics.scrollHeight > metrics.clientHeight;
+  const needsHorizontal = metrics.scrollWidth > metrics.clientWidth;
+  const needsCorner = needsVertical && needsHorizontal;
+
+  return (
+    <>
+      <Scrollbar
+        orientation="vertical"
+        metrics={metrics}
+        containerRef={containerRef}
+        fadeScrollbars={fadeScrollbars}
+        isScrolling={isScrolling}
+      />
+      <Scrollbar
+        orientation="horizontal"
+        metrics={metrics}
+        containerRef={containerRef}
+        fadeScrollbars={fadeScrollbars}
+        isScrolling={isScrolling}
+      />
+      {needsCorner && (
+        <div className="absolute right-0 bottom-0 h-3 w-3 bg-transparent" />
+      )}
+    </>
+  );
+};
+
+const ScrollbarOverlay = memo(ScrollbarOverlayImpl);
+
 export const ScrollableArea: FC<ScrollableAreaProps> = ({
   children,
   className,
@@ -256,10 +360,7 @@ export const ScrollableArea: FC<ScrollableAreaProps> = ({
   testViewportHeight,
   'data-testid': testId,
 }) => {
-  const { ref, metrics, isScrolling, handleScroll } = useScrollMetrics(
-    fadeScrollbars,
-    autoHideDelay,
-  );
+  const ref = useRef<HTMLDivElement | null>(null);
 
   const setViewportNode = useCallback(
     (node: HTMLDivElement | null) => {
@@ -270,10 +371,6 @@ export const ScrollableArea: FC<ScrollableAreaProps> = ({
     },
     [ref, viewportRef],
   );
-
-  const needsVertical = metrics.scrollHeight > metrics.clientHeight;
-  const needsHorizontal = metrics.scrollWidth > metrics.clientWidth;
-  const needsCorner = needsVertical && needsHorizontal;
 
   return (
     <div
@@ -286,7 +383,6 @@ export const ScrollableArea: FC<ScrollableAreaProps> = ({
           'scrollbar-hide flex h-full w-full flex-col overflow-auto',
           viewportClassName,
         )}
-        onScroll={handleScroll}
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         data-test-resize-observer-block-size={
           testViewportHeight != null ? String(testViewportHeight) : undefined
@@ -294,24 +390,11 @@ export const ScrollableArea: FC<ScrollableAreaProps> = ({
       >
         {children}
       </div>
-
-      <Scrollbar
-        orientation="vertical"
-        metrics={metrics}
+      <ScrollbarOverlay
         containerRef={ref}
         fadeScrollbars={fadeScrollbars}
-        isScrolling={isScrolling}
+        autoHideDelay={autoHideDelay}
       />
-      <Scrollbar
-        orientation="horizontal"
-        metrics={metrics}
-        containerRef={ref}
-        fadeScrollbars={fadeScrollbars}
-        isScrolling={isScrolling}
-      />
-      {needsCorner && (
-        <div className="absolute right-0 bottom-0 h-3 w-3 bg-transparent" />
-      )}
     </div>
   );
 };

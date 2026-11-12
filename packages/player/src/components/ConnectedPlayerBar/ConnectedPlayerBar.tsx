@@ -9,13 +9,11 @@ import { ConnectedVolume } from './ConnectedVolume';
 
 export const ConnectedPlayerBar: FC = () => {
   return (
-    <>
-      <ConnectedSeekBar />
-      <PlayerBar
-        left={<ConnectedNowPlaying />}
-        center={<ConnectedControls />}
-        right={<ConnectedVolume />}
-      />
-    </>
+    <PlayerBar
+      seekBar={<ConnectedSeekBar />}
+      left={<ConnectedNowPlaying />}
+      center={<ConnectedControls />}
+      right={<ConnectedVolume />}
+    />
   );
 };

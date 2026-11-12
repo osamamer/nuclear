@@ -30,9 +30,9 @@ type QueueStore = Queue & {
   isLoading: boolean;
   isReady: boolean;
   loadFromDisk: () => Promise<void>;
-  addToQueue: (tracks: Track[]) => void;
-  addNext: (tracks: Track[]) => void;
-  addAt: (tracks: Track[], index: number) => void;
+  addToQueue: (tracks: Track[], playlistId?: string) => void;
+  addNext: (tracks: Track[], playlistId?: string) => void;
+  addAt: (tracks: Track[], index: number, playlistId?: string) => void;
   removeByIds: (ids: string[]) => void;
   removeByIndices: (indices: number[]) => void;
   clearQueue: () => void;
@@ -50,9 +50,10 @@ type QueueStore = Queue & {
   getItemById: (id: string) => QueueItem | undefined;
 };
 
-const createQueueItem = (track: Track): QueueItem => ({
+const createQueueItem = (track: Track, playlistId?: string): QueueItem => ({
   id: uuidv4(),
   track: stripResolutionState(track),
+  ...(playlistId ? { playlistId } : {}),
   status: 'idle',
   addedAtIso: new Date().toISOString(),
 });
@@ -181,32 +182,38 @@ export const useQueueStore = create<QueueStore>((set, get) => ({
     Logger.queue.info(`Loaded ${resetItems.length} items from disk`);
   },
 
-  addToQueue: withPersistence((tracks: Track[]) => {
+  addToQueue: withPersistence((tracks: Track[], playlistId?: string) => {
     set(
       produce((state: QueueStore) => {
-        const newItems = tracks.map(createQueueItem);
+        const newItems = tracks.map((track) =>
+          createQueueItem(track, playlistId),
+        );
         state.items.push(...newItems);
       }),
     );
     Logger.queue.debug(`Added ${tracks.length} tracks to queue`);
   }),
 
-  addNext: (tracks: Track[]) => {
+  addNext: (tracks: Track[], playlistId?: string) => {
     const { currentIndex } = get();
-    get().addAt(tracks, currentIndex + 1);
+    get().addAt(tracks, currentIndex + 1, playlistId);
   },
 
-  addAt: withPersistence((tracks: Track[], index: number) => {
-    set(
-      produce((state: QueueStore) => {
-        const newItems = tracks.map(createQueueItem);
-        state.items.splice(index, 0, ...newItems);
-        if (index <= state.currentIndex) {
-          state.currentIndex += newItems.length;
-        }
-      }),
-    );
-  }),
+  addAt: withPersistence(
+    (tracks: Track[], index: number, playlistId?: string) => {
+      set(
+        produce((state: QueueStore) => {
+          const newItems = tracks.map((track) =>
+            createQueueItem(track, playlistId),
+          );
+          state.items.splice(index, 0, ...newItems);
+          if (index <= state.currentIndex) {
+            state.currentIndex += newItems.length;
+          }
+        }),
+      );
+    },
+  ),
 
   removeByIds: withPersistence((ids: string[]) => {
     const currentItem = get().getCurrentItem();

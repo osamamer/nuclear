@@ -1,9 +1,8 @@
 import { listen } from '@tauri-apps/api/event';
-import { toast } from 'sonner';
 
-import { i18n } from '@nuclearplayer/i18n';
 import type { PlaylistIndexNode, Track } from '@nuclearplayer/model';
 
+import { usePlaylistDownloadProgressStore } from '../../stores/playlistDownloadProgressStore';
 import { usePlaylistStore } from '../../stores/playlistStore';
 import { getSetting, useSettingsStore } from '../../stores/settingsStore';
 import { errorMessage } from '../../utils/errorMessage';
@@ -20,7 +19,6 @@ import {
 } from './trackDownloadCatalog';
 
 const DOWNLOAD_CONCURRENCY = 4;
-const DOWNLOAD_TOAST_ID = 'playlist-auto-download';
 
 type DownloadProgress = {
   trackKey: string;
@@ -78,48 +76,27 @@ export const startPlaylistDownloadService = (): void => {
   const activeKeys = new Set<string>();
   const failedKeys = new Set<string>();
   const trackTitles = new Map<string, string>();
+  const progressByKey = new Map<string, number>();
   let activeDownloads = 0;
-  let initialScanComplete = false;
-  let completedCount = 0;
-  let failedCount = 0;
+
+  const syncProgress = () => {
+    const activeTasks = Array.from(activeKeys).flatMap((key) => {
+      const title = trackTitles.get(key);
+      return title ? [{ key, title, progress: progressByKey.get(key) }] : [];
+    });
+    const queuedTasks = pendingTracks.map((track) => ({
+      key: trackDownloadKey(track),
+      title: track.title,
+    }));
+    usePlaylistDownloadProgressStore
+      .getState()
+      .setQueue(activeTasks, queuedTasks);
+  };
 
   const isEnabled = () =>
     (getSetting('core.playback.autoDownloadPlaylists') as boolean) ?? true;
 
-  const showProgress = (title: string, percent?: number) => {
-    toast.loading(
-      i18n.t('playlists:autoDownloadProgress', {
-        title,
-        completed: completedCount,
-        failed: failedCount,
-        progress: percent ?? '…',
-      }),
-      { id: DOWNLOAD_TOAST_ID },
-    );
-  };
-
-  const showFinishedIfIdle = () => {
-    if (
-      !initialScanComplete ||
-      pendingTracks.length > 0 ||
-      activeDownloads > 0 ||
-      (completedCount === 0 && failedCount === 0)
-    ) {
-      return;
-    }
-
-    const message = i18n.t('playlists:autoDownloadFinished', {
-      completed: completedCount,
-      failed: failedCount,
-    });
-    if (failedCount > 0) {
-      toast.error(message, { id: DOWNLOAD_TOAST_ID });
-    } else {
-      toast.success(message, { id: DOWNLOAD_TOAST_ID });
-    }
-    completedCount = 0;
-    failedCount = 0;
-  };
+  usePlaylistDownloadProgressStore.getState().setIsScanning(true);
 
   const enqueueTrack = async (track: Track) => {
     const key = trackDownloadKey(track);
@@ -139,6 +116,7 @@ export const startPlaylistDownloadService = (): void => {
     }
     trackTitles.set(key, track.title);
     pendingTracks.push(track);
+    syncProgress();
     pumpQueue();
   };
 
@@ -212,15 +190,16 @@ export const startPlaylistDownloadService = (): void => {
       const key = trackDownloadKey(track);
       queuedKeys.delete(key);
       activeKeys.add(key);
+      progressByKey.delete(key);
       activeDownloads += 1;
-      showProgress(track.title);
+      syncProgress();
 
       void download(track)
         .then(() => {
-          completedCount += 1;
+          usePlaylistDownloadProgressStore.getState().recordResult(true);
         })
         .catch((error) => {
-          failedCount += 1;
+          usePlaylistDownloadProgressStore.getState().recordResult(false);
           failedKeys.add(key);
           void Logger.playlists.warn(
             `Failed to auto-download playlist track ${track.title}: ${errorMessage(error)}`,
@@ -228,9 +207,11 @@ export const startPlaylistDownloadService = (): void => {
         })
         .finally(() => {
           activeKeys.delete(key);
+          progressByKey.delete(key);
+          trackTitles.delete(key);
           activeDownloads -= 1;
           pumpQueue();
-          showFinishedIfIdle();
+          syncProgress();
         });
     }
   }
@@ -238,16 +219,17 @@ export const startPlaylistDownloadService = (): void => {
   void initializeTrackDownloadCatalog()
     .then(scanAllPlaylists)
     .then(() => {
-      initialScanComplete = true;
+      usePlaylistDownloadProgressStore.getState().setIsScanning(false);
       pumpQueue();
-      showFinishedIfIdle();
+      syncProgress();
     })
     .catch((error) => {
       void Logger.playlists.warn(
         `Failed to scan playlists for downloads: ${errorMessage(error)}`,
       );
-      initialScanComplete = true;
+      usePlaylistDownloadProgressStore.getState().setIsScanning(false);
       pumpQueue();
+      syncProgress();
     });
 
   usePlaylistStore.subscribe((state, previousState) => {
@@ -304,7 +286,12 @@ export const startPlaylistDownloadService = (): void => {
             ),
           )
         : undefined;
-      showProgress(title, percent);
+      if (percent === undefined) {
+        progressByKey.delete(event.payload.trackKey);
+      } else {
+        progressByKey.set(event.payload.trackKey, percent);
+      }
+      syncProgress();
     }
   });
 };

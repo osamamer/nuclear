@@ -10,12 +10,14 @@ import { playbackManager } from '../../../services/playback';
 
 type PlaylistActionsProps = {
   tracks: Track[];
+  playlistId?: string;
   menuItems?: ReactNode;
   className?: string;
 };
 
 export const PlaylistActions: FC<PlaylistActionsProps> = ({
   tracks,
+  playlistId,
   menuItems,
   className,
 }) => {
@@ -25,14 +27,16 @@ export const PlaylistActions: FC<PlaylistActionsProps> = ({
   return (
     <div className={cn('flex items-center gap-2', className)}>
       <Button
-        variant="tertiary"
+        variant="default"
+        size="icon"
+        className="size-12 rounded-full"
         onClick={() => {
-          playbackManager.playTracks(tracks);
+          playbackManager.playTracks(tracks, playlistId);
         }}
+        aria-label={t('play')}
         data-testid="play-all-button"
       >
-        <PlayIcon size={16} />
-        {t('play')}
+        <PlayIcon size={22} fill="currentColor" />
       </Button>
       <Popover
         className="relative"
@@ -52,7 +56,7 @@ export const PlaylistActions: FC<PlaylistActionsProps> = ({
           <Popover.Item
             icon={<PlusIcon size={16} />}
             onClick={() => {
-              addToQueue(tracks);
+              addToQueue(tracks, playlistId);
             }}
             data-testid="add-to-queue-action"
           >

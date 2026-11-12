@@ -19,6 +19,7 @@ const PlayerBarImpl: FC<PlayerBarProps> = ({
   left,
   center,
   right,
+  seekBar,
   className = '',
 }) => {
   return (
@@ -27,6 +28,7 @@ const PlayerBarImpl: FC<PlayerBarProps> = ({
       left={left}
       center={center}
       right={right}
+      seekBar={seekBar}
     />
   );
 };

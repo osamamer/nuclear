@@ -32,39 +32,19 @@
 }
 
 :root[data-theme-id='nuclear:arctic-moss'][data-theme='dark'] {
-  --background: oklch(0.2 0.02 175);
-  --muted: oklch(0.25 0.025 175);
-  --input: oklch(0.13 0.012 175);
-  --card: oklch(0.58 0.09 175);
-  --popover: oklch(0.58 0.09 175);
+  --background: #212121;
+  --muted: #2b2b2b;
+  --input: #303030;
+  --card: #292929;
+  --popover: #303030;
   --primary: oklch(0.58 0.09 175);
-  --foreground: oklch(0.9 0.006 175);
-  --muted-foreground: oklch(0.9 0.006 175);
-  --border: oklch(0.68 0.11 175);
+  --foreground: #ececec;
+  --muted-foreground: #b7b7b7;
+  --border: #3a3a3a;
 
-  --background-gradient: linear-gradient(
-    180deg,
-    oklch(0.22 0.02 175),
-    oklch(0.18 0.02 175)
-  );
-  --muted-gradient: linear-gradient(
-    180deg,
-    oklch(0.27 0.025 175),
-    oklch(0.23 0.025 175)
-  );
-  --card-gradient: linear-gradient(
-    180deg,
-    oklch(0.61 0.09 175),
-    oklch(0.55 0.09 175)
-  );
-  --popover-gradient: linear-gradient(
-    180deg,
-    oklch(0.61 0.09 175),
-    oklch(0.55 0.09 175)
-  );
-  --primary-gradient: linear-gradient(
-    180deg,
-    oklch(0.61 0.09 175),
-    oklch(0.55 0.09 175)
-  );
+  --background-gradient: none;
+  --muted-gradient: none;
+  --card-gradient: none;
+  --popover-gradient: none;
+  --primary-gradient: none;
 }

@@ -15,17 +15,17 @@ export const MacWindowControls: FC<WindowControlsProps> = ({
     <button
       onClick={onClose}
       title={labels.close}
-      className="surface-accent-red outline-foreground h-3 w-3 rounded-full opacity-80 outline-2 group-hover:opacity-100"
+      className="bg-muted outline-border hover:bg-accent-red/20 h-3 w-3 rounded-full opacity-80 outline-2 transition-colors group-hover:opacity-100"
     />
     <button
       onClick={onMinimize}
       title={labels.minimize}
-      className="surface-accent-yellow outline-foreground h-3 w-3 rounded-full opacity-80 outline-2 group-hover:opacity-100"
+      className="bg-muted outline-border hover:bg-primary/15 h-3 w-3 rounded-full opacity-80 outline-2 transition-colors group-hover:opacity-100"
     />
     <button
       onClick={onMaximize}
       title={labels.maximize}
-      className="surface-accent-green outline-foreground h-3 w-3 rounded-full opacity-80 outline-2 group-hover:opacity-100"
+      className="bg-muted outline-border hover:bg-primary/15 h-3 w-3 rounded-full opacity-80 outline-2 transition-colors group-hover:opacity-100"
     />
   </div>
 );

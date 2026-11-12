@@ -11,7 +11,7 @@ export const StatChipSkeleton: FC<StatChipSkeletonProps> = ({ className }) => (
   <div
     data-testid="stat-chip-skeleton"
     className={cn(
-      'border-border bg-background shadow-shadow flex items-center gap-2 rounded-md border-(length:--border-width) px-2 py-1',
+      'border-border/70 flex items-center gap-2 rounded-md border-(length:--border-width) bg-transparent px-2 py-1',
       className,
     )}
   >

@@ -14,7 +14,7 @@ export const CardPlayButton: FC<CardPlayButtonProps> = ({ onClick, label }) => (
     variant="text"
     size="icon-sm"
     aria-label={label}
-    className="surface-primary hover:surface-muted rounded-none bg-clip-padding"
+    className="text-foreground hover:bg-primary/10 rounded-none bg-clip-padding"
     onClick={onClick}
   >
     <PlayIcon size={16} />

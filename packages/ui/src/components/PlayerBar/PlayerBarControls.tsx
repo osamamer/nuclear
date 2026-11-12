@@ -71,17 +71,26 @@ export const PlayerBarControls: FC<PlayerBarControlsProps> = ({
       <Button
         size="icon"
         variant={isShuffleActive ? 'default' : 'text'}
+        className="rounded-full"
+        aria-pressed={isShuffleActive}
+        data-selected={isShuffleActive || undefined}
         onClick={onShuffleToggle}
         data-testid="player-shuffle-button"
       >
         <Shuffle size={16} />
       </Button>
     </Tooltip>
-    <Button size="icon" variant="text" onClick={onPrevious}>
+    <Button
+      size="icon"
+      variant="text"
+      className="rounded-full"
+      onClick={onPrevious}
+    >
       <SkipBack size={16} />
     </Button>
     <Button
       size="icon"
+      className="surface-primary rounded-full"
       onClick={onPlayPause}
       data-testid={isPlaying ? 'player-pause-button' : 'player-play-button'}
     >
@@ -90,6 +99,7 @@ export const PlayerBarControls: FC<PlayerBarControlsProps> = ({
     <Button
       size="icon"
       variant="text"
+      className="rounded-full"
       onClick={onNext}
       data-testid="player-next-button"
     >
@@ -99,6 +109,9 @@ export const PlayerBarControls: FC<PlayerBarControlsProps> = ({
       <Button
         size="icon"
         variant={repeatMode !== 'off' ? 'default' : 'text'}
+        className="rounded-full"
+        aria-pressed={repeatMode !== 'off'}
+        data-selected={repeatMode !== 'off' || undefined}
         onClick={onRepeatToggle}
         data-testid="player-repeat-button"
       >
@@ -114,6 +127,9 @@ export const PlayerBarControls: FC<PlayerBarControlsProps> = ({
         <Button
           size="icon"
           variant={isDiscoveryActive ? 'default' : 'text'}
+          className="rounded-full"
+          aria-pressed={isDiscoveryActive}
+          data-selected={isDiscoveryActive || undefined}
           onClick={onDiscoveryToggle}
           data-testid="player-discovery-button"
         >

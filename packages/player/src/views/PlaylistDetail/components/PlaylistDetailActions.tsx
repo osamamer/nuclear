@@ -40,6 +40,7 @@ export const PlaylistDetailActions: FC<PlaylistDetailActionsProps> = ({
     <>
       <PlaylistActions
         tracks={tracks}
+        playlistId={playlistId}
         menuItems={
           <>
             <Popover.Item

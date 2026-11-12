@@ -19,6 +19,7 @@ type ConnectedTrackTableProps = Omit<
   actions?: Pick<TrackTableActions<Track>, 'onRemove' | 'onReorder'>;
   activeTrackKey?: string;
   playOnRowClick?: boolean;
+  sourcePlaylistId?: string;
 };
 
 export const ConnectedTrackTable: FC<ConnectedTrackTableProps> = (props) => {
@@ -26,11 +27,20 @@ export const ConnectedTrackTable: FC<ConnectedTrackTableProps> = (props) => {
     actions: externalActions,
     activeTrackKey,
     playOnRowClick,
+    sourcePlaylistId,
     ...restProps
   } = props;
   const trackActions = useTrackActions();
   const queueActions = useQueueActions();
   const labels = useTrackTableLabels();
+  const playNow = (track: Track) =>
+    sourcePlaylistId
+      ? queueActions.playNow(track, sourcePlaylistId)
+      : trackActions.playNow(track);
+  const addToQueue = (track: Track) =>
+    queueActions.addToQueue([track], sourcePlaylistId);
+  const addNext = (track: Track) =>
+    queueActions.addNext([track], sourcePlaylistId);
 
   return (
     <TrackTable
@@ -41,19 +51,19 @@ export const ConnectedTrackTable: FC<ConnectedTrackTableProps> = (props) => {
         ...restProps.display,
       }}
       actions={{
-        onAddToQueue: trackActions.addToQueue,
-        onPlayNow: trackActions.playNow,
-        onRowClick: playOnRowClick ? trackActions.playNow : undefined,
-        onPlayNext: trackActions.addNext,
+        onAddToQueue: addToQueue,
+        onPlayNow: playNow,
+        onRowClick: playOnRowClick ? playNow : undefined,
+        onPlayNext: addNext,
         onToggleFavorite: trackActions.toggleFavorite,
         onRemove: externalActions?.onRemove,
         onReorder: externalActions?.onReorder,
         onPlayAll: () => {
           queueActions.clearQueue();
-          queueActions.addToQueue(restProps.tracks);
+          queueActions.addToQueue(restProps.tracks, sourcePlaylistId);
         },
         onAddAllToQueue: () => {
-          queueActions.addToQueue(restProps.tracks);
+          queueActions.addToQueue(restProps.tracks, sourcePlaylistId);
         },
       }}
       meta={{

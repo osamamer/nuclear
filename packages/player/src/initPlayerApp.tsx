@@ -2,6 +2,7 @@ import React from 'react';
 
 import App from './App';
 import { initLogStream } from './hooks/useLogStream';
+import { applyAccentColor } from './services/accentColor';
 import { applyThemeFromSettingsIfAny } from './services/advancedThemeService';
 import { startAdvancedThemeWatcher } from './services/advancedThemeWatcher';
 import { initBridgeHandler } from './services/bridge/bridgeHandler';
@@ -24,7 +25,7 @@ import { initializeBlacklistStore } from './stores/blacklistStore';
 import { initializeFavoritesStore } from './stores/favoritesStore';
 import { initializePlaylistStore } from './stores/playlistStore';
 import { initializeQueueStore } from './stores/queueStore';
-import { initializeSettingsStore } from './stores/settingsStore';
+import { getSetting, initializeSettingsStore } from './stores/settingsStore';
 import { initializeShortcutsStore } from './stores/shortcutsStore';
 import { initializeStreamVerificationStore } from './stores/streamVerificationStore';
 import { hydrateThemeStore } from './stores/themeStore';
@@ -52,7 +53,10 @@ const initThemes = () =>
   startAdvancedThemeWatcher()
     .then(() => loadMarketplaceThemes())
     .then(() => hydrateThemeStore())
-    .then(() => applyThemeFromSettingsIfAny());
+    .then(() => applyThemeFromSettingsIfAny())
+    .then(() =>
+      applyAccentColor(getSetting('core.appearance.accentColor') as string),
+    );
 
 const startBackgroundTasks = () => {
   void hydratePluginsFromRegistry().then(

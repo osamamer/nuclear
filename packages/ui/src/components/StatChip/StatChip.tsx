@@ -18,13 +18,13 @@ const StatChipBase: FC<StatChipProps> = ({
 }) => (
   <div
     className={cn(
-      'border-border bg-background shadow-shadow flex items-center gap-2 rounded-md border-(length:--border-width) px-2 py-1',
+      'border-border/70 flex items-center gap-2 rounded-md border-(length:--border-width) bg-transparent px-2 py-1',
       className,
     )}
     {...props}
   >
     {icon && <span className="shrink-0">{icon}</span>}
-    <span className="font-heading text-lg font-extrabold">{value}</span>
+    <span className="font-heading text-base font-bold">{value}</span>
     <span className="text-foreground/60 text-xs font-bold tracking-wide uppercase">
       {label}
     </span>

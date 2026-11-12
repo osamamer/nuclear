@@ -32,6 +32,8 @@ const defaultGetItemId = <T extends Track>(track: T) => track.source.id;
 
 function TrackTableBase<T extends Track = Track>({
   tracks,
+  filterValue: externalFilterValue,
+  onFilterChange: externalOnFilterChange,
   getItemId = defaultGetItemId,
   labels,
   classes,
@@ -42,27 +44,31 @@ function TrackTableBase<T extends Track = Track>({
   rowHeight = DEFAULT_ROW_HEIGHT,
   overscan = DEFAULT_OVERSCAN,
 }: TrackTableProps<T>) {
-  const resolvedFeatures = {
-    ...defaultFeatures,
-    ...features,
-  };
+  const resolvedFeatures = useMemo(
+    () => ({
+      ...defaultFeatures,
+      ...features,
+    }),
+    [features],
+  );
 
-  const resolvedDisplay = {
-    ...defaultDisplay,
-    ...display,
-  };
+  const resolvedDisplay = useMemo(
+    () => ({
+      ...defaultDisplay,
+      ...display,
+    }),
+    [display],
+  );
 
   const { sorting, setSorting, isSorted } = useSorting();
-  const itemIds = useMemo(
-    () => tracks.map((t, i) => getItemId(t, i)),
-    [tracks, getItemId],
-  );
-  const { onDragStart, onDragEnd } = useReorder({
-    itemIds,
-    onReorder: actions?.onReorder,
-  });
-  const { globalFilter, setGlobalFilter, globalFilterFn, hasFilter } =
-    useGlobalFilter<T>();
+  const {
+    globalFilter: localFilterValue,
+    setGlobalFilter: setLocalFilterValue,
+    globalFilterFn,
+  } = useGlobalFilter<T>();
+  const globalFilter = externalFilterValue ?? localFilterValue;
+  const setGlobalFilter = externalOnFilterChange ?? setLocalFilterValue;
+  const hasFilter = (globalFilter ?? '').trim().length > 0;
 
   const columns: ColumnDef<T>[] = useColumns<T>({
     display: resolvedDisplay,
@@ -109,19 +115,33 @@ function TrackTableBase<T extends Track = Track>({
     resolvedFeatures?.reorderable && !isSorted && !hasFilter,
   );
 
-  const dndItems = rows.map((row) => getItemId(row.original, row.index));
+  const dndItems = useMemo(
+    () =>
+      isReorderable
+        ? tracks.map((track, index) => getItemId(track, index))
+        : [],
+    [getItemId, isReorderable, tracks],
+  );
+  const { onDragStart, onDragEnd } = useReorder({
+    itemIds: dndItems,
+    onReorder: actions?.onReorder,
+  });
+
+  const contextValue = useMemo(
+    () => ({
+      isReorderable,
+      features: resolvedFeatures,
+      actions,
+      labels,
+    }),
+    [actions, isReorderable, labels, resolvedFeatures],
+  );
+  const rowStyle = useMemo(() => ({ height: rowHeight }), [rowHeight]);
 
   const testViewportHeight = rowHeight * 12;
 
   return (
-    <TrackTableProvider
-      value={{
-        isReorderable,
-        features: resolvedFeatures,
-        actions,
-        labels,
-      }}
-    >
+    <TrackTableProvider value={contextValue}>
       <div className="flex h-full flex-col">
         <Toolbar
           filterValue={globalFilter}
@@ -171,19 +191,18 @@ function TrackTableBase<T extends Track = Track>({
                 paddingBottom={paddingBottom}
                 colSpan={colCount}
                 rowHeight={rowHeight}
-                renderRow={({ row, virtual }) => (
+                renderRow={({ row }) => (
                   <SortableRow
                     key={getItemId(row.original, row.index)}
                     row={row}
                     itemId={getItemId(row.original, row.index)}
-                    style={{ height: rowHeight }}
+                    style={rowStyle}
                     isReorderable={isReorderable}
-                    onClick={
-                      actions?.onRowClick
-                        ? () => actions.onRowClick?.(row.original)
-                        : undefined
+                    isActive={
+                      meta?.activeTrackKey ===
+                      `${row.original.source.provider}/${row.original.source.id}`
                     }
-                    data-index={virtual.index}
+                    onClick={actions?.onRowClick}
                   />
                 )}
               />

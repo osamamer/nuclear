@@ -57,9 +57,10 @@
   --font-heading: var(--font-family-heading);
   --font-mono: var(--font-family-mono);
 
-  --shadow: var(--shadow-x) var(--shadow-y) 0px 0px var(--border);
+  --shadow:
+    var(--shadow-x) var(--shadow-y) var(--shadow-blur) 0px var(--shadow-color);
   --shadow-shadow: var(--shadow);
-  --shadow-nav: 4px 4px 0px 0px var(--border);
+  --shadow-nav: var(--shadow);
   --spacing-shadow-x: var(--shadow-x);
   --spacing-shadow-y: var(--shadow-y);
 }

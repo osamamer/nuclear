@@ -3,7 +3,16 @@ import type { FC, ReactNode } from 'react';
 
 import { useTranslation } from '@nuclearplayer/i18n';
 import type { Playlist } from '@nuclearplayer/model';
-import { Badge, Button, cn, Input, Textarea, Tooltip } from '@nuclearplayer/ui';
+import {
+  Badge,
+  Button,
+  cn,
+  formatTimeMillis,
+  Input,
+  StatChip,
+  Textarea,
+  Tooltip,
+} from '@nuclearplayer/ui';
 
 import { PlaylistArtwork } from './PlaylistArtwork';
 import { usePlaylistDetailHeader } from './usePlaylistDetailHeader';
@@ -13,6 +22,7 @@ type PlaylistDetailHeaderProps = {
   thumbnails?: string[];
   className?: string;
   children?: ReactNode;
+  controls?: ReactNode;
 };
 
 export const PlaylistDetailHeader: FC<PlaylistDetailHeaderProps> = ({
@@ -20,12 +30,19 @@ export const PlaylistDetailHeader: FC<PlaylistDetailHeaderProps> = ({
   thumbnails,
   className,
   children,
+  controls,
 }) => {
   const { t } = useTranslation('playlists');
+  const totalDurationMs = playlist.items.reduce(
+    (total, item) => total + (item.track.durationMs ?? 0),
+    0,
+  );
   const {
     isEditing,
     editName,
     setEditName,
+    editArtworkUrl,
+    setEditArtworkUrl,
     editDescription,
     setEditDescription,
     startEditing,
@@ -36,7 +53,7 @@ export const PlaylistDetailHeader: FC<PlaylistDetailHeaderProps> = ({
   return (
     <div
       className={cn(
-        'border-border surface-card shadow-shadow relative flex flex-col gap-6 rounded-md border-(length:--border-width) p-6 md:flex-row',
+        'border-border bg-card/50 text-card-foreground relative flex flex-col gap-4 rounded-2xl border-(length:--border-width) p-4 md:flex-row',
         className,
       )}
     >
@@ -63,63 +80,105 @@ export const PlaylistDetailHeader: FC<PlaylistDetailHeaderProps> = ({
           </Tooltip>
         </div>
       )}
-      <div className="border-border shadow-shadow h-60 w-60 shrink-0 overflow-hidden rounded-md border-(length:--border-width) select-none">
-        <PlaylistArtwork name={playlist.name} thumbnails={thumbnails} />
+      <div className="border-border h-48 w-48 shrink-0 overflow-hidden rounded-2xl border-(length:--border-width) select-none">
+        <PlaylistArtwork
+          name={playlist.name}
+          thumbnails={
+            isEditing
+              ? editArtworkUrl.trim()
+                ? [editArtworkUrl.trim()]
+                : []
+              : thumbnails
+          }
+        />
       </div>
 
-      <div className="flex flex-1 flex-col gap-4">
-        {isEditing ? (
-          <div className="flex flex-col gap-3">
-            <Input
-              value={editName}
-              onChange={(event) => setEditName(event.target.value)}
-              data-testid="playlist-detail-title-input"
-              className="font-heading text-3xl font-extrabold"
-            />
-            <Textarea
-              value={editDescription}
-              onChange={(event) => setEditDescription(event.target.value)}
-              placeholder={t('descriptionPlaceholder')}
-              data-testid="playlist-detail-description-input"
-              className="min-h-[4rem] text-lg"
-            />
-            <div className="flex gap-2">
-              <Button
-                variant="tertiary"
-                onClick={save}
-                data-testid="save-edit-button"
-              >
-                {t('common:actions.save')}
-              </Button>
-              <Button
-                variant="tertiary"
-                onClick={cancel}
-                data-testid="cancel-edit-button"
-              >
-                {t('common:actions.cancel')}
-              </Button>
+      <div className="flex min-w-0 flex-1 flex-col gap-4 lg:flex-row">
+        <div className="flex min-w-0 flex-1 flex-col gap-3">
+          {isEditing ? (
+            <div className="flex flex-col gap-3">
+              <Input
+                value={editName}
+                onChange={(event) => setEditName(event.target.value)}
+                data-testid="playlist-detail-title-input"
+                className="font-heading text-3xl font-extrabold"
+              />
+              <Input
+                value={editArtworkUrl}
+                onChange={(event) => setEditArtworkUrl(event.target.value)}
+                label={t('artworkUrl')}
+                placeholder={t('artworkUrlPlaceholder')}
+                data-testid="playlist-detail-artwork-input"
+              />
+              <Textarea
+                value={editDescription}
+                onChange={(event) => setEditDescription(event.target.value)}
+                placeholder={t('descriptionPlaceholder')}
+                data-testid="playlist-detail-description-input"
+                className="min-h-[4rem] text-lg"
+              />
+              <div className="flex gap-2">
+                <Button
+                  variant="tertiary"
+                  onClick={save}
+                  data-testid="save-edit-button"
+                >
+                  {t('common:actions.save')}
+                </Button>
+                <Button
+                  variant="tertiary"
+                  onClick={cancel}
+                  data-testid="cancel-edit-button"
+                >
+                  {t('common:actions.cancel')}
+                </Button>
+              </div>
             </div>
-          </div>
-        ) : (
-          <div className="flex flex-col gap-2">
-            <h1
-              className="font-heading text-5xl font-extrabold tracking-tight"
-              data-testid="playlist-detail-title"
-            >
-              {playlist.name}
-            </h1>
-            {playlist.description && (
-              <p
-                className="text-card-foreground/60 text-lg"
-                data-testid="playlist-detail-description"
+          ) : (
+            <div className="flex flex-col gap-2">
+              <h1
+                className="font-heading text-4xl font-extrabold tracking-tight"
+                data-testid="playlist-detail-title"
               >
-                {playlist.description}
-              </p>
-            )}
+                {playlist.name}
+              </h1>
+              {playlist.description && (
+                <p
+                  className="text-card-foreground/60 text-lg"
+                  data-testid="playlist-detail-description"
+                >
+                  {playlist.description}
+                </p>
+              )}
+            </div>
+          )}
+
+          {children}
+
+          {!isEditing && (
+            <div
+              className="flex flex-wrap gap-2"
+              data-testid="playlist-detail-stats"
+            >
+              <StatChip
+                value={playlist.items.length}
+                label={t('sortBy.trackCount')}
+              />
+              <StatChip
+                value={
+                  totalDurationMs > 0 ? formatTimeMillis(totalDurationMs) : '—'
+                }
+                label={t('sortBy.duration')}
+              />
+            </div>
+          )}
+        </div>
+
+        {!isEditing && controls && (
+          <div className="flex w-full flex-col gap-2 lg:w-56 lg:shrink-0 lg:pt-10">
+            {controls}
           </div>
         )}
-
-        {children}
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ import { Fragment } from 'react';
 import { useTranslation } from '@nuclearplayer/i18n';
 import { ScrollableArea, ViewShell } from '@nuclearplayer/ui';
 
+import { AccentColorField } from './AccentColorField';
 import { SettingsSection } from './SettingsSection';
 import { useSettingsGroups } from './useSettingsGroups';
 import { useSettingsScrollSpy } from './useSettingsScrollSpy';
@@ -31,6 +32,7 @@ export const Settings = () => {
                     title={t(`${group.name}.title`, group.name)}
                     settings={group.settings}
                   />
+                  {group.name === 'appearance' && <AccentColorField />}
                 </div>
               </Fragment>
             ))}

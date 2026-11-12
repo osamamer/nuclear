@@ -1,6 +1,182 @@
 [
   {
     "date": "2026-11-12T00:00",
+    "description": "Highlight enabled playback toggles and keep the play button accented.",
+    "type": "improvement",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Playback",
+        "color": "purple"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-12T00:00",
+    "description": "Slim the player volume slider and make its speaker button toggle mute.",
+    "type": "fix",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Playback",
+        "color": "purple"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-12T00:00",
+    "description": "Highlight the app close button in fixed red when hovered, independent of the selected accent color.",
+    "type": "improvement",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Appearance",
+        "color": "blue"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-12T00:00",
+    "description": "Keep the playing playlist artwork visible and highlighted in the collapsed sidebar.",
+    "type": "improvement",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Playlists",
+        "color": "purple"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-12T00:00",
+    "description": "Hide plugin page labels when the sidebar is collapsed and align the sidebar customization control with Preferences.",
+    "type": "fix",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Appearance",
+        "color": "blue"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-12T00:00",
+    "description": "Place the playback seekbar along the top edge of the player bar in place of its divider.",
+    "type": "improvement",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Playback",
+        "color": "purple"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-12T00:00",
+    "description": "Keep playlist sorting and search with the playlist details, allow custom cover images, show artwork in the sidebar, and use a larger icon-only play button.",
+    "type": "improvement",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Playlists",
+        "color": "purple"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-12T00:00",
+    "description": "Improve playlist scrolling and opening by avoiding repeated row renders and unnecessary artwork scans.",
+    "type": "improvement",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Performance",
+        "color": "orange"
+      },
+      {
+        "label": "Playlists",
+        "color": "purple"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-12T00:00",
+    "description": "Set a charcoal-gray dark appearance with soft shadows and neutral back and forward controls.",
+    "type": "improvement",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Appearance",
+        "color": "blue"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-12T00:00",
+    "description": "Refine the playlist sidebar and detail header, with distinct selection and animated playback indicators.",
+    "type": "improvement",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Playlists",
+        "color": "purple"
+      },
+      {
+        "label": "Appearance",
+        "color": "blue"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-12T00:00",
+    "description": "Put local playlists first on the dashboard and improve Wayland rendering, sidebar responsiveness, and playlist scrolling.",
+    "type": "improvement",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Performance",
+        "color": "orange"
+      },
+      {
+        "label": "Playlists",
+        "color": "purple"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-12T00:00",
+    "description": "Unify player and plugin accents with a selectable color, round the playback controls, and move playlist download progress into an on-demand panel.",
+    "type": "improvement",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Appearance",
+        "color": "blue"
+      },
+      {
+        "label": "Playback",
+        "color": "purple"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-12T00:00",
+    "description": "Remember sort choices per playlist, show playlist length and track counts, highlight active playback, and refresh the dark interface with rounder, more varied surfaces.",
+    "type": "improvement",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Playlists",
+        "color": "purple"
+      },
+      {
+        "label": "Appearance",
+        "color": "blue"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-12T00:00",
     "description": "Update the desktop app icon across macOS, Windows, and Linux.",
     "type": "improvement",
     "contributors": ["nukeop"],

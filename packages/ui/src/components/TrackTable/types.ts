@@ -45,6 +45,8 @@ export type ContextMenuWrapperProps<T extends Track = Track> = {
 
 export type TrackTableProps<T extends Track = Track> = {
   tracks: T[];
+  filterValue?: string;
+  onFilterChange?: (value: string) => void;
   getItemId?: (track: T, index: number) => string;
   customColumns?: unknown[];
   features?: {

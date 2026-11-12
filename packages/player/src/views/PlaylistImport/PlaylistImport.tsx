@@ -38,7 +38,7 @@ export const PlaylistImport: FC = () => {
         <PlaylistDetailHeader
           playlist={playlist}
           thumbnails={thumbnails}
-          className="mx-6 mt-6"
+          className="mx-6 mt-4"
         >
           <PlaylistImportActions tracks={tracks} onSaveLocally={saveLocally} />
         </PlaylistDetailHeader>

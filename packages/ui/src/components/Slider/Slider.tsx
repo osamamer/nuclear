@@ -11,6 +11,7 @@ type SliderProps = {
   min?: number;
   max?: number;
   step?: number;
+  size?: 'default' | 'sm';
   unit?: string;
   onValueChange?: (value: number) => void;
   disabled?: boolean;
@@ -35,6 +36,7 @@ const SliderRoot: FC<
   min = DEFAULT_MIN,
   max = DEFAULT_MAX,
   step = DEFAULT_STEP,
+  size = 'default',
   unit,
   onValueChange,
   disabled,
@@ -107,6 +109,7 @@ const SliderRoot: FC<
         min,
         max,
         step,
+        size,
         value,
         unit,
         disabled,
@@ -150,16 +153,27 @@ export const SliderHeader: FC<{ label?: string; showValue?: boolean }> = ({
 };
 
 export const SliderTrack: FC = () => {
-  const { percentage } = useSliderContext();
+  const { percentage, size } = useSliderContext();
+  const compact = size === 'sm';
   return (
     <div className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2">
-      <div className="border-border surface-input relative h-3 w-full rounded-md border-(length:--border-width)">
+      <div
+        className={cn(
+          'border-border surface-input relative w-full rounded-md border-(length:--border-width)',
+          compact ? 'h-1' : 'h-3',
+        )}
+      >
         <div
           className="bg-primary absolute top-0 left-0 h-full rounded-l"
           style={{ width: `${percentage}%` }}
         />
         <div
-          className="border-border bg-input absolute top-1/2 -ml-2 h-5 w-5 -translate-y-1/2 rounded-full border-(length:--border-width)"
+          className={cn(
+            'absolute top-1/2 -translate-y-1/2 rounded-full border-(length:--border-width)',
+            compact
+              ? 'border-primary bg-primary -ml-1.5 h-3 w-3'
+              : 'border-border bg-input -ml-2 h-5 w-5',
+          )}
           style={{ left: `${percentage}%` }}
         />
       </div>
@@ -179,6 +193,7 @@ export const SliderRangeInput: FC = () => {
     emit,
     onKeyDown,
     disabled,
+    size,
   } = useSliderContext();
   return (
     <input
@@ -197,16 +212,26 @@ export const SliderRangeInput: FC = () => {
       aria-valuenow={value}
       aria-valuetext={unit ? `${value} ${unit}` : String(value)}
       className={cn(
-        'absolute inset-0 z-[1] h-6 w-full appearance-none opacity-0',
-        'cursor-pointer',
+        'absolute inset-0 z-[1] w-full cursor-pointer appearance-none opacity-0',
+        size === 'sm' ? 'h-4' : 'h-6',
       )}
     />
   );
 };
 
-export const SliderSurface: FC<PropsWithChildren> = ({ children }) => (
-  <div className="relative h-6 w-full overscroll-contain">{children}</div>
-);
+export const SliderSurface: FC<PropsWithChildren> = ({ children }) => {
+  const { size } = useSliderContext();
+  return (
+    <div
+      className={cn(
+        'relative w-full overscroll-contain',
+        size === 'sm' ? 'h-4' : 'h-6',
+      )}
+    >
+      {children}
+    </div>
+  );
+};
 
 export const SliderFooter: FC<{
   startLabel?: string;

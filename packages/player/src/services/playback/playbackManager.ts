@@ -37,10 +37,10 @@ export class PlaybackManager {
     eventBus.emit('trackStarted', item.track);
   };
 
-  playTracks = (tracks: Track[]): void => {
+  playTracks = (tracks: Track[], playlistId?: string): void => {
     const { clearQueue, addToQueue } = useQueueStore.getState();
     clearQueue();
-    addToQueue(tracks);
+    addToQueue(tracks, playlistId);
     this.play();
   };
 

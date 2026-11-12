@@ -1,5 +1,5 @@
 import { CellContext } from '@tanstack/react-table';
-import { DiscIcon, EllipsisVertical, Plus, Volume2 } from 'lucide-react';
+import { AudioLines, DiscIcon, EllipsisVertical, Plus } from 'lucide-react';
 import { FC, forwardRef } from 'react';
 
 import { pickArtwork, Track } from '@nuclearplayer/model';
@@ -104,12 +104,13 @@ export const TitleCell = <T extends Track>({
         <div className="flex min-w-0 flex-1 flex-col justify-center gap-0.5">
           <div className="flex min-w-0 items-center gap-1.5">
             {isActiveTrack && (
-              <Volume2
-                size={14}
-                aria-hidden="true"
+              <span
+                className="bg-accent-green/15 text-accent-green inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wide uppercase"
                 data-testid="now-playing-indicator"
-                className="text-primary shrink-0"
-              />
+              >
+                <AudioLines size={12} aria-hidden="true" />
+                {labels.nowPlaying}
+              </span>
             )}
             <button
               className="min-w-0 cursor-pointer truncate text-left text-sm leading-5 font-semibold hover:underline"

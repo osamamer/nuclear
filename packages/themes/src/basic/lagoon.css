@@ -28,39 +28,19 @@
 }
 
 :root[data-theme-id='nuclear:lagoon'][data-theme='dark'] {
-  --background: oklch(0.2 0.025 205);
-  --muted: oklch(0.25 0.03 205);
-  --input: oklch(0.13 0.015 205);
-  --card: oklch(0.55 0.12 205);
-  --popover: oklch(0.55 0.12 205);
+  --background: #212121;
+  --muted: #2b2b2b;
+  --input: #303030;
+  --card: #292929;
+  --popover: #303030;
   --primary: oklch(0.55 0.12 205);
-  --foreground: oklch(0.9 0.008 205);
-  --muted-foreground: oklch(0.9 0.008 205);
-  --border: oklch(0.68 0.11 205);
+  --foreground: #ececec;
+  --muted-foreground: #b7b7b7;
+  --border: #3a3a3a;
 
-  --background-gradient: linear-gradient(
-    180deg,
-    oklch(0.22 0.025 205),
-    oklch(0.18 0.025 205)
-  );
-  --muted-gradient: linear-gradient(
-    180deg,
-    oklch(0.27 0.03 205),
-    oklch(0.23 0.03 205)
-  );
-  --card-gradient: linear-gradient(
-    180deg,
-    oklch(0.58 0.12 205),
-    oklch(0.52 0.12 205)
-  );
-  --popover-gradient: linear-gradient(
-    180deg,
-    oklch(0.58 0.12 205),
-    oklch(0.52 0.12 205)
-  );
-  --primary-gradient: linear-gradient(
-    180deg,
-    oklch(0.58 0.12 205),
-    oklch(0.52 0.12 205)
-  );
+  --background-gradient: none;
+  --muted-gradient: none;
+  --card-gradient: none;
+  --popover-gradient: none;
+  --primary-gradient: none;
 }

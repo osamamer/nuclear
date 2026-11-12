@@ -3,8 +3,7 @@ import type { FC } from 'react';
 import { useTranslation } from '@nuclearplayer/i18n';
 import { Select } from '@nuclearplayer/ui';
 
-export type PlaylistTrackSortBy =
-  'playlistOrder' | 'dateAddedNewest' | 'dateAddedOldest' | 'reverse';
+import type { PlaylistTrackSortBy } from '../../../stores/playlistPreferencesStore';
 
 type PlaylistTrackSortProps = {
   value: PlaylistTrackSortBy;
@@ -18,10 +17,14 @@ export const PlaylistTrackSort: FC<PlaylistTrackSortProps> = ({
   const { t } = useTranslation('playlists');
 
   return (
-    <div className="w-56" data-testid="sort-playlist-tracks">
+    <div
+      className="w-full [&_label]:sr-only"
+      data-testid="sort-playlist-tracks"
+    >
       <Select
         label={t('trackSort.label')}
         size="sm"
+        className="h-9 px-3 pr-2 text-sm font-semibold"
         options={[
           {
             id: 'playlistOrder',

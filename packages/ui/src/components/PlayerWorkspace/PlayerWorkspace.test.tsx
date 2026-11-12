@@ -76,4 +76,29 @@ describe('PlayerWorkspace', () => {
 
     expect(screen.getByTestId('persistent-footer')).toBeInTheDocument();
   });
+
+  it('changes sidebar width immediately when toggled', () => {
+    const sidebarProps = {
+      width: 280,
+      onWidthChange: () => {},
+      onToggle: () => {},
+    };
+    const { rerender } = render(
+      <PlayerWorkspace>
+        <PlayerWorkspace.LeftSidebar {...sidebarProps} isCollapsed={true} />
+        <PlayerWorkspace.Main />
+      </PlayerWorkspace>,
+    );
+
+    expect(screen.getByTestId('sidebar-left')).toHaveStyle({ width: '54px' });
+
+    rerender(
+      <PlayerWorkspace>
+        <PlayerWorkspace.LeftSidebar {...sidebarProps} isCollapsed={false} />
+        <PlayerWorkspace.Main />
+      </PlayerWorkspace>,
+    );
+
+    expect(screen.getByTestId('sidebar-left')).toHaveStyle({ width: '280px' });
+  });
 });

@@ -24,12 +24,7 @@ const BUILT_INS: BasicThemeMeta[] = [
   {
     id: DEFAULT_THEME_ID,
     name: 'Default',
-    palette: [
-      'oklch(0.8 0.12 5)',
-      'oklch(0.92 0.036 7)',
-      'oklch(0.5 0.1 5)',
-      'oklch(0.22 0.03 5)',
-    ],
+    palette: ['#4f86ff', '#f1f1f1', '#2b2b2b', '#212121'],
   },
   {
     id: 'nuclear:aurora',

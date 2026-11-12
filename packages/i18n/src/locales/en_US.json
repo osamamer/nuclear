@@ -19,7 +19,9 @@
       "search": "Search",
       "loading": "Loading...",
       "retry": "Retry",
-      "moreActions": "More actions"
+      "moreActions": "More actions",
+      "mute": "Mute",
+      "unmute": "Unmute"
     },
     "errors": {
       "network": "Network error. Please check your connection.",
@@ -132,9 +134,25 @@
     "delete": "Delete playlist",
     "deleteConfirm": "Are you sure you want to delete this playlist?",
     "play": "Play",
+    "nowPlaying": "Playing",
     "addToQueue": "Add to queue",
-    "autoDownloadProgress": "Downloading playlist tracks — {{title}} ({{progress}}%, {{completed}} completed, {{failed}} failed)",
-    "autoDownloadFinished": "Playlist downloads finished — {{completed}} completed, {{failed}} failed",
+    "downloads": {
+      "button": "Playlist downloads",
+      "title": "Playlist downloads",
+      "scanning": "Checking playlists for tracks to download…",
+      "downloading": "Downloading",
+      "waiting": "Waiting for a streaming provider or auto-download to be enabled.",
+      "queued_one": "{{count}} track queued",
+      "queued_other": "{{count}} tracks queued",
+      "preparing": "Preparing",
+      "moreQueued_one": "+{{count}} more track",
+      "moreQueued_other": "+{{count}} more tracks",
+      "saved_one": "Saved {{count}} track",
+      "saved_other": "Saved {{count}} tracks",
+      "failed_one": "{{count}} track failed",
+      "failed_other": "{{count}} tracks failed",
+      "empty": "No playlist downloads in progress"
+    },
     "saveLocally": "Save locally",
     "readOnlyBadge": "{{source}}",
     "readOnlyTooltip": "This playlist is from {{source}} and is read-only. Save a local copy to edit it.",
@@ -163,6 +181,8 @@
     "saveQueueAsPlaylist": "Save queue as playlist",
     "name": "Name",
     "namePlaceholder": "Playlist name...",
+    "artworkUrl": "Cover image URL",
+    "artworkUrlPlaceholder": "Paste an image URL...",
     "exportSuccess": "Playlist exported",
     "exportError": "Failed to export playlist",
     "importSuccess": "Playlist imported",
@@ -278,6 +298,13 @@
   },
   "dashboard": {
     "title": "Dashboard",
+    "home-title": "Your music",
+    "library-label": "Your library",
+    "your-playlists": "Your playlists",
+    "view-all-playlists": "View all playlists",
+    "no-playlists": "Your playlists will appear here. Open Playlists to create one.",
+    "discover-label": "Explore",
+    "discover-title": "Discover music",
     "empty-state": "Welcome to Nuclear",
     "empty-state-description": "Install a plugin to see top tracks, new releases, and recommendations here.",
     "empty-state-action": "Browse plugins",
@@ -435,6 +462,18 @@
     },
     "appearance": {
       "title": "Appearance",
+      "accentColor": {
+        "title": "Accent color",
+        "description": "Use one accent color across the player and plugins.",
+        "options": {
+          "blue": "Blue",
+          "violet": "Violet",
+          "teal": "Teal",
+          "pink": "Pink",
+          "orange": "Orange",
+          "green": "Green"
+        }
+      },
       "framelessWindow": {
         "title": "Frameless window",
         "description": "Hide the native title bar. Drag the top bar to move the window."

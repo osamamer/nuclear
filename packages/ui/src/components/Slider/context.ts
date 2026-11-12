@@ -7,6 +7,7 @@ export type SliderContextValue = {
   min: number;
   max: number;
   step: number;
+  size: 'default' | 'sm';
   value: number;
   unit?: string;
   disabled?: boolean;

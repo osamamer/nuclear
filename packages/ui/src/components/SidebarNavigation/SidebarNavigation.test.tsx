@@ -43,8 +43,34 @@ describe('SidebarNavigation', () => {
 
   it('hides text labels in compact mode', () => {
     renderSidebar({ isCompact: true });
-    expect(screen.getByText('Dashboard')).toHaveClass('opacity-0');
-    expect(screen.getByText('Favorites')).toHaveClass('opacity-0');
+    expect(screen.queryByText('Dashboard')).not.toBeInTheDocument();
+    expect(screen.queryByText('Favorites')).not.toBeInTheDocument();
+    expect(screen.getAllByTestId('sidebar-navigation-item')[0]).toHaveAttribute(
+      'aria-label',
+      'Dashboard',
+    );
+  });
+
+  it('shows a plugin page as an icon without clipped text in compact mode', () => {
+    render(
+      <SidebarNavigation isCompact>
+        <SidebarNavigationItem
+          icon={<HeartIcon />}
+          label="Spotify playlists"
+          isPlaying
+          playingLabel="Now playing"
+        />
+      </SidebarNavigation>,
+    );
+
+    expect(screen.queryByText('Spotify playlists')).not.toBeInTheDocument();
+    expect(screen.getByTestId('sidebar-navigation-item')).toHaveAttribute(
+      'aria-label',
+      'Spotify playlists · Now playing',
+    );
+    expect(
+      screen.queryByTestId('sidebar-playing-indicator'),
+    ).not.toBeInTheDocument();
   });
 
   it('shows tooltips on hover in compact mode', async () => {

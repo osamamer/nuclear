@@ -16,6 +16,7 @@ type FetchFailure = {
 export const useFetchedTracksActions = (
   fetchTracks: () => Promise<Track[]>,
   failure: FetchFailure,
+  playlistId?: string,
 ) => {
   const addToQueue = useQueueStore((state) => state.addToQueue);
   const [isLoading, setIsLoading] = useState(false);
@@ -40,8 +41,10 @@ export const useFetchedTracksActions = (
     };
 
   return {
-    play: withFetchedTracks(playbackManager.playTracks),
-    enqueue: withFetchedTracks(addToQueue),
+    play: withFetchedTracks((tracks) =>
+      playbackManager.playTracks(tracks, playlistId),
+    ),
+    enqueue: withFetchedTracks((tracks) => addToQueue(tracks, playlistId)),
     isLoading,
   };
 };

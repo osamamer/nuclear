@@ -34,7 +34,7 @@ const ToasterImpl: FC<ToasterProps> = ({
             'surface-popover backdrop-blur-xl border-border border-(length:--border-width) font-bold shadow-shadow rounded-md text-sm flex items-center gap-2 p-4 w-80 [&:has(button)]:justify-between select-none',
           description: 'font-normal',
           actionButton:
-            'font-normal border-(length:--border-width) text-sm h-6 px-2 surface-primary border-border rounded-md shrink-0',
+            'font-normal border-(length:--border-width) text-sm h-6 px-2 surface-background hover:bg-primary/10 border-border rounded-md shrink-0',
           cancelButton:
             'font-normal border-(length:--border-width) text-sm h-6 px-2 bg-muted text-muted-foreground border-border rounded-md shrink-0',
           loading:

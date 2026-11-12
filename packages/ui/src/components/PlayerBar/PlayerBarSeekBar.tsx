@@ -49,7 +49,7 @@ export const PlayerBarSeekBar: FC<PlayerSeekBarProps> = ({
         </div>
         {!isLoading && (
           <div
-            className="surface-seekbar border-background pointer-events-none absolute top-1/2 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 opacity-0 shadow-sm transition-opacity group-hover:opacity-100"
+            className="surface-seekbar border-background shadow-shadow pointer-events-none absolute top-1/2 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 opacity-0 transition-opacity group-hover:opacity-100"
             style={{ left: `${clamped}%` }}
           />
         )}

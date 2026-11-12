@@ -5,20 +5,20 @@ import { ComponentPropsWithoutRef, forwardRef } from 'react';
 import { cn } from '../../utils';
 
 const buttonVariants = cva(
-  'inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50',
+  'data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50',
   {
     variants: {
       variant: {
         default:
-          'surface-primary border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none',
+          'surface-background border-border hover:bg-primary/10 border-(length:--border-width)',
         secondary:
-          'surface-background border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none',
+          'surface-background border-border hover:bg-primary/10 border-(length:--border-width)',
         tertiary:
-          'surface-muted border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none',
+          'surface-muted border-border hover:bg-primary/10 border-(length:--border-width)',
         noShadow:
-          'surface-primary border-border border-(length:--border-width)',
-        text: '',
-        ghost: 'hover:bg-foreground/10 border border-current',
+          'surface-background border-border hover:bg-primary/10 border-(length:--border-width)',
+        text: 'text-foreground hover:bg-primary/10',
+        ghost: 'hover:bg-primary/10 border border-current',
       },
       size: {
         default: 'h-10 px-4 py-2',
@@ -30,7 +30,7 @@ const buttonVariants = cva(
         flexible: 'h-auto',
       },
       intent: {
-        danger: 'surface-accent-red',
+        danger: 'border-accent-red/40 text-accent-red hover:bg-accent-red/10',
       },
     },
     defaultVariants: {

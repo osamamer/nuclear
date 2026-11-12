@@ -14,8 +14,8 @@ export const selectVariants = cva(
   {
     variants: {
       variant: {
-        primary: 'surface-primary',
-        muted: 'surface-muted shadow-shadow',
+        primary: 'surface-background hover:bg-primary/10',
+        muted: 'surface-muted hover:bg-primary/10',
       },
       size: {
         default: 'px-3 py-2 text-sm',

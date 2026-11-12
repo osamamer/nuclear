@@ -12,8 +12,10 @@ import userEvent from '@testing-library/user-event';
 import App from '../../App';
 import { routeTree } from '../../routeTree.gen';
 import { providersHost } from '../../services/providersHost';
+import { usePlaylistStore } from '../../stores/playlistStore';
 import { useStartupStore } from '../../stores/startupStore';
 import { DashboardProviderBuilder } from '../../test/builders/DashboardProviderBuilder';
+import { PlaylistBuilder } from '../../test/builders/PlaylistBuilder';
 import { PlaylistProviderBuilder } from '../../test/builders/PlaylistProviderBuilder';
 import {
   EDITORIAL_PLAYLISTS_DASHBOARD,
@@ -42,6 +44,11 @@ export const DashboardWrapper = {
   reset() {
     providersHost.clear();
     resetInMemoryTauriStore();
+    usePlaylistStore.setState({
+      index: [],
+      playlists: new Map(),
+      loaded: true,
+    });
     useStartupStore.setState({
       isStartingUp: false,
       startupFinishedAt: undefined,
@@ -56,6 +63,38 @@ export const DashboardWrapper = {
 
   seedPlaylistProvider(builder: PlaylistProviderBuilder) {
     providersHost.register(builder.build());
+  },
+
+  seedPlaylists(...builders: PlaylistBuilder[]) {
+    usePlaylistStore.setState({
+      index: builders.map((builder) => builder.buildIndexEntry()),
+      playlists: new Map(
+        builders.map((builder) => {
+          const playlist = builder.build();
+          return [playlist.id, playlist];
+        }),
+      ),
+      loaded: true,
+    });
+  },
+
+  seedPlaylistFolder(builder: PlaylistBuilder) {
+    usePlaylistStore.setState((state) => ({
+      index: [
+        ...state.index,
+        {
+          kind: 'folder',
+          id: 'favorite-folder',
+          name: 'Favorites',
+          playlists: [builder.buildIndexEntry()],
+        },
+      ],
+      playlists: new Map(state.playlists).set(
+        builder.build().id,
+        builder.build(),
+      ),
+      loaded: true,
+    }));
   },
 
   simulateStartupWithProvider(builder: DashboardProviderBuilder) {
@@ -95,6 +134,25 @@ export const DashboardWrapper = {
 
   get emptyState() {
     return screen.queryByTestId('dashboard-empty-state');
+  },
+
+  yourPlaylists: {
+    get section() {
+      return screen.getByTestId('dashboard-your-playlists');
+    },
+    get heading() {
+      return within(this.section).getByRole('heading', {
+        name: 'Your playlists',
+      });
+    },
+    get cards() {
+      return within(this.section).queryAllByTestId('dashboard-playlist-card');
+    },
+    async open(name: string) {
+      await userEvent.click(
+        within(this.section).getByRole('button', { name: new RegExp(name) }),
+      );
+    },
   },
 
   emptyStateAction: {

@@ -41,9 +41,9 @@ export const useQueueActions = () => {
   );
 
   const playNow = useCallback(
-    (track: Track) => {
+    (track: Track, playlistId?: string) => {
       clearQueue();
-      addToQueue([track]);
+      addToQueue([track], playlistId);
     },
     [clearQueue, addToQueue],
   );
