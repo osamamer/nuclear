@@ -1,6 +1,18 @@
 [
   {
     "date": "2026-11-15T00:00",
+    "description": "Nuclear has a new, modern app icon: a soft, rounded green trefoil on a dark tile.",
+    "type": "improvement",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "UI",
+        "color": "blue"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-15T00:00",
     "description": "The left sidebar and the queue panel now slide smoothly when opened or closed.",
     "type": "improvement",
     "contributors": ["nukeop"],
