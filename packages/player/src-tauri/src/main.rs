@@ -43,7 +43,40 @@ fn fix_macos_temp_dir() {
 }
 
 #[cfg(target_os = "linux")]
+fn set_env_if_unset(name: &str, value: &str) {
+    if std::env::var_os(name).is_none() {
+        unsafe {
+            std::env::set_var(name, value);
+        }
+    }
+}
+
+#[cfg(target_os = "linux")]
+fn configure_nvidia_rendering() {
+    let nvidia_proprietary_driver = std::path::Path::new("/proc/driver/nvidia/version").exists();
+    if !nvidia_proprietary_driver {
+        return;
+    }
+    let wayland_session = std::env::var_os("WAYLAND_DISPLAY").is_some()
+        || std::env::var("XDG_SESSION_TYPE").is_ok_and(|session| session == "wayland");
+    let x11_available = std::env::var_os("DISPLAY").is_some();
+    if wayland_session && x11_available {
+        set_env_if_unset("GDK_BACKEND", "x11");
+    }
+    let uses_x11 = std::env::var("GDK_BACKEND").is_ok_and(|backend| backend == "x11")
+        || (!wayland_session && x11_available);
+    let dmabuf_renderer_disabled = std::env::var_os("WEBKIT_DISABLE_DMABUF_RENDERER").is_some()
+        || std::env::var_os("WEBKIT_DISABLE_COMPOSITING_MODE").is_some();
+    if uses_x11 && !dmabuf_renderer_disabled {
+        set_env_if_unset("WEBKIT_FORCE_DMABUF_RENDERER", "1");
+        set_env_if_unset("WEBKIT_DMABUF_RENDERER_FORCE_SHM", "1");
+    }
+}
+
+#[cfg(target_os = "linux")]
 fn apply_linux_workarounds() {
+    configure_nvidia_rendering();
+
     // Route WebKitGTK's audio through pulsesink so PULSE_LATENCY_MSEC applies.
     if std::env::var("GST_PLUGIN_FEATURE_RANK").is_err() {
         unsafe {

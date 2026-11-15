@@ -6,6 +6,17 @@ import { registerBuiltInCoreSettings } from '../../services/coreSettings';
 import { initializeSettingsStore } from '../../stores/settingsStore';
 
 export const SettingsWrapper = {
+  autoDownloadPlaylistTracks: {
+    get element() {
+      return screen.getByRole('switch', {
+        name: 'Automatically download playlist tracks',
+      });
+    },
+    async click() {
+      await userEvent.click(this.element);
+    },
+  },
+
   async mount(): Promise<RenderResult> {
     await initializeSettingsStore();
     registerBuiltInCoreSettings();

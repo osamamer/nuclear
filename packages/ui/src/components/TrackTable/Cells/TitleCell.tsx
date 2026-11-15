@@ -92,7 +92,6 @@ export const TitleCell = <T extends Track>({
               <img
                 src={artwork.url}
                 alt={track.title}
-                loading="lazy"
                 decoding="async"
                 className="size-full object-cover"
               />
@@ -122,7 +121,7 @@ export const TitleCell = <T extends Track>({
               }
               onClick={(e) => {
                 e.stopPropagation();
-                actions.onPlayNow?.(track);
+                actions.onPlayNow?.(track, row.index);
               }}
             >
               {getValue()}
@@ -143,7 +142,7 @@ export const TitleCell = <T extends Track>({
               />
             )}
             {ContextMenuWrapper && (
-              <ContextMenuWrapper track={track}>
+              <ContextMenuWrapper track={track} index={row.index}>
                 <ContextMenuButton label={labels.trackOptions} />
               </ContextMenuWrapper>
             )}

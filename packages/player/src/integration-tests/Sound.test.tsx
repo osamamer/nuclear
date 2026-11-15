@@ -50,6 +50,8 @@ describe('Sound component', () => {
     await waitFor(() => expect(playMock).toHaveBeenCalled());
 
     SoundWrapper.seekTo(37);
+    vi.setSystemTime(Date.now() + 10_000);
+    SoundWrapper.seekTo(37);
     await waitFor(() => {
       const audio = SoundWrapper.getAudios()[0];
       expect(audio).toBeDefined();

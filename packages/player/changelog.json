@@ -1,5 +1,101 @@
 [
   {
+    "date": "2026-11-15T00:00",
+    "description": "Replace the skip guard with a five-second countdown shown in a draggable bubble that turns green when skipping is allowed. Pausing for five seconds, or really playing 70% of a song (seven minutes for songs over ten minutes), lets you move on freely. Each song allows one rewind and one fast-forward after a ten-second wait. The rules apply to the player bar, shortcuts, the queue, Play now, plugins, MPD, MCP, and Nuclear Jam.",
+    "type": "feature",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Playback",
+        "color": "purple"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-15T00:00",
+    "description": "Enable GPU compositing and threaded scrolling on NVIDIA Linux systems, keep the playlist view in place when switching playlists, stop track rows from remounting on every update, and slim the scrollbars in collapsed sidebars.",
+    "type": "fix",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Performance",
+        "color": "green"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-12T00:00",
+    "description": "Make the player bar's Next and Previous buttons honor the two-refusal skip guard instead of treating clicks as automatic track changes.",
+    "type": "fix",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Playback",
+        "color": "purple"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-12T00:00",
+    "description": "Require two refusals and a cancelable five-second wait for manual skips, and prevent starting another song until the current one has been paused for more than five seconds.",
+    "type": "fix",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Playback",
+        "color": "purple"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-12T00:00",
+    "description": "Allow playlists in the sidebar to collapse, download only selected playlists with up to four concurrent transfers and paced retries, and restore YouTube audio resolution.",
+    "type": "fix",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Playlists",
+        "color": "blue"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-12T00:00",
+    "description": "Keep large imported playlists responsive and make automatic track downloads opt-in.",
+    "type": "fix",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Playlists",
+        "color": "blue"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-12T00:00",
+    "description": "Keep large playlist grids responsive by avoiding drag-and-drop sensors and using one cover image per card.",
+    "type": "fix",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Playlists",
+        "color": "blue"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-12T00:00",
+    "description": "Keep playlist playback queued when starting from a track, add a hideable queue panel, delay the third skip, and exclude blacklisted tracks from playback.",
+    "type": "improvement",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Playback",
+        "color": "purple"
+      }
+    ]
+  },
+  {
     "date": "2026-11-12T00:00",
     "description": "Highlight enabled playback toggles and keep the play button accented.",
     "type": "improvement",

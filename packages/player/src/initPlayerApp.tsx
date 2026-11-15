@@ -24,7 +24,10 @@ import { hydratePluginsFromRegistry } from './services/plugins/pluginBootstrap';
 import { initializeBlacklistStore } from './stores/blacklistStore';
 import { initializeFavoritesStore } from './stores/favoritesStore';
 import { initializePlaylistStore } from './stores/playlistStore';
-import { initializeQueueStore } from './stores/queueStore';
+import {
+  initializeQueueStore,
+  startBlacklistScheduleEnforcement,
+} from './stores/queueStore';
 import { getSetting, initializeSettingsStore } from './stores/settingsStore';
 import { initializeShortcutsStore } from './stores/shortcutsStore';
 import { initializeStreamVerificationStore } from './stores/streamVerificationStore';
@@ -36,6 +39,7 @@ const initializeStores = () =>
     .then(() => initializeShortcutsStore())
     .then(() => initializeBlacklistStore())
     .then(() => initializeQueueStore())
+    .then(() => startBlacklistScheduleEnforcement())
     .then(() => initializeFavoritesStore())
     .then(() => initializeStreamVerificationStore())
     .then(() => initializePlaylistStore());

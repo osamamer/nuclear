@@ -104,9 +104,13 @@ describe('Global keyboard shortcuts', () => {
     expect(useQueueStore.getState().currentIndex).toBe(0);
   });
 
-  it('seeks forward when pressing Right', async () => {
+  it('seeks forward when pressing Right once the fast-forward wait is over', async () => {
     useSoundStore.setState({ seek: 50, duration: 200 });
 
+    await user.keyboard('{ArrowRight}');
+    expect(useSoundStore.getState().seek).toBe(50);
+
+    vi.setSystemTime(Date.now() + 10_000);
     await user.keyboard('{ArrowRight}');
 
     expect(useSoundStore.getState().seek).toBe(55);

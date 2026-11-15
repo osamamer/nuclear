@@ -51,6 +51,7 @@ export const PlaylistCard: FC<PlaylistCardProps> = ({ playlist, onClick }) => {
           <PlaylistArtwork
             name={playlist.name}
             thumbnails={playlist.thumbnails}
+            showMosaic={false}
           />
         }
         title={playlist.name}

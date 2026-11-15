@@ -1,4 +1,5 @@
 import {
+  DownloadIcon,
   FolderInputIcon,
   FolderOutputIcon,
   PlusIcon,
@@ -10,6 +11,7 @@ import { type FC } from 'react';
 import { useTranslation } from '@nuclearplayer/i18n';
 import { Popover } from '@nuclearplayer/ui';
 
+import { useAutoDownloadPlaylist } from '../../../hooks/useAutoDownloadPlaylist';
 import { usePlaylistExport } from '../../../hooks/usePlaylistExport';
 
 type PlaylistCardMenuItemsProps = {
@@ -33,6 +35,7 @@ export const PlaylistCardMenuItems: FC<PlaylistCardMenuItemsProps> = ({
 }) => {
   const { t } = useTranslation('playlists');
   const { exportAsJson } = usePlaylistExport(playlistId);
+  const { isSelected, toggle } = useAutoDownloadPlaylist(playlistId);
 
   return (
     <>
@@ -49,6 +52,13 @@ export const PlaylistCardMenuItems: FC<PlaylistCardMenuItemsProps> = ({
         data-testid="export-json-action"
       >
         {t('exportJson')}
+      </Popover.Item>
+      <Popover.Item
+        icon={<DownloadIcon size={16} />}
+        onClick={toggle}
+        data-testid="auto-download-playlist-action"
+      >
+        {t(isSelected ? 'downloads.stopAutomatic' : 'downloads.keepDownloaded')}
       </Popover.Item>
       {canMoveToFolder && (
         <Popover.Item

@@ -1,8 +1,9 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 
 import type { Track } from '@nuclearplayer/model';
 
+import { playbackManager } from '../services/playback';
 import { useQueueStore } from '../stores/queueStore';
 
 export const useQueueActions = () => {
@@ -40,29 +41,44 @@ export const useQueueActions = () => {
     })),
   );
 
-  const playNow = useCallback(
-    (track: Track, playlistId?: string) => {
-      clearQueue();
-      addToQueue([track], playlistId);
-    },
-    [clearQueue, addToQueue],
-  );
+  const playNow = useCallback((track: Track, playlistId?: string) => {
+    playbackManager.playTracks([track], playlistId);
+  }, []);
 
-  return {
-    addToQueue,
-    addNext,
-    addAt,
-    removeByIds,
-    removeByIndices,
-    clearQueue,
-    reorder,
-    moveBefore,
-    updateItemState,
-    selectCandidate,
-    goToNext,
-    goToPrevious,
-    goToIndex,
-    goToId,
-    playNow,
-  };
+  return useMemo(
+    () => ({
+      addToQueue,
+      addNext,
+      addAt,
+      removeByIds,
+      removeByIndices,
+      clearQueue,
+      reorder,
+      moveBefore,
+      updateItemState,
+      selectCandidate,
+      goToNext,
+      goToPrevious,
+      goToIndex,
+      goToId,
+      playNow,
+    }),
+    [
+      addToQueue,
+      addNext,
+      addAt,
+      removeByIds,
+      removeByIndices,
+      clearQueue,
+      reorder,
+      moveBefore,
+      updateItemState,
+      selectCandidate,
+      goToNext,
+      goToPrevious,
+      goToIndex,
+      goToId,
+      playNow,
+    ],
+  );
 };

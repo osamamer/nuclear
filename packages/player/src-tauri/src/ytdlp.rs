@@ -247,8 +247,6 @@ pub async fn ytdlp_get_stream(
         &[
             "-f",
             "bestaudio[ext=m4a]/bestaudio[ext=webm]/bestaudio",
-            "--extractor-args",
-            "youtube:player_client=default,-tv_samsung",
             "--dump-json",
             "--no-playlist",
             "--no-warnings",

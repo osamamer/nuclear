@@ -76,6 +76,31 @@ function TrackTableBase<T extends Track = Track>({
     actions,
   });
 
+  const tableMeta = useMemo(
+    () => ({
+      displayQueueControls: resolvedDisplay.displayQueueControls,
+      displayThumbnail: resolvedDisplay.displayThumbnail,
+      displayArtist: resolvedDisplay.displayArtist,
+      onAddToQueue: actions?.onAddToQueue,
+      onToggleFavorite: actions?.onToggleFavorite,
+      onRemove: actions?.onRemove,
+      isTrackFavorite: meta?.isTrackFavorite,
+      ContextMenuWrapper: meta?.ContextMenuWrapper,
+      activeTrackKey: meta?.activeTrackKey,
+    }),
+    [
+      resolvedDisplay.displayQueueControls,
+      resolvedDisplay.displayThumbnail,
+      resolvedDisplay.displayArtist,
+      actions?.onAddToQueue,
+      actions?.onToggleFavorite,
+      actions?.onRemove,
+      meta?.isTrackFavorite,
+      meta?.ContextMenuWrapper,
+      meta?.activeTrackKey,
+    ],
+  );
+
   const table = useReactTable({
     columns,
     data: tracks,
@@ -87,17 +112,7 @@ function TrackTableBase<T extends Track = Track>({
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    meta: {
-      displayQueueControls: resolvedDisplay.displayQueueControls,
-      displayThumbnail: resolvedDisplay.displayThumbnail,
-      displayArtist: resolvedDisplay.displayArtist,
-      onAddToQueue: actions?.onAddToQueue,
-      onToggleFavorite: actions?.onToggleFavorite,
-      onRemove: actions?.onRemove,
-      isTrackFavorite: meta?.isTrackFavorite,
-      ContextMenuWrapper: meta?.ContextMenuWrapper,
-      activeTrackKey: meta?.activeTrackKey,
-    },
+    meta: tableMeta,
   });
 
   const { rows } = table.getRowModel();
@@ -133,8 +148,9 @@ function TrackTableBase<T extends Track = Track>({
       features: resolvedFeatures,
       actions,
       labels,
+      tableMeta,
     }),
-    [actions, isReorderable, labels, resolvedFeatures],
+    [actions, isReorderable, labels, resolvedFeatures, tableMeta],
   );
   const rowStyle = useMemo(() => ({ height: rowHeight }), [rowHeight]);
 
@@ -172,7 +188,7 @@ function TrackTableBase<T extends Track = Track>({
                     <tr
                       key={headerGroup.id}
                       role="row"
-                      className="border-border/50 bg-background/95 text-foreground/55 border-b text-xs font-semibold tracking-wide uppercase backdrop-blur"
+                      className="border-border/50 bg-background/95 text-foreground/55 border-b text-xs font-semibold tracking-wide uppercase"
                     >
                       {headerGroup.headers.map((header) =>
                         flexRender(header.column.columnDef.header, {

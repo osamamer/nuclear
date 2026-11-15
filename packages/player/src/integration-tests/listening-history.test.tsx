@@ -3,6 +3,7 @@ import { act, waitFor } from '@testing-library/react';
 import { initHistoryService } from '../services/history';
 import { initPlaybackEventBridge } from '../services/playbackEventBridge';
 import { providersHost } from '../services/providersHost';
+import { useSoundStore } from '../stores/soundStore';
 import { MetadataProviderBuilder } from '../test/builders/MetadataProviderBuilder';
 import { AlbumWrapper } from '../views/Album/Album.test-wrapper';
 import { createListeningHistoryWrapper } from './ListeningHistory.test-wrapper';
@@ -84,25 +85,17 @@ describe('Listening history', () => {
   it('records a skipped event with the playback position when the user skips mid-track', async () => {
     await Wrapper.startPlayback(180);
 
-    await PlayerBarWrapper.seekBar.clickAtPercent(25);
+    act(() => useSoundStore.getState().updatePlayback(150, 180));
     await PlayerBarWrapper.nextButton.click();
 
     await waitFor(() => {
-      expect(Wrapper.events).toHaveLength(3);
+      expect(Wrapper.events).toHaveLength(2);
     });
     expect(Wrapper.events[1]).toEqual({
       playId: '1',
-      kind: 'seeked',
-      at: 1_783_771_200_000,
-      positionMs: 0,
-      seekToMs: 45_000,
-      snapshot: null,
-    });
-    expect(Wrapper.events[2]).toEqual({
-      playId: '1',
       kind: 'skipped',
       at: 1_783_771_200_000,
-      positionMs: 45_000,
+      positionMs: 150_000,
       seekToMs: null,
       snapshot: null,
     });
@@ -112,6 +105,7 @@ describe('Listening history', () => {
     await Wrapper.startPlayback();
 
     vi.setSystemTime(Date.parse('2026-07-11T12:00:30Z'));
+    act(() => useSoundStore.getState().updatePlayback(150, 180));
     await QueueWrapper.clearButton.click();
 
     await waitFor(() => {
@@ -121,7 +115,7 @@ describe('Listening history', () => {
       playId: '1',
       kind: 'stopped',
       at: 1_783_771_200_000 + 30_000,
-      positionMs: 0,
+      positionMs: 150_000,
       seekToMs: null,
       snapshot: null,
     });
@@ -176,7 +170,9 @@ describe('Listening history', () => {
     await Wrapper.startPlayback(180);
 
     await PlayerBarWrapper.seekBar.clickAtPercent(25);
-    await PlayerBarWrapper.seekBar.clickAtPercent(75);
+    vi.setSystemTime(Date.parse('2026-07-11T12:00:10Z'));
+    await PlayerBarWrapper.seekBar.clickAtPercent(25);
+    await PlayerBarWrapper.seekBar.clickAtPercent(10);
 
     await waitFor(() => {
       expect(Wrapper.events).toHaveLength(3);
@@ -184,7 +180,7 @@ describe('Listening history', () => {
     expect(Wrapper.events[1]).toEqual({
       playId: '1',
       kind: 'seeked',
-      at: 1_783_771_200_000,
+      at: 1_783_771_200_000 + 10_000,
       positionMs: 0,
       seekToMs: 45_000,
       snapshot: null,
@@ -192,9 +188,9 @@ describe('Listening history', () => {
     expect(Wrapper.events[2]).toEqual({
       playId: '1',
       kind: 'seeked',
-      at: 1_783_771_200_000,
+      at: 1_783_771_200_000 + 10_000,
       positionMs: 45_000,
-      seekToMs: 135_000,
+      seekToMs: 18_000,
       snapshot: null,
     });
   });

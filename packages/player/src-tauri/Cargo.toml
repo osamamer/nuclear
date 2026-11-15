@@ -58,6 +58,9 @@ pgp = { version = "0.21", default-features = false }
 tauri-plugin-updater = "2.12"
 tauri-plugin-process = "2"
 
+[target.'cfg(target_os = "linux")'.dependencies]
+webkit2gtk = { version = "2.0", features = ["v2_40"] }
+
 [target.'cfg(any(target_os = "macos", windows, target_os = "linux"))'.dependencies]
 tauri-plugin-window-state = "2.4.1"
 

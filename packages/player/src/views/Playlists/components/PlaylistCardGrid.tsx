@@ -6,6 +6,8 @@ import { CardGrid } from '@nuclearplayer/ui';
 import { FolderCard } from './FolderCard';
 import { PlaylistCard } from './PlaylistCard';
 
+const MAX_SORTABLE_PLAYLISTS = 20;
+
 type PlaylistCardGridProps = {
   entries: PlaylistIndexNode[];
   onPlaylistClick: (id: string) => void;
@@ -23,7 +25,39 @@ export const PlaylistCardGrid: FC<PlaylistCardGridProps> = ({
   onMoveIntoFolder,
   isReorderable,
 }) => {
+  const cards = entries.map((entry) => {
+    if (entry.kind === 'folder') {
+      return {
+        id: entry.id,
+        content: (
+          <FolderCard folder={entry} onClick={() => onFolderClick(entry.id)} />
+        ),
+      };
+    }
+
+    return {
+      id: entry.id,
+      content: (
+        <PlaylistCard
+          playlist={entry}
+          onClick={() => onPlaylistClick(entry.id)}
+        />
+      ),
+    };
+  });
   const kindOf = (id: string) => entries.find((entry) => entry.id === id)?.kind;
+
+  if (!isReorderable || entries.length > MAX_SORTABLE_PLAYLISTS) {
+    return (
+      <CardGrid className="gap-x-7 pt-3 pl-3.5">
+        {cards.map(({ id, content }) => (
+          <div key={id} className="relative w-fit">
+            {content}
+          </div>
+        ))}
+      </CardGrid>
+    );
+  }
 
   return (
     <CardGrid.Sortable
@@ -35,20 +69,9 @@ export const PlaylistCardGrid: FC<PlaylistCardGridProps> = ({
       onDropInto={onMoveIntoFolder}
       disabled={!isReorderable}
     >
-      {entries.map((entry) => (
-        <CardGrid.SortableItem key={entry.id} id={entry.id}>
-          {entry.kind === 'folder' && (
-            <FolderCard
-              folder={entry}
-              onClick={() => onFolderClick(entry.id)}
-            />
-          )}
-          {entry.kind === 'playlist' && (
-            <PlaylistCard
-              playlist={entry}
-              onClick={() => onPlaylistClick(entry.id)}
-            />
-          )}
+      {cards.map(({ id, content }) => (
+        <CardGrid.SortableItem key={id} id={id}>
+          {content}
         </CardGrid.SortableItem>
       ))}
     </CardGrid.Sortable>

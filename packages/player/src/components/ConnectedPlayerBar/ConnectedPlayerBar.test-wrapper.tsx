@@ -130,6 +130,10 @@ export const ConnectedPlayerBarWrapper = {
     });
   },
 
+  seedQueueItems(items: QueueItem[], currentIndex = 0) {
+    useQueueStore.setState({ items, currentIndex });
+  },
+
   setPlaybackPosition(seconds: number) {
     useSoundStore.setState({ seek: seconds, status: 'paused' });
   },
@@ -185,7 +189,31 @@ export const ConnectedPlayerBarWrapper = {
     },
   },
 
+  skipBubble: {
+    async find() {
+      return screen.findByTestId('skip-countdown-bubble');
+    },
+    get seconds() {
+      return within(screen.getByTestId('skip-countdown-bubble')).getByTestId(
+        'countdown-bubble-seconds',
+      );
+    },
+  },
+
   controls: {
+    previousButton: {
+      get element() {
+        const playPauseButton = screen.getByTestId(
+          useSoundStore.getState().status === 'playing'
+            ? 'player-pause-button'
+            : 'player-play-button',
+        );
+        return playPauseButton.previousElementSibling as HTMLButtonElement;
+      },
+      async click() {
+        await user.click(this.element);
+      },
+    },
     playButton: {
       get element() {
         return screen.getByTestId('player-play-button');

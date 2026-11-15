@@ -19,6 +19,7 @@ export const useVirtualRows = ({
     estimateSize: () => rowHeight,
     getScrollElement: () => scrollParentRef.current,
     overscan,
+    useFlushSync: false,
   });
 
   useLayoutEffect(() => {

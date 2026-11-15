@@ -34,6 +34,7 @@ const REPEAT_LABEL_KEY: Record<RepeatMode, keyof PlayerBarControlsLabels> = {
 
 type PlayerBarControlsProps = {
   isPlaying?: boolean;
+  isTrackChangeDisabled?: boolean;
   isShuffleActive?: boolean;
   isDiscoveryActive?: boolean;
   repeatMode?: RepeatMode;
@@ -50,6 +51,7 @@ type PlayerBarControlsProps = {
 
 export const PlayerBarControls: FC<PlayerBarControlsProps> = ({
   isPlaying = false,
+  isTrackChangeDisabled = false,
   isShuffleActive = false,
   isDiscoveryActive = false,
   repeatMode = 'off',
@@ -84,6 +86,7 @@ export const PlayerBarControls: FC<PlayerBarControlsProps> = ({
       size="icon"
       variant="text"
       className="rounded-full"
+      disabled={isTrackChangeDisabled}
       onClick={onPrevious}
     >
       <SkipBack size={16} />
@@ -100,6 +103,7 @@ export const PlayerBarControls: FC<PlayerBarControlsProps> = ({
       size="icon"
       variant="text"
       className="rounded-full"
+      disabled={isTrackChangeDisabled}
       onClick={onNext}
       data-testid="player-next-button"
     >

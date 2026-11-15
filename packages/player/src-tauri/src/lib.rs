@@ -17,6 +17,8 @@ pub mod stream_server;
 pub mod ytdlp;
 pub mod ytdlp_setup;
 pub mod ytdlp_verify;
+#[cfg(target_os = "linux")]
+mod webkit_tuning;
 
 // Maximizes the window when running as a non-steam app in steam
 #[cfg(target_os = "linux")]
@@ -146,6 +148,9 @@ pub fn run() {
 
             #[cfg(target_os = "linux")]
             maximize_for_gamescope(app);
+
+            #[cfg(target_os = "linux")]
+            webkit_tuning::tune_main_webview(app);
 
             Ok(())
         })

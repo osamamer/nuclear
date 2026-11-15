@@ -13,7 +13,10 @@ export const SidebarNavigation: FC<SidebarNavigationProps> = ({
 }) => {
   return (
     <SidebarCompactProvider isCompact={isCompact}>
-      <div data-testid="sidebar-navigation" className="flex flex-1 flex-col">
+      <div
+        data-testid="sidebar-navigation"
+        className="flex min-h-0 flex-1 flex-col"
+      >
         {children}
       </div>
     </SidebarCompactProvider>

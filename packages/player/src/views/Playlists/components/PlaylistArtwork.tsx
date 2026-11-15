@@ -6,15 +6,17 @@ import { cn, ImageReveal, Mosaic, MOSAIC_SIZE } from '@nuclearplayer/ui';
 type PlaylistArtworkProps = {
   name: string;
   thumbnails?: string[];
+  showMosaic?: boolean;
   className?: string;
 };
 
 export const PlaylistArtwork: FC<PlaylistArtworkProps> = ({
   name,
   thumbnails = [],
+  showMosaic = true,
   className,
 }) => {
-  if (thumbnails.length >= MOSAIC_SIZE) {
+  if (showMosaic && thumbnails.length >= MOSAIC_SIZE) {
     return (
       <Mosaic urls={thumbnails} className={cn('h-full w-full', className)} />
     );

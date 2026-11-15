@@ -7,6 +7,7 @@ import { usePlaylistStore } from '../../stores/playlistStore';
 import { getSetting, useSettingsStore } from '../../stores/settingsStore';
 import { errorMessage } from '../../utils/errorMessage';
 import { Logger } from '../logger';
+import { playlistFileService } from '../playlistFileService';
 import { providersHost } from '../providersHost';
 import { hasActiveStreamingProvider, streamingHost } from '../streamingHost';
 import { candidatesForTrack } from '../streamResolution/candidateSource';
@@ -19,6 +20,10 @@ import {
 } from './trackDownloadCatalog';
 
 const DOWNLOAD_CONCURRENCY = 4;
+const QUEUED_PREVIEW_COUNT = 4;
+const PROGRESS_SYNC_INTERVAL_MS = 100;
+const FAILURE_RETRY_DELAY_MS = 3000;
+const REPEATED_FAILURE_RETRY_DELAY_MS = 60000;
 
 type DownloadProgress = {
   trackKey: string;
@@ -71,34 +76,59 @@ export const startPlaylistDownloadService = (): void => {
   }
   isStarted = true;
 
-  const pendingTracks: Track[] = [];
+  const pendingTracks: { track: Track; playlistId: string }[] = [];
   const queuedKeys = new Set<string>();
   const activeKeys = new Set<string>();
   const failedKeys = new Set<string>();
   const trackTitles = new Map<string, string>();
   const progressByKey = new Map<string, number>();
   let activeDownloads = 0;
+  let consecutiveFailures = 0;
+  let retryTimer: ReturnType<typeof setTimeout> | undefined;
+  let progressSyncTimer: ReturnType<typeof setTimeout> | undefined;
+  let scanAllPromise: Promise<void> | undefined;
+  let streamingProviderId = providersHost.getActive('streaming');
+  let streamingProviderReady = hasActiveStreamingProvider();
 
   const syncProgress = () => {
     const activeTasks = Array.from(activeKeys).flatMap((key) => {
       const title = trackTitles.get(key);
       return title ? [{ key, title, progress: progressByKey.get(key) }] : [];
     });
-    const queuedTasks = pendingTracks.map((track) => ({
-      key: trackDownloadKey(track),
-      title: track.title,
-    }));
+    const queuedTasks = pendingTracks
+      .slice(0, QUEUED_PREVIEW_COUNT)
+      .map(({ track }) => ({
+        key: trackDownloadKey(track),
+        title: track.title,
+      }));
     usePlaylistDownloadProgressStore
       .getState()
-      .setQueue(activeTasks, queuedTasks);
+      .setQueue(activeTasks, queuedTasks, pendingTracks.length);
+  };
+
+  const scheduleProgressSync = () => {
+    if (progressSyncTimer !== undefined) {
+      return;
+    }
+    progressSyncTimer = setTimeout(() => {
+      progressSyncTimer = undefined;
+      syncProgress();
+    }, PROGRESS_SYNC_INTERVAL_MS);
   };
 
   const isEnabled = () =>
-    (getSetting('core.playback.autoDownloadPlaylists') as boolean) ?? true;
+    (getSetting('core.playback.autoDownloadPlaylists') as boolean) ?? false;
+  const selectedPlaylistIds = (): string[] => {
+    const value = getSetting('core.playback.autoDownloadPlaylistIds');
+    return Array.isArray(value)
+      ? value.filter((id): id is string => typeof id === 'string')
+      : [];
+  };
+  const isSelected = (id: string) => selectedPlaylistIds().includes(id);
 
   usePlaylistDownloadProgressStore.getState().setIsScanning(true);
 
-  const enqueueTrack = async (track: Track) => {
+  const enqueueTrack = async (track: Track, playlistId: string) => {
     const key = trackDownloadKey(track);
     if (queuedKeys.has(key) || activeKeys.has(key) || failedKeys.has(key)) {
       return;
@@ -115,33 +145,53 @@ export const startPlaylistDownloadService = (): void => {
       );
     }
     trackTitles.set(key, track.title);
-    pendingTracks.push(track);
-    syncProgress();
+    if (!isEnabled() || !isSelected(playlistId)) {
+      queuedKeys.delete(key);
+      return;
+    }
+    pendingTracks.push({ track, playlistId });
+    scheduleProgressSync();
     pumpQueue();
   };
 
-  const scanLoadedPlaylists = async () => {
-    const playlists = Array.from(
-      usePlaylistStore.getState().playlists.values(),
-    );
-    for (const playlist of playlists) {
-      for (const item of playlist.items) {
-        await enqueueTrack(item.track);
+  const scanPlaylist = async (
+    playlist: { items: { track: Track }[] },
+    playlistId: string,
+  ) => {
+    for (const item of playlist.items) {
+      if (!isEnabled() || !isSelected(playlistId)) {
+        return;
       }
+      await enqueueTrack(item.track, playlistId);
     }
   };
 
-  const scanAllPlaylists = async () => {
-    const ids = playlistIds(usePlaylistStore.getState().index);
-    for (const id of ids) {
-      const playlist = await usePlaylistStore.getState().loadPlaylist(id);
-      if (!playlist) {
-        continue;
-      }
-      for (const item of playlist.items) {
-        await enqueueTrack(item.track);
-      }
+  const scanAllPlaylists = (): Promise<void> => {
+    if (scanAllPromise) {
+      return scanAllPromise;
     }
+    const scan = async () => {
+      if (!isEnabled()) {
+        return;
+      }
+      const availableIds = new Set(
+        playlistIds(usePlaylistStore.getState().index),
+      );
+      const ids = selectedPlaylistIds().filter((id) => availableIds.has(id));
+      for (const id of ids) {
+        if (!isEnabled() || !isSelected(id)) {
+          return;
+        }
+        const playlist = await playlistFileService.loadPlaylist(id);
+        if (playlist) {
+          await scanPlaylist(playlist, id);
+        }
+      }
+    };
+    scanAllPromise = scan().finally(() => {
+      scanAllPromise = undefined;
+    });
+    return scanAllPromise;
   };
 
   const download = async (track: Track): Promise<void> => {
@@ -178,27 +228,53 @@ export const startPlaylistDownloadService = (): void => {
   };
 
   function pumpQueue() {
-    if (!isEnabled() || !hasActiveStreamingProvider()) {
+    if (
+      !isEnabled() ||
+      !hasActiveStreamingProvider() ||
+      retryTimer !== undefined
+    ) {
       return;
     }
 
     while (activeDownloads < DOWNLOAD_CONCURRENCY && pendingTracks.length > 0) {
-      const track = pendingTracks.shift();
-      if (!track) {
+      const next = pendingTracks.shift();
+      if (!next) {
         continue;
       }
+      const { track, playlistId } = next;
       const key = trackDownloadKey(track);
       queuedKeys.delete(key);
+      if (!isSelected(playlistId)) {
+        continue;
+      }
       activeKeys.add(key);
       progressByKey.delete(key);
       activeDownloads += 1;
-      syncProgress();
+      scheduleProgressSync();
 
       void download(track)
         .then(() => {
+          consecutiveFailures = 0;
+          if (retryTimer !== undefined) {
+            clearTimeout(retryTimer);
+            retryTimer = undefined;
+          }
           usePlaylistDownloadProgressStore.getState().recordResult(true);
         })
         .catch((error) => {
+          consecutiveFailures += 1;
+          if (retryTimer !== undefined) {
+            clearTimeout(retryTimer);
+          }
+          retryTimer = setTimeout(
+            () => {
+              retryTimer = undefined;
+              pumpQueue();
+            },
+            consecutiveFailures >= 3
+              ? REPEATED_FAILURE_RETRY_DELAY_MS
+              : FAILURE_RETRY_DELAY_MS,
+          );
           usePlaylistDownloadProgressStore.getState().recordResult(false);
           failedKeys.add(key);
           void Logger.playlists.warn(
@@ -211,7 +287,7 @@ export const startPlaylistDownloadService = (): void => {
           trackTitles.delete(key);
           activeDownloads -= 1;
           pumpQueue();
-          syncProgress();
+          scheduleProgressSync();
         });
     }
   }
@@ -221,7 +297,7 @@ export const startPlaylistDownloadService = (): void => {
     .then(() => {
       usePlaylistDownloadProgressStore.getState().setIsScanning(false);
       pumpQueue();
-      syncProgress();
+      scheduleProgressSync();
     })
     .catch((error) => {
       void Logger.playlists.warn(
@@ -229,12 +305,20 @@ export const startPlaylistDownloadService = (): void => {
       );
       usePlaylistDownloadProgressStore.getState().setIsScanning(false);
       pumpQueue();
-      syncProgress();
+      scheduleProgressSync();
     });
 
   usePlaylistStore.subscribe((state, previousState) => {
     if (state.playlists !== previousState.playlists) {
-      void scanLoadedPlaylists()
+      const changedPlaylists = Array.from(state.playlists).flatMap(
+        ([id, playlist]) =>
+          previousState.playlists.get(id) === playlist || !isSelected(id)
+            ? []
+            : [{ id, playlist }],
+      );
+      void Promise.all(
+        changedPlaylists.map(({ id, playlist }) => scanPlaylist(playlist, id)),
+      )
         .then(pumpQueue)
         .catch((error) => {
           void Logger.playlists.warn(
@@ -245,6 +329,19 @@ export const startPlaylistDownloadService = (): void => {
   });
 
   providersHost.subscribe(() => {
+    const nextProviderId = providersHost.getActive('streaming');
+    const nextProviderReady = hasActiveStreamingProvider();
+    if (
+      nextProviderId === streamingProviderId &&
+      nextProviderReady === streamingProviderReady
+    ) {
+      return;
+    }
+    streamingProviderId = nextProviderId;
+    streamingProviderReady = nextProviderReady;
+    if (!nextProviderReady) {
+      return;
+    }
     failedKeys.clear();
     void scanAllPlaylists()
       .then(pumpQueue)
@@ -258,11 +355,22 @@ export const startPlaylistDownloadService = (): void => {
   useSettingsStore.subscribe((state, previousState) => {
     if (
       state.values['core.playback.autoDownloadPlaylists'] !==
-      previousState.values['core.playback.autoDownloadPlaylists']
+        previousState.values['core.playback.autoDownloadPlaylists'] ||
+      state.values['core.playback.autoDownloadPlaylistIds'] !==
+        previousState.values['core.playback.autoDownloadPlaylistIds']
     ) {
+      pendingTracks.length = 0;
+      queuedKeys.clear();
+      consecutiveFailures = 0;
+      if (retryTimer !== undefined) {
+        clearTimeout(retryTimer);
+        retryTimer = undefined;
+      }
+      scheduleProgressSync();
       if (isEnabled()) {
         failedKeys.clear();
-        void scanAllPlaylists()
+        void (scanAllPromise ?? Promise.resolve())
+          .then(scanAllPlaylists)
           .then(pumpQueue)
           .catch((error) => {
             void Logger.playlists.warn(
@@ -291,7 +399,7 @@ export const startPlaylistDownloadService = (): void => {
       } else {
         progressByKey.set(event.payload.trackKey, percent);
       }
-      syncProgress();
+      scheduleProgressSync();
     }
   });
 };

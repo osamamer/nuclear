@@ -2,15 +2,25 @@ import '@testing-library/jest-dom';
 
 import path from 'node:path';
 import { Settings } from 'luxon';
-import { vi } from 'vitest';
+import { beforeEach, vi } from 'vitest';
 
 import { setupDomMocks } from '@nuclearplayer/ui';
+
+import { resetSkipGates } from '../services/skipGate';
 
 process.env.NODE_ENV = 'test';
 process.env.TZ = 'UTC';
 Settings.defaultLocale = 'en-US';
 
 setupDomMocks();
+
+vi.mock('../services/skipRefusalSound', () => ({
+  playSkipRefusalSound: vi.fn(),
+}));
+
+beforeEach(() => {
+  resetSkipGates();
+});
 
 // Silences react's pointless warning spam
 // give it a rest already

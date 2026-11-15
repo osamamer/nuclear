@@ -41,6 +41,29 @@ export const PlaylistDetail: FC = () => {
     sortedItems,
     Boolean(playlist && !playlist.isReadOnly),
   );
+  const isReorderable = editing.isEditable && trackSortBy === 'playlistOrder';
+  const tableFeatures = useMemo(
+    () => ({
+      header: true,
+      filterable: false,
+      reorderable: isReorderable,
+    }),
+    [isReorderable],
+  );
+  const hasDurations = useMemo(
+    () => tracks.some((track) => track.durationMs != null),
+    [tracks],
+  );
+  const tableDisplay = useMemo(
+    () => ({
+      displayThumbnail: true,
+      displayArtist: true,
+      displayDuration: hasDurations,
+      displayQueueControls: true,
+      displayDeleteButton: editing.isEditable,
+    }),
+    [hasDurations, editing.isEditable],
+  );
 
   return (
     <div
@@ -93,6 +116,7 @@ export const PlaylistDetail: FC = () => {
         <div className="flex min-h-0 flex-1 flex-col px-6 pt-4 pb-6">
           <div className="min-h-0 flex-1">
             <ConnectedTrackTable
+              key={playlistId}
               tracks={tracks}
               filterValue={filterValue}
               onFilterChange={setFilterValue}
@@ -104,19 +128,8 @@ export const PlaylistDetail: FC = () => {
                   : undefined
               }
               getItemId={editing.getItemId}
-              features={{
-                header: true,
-                filterable: false,
-                reorderable:
-                  editing.isEditable && trackSortBy === 'playlistOrder',
-              }}
-              display={{
-                displayThumbnail: true,
-                displayArtist: true,
-                displayDuration: tracks.some((t) => t.durationMs != null),
-                displayQueueControls: true,
-                displayDeleteButton: editing.isEditable,
-              }}
+              features={tableFeatures}
+              display={tableDisplay}
               actions={editing.actions}
             />
           </div>

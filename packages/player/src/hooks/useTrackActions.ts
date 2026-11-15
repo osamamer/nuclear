@@ -1,4 +1,5 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 
 import type { Track } from '@nuclearplayer/model';
 
@@ -7,7 +8,15 @@ import { useQueueActions } from './useQueueActions';
 
 export const useTrackActions = () => {
   const queueActions = useQueueActions();
-  const { isTrackFavorite, addTrack, removeTrack } = useFavoritesStore();
+  const { favoriteTracks, isTrackFavorite, addTrack, removeTrack } =
+    useFavoritesStore(
+      useShallow((state) => ({
+        favoriteTracks: state.tracks,
+        isTrackFavorite: state.isTrackFavorite,
+        addTrack: state.addTrack,
+        removeTrack: state.removeTrack,
+      })),
+    );
 
   const playNow = useCallback(
     (track: Track) => queueActions.playNow(track),
@@ -35,16 +44,25 @@ export const useTrackActions = () => {
     [isTrackFavorite, addTrack, removeTrack],
   );
 
-  const isFavorite = useCallback(
-    (track: Track) => isTrackFavorite(track.source),
-    [isTrackFavorite],
-  );
+  const isFavorite = useMemo(() => {
+    const favoriteKeys = new Set(
+      favoriteTracks.map(
+        (favorite) =>
+          `${favorite.ref.source.provider}/${favorite.ref.source.id}`,
+      ),
+    );
+    return (track: Track) =>
+      favoriteKeys.has(`${track.source.provider}/${track.source.id}`);
+  }, [favoriteTracks]);
 
-  return {
-    playNow,
-    addNext,
-    addToQueue,
-    toggleFavorite,
-    isFavorite,
-  };
+  return useMemo(
+    () => ({
+      playNow,
+      addNext,
+      addToQueue,
+      toggleFavorite,
+      isFavorite,
+    }),
+    [playNow, addNext, addToQueue, toggleFavorite, isFavorite],
+  );
 };

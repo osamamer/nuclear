@@ -1,17 +1,26 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { playbackManager } from '../services/playback';
+import { resetSkipGates } from '../services/skipGate';
 import { createMockCandidate } from '../test/builders/StreamingProviderBuilder';
 import { resetInMemoryTauriStore } from '../test/utils/inMemoryTauriStore';
 import { createMockTrack } from '../test/utils/mockTrack';
 import { initializeQueueStore, useQueueStore } from './queueStore';
 import { useSettingsStore } from './settingsStore';
+import { useSkipCountdownStore } from './skipCountdownStore';
+import { useSkipFeedbackStore } from './skipFeedbackStore';
 import { useSoundStore } from './soundStore';
+
+vi.mock('../services/skipRefusalSound', () => ({
+  playSkipRefusalSound: vi.fn(),
+}));
 
 describe('useQueueStore', () => {
   beforeEach(() => {
     const date = new Date(2025, 1, 1);
     vi.setSystemTime(date);
     resetInMemoryTauriStore();
+    resetSkipGates();
     useQueueStore.setState({
       items: [],
       currentIndex: 0,
@@ -19,6 +28,7 @@ describe('useQueueStore', () => {
       isLoading: false,
     });
     useSettingsStore.setState({ values: {} });
+    useSoundStore.setState({ status: 'stopped', pausedAt: null, seek: 0 });
   });
 
   describe('initial state', () => {
@@ -346,24 +356,24 @@ describe('useQueueStore', () => {
     });
 
     it('goToNext increments currentIndex', () => {
-      useQueueStore.getState().goToNext();
+      useQueueStore.getState().goToNext('automatic');
       expect(useQueueStore.getState().currentIndex).toBe(1);
     });
 
     it('goToNext stops at end of queue', () => {
       useQueueStore.setState({ currentIndex: 2 });
-      useQueueStore.getState().goToNext();
+      useQueueStore.getState().goToNext('automatic');
       expect(useQueueStore.getState().currentIndex).toBe(2);
     });
 
     it('goToPrevious decrements currentIndex', () => {
       useQueueStore.setState({ currentIndex: 2 });
-      useQueueStore.getState().goToPrevious();
+      useQueueStore.getState().goToPrevious('automatic');
       expect(useQueueStore.getState().currentIndex).toBe(1);
     });
 
     it('goToPrevious stops at start of queue', () => {
-      useQueueStore.getState().goToPrevious();
+      useQueueStore.getState().goToPrevious('automatic');
       expect(useQueueStore.getState().currentIndex).toBe(0);
     });
 
@@ -405,20 +415,20 @@ describe('useQueueStore', () => {
     it('goToNext wraps to start when repeat mode is all', () => {
       useQueueStore.setState({ currentIndex: 2 });
       useSettingsStore.setState({ values: { 'core.playback.repeat': 'all' } });
-      useQueueStore.getState().goToNext();
+      useQueueStore.getState().goToNext('automatic');
       expect(useQueueStore.getState().currentIndex).toBe(0);
     });
 
     it('goToPrevious wraps to end when repeat mode is all', () => {
       useSettingsStore.setState({ values: { 'core.playback.repeat': 'all' } });
-      useQueueStore.getState().goToPrevious();
+      useQueueStore.getState().goToPrevious('automatic');
       expect(useQueueStore.getState().currentIndex).toBe(2);
     });
 
     it('goToNext picks a different random index when shuffle is enabled', () => {
       const randomSpy = vi.spyOn(Math, 'random').mockReturnValue(0.9);
       useSettingsStore.setState({ values: { 'core.playback.shuffle': true } });
-      useQueueStore.getState().goToNext();
+      useQueueStore.getState().goToNext('automatic');
       expect(useQueueStore.getState().currentIndex).toBe(2);
       randomSpy.mockRestore();
     });
@@ -429,7 +439,7 @@ describe('useQueueStore', () => {
         .mockReturnValueOnce(0.1)
         .mockReturnValueOnce(0.8);
       useSettingsStore.setState({ values: { 'core.playback.shuffle': true } });
-      useQueueStore.getState().goToNext();
+      useQueueStore.getState().goToNext('automatic');
       expect(useQueueStore.getState().currentIndex).toBe(2);
       expect(randomSpy).toHaveBeenCalledTimes(2);
       randomSpy.mockRestore();
@@ -439,9 +449,176 @@ describe('useQueueStore', () => {
       const randomSpy = vi.spyOn(Math, 'random').mockReturnValue(0.4);
       useSettingsStore.setState({ values: { 'core.playback.shuffle': true } });
       useQueueStore.setState({ currentIndex: 2 });
-      useQueueStore.getState().goToPrevious();
+      useQueueStore.getState().goToPrevious('automatic');
       expect(useQueueStore.getState().currentIndex).toBe(1);
       randomSpy.mockRestore();
+    });
+  });
+
+  describe('skip gate', () => {
+    const tracks = [
+      createMockTrack('Track 1'),
+      createMockTrack('Track 2'),
+      createMockTrack('Track 3'),
+    ];
+    const currentTitle = () =>
+      useQueueStore.getState().getCurrentItem()?.track.title;
+    const advanceSeconds = (seconds: number) =>
+      vi.setSystemTime(Date.now() + seconds * 1000);
+
+    beforeEach(() => {
+      useQueueStore.getState().addToQueue(tracks);
+      useSoundStore.setState({ seek: 10, duration: 200 });
+    });
+
+    it('never blocks a track that has not started playing', () => {
+      useQueueStore.getState().goToNext();
+      expect(currentTitle()).toBe('Track 2');
+    });
+
+    it('refuses the first skip of a playing track and starts a five-second countdown', () => {
+      useSoundStore.getState().play();
+
+      useQueueStore.getState().goToNext();
+
+      expect(currentTitle()).toBe('Track 1');
+      expect(useSkipFeedbackStore.getState().feedback).toEqual({
+        kind: 'skipRefused',
+      });
+      expect(useSkipCountdownStore.getState().skip?.deadlineMs).toBe(
+        Date.now() + 5000,
+      );
+    });
+
+    it('keeps refusing while the countdown runs and lets the next attempt through once it ends', () => {
+      useSoundStore.getState().play();
+      useQueueStore.getState().goToNext();
+
+      advanceSeconds(4.9);
+      useQueueStore.getState().goToNext();
+      expect(currentTitle()).toBe('Track 1');
+
+      advanceSeconds(0.1);
+      expect(currentTitle()).toBe('Track 1');
+      useQueueStore.getState().goToNext();
+      expect(currentTitle()).toBe('Track 2');
+      expect(useSkipCountdownStore.getState().skip).toBeNull();
+    });
+
+    it('protects the new track again once it starts playing', () => {
+      useSoundStore.getState().play();
+      useQueueStore.getState().goToNext();
+      advanceSeconds(5);
+      useQueueStore.getState().goToNext();
+      useSoundStore.getState().play();
+
+      useQueueStore.getState().goToNext();
+
+      expect(currentTitle()).toBe('Track 2');
+    });
+
+    it('applies the same countdown to previous, direct selection, and Play now', () => {
+      useQueueStore.setState({ currentIndex: 1 });
+      useSoundStore.getState().play();
+
+      useQueueStore.getState().goToPrevious();
+      useQueueStore.getState().goToIndex(2);
+      useQueueStore.getState().goToId(useQueueStore.getState().items[0].id);
+      playbackManager.playTracks([createMockTrack('New Track')]);
+
+      expect(currentTitle()).toBe('Track 2');
+      expect(useQueueStore.getState().items).toHaveLength(3);
+
+      advanceSeconds(5);
+      playbackManager.playTracks([createMockTrack('New Track')]);
+      expect(currentTitle()).toBe('New Track');
+    });
+
+    it('refuses removing the playing track or clearing the queue during the countdown', () => {
+      useSoundStore.getState().play();
+      const currentId = useQueueStore.getState().items[0].id;
+
+      useQueueStore.getState().removeByIds([currentId]);
+      useQueueStore.getState().removeByIndices([0]);
+      useQueueStore.getState().clearQueue();
+      expect(useQueueStore.getState().items).toHaveLength(3);
+
+      useQueueStore.getState().removeByIndices([2]);
+      expect(useQueueStore.getState().items).toHaveLength(2);
+    });
+
+    it('lets anything through five seconds after pausing, even after resuming', () => {
+      useSoundStore.getState().play();
+      useSoundStore.getState().pause();
+      advanceSeconds(5);
+      useSoundStore.getState().play();
+
+      useQueueStore.getState().goToNext();
+
+      expect(currentTitle()).toBe('Track 2');
+    });
+
+    it('only waits out what is left of the five seconds since a recent pause', () => {
+      useSoundStore.getState().play();
+      useSoundStore.getState().pause();
+      advanceSeconds(3);
+
+      useQueueStore.getState().goToNext();
+      expect(currentTitle()).toBe('Track 1');
+      expect(useSkipCountdownStore.getState().skip?.deadlineMs).toBe(
+        Date.now() + 2000,
+      );
+
+      advanceSeconds(2);
+      useQueueStore.getState().goToNext();
+      expect(currentTitle()).toBe('Track 2');
+    });
+
+    it('does not let stopping a song bypass the wait', () => {
+      useSoundStore.getState().play();
+      useSoundStore.getState().stop();
+
+      playbackManager.playTracks([createMockTrack('New Track')]);
+      expect(useQueueStore.getState().items).toHaveLength(3);
+    });
+
+    it('skips freely once more than 70% of the song has really been played', () => {
+      useSoundStore.getState().play();
+      useSoundStore.setState({ seek: 141, duration: 200 });
+
+      useQueueStore.getState().goToNext();
+
+      expect(currentTitle()).toBe('Track 2');
+    });
+
+    it('skips freely after seven minutes of a song longer than ten minutes', () => {
+      useSoundStore.getState().play();
+      useSoundStore.setState({ seek: 421, duration: 660 });
+
+      useQueueStore.getState().goToNext();
+
+      expect(currentTitle()).toBe('Track 2');
+    });
+
+    it('does not count fast-forwarded time towards the 70%', () => {
+      useSoundStore.getState().play();
+      useSoundStore.setState({ seek: 10, duration: 200 });
+      useSoundStore.getState().seekTo(150);
+      advanceSeconds(10);
+      useSoundStore.getState().seekTo(150);
+      expect(useSoundStore.getState().seek).toBe(150);
+
+      useQueueStore.getState().goToNext();
+
+      expect(currentTitle()).toBe('Track 1');
+    });
+
+    it('does not gate automatic advances when a track finishes', () => {
+      useSoundStore.getState().play();
+
+      playbackManager.finishTrack();
+
+      expect(currentTitle()).toBe('Track 2');
     });
   });
 

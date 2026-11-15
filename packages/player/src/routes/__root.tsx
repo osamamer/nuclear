@@ -11,8 +11,7 @@ import {
   SettingsIcon,
   UserIcon,
 } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
+import { useEffect } from 'react';
 
 import { useTranslation } from '@nuclearplayer/i18n';
 import {
@@ -30,6 +29,7 @@ import {
   QueueHeaderActions,
 } from '../components/ConnectedQueuePanel';
 import { ConnectedSettingsModal } from '../components/ConnectedSettingsModal';
+import { ConnectedSkipCountdownBubbles } from '../components/ConnectedSkipCountdownBubbles';
 import { ConnectedStreamVerification } from '../components/ConnectedStreamVerification';
 import { ConnectedTitleBar } from '../components/ConnectedTitleBar';
 import { ConnectedTopBar } from '../components/ConnectedTopBar';
@@ -41,11 +41,13 @@ import { SIDEBAR_ITEM_IDS } from '../components/sidebarItemIds';
 import { SidebarNavigationVisibilityMenu } from '../components/SidebarNavigationVisibilityMenu';
 import { SoundProvider } from '../components/SoundProvider';
 import { StreamResolver } from '../components/StreamResolver';
+import { useSkipFeedback } from '../hooks/useSkipFeedback';
 import { GlobalShortcuts } from '../shortcuts';
 import { useLayoutStore } from '../stores/layoutStore';
 import { useSettingsModalStore } from '../stores/settingsModalStore';
-import { useSkipFeedbackStore } from '../stores/skipFeedbackStore';
 import { useStartupStore } from '../stores/startupStore';
+
+const PERSISTENT_ROUTE_IDS = ['/playlists/$playlistId'];
 
 const RootComponent = () => {
   const { t } = useTranslation('navigation');
@@ -54,18 +56,16 @@ const RootComponent = () => {
     leftSidebar,
     rightSidebar,
     hiddenSidebarItems,
+    playlistsExpanded,
     toggleLeftSidebar,
+    togglePlaylistsExpanded,
     toggleRightSidebar,
     setLeftSidebarWidth,
     setRightSidebarWidth,
   } = useLayoutStore();
   const openSettings = useSettingsModalStore((state) => state.open);
   const isStartingUp = useStartupStore((state) => state.isStartingUp);
-  const refusalSequence = useSkipFeedbackStore((state) => state.sequence);
-  const hasOneMoreRefusal = useSkipFeedbackStore(
-    (state) => state.hasOneMoreRefusal,
-  );
-  const [isRefusalShaking, setIsRefusalShaking] = useState(false);
+  const isRefusalShaking = useSkipFeedback();
   const sidebarItems = [
     {
       id: SIDEBAR_ITEM_IDS.playlists,
@@ -127,27 +127,6 @@ const RootComponent = () => {
   const isSidebarItemVisible = (id: string) => !hiddenSidebarItems.includes(id);
 
   useEffect(() => {
-    if (refusalSequence === 0) {
-      return;
-    }
-
-    setIsRefusalShaking(false);
-    const frameId = requestAnimationFrame(() => setIsRefusalShaking(true));
-    const timeoutId = window.setTimeout(() => setIsRefusalShaking(false), 360);
-    toast.warning(
-      tPrefs(
-        hasOneMoreRefusal
-          ? 'blacklist.refusal.oneMore'
-          : 'blacklist.refusal.last',
-      ),
-    );
-
-    return () => {
-      cancelAnimationFrame(frameId);
-      window.clearTimeout(timeoutId);
-    };
-  }, [hasOneMoreRefusal, refusalSequence, tPrefs]);
-  useEffect(() => {
     const window = getCurrentWindow();
     window.show().then(() => window.setFocus());
   }, []);
@@ -173,7 +152,13 @@ const RootComponent = () => {
           >
             <SidebarNavigation isCompact={leftSidebar.isCollapsed}>
               <div className="flex min-h-0 flex-1 flex-col gap-2">
-                <div className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto">
+                <div
+                  className={
+                    leftSidebar.isCollapsed
+                      ? 'flex min-h-0 flex-1 [scrollbar-width:none] flex-col gap-1 overflow-y-auto'
+                      : 'flex min-h-0 flex-1 [scrollbar-width:thin] flex-col gap-1 overflow-y-auto'
+                  }
+                >
                   {sidebarItems
                     .filter((item) => isSidebarItemVisible(item.id))
                     .map((item) => (
@@ -184,12 +169,18 @@ const RootComponent = () => {
                           label={item.label}
                           isFeatured={item.isFeatured}
                           exact={item.id === SIDEBAR_ITEM_IDS.playlists}
+                          onClick={
+                            item.id === SIDEBAR_ITEM_IDS.playlists
+                              ? togglePlaylistsExpanded
+                              : undefined
+                          }
                         />
-                        {item.id === SIDEBAR_ITEM_IDS.playlists && (
-                          <PlaylistSidebarEntries
-                            isCompact={leftSidebar.isCollapsed}
-                          />
-                        )}
+                        {item.id === SIDEBAR_ITEM_IDS.playlists &&
+                          playlistsExpanded && (
+                            <PlaylistSidebarEntries
+                              isCompact={leftSidebar.isCollapsed}
+                            />
+                          )}
                       </div>
                     ))}
                   <CustomViewSidebarEntries />
@@ -216,23 +207,26 @@ const RootComponent = () => {
           </PlayerWorkspace.LeftSidebar>
 
           <PlayerWorkspace.Main>
-            <RouteTransition />
+            <RouteTransition persistentRouteIds={PERSISTENT_ROUTE_IDS} />
           </PlayerWorkspace.Main>
 
-          <PlayerWorkspace.RightSidebar
-            width={rightSidebar.width}
-            isCollapsed={rightSidebar.isCollapsed}
-            onWidthChange={setRightSidebarWidth}
-            onToggle={toggleRightSidebar}
-            headerActions={<QueueHeaderActions />}
-            footer={<ConnectedStreamVerification />}
-          >
-            <ConnectedQueuePanel isCollapsed={rightSidebar.isCollapsed} />
-          </PlayerWorkspace.RightSidebar>
+          {!rightSidebar.isHidden && (
+            <PlayerWorkspace.RightSidebar
+              width={rightSidebar.width}
+              isCollapsed={rightSidebar.isCollapsed}
+              onWidthChange={setRightSidebarWidth}
+              onToggle={toggleRightSidebar}
+              headerActions={<QueueHeaderActions />}
+              footer={<ConnectedStreamVerification />}
+            >
+              <ConnectedQueuePanel isCollapsed={rightSidebar.isCollapsed} />
+            </PlayerWorkspace.RightSidebar>
+          )}
         </PlayerWorkspace>
       </SoundProvider>
 
       <ConnectedPlayerBar />
+      <ConnectedSkipCountdownBubbles />
       <Toaster />
       <ConnectedSettingsModal />
       <DevTools />

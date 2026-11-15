@@ -12,7 +12,7 @@ type SortableRowProps<T extends Track = Track> = {
   itemId: string;
   isReorderable?: boolean;
   isActive?: boolean;
-  onClick?: (track: T) => void;
+  onClick?: (track: T, index: number) => void;
   style?: React.CSSProperties;
 };
 
@@ -42,8 +42,8 @@ function SortableRowImpl<T extends Track = Track>({
     ...externalStyle,
   };
   const handleClick = useCallback(() => {
-    onClick?.(row.original);
-  }, [onClick, row.original]);
+    onClick?.(row.original, row.index);
+  }, [onClick, row.index, row.original]);
 
   return (
     <tr

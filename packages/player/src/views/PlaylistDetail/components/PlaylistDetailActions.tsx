@@ -1,11 +1,12 @@
 import { useNavigate } from '@tanstack/react-router';
-import { ShareIcon, Trash2Icon } from 'lucide-react';
+import { DownloadIcon, ShareIcon, Trash2Icon } from 'lucide-react';
 import { useState, type FC } from 'react';
 
 import { useTranslation } from '@nuclearplayer/i18n';
 import type { Track } from '@nuclearplayer/model';
 import { Popover } from '@nuclearplayer/ui';
 
+import { useAutoDownloadPlaylist } from '../../../hooks/useAutoDownloadPlaylist';
 import { usePlaylistExport } from '../../../hooks/usePlaylistExport';
 import { PlaylistIndexTree } from '../../../stores/PlaylistIndexTree';
 import { usePlaylistStore } from '../../../stores/playlistStore';
@@ -26,6 +27,7 @@ export const PlaylistDetailActions: FC<PlaylistDetailActionsProps> = ({
   const deletePlaylist = usePlaylistStore((state) => state.deletePlaylist);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const { exportAsJson } = usePlaylistExport(playlistId);
+  const { isSelected, toggle } = useAutoDownloadPlaylist(playlistId);
 
   const handleDelete = async () => {
     const folder = new PlaylistIndexTree(
@@ -49,6 +51,17 @@ export const PlaylistDetailActions: FC<PlaylistDetailActionsProps> = ({
               data-testid="export-json-action"
             >
               {t('exportJson')}
+            </Popover.Item>
+            <Popover.Item
+              icon={<DownloadIcon size={16} />}
+              onClick={toggle}
+              data-testid="auto-download-playlist-action"
+            >
+              {t(
+                isSelected
+                  ? 'downloads.stopAutomatic'
+                  : 'downloads.keepDownloaded',
+              )}
             </Popover.Item>
             <Popover.Item
               intent="danger"

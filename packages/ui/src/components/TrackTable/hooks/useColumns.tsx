@@ -25,59 +25,62 @@ export function useColumns<T extends Track = Track>(
   const showDelete = display?.displayDeleteButton && Boolean(actions?.onRemove);
 
   const columns: ColumnDef<T>[] = useMemo(
-    () => [
-      display?.displayPosition &&
-        columnHelper.accessor((track) => track.trackNumber, {
-          id: 'position',
-          enableSorting: true,
-          header: (context) => <IconHeader Icon={HashIcon} context={context} />,
-          cell: PositionCell,
-        }),
-      columnHelper.accessor((track) => track.title, {
-        id: 'title',
-        enableSorting: true,
-        header: (context) => (
-          <TextHeader context={context} className="w-[40%]">
-            {labels.headers.title}
-          </TextHeader>
-        ),
-        cell: TitleCell,
-      }),
-      display?.displayAlbum &&
-        columnHelper.accessor((track) => track.album?.title, {
-          id: 'album',
+    () =>
+      [
+        display?.displayPosition &&
+          columnHelper.accessor((track) => track.trackNumber, {
+            id: 'position',
+            enableSorting: true,
+            header: (context) => (
+              <IconHeader Icon={HashIcon} context={context} />
+            ),
+            cell: PositionCell,
+          }),
+        columnHelper.accessor((track) => track.title, {
+          id: 'title',
           enableSorting: true,
           header: (context) => (
-            <TextHeader context={context}>{labels.headers.album}</TextHeader>
-          ),
-          cell: TextCell,
-        }),
-      showFavorite &&
-        columnHelper.display({
-          id: 'favorite',
-          header: (context) => <IconHeader Icon={Heart} context={context} />,
-          cell: FavoriteCell,
-        }),
-      display?.displayDuration &&
-        columnHelper.accessor((track) => formatTimeMillis(track.durationMs), {
-          id: 'duration',
-          enableSorting: true,
-          header: (context) => (
-            <TextHeader context={context} className="w-24">
-              {labels.headers.duration}
+            <TextHeader context={context} className="w-[40%]">
+              {labels.headers.title}
             </TextHeader>
           ),
-          cell: TextCell,
+          cell: TitleCell,
         }),
-      showDelete &&
-        columnHelper.display({
-          id: 'delete',
-          header: (context) => <IconHeader Icon={Trash2} context={context} />,
-          cell: RemoveCell,
-        }),
-    ],
+        display?.displayAlbum &&
+          columnHelper.accessor((track) => track.album?.title, {
+            id: 'album',
+            enableSorting: true,
+            header: (context) => (
+              <TextHeader context={context}>{labels.headers.album}</TextHeader>
+            ),
+            cell: TextCell,
+          }),
+        showFavorite &&
+          columnHelper.display({
+            id: 'favorite',
+            header: (context) => <IconHeader Icon={Heart} context={context} />,
+            cell: FavoriteCell,
+          }),
+        display?.displayDuration &&
+          columnHelper.accessor((track) => formatTimeMillis(track.durationMs), {
+            id: 'duration',
+            enableSorting: true,
+            header: (context) => (
+              <TextHeader context={context} className="w-24">
+                {labels.headers.duration}
+              </TextHeader>
+            ),
+            cell: TextCell,
+          }),
+        showDelete &&
+          columnHelper.display({
+            id: 'delete',
+            header: (context) => <IconHeader Icon={Trash2} context={context} />,
+            cell: RemoveCell,
+          }),
+      ].filter(Boolean) as ColumnDef<T>[],
     [labels, display, showFavorite, showDelete],
-  ).filter(Boolean) as ColumnDef<T>[];
+  );
 
   return columns;
 }

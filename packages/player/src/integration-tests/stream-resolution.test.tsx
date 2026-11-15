@@ -1,4 +1,4 @@
-import { waitFor } from '@testing-library/react';
+import { act, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
 
 import { providersHost } from '../services/providersHost';
@@ -523,6 +523,8 @@ describe('Stream Resolution Integration', () => {
 
       await StreamResolutionWrapper.selectQueueItem('Giant Steps');
       await StreamResolutionWrapper.waitForPlayback();
+      act(() => useSoundStore.getState().pause());
+      vi.setSystemTime(Date.now() + 5000);
 
       await StreamResolutionWrapper.selectQueueItem('Countdown');
       await StreamResolutionWrapper.waitForPlayback();

@@ -228,7 +228,7 @@ export const CORE_SETTINGS: SettingDefinition[] = [
     description: 'preferences.playback.autoDownloadPlaylistTracks.description',
     category: 'playback',
     kind: 'boolean',
-    default: true,
+    default: false,
     widget: { type: 'toggle' },
   },
   {

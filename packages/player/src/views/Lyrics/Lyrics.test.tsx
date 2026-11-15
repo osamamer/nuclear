@@ -178,6 +178,7 @@ describe('Lyrics view', () => {
     });
 
     it('seeks to the start of a line when clicking it', async () => {
+      ConnectedPlayerBarWrapper.setPlaybackPosition(20);
       await LyricsWrapper.mountLyrics();
 
       await LyricsWrapper.clickLine('Consectetur adipiscing');

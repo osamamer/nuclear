@@ -9,12 +9,14 @@ export type PlaylistDownloadTask = {
 type PlaylistDownloadProgressState = {
   activeDownloads: PlaylistDownloadTask[];
   queuedDownloads: PlaylistDownloadTask[];
+  queuedCount: number;
   completedCount: number;
   failedCount: number;
   isScanning: boolean;
   setQueue: (
     activeDownloads: PlaylistDownloadTask[],
     queuedDownloads: PlaylistDownloadTask[],
+    queuedCount: number,
   ) => void;
   setIsScanning: (isScanning: boolean) => void;
   recordResult: (succeeded: boolean) => void;
@@ -24,18 +26,20 @@ export const usePlaylistDownloadProgressStore =
   create<PlaylistDownloadProgressState>((set) => ({
     activeDownloads: [],
     queuedDownloads: [],
+    queuedCount: 0,
     completedCount: 0,
     failedCount: 0,
     isScanning: false,
-    setQueue: (activeDownloads, queuedDownloads) =>
+    setQueue: (activeDownloads, queuedDownloads, queuedCount) =>
       set((state) => {
         const startsNewBatch =
-          activeDownloads.length + queuedDownloads.length > 0 &&
-          state.activeDownloads.length + state.queuedDownloads.length === 0;
+          activeDownloads.length + queuedCount > 0 &&
+          state.activeDownloads.length + state.queuedCount === 0;
 
         return {
           activeDownloads,
           queuedDownloads,
+          queuedCount,
           completedCount: startsNewBatch ? 0 : state.completedCount,
           failedCount: startsNewBatch ? 0 : state.failedCount,
         };

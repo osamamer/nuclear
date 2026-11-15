@@ -101,6 +101,7 @@ export const QueuePanel: FC<QueuePanelProps> = ({
       <ScrollableArea
         viewportRef={scrollParentRef}
         viewportClassName="supports-[font:-apple-system-body]:scroll-smooth"
+        thinScrollbar={isCollapsed}
         testViewportHeight={rowHeight * queueLayout.testViewportRows}
       >
         <QueueReorderLayer

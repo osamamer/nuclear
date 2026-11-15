@@ -14,6 +14,9 @@ export const PlaylistDownloadStatus: FC = () => {
   const queuedDownloads = usePlaylistDownloadProgressStore(
     (state) => state.queuedDownloads,
   );
+  const queuedCount = usePlaylistDownloadProgressStore(
+    (state) => state.queuedCount,
+  );
   const completedCount = usePlaylistDownloadProgressStore(
     (state) => state.completedCount,
   );
@@ -23,7 +26,7 @@ export const PlaylistDownloadStatus: FC = () => {
   const isScanning = usePlaylistDownloadProgressStore(
     (state) => state.isScanning,
   );
-  const pendingCount = activeDownloads.length + queuedDownloads.length;
+  const pendingCount = activeDownloads.length + queuedCount;
 
   return (
     <Popover
@@ -103,7 +106,7 @@ export const PlaylistDownloadStatus: FC = () => {
           </section>
         )}
 
-        {queuedDownloads.length > 0 && (
+        {queuedCount > 0 && (
           <section className="flex flex-col gap-2">
             {activeDownloads.length === 0 && (
               <p className="text-foreground/60 text-xs">
@@ -111,18 +114,18 @@ export const PlaylistDownloadStatus: FC = () => {
               </p>
             )}
             <h3 className="text-foreground/65 text-xs font-bold tracking-wide uppercase">
-              {t('downloads.queued', { count: queuedDownloads.length })}
+              {t('downloads.queued', { count: queuedCount })}
             </h3>
             <div className="text-foreground/65 flex flex-col gap-1 text-xs">
-              {queuedDownloads.slice(0, 4).map((task) => (
+              {queuedDownloads.map((task) => (
                 <span key={task.key} className="truncate">
                   {task.title}
                 </span>
               ))}
-              {queuedDownloads.length > 4 && (
+              {queuedCount > queuedDownloads.length && (
                 <span>
                   {t('downloads.moreQueued', {
-                    count: queuedDownloads.length - 4,
+                    count: queuedCount - queuedDownloads.length,
                   })}
                 </span>
               )}

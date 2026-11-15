@@ -137,6 +137,8 @@
     "nowPlaying": "Playing",
     "addToQueue": "Add to queue",
     "downloads": {
+      "keepDownloaded": "Keep downloaded",
+      "stopAutomatic": "Stop automatic downloads",
       "button": "Playlist downloads",
       "title": "Playlist downloads",
       "scanning": "Checking playlists for tracks to download…",
@@ -408,8 +410,8 @@
     },
     "blacklist": {
       "title": "Blacklist",
-      "description": "Add tracks, artists, albums, or keywords to make matching songs harder to skip.",
-      "skipBehavior": "For an active rule, the first two skip attempts are refused. The third skip moves on.",
+      "description": "Add tracks, artists, albums, or keywords to keep matching songs out of playback.",
+      "skipBehavior": "Manual skips are refused twice. The third attempt waits five seconds and can be canceled. To start another song directly, pause the current one for more than five seconds first.",
       "matchType": "Match type",
       "matchValue": "Track, artist, album, or keyword",
       "schedule": "When it applies",
@@ -419,7 +421,7 @@
       "to": "To",
       "addRule": "Add rule",
       "rules": "Your rules",
-      "empty": "No blacklist rules yet. Add one above to protect a song from skipping.",
+      "empty": "No blacklist rules yet. Add one above to keep matching songs out of playback.",
       "removeRule": "Remove {{value}} from blacklist",
       "targets": {
         "track": "Track title",
@@ -434,8 +436,7 @@
         "keyword": "Text in a track, artist, or album name"
       },
       "refusal": {
-        "oneMore": "Your blacklist held this track. One more blocked try, then skipping is allowed.",
-        "last": "Your blacklist held this track. Try again to skip it."
+        "blacklisted": "Tracks matching your blacklist were left out of playback."
       }
     },
     "shortcuts": {
@@ -500,8 +501,8 @@
     "playback": {
       "title": "Playback",
       "autoDownloadPlaylistTracks": {
-        "title": "Automatically download playlist tracks",
-        "description": "Save tracks from your playlists on this device and play the downloaded copy when available."
+        "title": "Automatically download selected playlists",
+        "description": "Choose playlists with Keep downloaded in their menu. Saved tracks play from this device when available."
       },
       "skipSeconds": {
         "title": "Skip duration",
@@ -608,7 +609,9 @@
     "actions": {
       "remove": "Remove from queue",
       "clear": "Clear queue",
-      "saveAsPlaylist": "Save queue as playlist"
+      "saveAsPlaylist": "Save queue as playlist",
+      "hidePanel": "Hide queue panel",
+      "showPanel": "Show queue panel"
     },
     "errors": {
       "playback": "Playback error"
@@ -699,7 +702,18 @@
     "repeatAll": "Repeat: all",
     "repeatOne": "Repeat: one",
     "discoveryOn": "Discovery: on",
-    "discoveryOff": "Discovery: off"
+    "discoveryOff": "Discovery: off",
+    "skipGate": {
+      "countdown": "Skip unlocks in {{seconds}} seconds",
+      "skipReady": "Skip allowed",
+      "forwardCountdown": "Fast-forward unlocks in {{seconds}} seconds",
+      "forwardReady": "Fast-forward allowed",
+      "rewindRefused": "No rewinds left for this song. Let it play forward.",
+      "rewindUsed": "That was your rewind for this song.",
+      "forwardWaiting": "Fast-forward unlocks in {{seconds}}s. Try again then.",
+      "forwardRefused": "You've already fast-forwarded this song.",
+      "forwardUsed": "That was your fast-forward for this song."
+    }
   },
   "lyrics": {
     "nothingPlaying": "Nothing is playing",

@@ -5,6 +5,7 @@ import { useQueueStore } from '../../stores/queueStore';
 import { getSetting } from '../../stores/settingsStore';
 import { useSoundStore } from '../../stores/soundStore';
 import { eventBus } from '../eventBus';
+import { rewindGate, skipAttemptGate } from '../skipGate';
 
 export type StartTrackOptions = {
   autoPlay: boolean;
@@ -37,10 +38,13 @@ export class PlaybackManager {
     eventBus.emit('trackStarted', item.track);
   };
 
-  playTracks = (tracks: Track[], playlistId?: string): void => {
-    const { clearQueue, addToQueue } = useQueueStore.getState();
-    clearQueue();
-    addToQueue(tracks, playlistId);
+  playTracks = (tracks: Track[], playlistId?: string, startIndex = 0): void => {
+    const queueReplaced = useQueueStore
+      .getState()
+      .replaceQueue(tracks, playlistId, startIndex);
+    if (!queueReplaced) {
+      return;
+    }
     this.play();
   };
 
@@ -89,10 +93,12 @@ export class PlaybackManager {
     }
 
     eventBus.emit('trackFinished', item.track);
+    skipAttemptGate.release();
 
     const repeatMode = (getSetting('core.playback.repeat') as string) ?? 'off';
     if (repeatMode === 'one') {
-      useSoundStore.getState().seekTo(0);
+      rewindGate.restartTrack();
+      useSoundStore.getState().restart();
       eventBus.emit('trackStarted', item.track);
       return;
     }

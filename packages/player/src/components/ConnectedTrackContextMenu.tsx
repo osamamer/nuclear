@@ -7,15 +7,22 @@ import { Input, TrackContextMenu } from '@nuclearplayer/ui';
 
 import { usePlaylistSubmenu } from '../hooks/usePlaylistSubmenu';
 import { useTrackActions } from '../hooks/useTrackActions';
+import { playbackManager } from '../services/playback';
 
 type ConnectedTrackContextMenuProps = {
   track: Track;
   children: ReactNode;
+  playlistId?: string;
+  playlistTracks?: Track[];
+  index?: number;
 };
 
 export const ConnectedTrackContextMenu: FC<ConnectedTrackContextMenuProps> = ({
   track,
   children,
+  playlistId,
+  playlistTracks,
+  index,
 }) => {
   const { t } = useTranslation('track');
   const { t: tPlaylists } = useTranslation('playlists');
@@ -25,6 +32,13 @@ export const ConnectedTrackContextMenu: FC<ConnectedTrackContextMenuProps> = ({
   const isFavorite = trackActions.isFavorite(track);
   const thumbnail = pickArtwork(track.artwork, 'thumbnail', 64)?.url;
   const artistNames = track.artists.map((a) => a.name).join(', ');
+  const playNow = () => {
+    if (playlistId && playlistTracks && index !== undefined) {
+      playbackManager.playTracks(playlistTracks, playlistId, index);
+      return;
+    }
+    trackActions.playNow(track);
+  };
 
   return (
     <TrackContextMenu>
@@ -35,10 +49,7 @@ export const ConnectedTrackContextMenu: FC<ConnectedTrackContextMenuProps> = ({
           subtitle={artistNames}
           coverUrl={thumbnail}
         />
-        <TrackContextMenu.Action
-          icon={<Play size={16} />}
-          onClick={() => trackActions.playNow(track)}
-        >
+        <TrackContextMenu.Action icon={<Play size={16} />} onClick={playNow}>
           {t('actions.playNow')}
         </TrackContextMenu.Action>
         <TrackContextMenu.Action

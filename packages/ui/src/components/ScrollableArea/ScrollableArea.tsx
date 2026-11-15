@@ -5,6 +5,7 @@ import {
   ReactNode,
   useCallback,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -17,115 +18,145 @@ export type ScrollableAreaProps = {
   className?: string;
   viewportClassName?: string;
   fadeScrollbars?: boolean;
-  autoHideDelay?: number; // ms, default 1000
+  autoHideDelay?: number;
+  thinScrollbar?: boolean;
   viewportRef?: MutableRefObject<HTMLDivElement | null>;
   testViewportHeight?: number;
   'data-testid'?: string;
 };
 
-type ScrollMetrics = {
-  scrollTop: number;
-  scrollLeft: number;
+type ScrollDimensions = {
   scrollHeight: number;
   scrollWidth: number;
   clientHeight: number;
   clientWidth: number;
 };
 
-const initialMetrics: ScrollMetrics = {
-  scrollTop: 0,
-  scrollLeft: 0,
+const initialDimensions: ScrollDimensions = {
   scrollHeight: 0,
   scrollWidth: 0,
   clientHeight: 0,
   clientWidth: 0,
 };
 
-function useScrollMetrics(
+type Orientation = 'vertical' | 'horizontal';
+
+type ThumbGeometry = {
+  thumbSize: number;
+  trackTravel: number;
+  maxScroll: number;
+};
+
+const computeThumbGeometry = (
+  orientation: Orientation,
+  dimensions: ScrollDimensions,
+): ThumbGeometry => {
+  const vertical = orientation === 'vertical';
+  const contentExtent = vertical
+    ? dimensions.scrollHeight
+    : dimensions.scrollWidth;
+  const viewportExtent = vertical
+    ? dimensions.clientHeight
+    : dimensions.clientWidth;
+  if (viewportExtent === 0 || contentExtent <= viewportExtent) {
+    return { thumbSize: 0, trackTravel: 0, maxScroll: 0 };
+  }
+  const thumbSize = Math.max(
+    20,
+    (viewportExtent / contentExtent) * viewportExtent,
+  );
+  return {
+    thumbSize,
+    trackTravel: viewportExtent - thumbSize,
+    maxScroll: contentExtent - viewportExtent,
+  };
+};
+
+const thumbTransform = (
+  orientation: Orientation,
+  geometry: ThumbGeometry,
+  scrollPosition: number,
+) => {
+  const ratio =
+    geometry.maxScroll === 0 ? 0 : scrollPosition / geometry.maxScroll;
+  const offset = Math.min(1, Math.max(0, ratio)) * geometry.trackTravel;
+  return orientation === 'vertical'
+    ? `translate3d(0, ${offset}px, 0)`
+    : `translate3d(${offset}px, 0, 0)`;
+};
+
+function useScrollDimensions(
   containerRef: MutableRefObject<HTMLDivElement | null>,
   fadeScrollbars: boolean,
   autoHideDelay: number,
+  onScrollFrame: () => void,
 ) {
-  const [metrics, setMetrics] = useState<ScrollMetrics>(initialMetrics);
+  const [dimensions, setDimensions] =
+    useState<ScrollDimensions>(initialDimensions);
   const [isScrolling, setIsScrolling] = useState(false);
   const isScrollingRef = useRef(false);
   const hideTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
   const rafRef = useRef<number>();
+  const onScrollFrameRef = useRef(onScrollFrame);
+  onScrollFrameRef.current = onScrollFrame;
 
   const updateDimensions = useCallback(() => {
-    const el = containerRef.current;
-    if (!el) {
+    const element = containerRef.current;
+    if (!element) {
       return;
     }
 
-    const nextMetrics = {
-      scrollTop: el.scrollTop,
-      scrollLeft: el.scrollLeft,
-      scrollHeight: el.scrollHeight,
-      scrollWidth: el.scrollWidth,
-      clientHeight: el.clientHeight,
-      clientWidth: el.clientWidth,
+    const nextDimensions = {
+      scrollHeight: element.scrollHeight,
+      scrollWidth: element.scrollWidth,
+      clientHeight: element.clientHeight,
+      clientWidth: element.clientWidth,
     };
 
-    setMetrics((current) =>
-      current.scrollTop === nextMetrics.scrollTop &&
-      current.scrollLeft === nextMetrics.scrollLeft &&
-      current.scrollHeight === nextMetrics.scrollHeight &&
-      current.scrollWidth === nextMetrics.scrollWidth &&
-      current.clientHeight === nextMetrics.clientHeight &&
-      current.clientWidth === nextMetrics.clientWidth
+    setDimensions((current) =>
+      current.scrollHeight === nextDimensions.scrollHeight &&
+      current.scrollWidth === nextDimensions.scrollWidth &&
+      current.clientHeight === nextDimensions.clientHeight &&
+      current.clientWidth === nextDimensions.clientWidth
         ? current
-        : nextMetrics,
-    );
-  }, [containerRef]);
-
-  const updateScrollPosition = useCallback(() => {
-    const el = containerRef.current;
-    if (!el) {
-      return;
-    }
-
-    const scrollTop = el.scrollTop;
-    const scrollLeft = el.scrollLeft;
-    setMetrics((current) =>
-      current.scrollTop === scrollTop && current.scrollLeft === scrollLeft
-        ? current
-        : { ...current, scrollTop, scrollLeft },
+        : nextDimensions,
     );
   }, [containerRef]);
 
   const handleScroll = useCallback(() => {
     if (rafRef.current) {
-      cancelAnimationFrame(rafRef.current);
+      return;
     }
     rafRef.current = requestAnimationFrame(() => {
-      updateScrollPosition();
-      if (fadeScrollbars) {
-        if (!isScrollingRef.current) {
-          isScrollingRef.current = true;
-          setIsScrolling(true);
-        }
-        if (hideTimeoutRef.current) {
-          clearTimeout(hideTimeoutRef.current);
-        }
-        hideTimeoutRef.current = setTimeout(() => {
-          isScrollingRef.current = false;
-          setIsScrolling(false);
-        }, autoHideDelay);
+      rafRef.current = undefined;
+      onScrollFrameRef.current();
+      if (!fadeScrollbars) {
+        return;
       }
+      if (!isScrollingRef.current) {
+        isScrollingRef.current = true;
+        setIsScrolling(true);
+      }
+      if (hideTimeoutRef.current) {
+        clearTimeout(hideTimeoutRef.current);
+      }
+      hideTimeoutRef.current = setTimeout(() => {
+        isScrollingRef.current = false;
+        setIsScrolling(false);
+      }, autoHideDelay);
     });
-  }, [fadeScrollbars, autoHideDelay, updateScrollPosition]);
+  }, [fadeScrollbars, autoHideDelay]);
 
   useEffect(() => {
-    const el = containerRef.current;
-    if (!el) {
+    const element = containerRef.current;
+    if (!element) {
       return;
     }
 
     const resizeObserver = new ResizeObserver(updateDimensions);
     const observedChildren = new Set<Element>();
     const observeChildren = () => {
-      const currentChildren = new Set(Array.from(el.children));
+      const currentChildren = new Set(Array.from(element.children));
       observedChildren.forEach((child) => {
         if (!currentChildren.has(child)) {
           resizeObserver.unobserve(child);
@@ -141,18 +172,19 @@ function useScrollMetrics(
       updateDimensions();
     };
 
-    resizeObserver.observe(el);
+    resizeObserver.observe(element);
     observeChildren();
     const mutationObserver = new MutationObserver(observeChildren);
-    mutationObserver.observe(el, { childList: true });
-    el.addEventListener('scroll', handleScroll, { passive: true });
+    mutationObserver.observe(element, { childList: true });
+    element.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
       resizeObserver.disconnect();
       mutationObserver.disconnect();
-      el.removeEventListener('scroll', handleScroll);
+      element.removeEventListener('scroll', handleScroll);
       if (rafRef.current) {
         cancelAnimationFrame(rafRef.current);
+        rafRef.current = undefined;
       }
       if (hideTimeoutRef.current) {
         clearTimeout(hideTimeoutRef.current);
@@ -160,65 +192,61 @@ function useScrollMetrics(
     };
   }, [containerRef, handleScroll, updateDimensions]);
 
-  return { metrics, isScrolling };
+  return { dimensions, isScrolling };
 }
 
-// Scrollbar (track + thumb)
-interface BarProps {
-  orientation: 'vertical' | 'horizontal';
-  metrics: ScrollMetrics;
+type BarProps = {
+  orientation: Orientation;
+  thin: boolean;
+  geometry: ThumbGeometry;
+  thumbRef: MutableRefObject<HTMLDivElement | null>;
   containerRef: MutableRefObject<HTMLDivElement | null>;
   fadeScrollbars: boolean;
   isScrolling: boolean;
-}
+};
 
 const Scrollbar: FC<BarProps> = ({
   orientation,
-  metrics,
+  thin,
+  geometry,
+  thumbRef,
   containerRef,
   fadeScrollbars,
   isScrolling,
 }) => {
-  const {
-    scrollTop,
-    scrollLeft,
-    scrollHeight,
-    scrollWidth,
-    clientHeight,
-    clientWidth,
-  } = metrics;
   const vertical = orientation === 'vertical';
-  const contentExtent = vertical ? scrollHeight : scrollWidth;
-  const viewportExtent = vertical ? clientHeight : clientWidth;
-  const scrollPos = vertical ? scrollTop : scrollLeft;
-
-  const needs = contentExtent > viewportExtent;
+  const { thumbSize, trackTravel, maxScroll } = geometry;
+  const needs = thumbSize > 0;
   const [isDragging, setIsDragging] = useState(false);
 
-  const { thumbSize, thumbOffset } = useMemo(() => {
-    if (!needs || viewportExtent === 0 || contentExtent <= viewportExtent) {
-      return { thumbSize: 0, thumbOffset: 0 };
+  useLayoutEffect(() => {
+    const container = containerRef.current;
+    const thumb = thumbRef.current;
+    if (!container || !thumb) {
+      return;
     }
-    const trackSize = viewportExtent; // we size track to viewport extent
-    const size = Math.max(20, (viewportExtent / contentExtent) * trackSize);
-    const maxScroll = contentExtent - viewportExtent;
-    const ratio = maxScroll === 0 ? 0 : scrollPos / maxScroll;
-    const offset = ratio * (trackSize - size);
-    return { thumbSize: size, thumbOffset: offset };
-  }, [needs, viewportExtent, contentExtent, scrollPos]);
+    thumb.style.transform = thumbTransform(
+      orientation,
+      geometry,
+      vertical ? container.scrollTop : container.scrollLeft,
+    );
+  }, [containerRef, thumbRef, orientation, geometry, vertical]);
 
   const show = needs && (!fadeScrollbars || isScrolling || isDragging);
 
   const onTrackClick = useCallback(
-    (e: React.MouseEvent) => {
+    (event: React.MouseEvent) => {
       if (!needs || !containerRef.current) {
         return;
       }
-      const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
-      const clickPos = vertical ? e.clientY - rect.top : e.clientX - rect.left;
+      const rect = (
+        event.currentTarget as HTMLDivElement
+      ).getBoundingClientRect();
+      const clickPosition = vertical
+        ? event.clientY - rect.top
+        : event.clientX - rect.left;
       const trackSize = vertical ? rect.height : rect.width;
-      const maxScroll = contentExtent - viewportExtent;
-      const ratio = trackSize - thumbSize <= 0 ? 0 : clickPos / trackSize;
+      const ratio = trackTravel <= 0 ? 0 : clickPosition / trackSize;
       const target = ratio * maxScroll;
       if (vertical) {
         containerRef.current.scrollTop = target;
@@ -226,32 +254,29 @@ const Scrollbar: FC<BarProps> = ({
         containerRef.current.scrollLeft = target;
       }
     },
-    [needs, containerRef, vertical, contentExtent, viewportExtent, thumbSize],
+    [needs, containerRef, vertical, trackTravel, maxScroll],
   );
 
   const onThumbMouseDown = useCallback(
-    (e: React.MouseEvent) => {
+    (event: React.MouseEvent) => {
       if (!containerRef.current) {
         return;
       }
-      e.preventDefault();
+      event.preventDefault();
       setIsDragging(true);
-      const startClient = vertical ? e.clientY : e.clientX;
+      const startClient = vertical ? event.clientY : event.clientX;
       const startScroll = vertical
         ? containerRef.current.scrollTop
         : containerRef.current.scrollLeft;
-      const maxScroll = contentExtent - viewportExtent;
-      const trackSize = viewportExtent; // track matches viewport
-      const move = (ev: MouseEvent) => {
+      const move = (moveEvent: MouseEvent) => {
         if (!containerRef.current) {
           return;
         }
-        const currentClient = vertical ? ev.clientY : ev.clientX;
-        const deltaClient = currentClient - startClient;
+        const currentClient = vertical ? moveEvent.clientY : moveEvent.clientX;
         const scrollDelta =
-          trackSize - thumbSize <= 0
+          trackTravel <= 0
             ? 0
-            : (deltaClient / (trackSize - thumbSize)) * maxScroll;
+            : ((currentClient - startClient) / trackTravel) * maxScroll;
         const next = Math.max(
           0,
           Math.min(maxScroll, startScroll + scrollDelta),
@@ -270,7 +295,7 @@ const Scrollbar: FC<BarProps> = ({
       document.addEventListener('mousemove', move);
       document.addEventListener('mouseup', up);
     },
-    [containerRef, vertical, contentExtent, viewportExtent, thumbSize],
+    [containerRef, vertical, trackTravel, maxScroll],
   );
 
   if (!needs) {
@@ -282,23 +307,22 @@ const Scrollbar: FC<BarProps> = ({
       className={cn(
         'absolute flex bg-transparent select-none',
         vertical
-          ? 'top-0 right-0 bottom-0 w-3 flex-col items-center'
-          : 'right-0 bottom-0 left-0 h-3 flex-row items-center',
+          ? 'top-0 right-0 bottom-0 flex-col items-center'
+          : 'right-0 bottom-0 left-0 flex-row items-center',
+        vertical && (thin ? 'w-1.5' : 'w-3'),
+        !vertical && (thin ? 'h-1.5' : 'h-3'),
       )}
       onClick={onTrackClick}
     >
       <div
+        ref={thumbRef}
         className={cn(
-          'bg-foreground/80 hover:bg-foreground cursor-pointer rounded-sm transition-opacity duration-200',
-          vertical ? 'w-2' : 'h-2',
+          'bg-foreground/80 hover:bg-foreground cursor-pointer rounded-sm transition-opacity duration-200 will-change-transform',
+          vertical && (thin ? 'w-1' : 'w-2'),
+          !vertical && (thin ? 'h-1' : 'h-2'),
           show ? 'opacity-100' : 'opacity-0',
         )}
-        style={{
-          [vertical ? 'height' : 'width']: `${thumbSize}px`,
-          transform: vertical
-            ? `translateY(${thumbOffset}px)`
-            : `translateX(${thumbOffset}px)`,
-        }}
+        style={{ [vertical ? 'height' : 'width']: `${thumbSize}px` }}
         onMouseDown={onThumbMouseDown}
       />
     </div>
@@ -307,36 +331,83 @@ const Scrollbar: FC<BarProps> = ({
 
 type ScrollbarOverlayProps = {
   containerRef: MutableRefObject<HTMLDivElement | null>;
+  thin: boolean;
   fadeScrollbars: boolean;
   autoHideDelay: number;
 };
 
 const ScrollbarOverlayImpl: FC<ScrollbarOverlayProps> = ({
   containerRef,
+  thin,
   fadeScrollbars,
   autoHideDelay,
 }) => {
-  const { metrics, isScrolling } = useScrollMetrics(
+  const verticalThumbRef = useRef<HTMLDivElement | null>(null);
+  const horizontalThumbRef = useRef<HTMLDivElement | null>(null);
+  const geometryRef = useRef<{
+    vertical: ThumbGeometry;
+    horizontal: ThumbGeometry;
+  } | null>(null);
+
+  const syncThumbs = useCallback(() => {
+    const container = containerRef.current;
+    const geometry = geometryRef.current;
+    if (!container || !geometry) {
+      return;
+    }
+    if (verticalThumbRef.current) {
+      verticalThumbRef.current.style.transform = thumbTransform(
+        'vertical',
+        geometry.vertical,
+        container.scrollTop,
+      );
+    }
+    if (horizontalThumbRef.current) {
+      horizontalThumbRef.current.style.transform = thumbTransform(
+        'horizontal',
+        geometry.horizontal,
+        container.scrollLeft,
+      );
+    }
+  }, [containerRef]);
+
+  const { dimensions, isScrolling } = useScrollDimensions(
     containerRef,
     fadeScrollbars,
     autoHideDelay,
+    syncThumbs,
   );
-  const needsVertical = metrics.scrollHeight > metrics.clientHeight;
-  const needsHorizontal = metrics.scrollWidth > metrics.clientWidth;
-  const needsCorner = needsVertical && needsHorizontal;
+  const verticalGeometry = useMemo(
+    () => computeThumbGeometry('vertical', dimensions),
+    [dimensions],
+  );
+  const horizontalGeometry = useMemo(
+    () => computeThumbGeometry('horizontal', dimensions),
+    [dimensions],
+  );
+  geometryRef.current = {
+    vertical: verticalGeometry,
+    horizontal: horizontalGeometry,
+  };
+  const needsCorner =
+    verticalGeometry.thumbSize > 0 && horizontalGeometry.thumbSize > 0;
 
   return (
     <>
       <Scrollbar
         orientation="vertical"
-        metrics={metrics}
+        thin={thin}
+        geometry={verticalGeometry}
+        thumbRef={verticalThumbRef}
         containerRef={containerRef}
         fadeScrollbars={fadeScrollbars}
         isScrolling={isScrolling}
       />
       <Scrollbar
         orientation="horizontal"
-        metrics={metrics}
+        thin={thin}
+        geometry={horizontalGeometry}
+        thumbRef={horizontalThumbRef}
         containerRef={containerRef}
         fadeScrollbars={fadeScrollbars}
         isScrolling={isScrolling}
@@ -356,6 +427,7 @@ export const ScrollableArea: FC<ScrollableAreaProps> = ({
   viewportClassName,
   fadeScrollbars = true,
   autoHideDelay = 1000,
+  thinScrollbar = false,
   viewportRef,
   testViewportHeight,
   'data-testid': testId,
@@ -392,6 +464,7 @@ export const ScrollableArea: FC<ScrollableAreaProps> = ({
       </div>
       <ScrollbarOverlay
         containerRef={ref}
+        thin={thinScrollbar}
         fadeScrollbars={fadeScrollbars}
         autoHideDelay={autoHideDelay}
       />

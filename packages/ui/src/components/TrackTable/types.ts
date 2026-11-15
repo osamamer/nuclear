@@ -28,8 +28,8 @@ export type TrackTableClasses = {
 
 export type TrackTableActions<T extends Track = Track> = {
   onReorder?: (fromIndex: number, toIndex: number) => void;
-  onRowClick?: (track: T) => void;
-  onPlayNow?: (track: T) => void;
+  onRowClick?: (track: T, index: number) => void;
+  onPlayNow?: (track: T, index: number) => void;
   onPlayNext?: (track: T) => void;
   onAddToQueue?: (track: T) => void;
   onToggleFavorite?: (track: T) => void;
@@ -41,6 +41,7 @@ export type TrackTableActions<T extends Track = Track> = {
 export type ContextMenuWrapperProps<T extends Track = Track> = {
   track: T;
   children: ReactNode;
+  index?: number;
 };
 
 export type TrackTableProps<T extends Track = Track> = {

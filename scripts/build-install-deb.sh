@@ -29,7 +29,7 @@ export npm_config_manage_package_manager_versions=false
 printf 'Building Nuclear %s for %s\n' "$version" "$architecture"
 (
   cd "$player_dir"
-  "$tauri_cli" build --bundles deb --no-sign --config '{"bundle":{"createUpdaterArtifacts":false}}'
+  "$tauri_cli" build --bundles deb --no-sign --config '{"bundle":{"createUpdaterArtifacts":false},"plugins":{"updater":{"endpoints":[]}}}'
 )
 
 if [[ ! -f "$deb_file" || ! "$deb_file" -nt "$build_marker" ]]; then

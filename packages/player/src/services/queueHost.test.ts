@@ -1,21 +1,33 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { useQueueStore } from '../stores/queueStore';
+import { useSoundStore } from '../stores/soundStore';
 import { resetInMemoryTauriStore } from '../test/utils/inMemoryTauriStore';
 import { createMockTrack } from '../test/utils/mockTrack';
 import { queueHost } from './queueHost';
+import { resetSkipGates } from './skipGate';
+
+vi.mock('./skipRefusalSound', () => ({
+  playSkipRefusalSound: vi.fn(),
+}));
 
 describe('queueHost', () => {
   beforeEach(() => {
     const date = new Date(2025, 1, 1);
     vi.setSystemTime(date);
     resetInMemoryTauriStore();
+    resetSkipGates();
+    useSoundStore.setState({ status: 'stopped', pausedAt: null, seek: 0 });
     useQueueStore.setState({
       items: [],
       currentIndex: 0,
       isReady: false,
       isLoading: false,
     });
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   it('should get the current queue state', async () => {
@@ -59,6 +71,22 @@ describe('queueHost', () => {
     await queueHost.goToNext();
     const queue = await queueHost.getQueue();
     expect(queue.currentIndex).toBe(1);
+  });
+
+  it('applies the skip countdown to plugin and remote skips', async () => {
+    await queueHost.addToQueue([
+      createMockTrack('Track 1'),
+      createMockTrack('Track 2'),
+    ]);
+    useSoundStore.setState({ status: 'playing', seek: 10, duration: 200 });
+
+    await queueHost.goToNext();
+    await queueHost.goToIndex(1);
+    expect((await queueHost.getQueue()).currentIndex).toBe(0);
+
+    vi.setSystemTime(Date.now() + 5000);
+    await queueHost.goToNext();
+    expect((await queueHost.getQueue()).currentIndex).toBe(1);
   });
 
   it('should navigate to previous track', async () => {

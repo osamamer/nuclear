@@ -4,11 +4,13 @@ import { AudioSource, SoundStatus } from '@nuclearplayer/hifi';
 
 import { eventBus } from '../services/eventBus';
 import { Logger } from '../services/logger';
+import { isSeekAllowed } from '../services/skipGate';
 import { secondsToMs } from '../utils/time';
 
 type SoundState = {
   src: AudioSource | null;
   status: SoundStatus;
+  pausedAt: number | null;
   seek: number;
   duration: number;
   crossfadeMs: number;
@@ -23,6 +25,7 @@ type SoundActions = {
   stop: () => void;
   toggle: () => void;
   seekTo: (seconds: number) => void;
+  restart: () => void;
   updatePlayback: (position: number, duration: number) => void;
   setCrossfadeMs: (ms: number) => void;
   setPreload: (mode: 'none' | 'metadata' | 'auto') => void;
@@ -32,6 +35,7 @@ type SoundActions = {
 export const useSoundStore = create<SoundState & SoundActions>((set, get) => ({
   src: null,
   status: 'stopped',
+  pausedAt: null,
   seek: 0,
   duration: 0,
   crossfadeMs: 0,
@@ -42,15 +46,20 @@ export const useSoundStore = create<SoundState & SoundActions>((set, get) => ({
     Logger.playback.debug(`Set source: ${src?.url ?? 'null'}`);
   },
   play: () => {
-    set({ status: 'playing' });
+    set({ status: 'playing', pausedAt: null });
     Logger.playback.debug('Play');
   },
   pause: () => {
-    set({ status: 'paused' });
+    set({ status: 'paused', pausedAt: Date.now() });
     Logger.playback.debug('Pause');
   },
   stop: () => {
-    set({ status: 'stopped', seek: 0 });
+    const { status, pausedAt } = get();
+    set({
+      status: 'stopped',
+      pausedAt: status === 'playing' ? Date.now() : pausedAt,
+      seek: 0,
+    });
     Logger.playback.debug('Stop');
   },
   toggle: () => {
@@ -62,11 +71,20 @@ export const useSoundStore = create<SoundState & SoundActions>((set, get) => ({
     }
   },
   seekTo: (seconds) => {
+    const fromMs = secondsToMs(get().seek);
+    const toMs = secondsToMs(seconds);
+    if (!isSeekAllowed(fromMs, toMs)) {
+      return;
+    }
+    eventBus.emit('playbackSeeked', { fromMs, toMs });
+    set({ seek: seconds });
+  },
+  restart: () => {
     eventBus.emit('playbackSeeked', {
       fromMs: secondsToMs(get().seek),
-      toMs: secondsToMs(seconds),
+      toMs: 0,
     });
-    set({ seek: seconds });
+    set({ seek: 0 });
   },
   updatePlayback: (position, duration) => set({ seek: position, duration }),
   setCrossfadeMs: (ms) => set({ crossfadeMs: ms }),

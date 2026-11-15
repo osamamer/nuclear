@@ -65,6 +65,10 @@ pnpm test -u
 
 After every change in this repository, run `./scripts/build-install-deb.sh` before reporting completion, starting with escalated execution access so desktop administrator authentication is available from the outset. Do not first run it sandboxed and retry only after authentication fails. The script builds the current working tree, creates a fresh `.deb` without release updater signing, installs it using desktop administrator authentication, and verifies the installed package. Do not substitute an older `.deb` or stop after compilation. Report any build or installation failure.
 
+## Committing after changes
+
+When a task is finished, commit everything in the working tree (`git add -A` then `git commit`) with a descriptive message. Do this after the Debian install step, without waiting to be asked. Do not push unless explicitly asked.
+
 ## Code Style
 
 ### General Principles
@@ -73,7 +77,7 @@ After every change in this repository, run `./scripts/build-install-deb.sh` befo
 - No comments in code - explain reasoning in chat/commits
 - Avoid premature abstractions - start concrete, extract later
 - Small, focused changes over large dumps
-- Never commit unless explicitly asked
+- Commit everything once a task is done: stage all changes in the working tree and commit them after the work is finished and the Debian install step has run
 
 ### TypeScript
 

@@ -1,14 +1,20 @@
 import { act } from '@testing-library/react';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { providersHost } from '../../services/providersHost';
+import { resetSkipGates } from '../../services/skipGate';
 import { useQueueStore } from '../../stores/queueStore';
 import { useSettingsStore } from '../../stores/settingsStore';
 import { useSoundStore } from '../../stores/soundStore';
 import { DiscoveryProviderBuilder } from '../../test/builders/DiscoveryProviderBuilder';
 import { ConnectedPlayerBarWrapper as Wrapper } from './ConnectedPlayerBar.test-wrapper';
 
+vi.mock('../../services/skipRefusalSound', () => ({
+  playSkipRefusalSound: vi.fn(),
+}));
+
 beforeEach(() => {
+  resetSkipGates();
   providersHost.clear();
   useQueueStore.setState({
     items: [],
@@ -21,6 +27,7 @@ beforeEach(() => {
   });
   useSoundStore.setState({
     status: 'stopped',
+    pausedAt: null,
     seek: 0,
     duration: 0,
   });
@@ -120,6 +127,50 @@ describe('ConnectedNowPlaying', () => {
 });
 
 describe('ConnectedControls', () => {
+  it('refuses Next on a playing track and shows the skip countdown bubble', async () => {
+    Wrapper.seedQueueItems([
+      new Wrapper.QueueItemBuilder().withId('first').withTitle('First').build(),
+      new Wrapper.QueueItemBuilder()
+        .withId('second')
+        .withTitle('Second')
+        .build(),
+    ]);
+    useSoundStore.getState().play();
+    await Wrapper.mount();
+
+    await Wrapper.controls.nextButton.click();
+
+    expect(Wrapper.nowPlaying.title('First')).toBeInTheDocument();
+    expect(await Wrapper.skipBubble.find()).toHaveAttribute(
+      'data-ready',
+      'false',
+    );
+    expect(Wrapper.skipBubble.seconds).toHaveTextContent('5');
+  });
+
+  it('refuses Previous on a playing track', async () => {
+    Wrapper.seedQueueItems(
+      [
+        new Wrapper.QueueItemBuilder()
+          .withId('first')
+          .withTitle('First')
+          .build(),
+        new Wrapper.QueueItemBuilder()
+          .withId('second')
+          .withTitle('Second')
+          .build(),
+      ],
+      1,
+    );
+    useSoundStore.getState().play();
+    await Wrapper.mount();
+
+    await Wrapper.controls.previousButton.click();
+
+    expect(Wrapper.nowPlaying.title('Second')).toBeInTheDocument();
+    expect(useQueueStore.getState().currentIndex).toBe(1);
+  });
+
   it('clicking shuffle toggles shuffleEnabled in the settings store', async () => {
     Wrapper.seedShuffle(false);
     await Wrapper.mount();

@@ -96,15 +96,26 @@ const AnimatedOutlet = forwardRef<HTMLDivElement>((_props, ref) => {
   );
 });
 
-export const RouteTransition = () => {
-  const pathname = useRouterState({
-    select: (state) => state.location.pathname,
+type RouteTransitionProps = {
+  persistentRouteIds?: string[];
+};
+
+export const RouteTransition = ({
+  persistentRouteIds = [],
+}: RouteTransitionProps) => {
+  const transitionKey: string = useRouterState({
+    select: (state): string => {
+      const leafRouteId = state.matches.at(-1)?.routeId;
+      return leafRouteId && persistentRouteIds.includes(leafRouteId)
+        ? leafRouteId
+        : state.location.pathname;
+    },
   });
 
   return (
     <div className="relative h-full w-full overflow-hidden">
       <AnimatePresence mode="popLayout" initial={false}>
-        <AnimatedOutlet key={pathname} />
+        <AnimatedOutlet key={transitionKey} />
       </AnimatePresence>
     </div>
   );

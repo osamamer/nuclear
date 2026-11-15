@@ -50,8 +50,8 @@ export const ConnectedControls: FC = () => {
       isShuffleActive={Boolean(shuffleEnabled)}
       repeatMode={repeatMode ?? 'off'}
       onPlayPause={playbackManager.toggle}
-      onNext={goToNext}
-      onPrevious={goToPrevious}
+      onNext={() => goToNext()}
+      onPrevious={() => goToPrevious()}
       onShuffleToggle={handleToggleShuffle}
       onRepeatToggle={handleToggleRepeat}
       isDiscoveryActive={hasDiscoveryProviders && Boolean(discoveryEnabled)}

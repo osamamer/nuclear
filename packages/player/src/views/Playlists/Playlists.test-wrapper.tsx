@@ -112,6 +112,36 @@ export const PlaylistsWrapper = {
     return screen.getByTestId('title').textContent;
   },
 
+  get sidebarPlaylistLinks() {
+    return within(screen.getByTestId('sidebar-navigation'))
+      .getAllByRole('link')
+      .filter((link) => link.getAttribute('href')?.startsWith('/playlists/'));
+  },
+
+  playlistsNavigation: {
+    get element() {
+      return within(
+        screen.getByRole('link', { name: 'Playlists' }),
+      ).getByTestId('sidebar-navigation-item');
+    },
+    async click() {
+      await user.click(this.element);
+    },
+  },
+
+  settingsNavigation: {
+    get element() {
+      return screen.getByRole('button', { name: 'Preferences' });
+    },
+    async click() {
+      await user.click(this.element);
+    },
+  },
+
+  get settingsDialog() {
+    return screen.getByRole('dialog');
+  },
+
   backButton: {
     get element() {
       return screen.getByTestId('playlists-back-button');
@@ -204,8 +234,8 @@ export const PlaylistsWrapper = {
   },
   get draggableCardNames() {
     return screen
-      .getAllByTestId('sortable-card')
-      .filter((card) => within(card).queryByTestId('card-drag-handle'))
+      .getAllByTestId('card-container')
+      .filter((card) => card.closest('[data-testid="sortable-card"]'))
       .map((card) => within(card).getByTestId('card-title').textContent);
   },
   sort: {
@@ -235,6 +265,10 @@ export const PlaylistsWrapper = {
       click: () => card.click(),
       play: () => card.play(),
       menu: {
+        async keepDownloaded() {
+          await card.openMenu();
+          await user.click(screen.getByTestId('auto-download-playlist-action'));
+        },
         async addToQueue() {
           await card.openMenu();
           await user.click(screen.getByTestId('add-to-queue-action'));

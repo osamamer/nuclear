@@ -13,6 +13,7 @@ import { PlayerBarWrapper } from '../../integration-tests/PlayerBar.test-wrapper
 import { providersHost } from '../../services/providersHost';
 import { usePlaylistStore } from '../../stores/playlistStore';
 import { useQueueStore } from '../../stores/queueStore';
+import { getSetting } from '../../stores/settingsStore';
 import { PlaylistBuilder } from '../../test/builders/PlaylistBuilder';
 import { PlaylistFolderBuilder } from '../../test/builders/PlaylistFolderBuilder';
 import {
@@ -78,6 +79,54 @@ describe('Playlists view', () => {
     expect(PlaylistsWrapper.cards).toMatchSnapshot();
   });
 
+  it('keeps a large playlist grid usable without drag handles', async () => {
+    PlaylistsWrapper.createPlaylists(
+      ...Array.from({ length: 22 }, (_, index) =>
+        new PlaylistBuilder().withName(`Playlist ${index + 1}`),
+      ),
+    );
+
+    await PlaylistsWrapper.mount();
+
+    expect(PlaylistsWrapper.cards).toHaveLength(22);
+    expect(PlaylistsWrapper.draggableCardNames).toEqual([]);
+    await PlaylistsWrapper.card(0).click();
+    expect(PlaylistsWrapper.detailView).toBeInTheDocument();
+  });
+
+  it('collapses and expands sidebar playlists while keeping settings reachable', async () => {
+    PlaylistsWrapper.createPlaylists(
+      ...Array.from({ length: 22 }, (_, index) =>
+        new PlaylistBuilder().withName(`Playlist ${index + 1}`),
+      ),
+    );
+
+    await PlaylistsWrapper.mount();
+
+    expect(PlaylistsWrapper.sidebarPlaylistLinks).toHaveLength(0);
+    await PlaylistsWrapper.playlistsNavigation.click();
+    expect(PlaylistsWrapper.sidebarPlaylistLinks).toHaveLength(22);
+    await PlaylistsWrapper.playlistsNavigation.click();
+    expect(PlaylistsWrapper.sidebarPlaylistLinks).toHaveLength(0);
+    await PlaylistsWrapper.settingsNavigation.click();
+    expect(PlaylistsWrapper.settingsDialog).toBeInTheDocument();
+  });
+
+  it('enables automatic downloads only for the chosen playlist', async () => {
+    PlaylistsWrapper.createPlaylists(
+      new PlaylistBuilder().withId('general').withName('general'),
+      new PlaylistBuilder().withId('other').withName('other'),
+    );
+
+    await PlaylistsWrapper.mount();
+    await PlaylistsWrapper.card(0).menu.keepDownloaded();
+
+    expect(getSetting('core.playback.autoDownloadPlaylistIds')).toEqual([
+      'general',
+    ]);
+    expect(getSetting('core.playback.autoDownloadPlaylists')).toBe(true);
+  });
+
   it('opens create dialog when clicking create button', async () => {
     await PlaylistsWrapper.mount();
     await PlaylistsWrapper.createButton.click();
@@ -95,7 +144,7 @@ describe('Playlists view', () => {
     expect(usePlaylistStore.getState().index[0]?.name).toBe('My New Playlist');
   });
 
-  it('shows mosaic artwork on playlist card when 4+ tracks have art', async () => {
+  it('shows one cover image on a playlist card with 4+ track artworks', async () => {
     PlaylistsWrapper.createPlaylists(
       new PlaylistBuilder()
         .withName('With Art')
@@ -115,7 +164,7 @@ describe('Playlists view', () => {
 
     await PlaylistsWrapper.mount();
 
-    expect(PlaylistsWrapper.card(0).images).toHaveLength(4);
+    expect(PlaylistsWrapper.card(0).images).toHaveLength(1);
   });
 
   it('shows single artwork on playlist card when fewer than 4 tracks have art', async () => {

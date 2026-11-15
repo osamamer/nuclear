@@ -77,6 +77,7 @@ describe('playbackHost', () => {
   });
 
   it('seekTo updates seek position', async () => {
+    useSoundStore.setState({ seek: 60 });
     await playbackHost.seekTo(42.5);
 
     const state = await playbackHost.getState();
