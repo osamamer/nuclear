@@ -4,6 +4,7 @@ import { FC } from 'react';
 import { pickArtwork } from '@nuclearplayer/model';
 
 import { cn } from '../../utils';
+import { MovingEqualizer } from '../MovingEqualizer';
 import type { QueueItemProps } from './types';
 import { queueItemVariants } from './variants';
 
@@ -34,6 +35,14 @@ export const QueueItemCollapsed: FC<QueueItemProps> = ({
           />
         ) : (
           <CassetteTape size={20} className="opacity-20" />
+        )}
+        {isCurrent && (
+          <div
+            data-testid="queue-item-playing-indicator"
+            className="absolute inset-0 flex items-center justify-center bg-black/45 text-white"
+          >
+            <MovingEqualizer size="md" />
+          </div>
         )}
 
         {status === 'loading' && (

@@ -37,7 +37,7 @@ export const CountdownBubble: FC<CountdownBubbleProps> = ({
       transition={{ duration: 0.18 }}
       className={cn(
         'border-border shadow-shadow relative flex size-15 cursor-grab touch-none items-center justify-center rounded-full border-(length:--border-width) text-white transition-colors duration-250 select-none active:cursor-grabbing',
-        isReady ? 'bg-accent-green' : 'bg-accent-red',
+        isReady ? 'bg-green-600' : 'bg-red-600',
         className,
       )}
       {...props}

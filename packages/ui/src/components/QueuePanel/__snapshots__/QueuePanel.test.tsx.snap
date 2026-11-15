@@ -100,6 +100,37 @@ exports[`QueuePanel > (Snapshot) renders collapsed state 1`] = `
                         class="h-full w-full object-cover"
                         src="https://picsum.photos/seed/1/300"
                       />
+                      <div
+                        class="absolute inset-0 flex items-center justify-center bg-black/45 text-white"
+                        data-testid="queue-item-playing-indicator"
+                      >
+                        <span
+                          aria-hidden="true"
+                          class="inline-flex items-end h-4 gap-[3px]"
+                          data-testid="moving-equalizer"
+                        >
+                          <span
+                            class="animate-eq-bar h-full origin-bottom rounded-full bg-current w-[3px]"
+                            data-testid="moving-equalizer-bar"
+                            style="animation-delay: -0.45s;"
+                          />
+                          <span
+                            class="animate-eq-bar h-full origin-bottom rounded-full bg-current w-[3px]"
+                            data-testid="moving-equalizer-bar"
+                            style="animation-delay: -0.15s;"
+                          />
+                          <span
+                            class="animate-eq-bar h-full origin-bottom rounded-full bg-current w-[3px]"
+                            data-testid="moving-equalizer-bar"
+                            style="animation-delay: -0.6s;"
+                          />
+                          <span
+                            class="animate-eq-bar h-full origin-bottom rounded-full bg-current w-[3px]"
+                            data-testid="moving-equalizer-bar"
+                            style="animation-delay: -0.3s;"
+                          />
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -267,7 +298,7 @@ exports[`QueuePanel > (Snapshot) renders default state 1`] = `
                     role="button"
                   >
                     <div
-                      class="bg-muted flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md"
+                      class="bg-muted relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md"
                       data-testid="queue-item-thumbnail"
                     >
                       <img
@@ -275,6 +306,37 @@ exports[`QueuePanel > (Snapshot) renders default state 1`] = `
                         class="h-full w-full object-cover"
                         src="https://picsum.photos/seed/1/300"
                       />
+                      <div
+                        class="absolute inset-0 flex items-center justify-center bg-black/45 text-white"
+                        data-testid="queue-item-playing-indicator"
+                      >
+                        <span
+                          aria-hidden="true"
+                          class="inline-flex items-end h-4 gap-[3px]"
+                          data-testid="moving-equalizer"
+                        >
+                          <span
+                            class="animate-eq-bar h-full origin-bottom rounded-full bg-current w-[3px]"
+                            data-testid="moving-equalizer-bar"
+                            style="animation-delay: -0.45s;"
+                          />
+                          <span
+                            class="animate-eq-bar h-full origin-bottom rounded-full bg-current w-[3px]"
+                            data-testid="moving-equalizer-bar"
+                            style="animation-delay: -0.15s;"
+                          />
+                          <span
+                            class="animate-eq-bar h-full origin-bottom rounded-full bg-current w-[3px]"
+                            data-testid="moving-equalizer-bar"
+                            style="animation-delay: -0.6s;"
+                          />
+                          <span
+                            class="animate-eq-bar h-full origin-bottom rounded-full bg-current w-[3px]"
+                            data-testid="moving-equalizer-bar"
+                            style="animation-delay: -0.3s;"
+                          />
+                        </span>
+                      </div>
                     </div>
                     <div
                       class="min-w-0 flex-1"
@@ -366,7 +428,7 @@ exports[`QueuePanel > (Snapshot) renders default state 1`] = `
                     role="button"
                   >
                     <div
-                      class="bg-muted flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md"
+                      class="bg-muted relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md"
                       data-testid="queue-item-thumbnail"
                     >
                       <img
@@ -465,7 +527,7 @@ exports[`QueuePanel > (Snapshot) renders default state 1`] = `
                     role="button"
                   >
                     <div
-                      class="bg-muted flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md"
+                      class="bg-muted relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md"
                       data-testid="queue-item-thumbnail"
                     >
                       <img

@@ -54,6 +54,20 @@ describe('QueueItem', () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
+  it('shows a moving equalizer on the current item only', () => {
+    const { rerender } = render(
+      <QueueItem track={mockTrack} labels={mockLabels} isCurrent={true} />,
+    );
+    expect(screen.getByTestId('queue-item-playing-indicator')).toContainElement(
+      screen.getByTestId('moving-equalizer'),
+    );
+
+    rerender(
+      <QueueItem track={mockTrack} labels={mockLabels} isCurrent={false} />,
+    );
+    expect(screen.queryByTestId('moving-equalizer')).not.toBeInTheDocument();
+  });
+
   it('(Snapshot) renders loading state', () => {
     const { container } = render(
       <QueueItem

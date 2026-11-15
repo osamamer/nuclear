@@ -8,13 +8,44 @@ exports[`NuclearJamQueueItem > (Snapshot) renders a current item with cover art 
     data-testid="jam-queue-item"
   >
     <div
-      class="bg-muted flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md"
+      class="bg-muted relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md"
     >
       <img
         alt="Placeholder Song"
         class="size-full object-cover"
         src="https://example.com/cover.jpg"
       />
+      <div
+        class="absolute inset-0 flex items-center justify-center bg-black/45 text-white"
+        data-testid="jam-queue-item-playing-indicator"
+      >
+        <span
+          aria-hidden="true"
+          class="inline-flex items-end h-4 gap-[3px]"
+          data-testid="moving-equalizer"
+        >
+          <span
+            class="animate-eq-bar h-full origin-bottom rounded-full bg-current w-[3px]"
+            data-testid="moving-equalizer-bar"
+            style="animation-delay: -0.45s;"
+          />
+          <span
+            class="animate-eq-bar h-full origin-bottom rounded-full bg-current w-[3px]"
+            data-testid="moving-equalizer-bar"
+            style="animation-delay: -0.15s;"
+          />
+          <span
+            class="animate-eq-bar h-full origin-bottom rounded-full bg-current w-[3px]"
+            data-testid="moving-equalizer-bar"
+            style="animation-delay: -0.6s;"
+          />
+          <span
+            class="animate-eq-bar h-full origin-bottom rounded-full bg-current w-[3px]"
+            data-testid="moving-equalizer-bar"
+            style="animation-delay: -0.3s;"
+          />
+        </span>
+      </div>
     </div>
     <div
       class="min-w-0 flex-1"
@@ -42,7 +73,7 @@ exports[`NuclearJamQueueItem > (Snapshot) renders a non-current item without art
     data-testid="jam-queue-item"
   >
     <div
-      class="bg-muted flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md"
+      class="bg-muted relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md"
     >
       <svg
         aria-hidden="true"
@@ -108,7 +139,7 @@ exports[`NuclearJamQueueItem > (Snapshot) renders a remove button 1`] = `
     data-testid="jam-queue-item"
   >
     <div
-      class="bg-muted flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md"
+      class="bg-muted relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md"
     >
       <img
         alt="Placeholder Song"

@@ -68,9 +68,9 @@ describe('SidebarNavigation', () => {
       'aria-label',
       'Spotify playlists · Now playing',
     );
-    expect(
-      screen.queryByTestId('sidebar-playing-indicator'),
-    ).not.toBeInTheDocument();
+    expect(screen.getByTestId('sidebar-playing-indicator')).toContainElement(
+      screen.getByTestId('moving-equalizer'),
+    );
   });
 
   it('shows tooltips on hover in compact mode', async () => {

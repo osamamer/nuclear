@@ -35,7 +35,7 @@ export const PlayerWorkspaceSidebar: FC<PlayerWorkspaceSidebarProps> = ({
   className = '',
 }) => {
   const sidebarRef = useRef<HTMLDivElement>(null);
-  const { handleMouseDown } = useSidebarResize(
+  const { handleMouseDown, isResizingState } = useSidebarResize(
     width,
     onWidthChange,
     side,
@@ -50,6 +50,8 @@ export const PlayerWorkspaceSidebar: FC<PlayerWorkspaceSidebarProps> = ({
       data-testid={`sidebar-${side}`}
       className={cn(
         'border-border relative flex flex-col overflow-hidden',
+        !isResizingState &&
+          'transition-[width] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none',
         {
           'surface-sidebar-left border-r-(length:--border-width)':
             side === 'left',

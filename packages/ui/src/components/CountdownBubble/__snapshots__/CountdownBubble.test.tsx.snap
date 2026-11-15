@@ -4,7 +4,7 @@ exports[`CountdownBubble > (Snapshot) renders a running countdown 1`] = `
 <div>
   <div
     animate="[object Object]"
-    class="border-border shadow-shadow relative flex size-15 cursor-grab touch-none items-center justify-center rounded-full border-(length:--border-width) text-white transition-colors duration-250 select-none active:cursor-grabbing bg-accent-red"
+    class="border-border shadow-shadow relative flex size-15 cursor-grab touch-none items-center justify-center rounded-full border-(length:--border-width) text-white transition-colors duration-250 select-none active:cursor-grabbing bg-red-600"
     data-ready="false"
     data-testid="countdown-bubble"
     exit="[object Object]"
@@ -57,7 +57,7 @@ exports[`CountdownBubble > (Snapshot) renders the ready state 1`] = `
 <div>
   <div
     animate="[object Object]"
-    class="border-border shadow-shadow relative flex size-15 cursor-grab touch-none items-center justify-center rounded-full border-(length:--border-width) text-white transition-colors duration-250 select-none active:cursor-grabbing bg-accent-green"
+    class="border-border shadow-shadow relative flex size-15 cursor-grab touch-none items-center justify-center rounded-full border-(length:--border-width) text-white transition-colors duration-250 select-none active:cursor-grabbing bg-green-600"
     data-ready="true"
     data-testid="countdown-bubble"
     exit="[object Object]"

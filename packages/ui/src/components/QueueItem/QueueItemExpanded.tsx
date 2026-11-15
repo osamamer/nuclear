@@ -6,6 +6,7 @@ import { pickArtwork } from '@nuclearplayer/model';
 import { cn } from '../../utils';
 import { formatTimeMillis } from '../../utils/time';
 import { Button } from '../Button';
+import { MovingEqualizer } from '../MovingEqualizer';
 import type { QueueItemProps } from './types';
 import { queueItemVariants } from './variants';
 
@@ -41,7 +42,7 @@ export const QueueItemExpanded: FC<QueueItemProps> = ({
       <div
         data-testid="queue-item-thumbnail"
         className={cn(
-          'bg-muted flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md',
+          'bg-muted relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md',
           classes?.thumbnail,
         )}
       >
@@ -53,6 +54,14 @@ export const QueueItemExpanded: FC<QueueItemProps> = ({
           />
         ) : (
           <CassetteTape size={24} absoluteStrokeWidth className="opacity-25" />
+        )}
+        {isCurrent && (
+          <div
+            data-testid="queue-item-playing-indicator"
+            className="absolute inset-0 flex items-center justify-center bg-black/45 text-white"
+          >
+            <MovingEqualizer size="md" />
+          </div>
         )}
       </div>
 

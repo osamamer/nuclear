@@ -18,7 +18,7 @@ const movingEqualizerVariants = cva('inline-flex items-end', {
 });
 
 const barVariants = cva(
-  'animate-eq-bar h-full origin-bottom rounded-full bg-current motion-reduce:animate-none',
+  'animate-eq-bar h-full origin-bottom rounded-full bg-current',
   {
     variants: {
       size: {

@@ -13,7 +13,7 @@ exports[`SidebarNavigation > (Snapshot) renders flat nav items in compact mode 1
         data-testid="sidebar-navigation-item"
       >
         <div
-          class="flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
+          class="relative flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
         >
           <svg
             aria-hidden="true"
@@ -46,7 +46,7 @@ exports[`SidebarNavigation > (Snapshot) renders flat nav items in compact mode 1
         data-testid="sidebar-navigation-item"
       >
         <div
-          class="flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
+          class="relative flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
         >
           <svg
             aria-hidden="true"
@@ -85,7 +85,7 @@ exports[`SidebarNavigation > (Snapshot) renders flat nav items in normal mode 1`
         data-testid="sidebar-navigation-item"
       >
         <div
-          class="flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
+          class="relative flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
         >
           <svg
             aria-hidden="true"
@@ -122,7 +122,7 @@ exports[`SidebarNavigation > (Snapshot) renders flat nav items in normal mode 1`
         data-testid="sidebar-navigation-item"
       >
         <div
-          class="flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
+          class="relative flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
         >
           <svg
             aria-hidden="true"

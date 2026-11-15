@@ -8,22 +8,22 @@ exports[`MovingEqualizer > (Snapshot) renders the medium equalizer 1`] = `
     data-testid="moving-equalizer"
   >
     <span
-      class="animate-eq-bar h-full origin-bottom rounded-full bg-current motion-reduce:animate-none w-[3px]"
+      class="animate-eq-bar h-full origin-bottom rounded-full bg-current w-[3px]"
       data-testid="moving-equalizer-bar"
       style="animation-delay: -0.45s;"
     />
     <span
-      class="animate-eq-bar h-full origin-bottom rounded-full bg-current motion-reduce:animate-none w-[3px]"
+      class="animate-eq-bar h-full origin-bottom rounded-full bg-current w-[3px]"
       data-testid="moving-equalizer-bar"
       style="animation-delay: -0.15s;"
     />
     <span
-      class="animate-eq-bar h-full origin-bottom rounded-full bg-current motion-reduce:animate-none w-[3px]"
+      class="animate-eq-bar h-full origin-bottom rounded-full bg-current w-[3px]"
       data-testid="moving-equalizer-bar"
       style="animation-delay: -0.6s;"
     />
     <span
-      class="animate-eq-bar h-full origin-bottom rounded-full bg-current motion-reduce:animate-none w-[3px]"
+      class="animate-eq-bar h-full origin-bottom rounded-full bg-current w-[3px]"
       data-testid="moving-equalizer-bar"
       style="animation-delay: -0.3s;"
     />
@@ -39,22 +39,22 @@ exports[`MovingEqualizer > (Snapshot) renders the small equalizer 1`] = `
     data-testid="moving-equalizer"
   >
     <span
-      class="animate-eq-bar h-full origin-bottom rounded-full bg-current motion-reduce:animate-none w-[2px]"
+      class="animate-eq-bar h-full origin-bottom rounded-full bg-current w-[2px]"
       data-testid="moving-equalizer-bar"
       style="animation-delay: -0.45s;"
     />
     <span
-      class="animate-eq-bar h-full origin-bottom rounded-full bg-current motion-reduce:animate-none w-[2px]"
+      class="animate-eq-bar h-full origin-bottom rounded-full bg-current w-[2px]"
       data-testid="moving-equalizer-bar"
       style="animation-delay: -0.15s;"
     />
     <span
-      class="animate-eq-bar h-full origin-bottom rounded-full bg-current motion-reduce:animate-none w-[2px]"
+      class="animate-eq-bar h-full origin-bottom rounded-full bg-current w-[2px]"
       data-testid="moving-equalizer-bar"
       style="animation-delay: -0.6s;"
     />
     <span
-      class="animate-eq-bar h-full origin-bottom rounded-full bg-current motion-reduce:animate-none w-[2px]"
+      class="animate-eq-bar h-full origin-bottom rounded-full bg-current w-[2px]"
       data-testid="moving-equalizer-bar"
       style="animation-delay: -0.3s;"
     />

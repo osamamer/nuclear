@@ -43,7 +43,7 @@ exports[`QueueItem > (Snapshot) renders current state 1`] = `
   role="button"
 >
   <div
-    class="bg-muted flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md"
+    class="bg-muted relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md"
     data-testid="queue-item-thumbnail"
   >
     <img
@@ -51,6 +51,37 @@ exports[`QueueItem > (Snapshot) renders current state 1`] = `
       class="h-full w-full object-cover"
       src="https://picsum.photos/seed/queen/300"
     />
+    <div
+      class="absolute inset-0 flex items-center justify-center bg-black/45 text-white"
+      data-testid="queue-item-playing-indicator"
+    >
+      <span
+        aria-hidden="true"
+        class="inline-flex items-end h-4 gap-[3px]"
+        data-testid="moving-equalizer"
+      >
+        <span
+          class="animate-eq-bar h-full origin-bottom rounded-full bg-current w-[3px]"
+          data-testid="moving-equalizer-bar"
+          style="animation-delay: -0.45s;"
+        />
+        <span
+          class="animate-eq-bar h-full origin-bottom rounded-full bg-current w-[3px]"
+          data-testid="moving-equalizer-bar"
+          style="animation-delay: -0.15s;"
+        />
+        <span
+          class="animate-eq-bar h-full origin-bottom rounded-full bg-current w-[3px]"
+          data-testid="moving-equalizer-bar"
+          style="animation-delay: -0.6s;"
+        />
+        <span
+          class="animate-eq-bar h-full origin-bottom rounded-full bg-current w-[3px]"
+          data-testid="moving-equalizer-bar"
+          style="animation-delay: -0.3s;"
+        />
+      </span>
+    </div>
   </div>
   <div
     class="min-w-0 flex-1"
@@ -117,7 +148,7 @@ exports[`QueueItem > (Snapshot) renders default state 1`] = `
   role="button"
 >
   <div
-    class="bg-muted flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md"
+    class="bg-muted relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md"
     data-testid="queue-item-thumbnail"
   >
     <img
@@ -194,7 +225,7 @@ exports[`QueueItem > (Snapshot) renders error state 1`] = `
     class="surface-accent-red absolute top-0 right-0 bottom-0 left-0 w-2 border-0"
   />
   <div
-    class="bg-muted flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md"
+    class="bg-muted relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md"
     data-testid="queue-item-thumbnail"
   >
     <img
@@ -309,7 +340,7 @@ exports[`QueueItem > (Snapshot) renders loading state 1`] = `
   role="button"
 >
   <div
-    class="bg-muted flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md"
+    class="bg-muted relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md"
     data-testid="queue-item-thumbnail"
   >
     <img
@@ -386,7 +417,7 @@ exports[`QueueItem > renders without callbacks 1`] = `
   data-testid="queue-item"
 >
   <div
-    class="bg-muted flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md"
+    class="bg-muted relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md"
     data-testid="queue-item-thumbnail"
   >
     <img

@@ -74,7 +74,7 @@ export const SidebarNavigationItem: FC<SidebarNavigationItemProps> = ({
           >
             <div
               className={cn(
-                'flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px]',
+                'relative flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px]',
                 {
                   'text-primary': isFeatured || active,
                   'text-foreground/55 group-hover:text-foreground':
@@ -86,6 +86,14 @@ export const SidebarNavigationItem: FC<SidebarNavigationItemProps> = ({
               )}
             >
               {icon}
+              {isCompact && isPlaying && (
+                <span
+                  className="bg-background text-accent-green absolute right-0 bottom-0 flex items-center rounded-sm px-0.5 py-0.5"
+                  data-testid="sidebar-playing-indicator"
+                >
+                  <MovingEqualizer />
+                </span>
+              )}
             </div>
             {!isCompact && (
               <span

@@ -5,6 +5,7 @@ import { pickArtwork, QueueItem } from '@nuclearplayer/model';
 
 import { cn } from '../../utils';
 import { Button } from '../Button';
+import { MovingEqualizer } from '../MovingEqualizer';
 
 type NuclearJamQueueItemProps = {
   item: QueueItem;
@@ -29,7 +30,7 @@ export const NuclearJamQueueItem = forwardRef<
       data-testid="jam-queue-item"
       data-is-current={isCurrent}
     >
-      <div className="bg-muted flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md">
+      <div className="bg-muted relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md">
         {thumbnail?.url ? (
           <img
             src={thumbnail.url}
@@ -42,6 +43,14 @@ export const NuclearJamQueueItem = forwardRef<
             absoluteStrokeWidth
             className="text-muted-foreground opacity-20"
           />
+        )}
+        {isCurrent && (
+          <div
+            data-testid="jam-queue-item-playing-indicator"
+            className="absolute inset-0 flex items-center justify-center bg-black/45 text-white"
+          >
+            <MovingEqualizer size="md" />
+          </div>
         )}
       </div>
 

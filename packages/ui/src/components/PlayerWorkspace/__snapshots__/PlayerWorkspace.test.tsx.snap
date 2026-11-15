@@ -6,7 +6,7 @@ exports[`PlayerWorkspace > (Snapshot) both sidebars collapsed 1`] = `
     class="surface-muted relative grid h-full min-h-0 grid-cols-[auto_1fr_auto]"
   >
     <div
-      class="border-border relative flex flex-col overflow-hidden surface-sidebar-left border-r-(length:--border-width) p-2"
+      class="border-border relative flex flex-col overflow-hidden transition-[width] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none surface-sidebar-left border-r-(length:--border-width) p-2"
       data-testid="sidebar-left"
       style="width: 54px;"
     >
@@ -54,7 +54,7 @@ exports[`PlayerWorkspace > (Snapshot) both sidebars collapsed 1`] = `
       data-testid="player-workspace-main"
     />
     <div
-      class="border-border relative flex flex-col overflow-hidden surface-sidebar-right border-l-(length:--border-width)"
+      class="border-border relative flex flex-col overflow-hidden transition-[width] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none surface-sidebar-right border-l-(length:--border-width)"
       data-testid="sidebar-right"
       style="width: 54px;"
     >
@@ -107,7 +107,7 @@ exports[`PlayerWorkspace > (Snapshot) both sidebars expanded 1`] = `
     class="surface-muted relative grid h-full min-h-0 grid-cols-[auto_1fr_auto]"
   >
     <div
-      class="border-border relative flex flex-col overflow-hidden surface-sidebar-left border-r-(length:--border-width) p-2"
+      class="border-border relative flex flex-col overflow-hidden transition-[width] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none surface-sidebar-left border-r-(length:--border-width) p-2"
       data-testid="sidebar-left"
       style="width: 200px;"
     >
@@ -158,7 +158,7 @@ exports[`PlayerWorkspace > (Snapshot) both sidebars expanded 1`] = `
       data-testid="player-workspace-main"
     />
     <div
-      class="border-border relative flex flex-col overflow-hidden surface-sidebar-right border-l-(length:--border-width)"
+      class="border-border relative flex flex-col overflow-hidden transition-[width] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none surface-sidebar-right border-l-(length:--border-width)"
       data-testid="sidebar-right"
       style="width: 200px;"
     >

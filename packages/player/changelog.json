@@ -1,6 +1,30 @@
 [
   {
     "date": "2026-11-15T00:00",
+    "description": "The left sidebar and the queue panel now slide smoothly when opened or closed.",
+    "type": "improvement",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "UI",
+        "color": "blue"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-15T00:00",
+    "description": "Skip countdown bubbles are now red while counting and green once ready, whatever the theme accent color. The moving equalizer also marks the current song in the queue, in Nuclear Jam, and in the collapsed sidebar.",
+    "type": "improvement",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "UI",
+        "color": "blue"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-15T00:00",
     "description": "The now playing badge in track lists and the sidebar now shows a moving equalizer.",
     "type": "improvement",
     "contributors": ["nukeop"],

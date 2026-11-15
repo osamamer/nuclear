@@ -290,7 +290,7 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
       class="surface-muted relative grid h-full min-h-0 grid-cols-[auto_1fr_auto]"
     >
       <div
-        class="border-border relative flex flex-col overflow-hidden surface-sidebar-left border-r-(length:--border-width) p-2"
+        class="border-border relative flex flex-col overflow-hidden transition-[width] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none surface-sidebar-left border-r-(length:--border-width) p-2"
         data-testid="sidebar-left"
         style="width: 200px;"
       >
@@ -355,7 +355,7 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
                         role="button"
                       >
                         <div
-                          class="flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-primary"
+                          class="relative flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-primary"
                         >
                           <svg
                             aria-hidden="true"
@@ -408,7 +408,7 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
                         data-testid="sidebar-navigation-item"
                       >
                         <div
-                          class="flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
+                          class="relative flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
                         >
                           <svg
                             aria-hidden="true"
@@ -452,7 +452,7 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
                         data-testid="sidebar-navigation-item"
                       >
                         <div
-                          class="flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
+                          class="relative flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
                         >
                           <svg
                             aria-hidden="true"
@@ -500,7 +500,7 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
                         data-testid="sidebar-navigation-item"
                       >
                         <div
-                          class="flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
+                          class="relative flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
                         >
                           <svg
                             aria-hidden="true"
@@ -551,7 +551,7 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
                         data-testid="sidebar-navigation-item"
                       >
                         <div
-                          class="flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
+                          class="relative flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
                         >
                           <svg
                             aria-hidden="true"
@@ -597,7 +597,7 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
                         data-testid="sidebar-navigation-item"
                       >
                         <div
-                          class="flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
+                          class="relative flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
                         >
                           <svg
                             aria-hidden="true"
@@ -644,7 +644,7 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
                         data-testid="sidebar-navigation-item"
                       >
                         <div
-                          class="flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
+                          class="relative flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
                         >
                           <svg
                             aria-hidden="true"
@@ -693,7 +693,7 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
                         data-testid="sidebar-navigation-item"
                       >
                         <div
-                          class="flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
+                          class="relative flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
                         >
                           <svg
                             aria-hidden="true"
@@ -755,7 +755,7 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
                     role="button"
                   >
                     <div
-                      class="flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
+                      class="relative flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
                     >
                       <svg
                         aria-hidden="true"
@@ -946,7 +946,7 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
         </div>
       </main>
       <div
-        class="border-border relative flex flex-col overflow-hidden surface-sidebar-right border-l-(length:--border-width)"
+        class="border-border relative flex flex-col overflow-hidden transition-[width] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none surface-sidebar-right border-l-(length:--border-width)"
         data-testid="sidebar-right"
         style="width: 200px;"
       >
