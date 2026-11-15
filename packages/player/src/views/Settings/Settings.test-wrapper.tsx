@@ -6,6 +6,27 @@ import { registerBuiltInCoreSettings } from '../../services/coreSettings';
 import { initializeSettingsStore } from '../../stores/settingsStore';
 
 export const SettingsWrapper = {
+  accentColor: {
+    swatch(name: string) {
+      return screen.getByRole('button', { name });
+    },
+    async select(name: string) {
+      await userEvent.click(this.swatch(name));
+    },
+    get hexInput() {
+      return screen.getByRole('textbox', {
+        name: 'Custom accent color hex code',
+      });
+    },
+    async typeHex(value: string) {
+      await userEvent.clear(this.hexInput);
+      await userEvent.type(this.hexInput, value);
+    },
+    get applied() {
+      return document.documentElement.style.getPropertyValue('--accent-color');
+    },
+  },
+
   autoDownloadPlaylistTracks: {
     get element() {
       return screen.getByRole('switch', {

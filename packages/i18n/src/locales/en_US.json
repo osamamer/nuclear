@@ -472,7 +472,15 @@
           "teal": "Teal",
           "pink": "Pink",
           "orange": "Orange",
-          "green": "Green"
+          "green": "Green",
+          "vividGreen": "Vivid green",
+          "custom": "Custom"
+        },
+        "custom": {
+          "title": "Custom accent color",
+          "description": "Pick any color to use as the accent.",
+          "picker": "Pick a custom accent color",
+          "hex": "Custom accent color hex code"
         }
       },
       "framelessWindow": {

@@ -59,7 +59,10 @@ const initThemes = () =>
     .then(() => hydrateThemeStore())
     .then(() => applyThemeFromSettingsIfAny())
     .then(() =>
-      applyAccentColor(getSetting('core.appearance.accentColor') as string),
+      applyAccentColor(
+        getSetting('core.appearance.accentColor') as string,
+        getSetting('core.appearance.customAccentColor') as string,
+      ),
     );
 
 const startBackgroundTasks = () => {

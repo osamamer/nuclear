@@ -25,4 +25,43 @@ describe('Settings view', async () => {
       'true',
     );
   });
+
+  it('applies the vivid green accent preset', async () => {
+    await SettingsWrapper.mount();
+
+    await SettingsWrapper.accentColor.select('Vivid green');
+
+    expect(SettingsWrapper.accentColor.swatch('Vivid green')).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
+    expect(SettingsWrapper.accentColor.applied).toBe('#1db954');
+  });
+
+  it('applies a custom accent color typed as a hex code', async () => {
+    await SettingsWrapper.mount();
+
+    await SettingsWrapper.accentColor.typeHex('#ff3366');
+
+    expect(SettingsWrapper.accentColor.swatch('Custom')).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
+    expect(SettingsWrapper.accentColor.applied).toBe('#ff3366');
+  });
+
+  it('ignores incomplete hex codes', async () => {
+    await SettingsWrapper.mount();
+
+    await SettingsWrapper.accentColor.typeHex('#ff3');
+
+    expect(SettingsWrapper.accentColor.hexInput).toHaveAttribute(
+      'aria-invalid',
+      'true',
+    );
+    expect(SettingsWrapper.accentColor.swatch('Custom')).toHaveAttribute(
+      'aria-pressed',
+      'false',
+    );
+  });
 });
