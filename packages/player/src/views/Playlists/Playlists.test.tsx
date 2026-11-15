@@ -11,9 +11,11 @@ import {
 
 import { PlayerBarWrapper } from '../../integration-tests/PlayerBar.test-wrapper';
 import { providersHost } from '../../services/providersHost';
+import { useLayoutStore } from '../../stores/layoutStore';
 import { usePlaylistStore } from '../../stores/playlistStore';
 import { useQueueStore } from '../../stores/queueStore';
 import { getSetting } from '../../stores/settingsStore';
+import { useSoundStore } from '../../stores/soundStore';
 import { PlaylistBuilder } from '../../test/builders/PlaylistBuilder';
 import { PlaylistFolderBuilder } from '../../test/builders/PlaylistFolderBuilder';
 import {
@@ -485,6 +487,43 @@ describe('Playlists view', () => {
       });
       expect(queuedTracks().map(stripResolutionState)).toEqual(roadTripTracks);
       expect(PlaylistsWrapper.detailView).not.toBeInTheDocument();
+    });
+
+    it('does not mark a restored playlist as playing before playback starts', async () => {
+      useSoundStore.setState({ status: 'stopped', hasStartedPlayback: false });
+      useLayoutStore.setState({ playlistsExpanded: true });
+      await PlaylistsWrapper.savePlaylists(roadTrip);
+      const playlistId = usePlaylistStore.getState().index[0].id;
+      useQueueStore.getState().replaceQueue(roadTripTracks, playlistId);
+
+      await PlaylistsWrapper.mount();
+
+      expect(PlaylistsWrapper.sidebarPlaylistLinks).toHaveLength(1);
+      expect(PlaylistsWrapper.sidebarPlayingIndicators).toHaveLength(0);
+    });
+
+    it('marks the playlist as playing in the sidebar once playback starts', async () => {
+      useSoundStore.setState({ status: 'stopped', hasStartedPlayback: false });
+      useLayoutStore.setState({ playlistsExpanded: true });
+      providersHost.register(
+        new StreamingProviderBuilder()
+          .withSearchForTrack(async (artist: string, title: string) => [
+            createMockCandidate(`candidate-${title}`, `${artist} - ${title}`),
+          ])
+          .build(),
+      );
+      await PlaylistsWrapper.savePlaylists(roadTrip);
+
+      await PlaylistsWrapper.mount();
+      expect(PlaylistsWrapper.sidebarPlayingIndicators).toHaveLength(0);
+      await PlaylistsWrapper.card(0).play();
+
+      await vi.waitFor(() => {
+        expect(PlayerBarWrapper.isPlaying).toBe(true);
+      });
+      await vi.waitFor(() => {
+        expect(PlaylistsWrapper.sidebarPlayingIndicators).toHaveLength(1);
+      });
     });
 
     it('has no play button for an empty playlist', async () => {

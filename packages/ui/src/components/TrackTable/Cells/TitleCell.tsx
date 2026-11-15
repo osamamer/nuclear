@@ -14,6 +14,7 @@ type TitleCellMeta = {
   displayThumbnail?: boolean;
   displayArtist?: boolean;
   activeTrackKey?: string;
+  isActiveTrackPaused?: boolean;
   onAddToQueue?: (track: Track) => void;
   ContextMenuWrapper?: FC<ContextMenuWrapperProps>;
 };
@@ -108,7 +109,7 @@ export const TitleCell = <T extends Track>({
                 className="bg-accent-green/15 text-accent-green inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wide uppercase"
                 data-testid="now-playing-indicator"
               >
-                <MovingEqualizer />
+                <MovingEqualizer isPaused={meta?.isActiveTrackPaused} />
                 {labels.nowPlaying}
               </span>
             )}

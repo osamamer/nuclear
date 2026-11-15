@@ -16,6 +16,7 @@ import { useQueueDrag } from './useQueueDrag';
 export type QueuePanelProps = {
   items: QueueItemType[];
   currentItemId?: string;
+  isPaused?: boolean;
   isCollapsed?: boolean;
   reorderable?: boolean;
   onMove?: (itemId: string, beforeItemId: string | null) => void;
@@ -38,6 +39,7 @@ export type QueuePanelProps = {
 export const QueuePanel: FC<QueuePanelProps> = ({
   items,
   currentItemId,
+  isPaused = false,
   isCollapsed = false,
   reorderable = true,
   onMove,
@@ -113,6 +115,7 @@ export const QueuePanel: FC<QueuePanelProps> = ({
                 track={draggedItem.track}
                 status={draggedItem.status}
                 isCurrent={draggedItem.id === currentItemId}
+                isPaused={isPaused}
                 isCollapsed={isCollapsed}
                 errorMessage={draggedItem.error}
                 labels={labels}
@@ -136,6 +139,7 @@ export const QueuePanel: FC<QueuePanelProps> = ({
                   <ReorderableQueueItem
                     item={item}
                     isCurrent={item.id === currentItemId}
+                    isPaused={isPaused}
                     isCollapsed={isCollapsed}
                     isReorderable={reorderable}
                     isDropSlot={item.id === draggedItem?.id}

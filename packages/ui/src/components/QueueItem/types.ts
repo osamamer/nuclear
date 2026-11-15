@@ -14,6 +14,7 @@ export type QueueItemProps = VariantProps<typeof queueItemVariants> & {
   onSelect?: () => void;
   onRemove?: () => void;
   errorMessage?: string;
+  isPaused?: boolean;
   labels: QueueItemLabels;
   classes?: {
     root?: string;

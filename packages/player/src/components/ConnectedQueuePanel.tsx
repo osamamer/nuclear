@@ -6,6 +6,7 @@ import { useTranslation } from '@nuclearplayer/i18n';
 import { Button, Dialog, Input, Popover, QueuePanel } from '@nuclearplayer/ui';
 
 import { useCurrentQueueItem } from '../hooks/useCurrentQueueItem';
+import { usePlaybackActivity } from '../hooks/usePlaybackActivity';
 import { useQueue } from '../hooks/useQueue';
 import { useQueueActions } from '../hooks/useQueueActions';
 import { usePlaylistStore } from '../stores/playlistStore';
@@ -20,6 +21,7 @@ export const ConnectedQueuePanel: FC<ConnectedQueuePanelProps> = ({
   const { t } = useTranslation('queue');
   const queue = useQueue();
   const currentItem = useCurrentQueueItem();
+  const { isPaused } = usePlaybackActivity();
   const actions = useQueueActions();
 
   const handleSelectItem = (itemId: string) => {
@@ -34,6 +36,7 @@ export const ConnectedQueuePanel: FC<ConnectedQueuePanelProps> = ({
     <QueuePanel
       items={queue.items}
       currentItemId={currentItem?.id}
+      isPaused={isPaused}
       isCollapsed={isCollapsed}
       reorderable={!isCollapsed}
       onMove={actions.moveBefore}

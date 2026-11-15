@@ -5,6 +5,7 @@ exports[`MovingEqualizer > (Snapshot) renders the medium equalizer 1`] = `
   <span
     aria-hidden="true"
     class="inline-flex items-end h-4 gap-[3px]"
+    data-paused="false"
     data-testid="moving-equalizer"
   >
     <span
@@ -36,6 +37,7 @@ exports[`MovingEqualizer > (Snapshot) renders the small equalizer 1`] = `
   <span
     aria-hidden="true"
     class="inline-flex items-end h-3 gap-[2px]"
+    data-paused="false"
     data-testid="moving-equalizer"
   >
     <span

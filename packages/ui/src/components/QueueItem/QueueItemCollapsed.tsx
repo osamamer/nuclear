@@ -12,6 +12,7 @@ export const QueueItemCollapsed: FC<QueueItemProps> = ({
   track,
   status = 'idle',
   isCurrent = false,
+  isPaused = false,
   onSelect,
   classes,
 }) => {
@@ -41,7 +42,7 @@ export const QueueItemCollapsed: FC<QueueItemProps> = ({
             data-testid="queue-item-playing-indicator"
             className="absolute inset-0 flex items-center justify-center bg-black/45 text-white"
           >
-            <MovingEqualizer size="md" />
+            <MovingEqualizer size="md" isPaused={isPaused} />
           </div>
         )}
 

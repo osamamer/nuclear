@@ -8,6 +8,7 @@ import {
   TrackTableProps,
 } from '@nuclearplayer/ui';
 
+import { usePlaybackActivity } from '../hooks/usePlaybackActivity';
 import { useQueueActions } from '../hooks/useQueueActions';
 import { useTrackActions } from '../hooks/useTrackActions';
 import { useTrackTableLabels } from '../hooks/useTrackTableLabels';
@@ -36,6 +37,7 @@ export const ConnectedTrackTable: FC<ConnectedTrackTableProps> = (props) => {
   const trackActions = useTrackActions();
   const queueActions = useQueueActions();
   const labels = useTrackTableLabels();
+  const { hasStartedPlayback, isPaused } = usePlaybackActivity();
 
   const playNow = useCallback(
     (track: Track, index: number) => {
@@ -107,9 +109,16 @@ export const ConnectedTrackTable: FC<ConnectedTrackTableProps> = (props) => {
     () => ({
       isTrackFavorite: trackActions.isFavorite,
       ContextMenuWrapper: TrackContextMenuWrapper,
-      activeTrackKey,
+      activeTrackKey: hasStartedPlayback ? activeTrackKey : undefined,
+      isActiveTrackPaused: isPaused,
     }),
-    [trackActions.isFavorite, TrackContextMenuWrapper, activeTrackKey],
+    [
+      trackActions.isFavorite,
+      TrackContextMenuWrapper,
+      activeTrackKey,
+      hasStartedPlayback,
+      isPaused,
+    ],
   );
 
   return (

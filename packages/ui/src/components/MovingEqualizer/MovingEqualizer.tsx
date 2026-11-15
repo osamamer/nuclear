@@ -33,16 +33,20 @@ const barVariants = cva(
 );
 
 type MovingEqualizerProps = ComponentProps<'span'> &
-  VariantProps<typeof movingEqualizerVariants>;
+  VariantProps<typeof movingEqualizerVariants> & {
+    isPaused?: boolean;
+  };
 
 export const MovingEqualizer: FC<MovingEqualizerProps> = ({
   className,
   size,
+  isPaused = false,
   ...props
 }) => (
   <span
     aria-hidden="true"
     data-testid="moving-equalizer"
+    data-paused={isPaused}
     className={cn(movingEqualizerVariants({ size, className }))}
     {...props}
   >
@@ -50,7 +54,10 @@ export const MovingEqualizer: FC<MovingEqualizerProps> = ({
       <span
         key={delay}
         data-testid="moving-equalizer-bar"
-        className={barVariants({ size })}
+        className={cn(
+          barVariants({ size }),
+          isPaused && '[animation-play-state:paused]',
+        )}
         style={{ animationDelay: delay }}
       />
     ))}

@@ -15,6 +15,7 @@ type SidebarNavigationItemProps = {
   isFeatured?: boolean;
   exact?: boolean;
   isPlaying?: boolean;
+  isPaused?: boolean;
   playingLabel?: string;
 };
 
@@ -43,6 +44,7 @@ export const SidebarNavigationItem: FC<SidebarNavigationItemProps> = ({
   isFeatured = false,
   exact = false,
   isPlaying = false,
+  isPaused = false,
   playingLabel,
 }) => {
   const isCompact = useSidebarCompact();
@@ -91,7 +93,7 @@ export const SidebarNavigationItem: FC<SidebarNavigationItemProps> = ({
                   className="bg-background text-accent-green absolute right-0 bottom-0 flex items-center rounded-sm px-0.5 py-0.5"
                   data-testid="sidebar-playing-indicator"
                 >
-                  <MovingEqualizer />
+                  <MovingEqualizer isPaused={isPaused} />
                 </span>
               )}
             </div>
@@ -111,7 +113,7 @@ export const SidebarNavigationItem: FC<SidebarNavigationItemProps> = ({
                 className="text-accent-green mr-2 ml-auto flex shrink-0 items-center"
                 data-testid="sidebar-playing-indicator"
               >
-                <MovingEqualizer size="md" />
+                <MovingEqualizer size="md" isPaused={isPaused} />
               </span>
             )}
           </div>

@@ -22,6 +22,7 @@ exports[`NuclearJamQueueItem > (Snapshot) renders a current item with cover art 
         <span
           aria-hidden="true"
           class="inline-flex items-end h-4 gap-[3px]"
+          data-paused="false"
           data-testid="moving-equalizer"
         >
           <span

@@ -76,6 +76,7 @@ export type TrackTableProps<T extends Track = Track> = {
     isTrackFavorite?: (track: T) => boolean;
     ContextMenuWrapper?: FC<ContextMenuWrapperProps<T>>;
     activeTrackKey?: string;
+    isActiveTrackPaused?: boolean;
   };
   rowHeight?: number;
   overscan?: number;

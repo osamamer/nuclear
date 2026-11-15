@@ -118,6 +118,12 @@ export const PlaylistsWrapper = {
       .filter((link) => link.getAttribute('href')?.startsWith('/playlists/'));
   },
 
+  get sidebarPlayingIndicators() {
+    return within(screen.getByTestId('sidebar-navigation')).queryAllByTestId(
+      'sidebar-playing-indicator',
+    );
+  },
+
   playlistsNavigation: {
     get element() {
       return within(

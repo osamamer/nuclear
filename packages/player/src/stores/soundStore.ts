@@ -10,6 +10,7 @@ import { secondsToMs } from '../utils/time';
 type SoundState = {
   src: AudioSource | null;
   status: SoundStatus;
+  hasStartedPlayback: boolean;
   pausedAt: number | null;
   seek: number;
   duration: number;
@@ -35,6 +36,7 @@ type SoundActions = {
 export const useSoundStore = create<SoundState & SoundActions>((set, get) => ({
   src: null,
   status: 'stopped',
+  hasStartedPlayback: false,
   pausedAt: null,
   seek: 0,
   duration: 0,
@@ -46,7 +48,7 @@ export const useSoundStore = create<SoundState & SoundActions>((set, get) => ({
     Logger.playback.debug(`Set source: ${src?.url ?? 'null'}`);
   },
   play: () => {
-    set({ status: 'playing', pausedAt: null });
+    set({ status: 'playing', hasStartedPlayback: true, pausedAt: null });
     Logger.playback.debug('Play');
   },
   pause: () => {

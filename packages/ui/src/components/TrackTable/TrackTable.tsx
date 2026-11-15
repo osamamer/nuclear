@@ -87,6 +87,7 @@ function TrackTableBase<T extends Track = Track>({
       isTrackFavorite: meta?.isTrackFavorite,
       ContextMenuWrapper: meta?.ContextMenuWrapper,
       activeTrackKey: meta?.activeTrackKey,
+      isActiveTrackPaused: meta?.isActiveTrackPaused,
     }),
     [
       resolvedDisplay.displayQueueControls,
@@ -98,6 +99,7 @@ function TrackTableBase<T extends Track = Track>({
       meta?.isTrackFavorite,
       meta?.ContextMenuWrapper,
       meta?.activeTrackKey,
+      meta?.isActiveTrackPaused,
     ],
   );
 

@@ -12,6 +12,7 @@ import { QueueItemPopover } from '../QueueItemPopover';
 export type ReorderableQueueItemProps = {
   item: QueueItemType;
   isCurrent: boolean;
+  isPaused?: boolean;
   isCollapsed?: boolean;
   isReorderable?: boolean;
   isDropSlot?: boolean;
@@ -27,6 +28,7 @@ export type ReorderableQueueItemProps = {
 export const ReorderableQueueItem: FC<ReorderableQueueItemProps> = ({
   item,
   isCurrent,
+  isPaused = false,
   isCollapsed = false,
   isReorderable = false,
   isDropSlot = false,
@@ -77,6 +79,7 @@ export const ReorderableQueueItem: FC<ReorderableQueueItemProps> = ({
             track={item.track}
             status={item.status}
             isCurrent={isCurrent}
+            isPaused={isPaused}
             isCollapsed={isCollapsed}
             errorMessage={item.error}
             onSelect={() => onSelect?.(item.id)}
