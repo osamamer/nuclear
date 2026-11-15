@@ -9,7 +9,7 @@ export const SettingsWrapper = {
   autoDownloadPlaylistTracks: {
     get element() {
       return screen.getByRole('switch', {
-        name: 'Automatically download playlist tracks',
+        name: 'Automatically download selected playlists',
       });
     },
     async click() {

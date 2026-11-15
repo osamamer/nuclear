@@ -3,12 +3,12 @@
 exports[`NuclearJamSearchResultTrack > (Snapshot) renders a full track 1`] = `
 <div>
   <button
-    class="border-border active:bg-primary flex w-full cursor-pointer items-center gap-3 border-b-(length:--border-width) px-4 py-2 text-left"
+    class="hover:bg-muted/70 active:bg-primary/15 flex h-14 w-full cursor-pointer items-center gap-3 rounded-lg px-2 text-left transition-colors"
     data-testid="jam-search-result-track"
     type="button"
   >
     <div
-      class="border-border bg-muted flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-md border-(length:--border-width)"
+      class="bg-muted flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md"
     >
       <img
         alt="Placeholder Song"
@@ -20,7 +20,7 @@ exports[`NuclearJamSearchResultTrack > (Snapshot) renders a full track 1`] = `
       class="min-w-0 flex-1"
     >
       <div
-        class="text-foreground truncate text-sm font-bold"
+        class="text-foreground truncate text-sm leading-5 font-semibold"
       >
         Placeholder Song
       </div>
@@ -42,24 +42,24 @@ exports[`NuclearJamSearchResultTrack > (Snapshot) renders a full track 1`] = `
 exports[`NuclearJamSearchResultTrack > (Snapshot) renders a minimal track 1`] = `
 <div>
   <button
-    class="border-border active:bg-primary flex w-full cursor-pointer items-center gap-3 border-b-(length:--border-width) px-4 py-2 text-left"
+    class="hover:bg-muted/70 active:bg-primary/15 flex h-14 w-full cursor-pointer items-center gap-3 rounded-lg px-2 text-left transition-colors"
     data-testid="jam-search-result-track"
     type="button"
   >
     <div
-      class="border-border bg-muted flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-md border-(length:--border-width)"
+      class="bg-muted flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md"
     >
       <svg
         aria-hidden="true"
         class="lucide lucide-cassette-tape text-foreground opacity-20"
         fill="none"
-        height="40"
+        height="24"
         stroke="currentColor"
         stroke-linecap="round"
         stroke-linejoin="round"
-        stroke-width="1.2"
+        stroke-width="2"
         viewBox="0 0 24 24"
-        width="40"
+        width="24"
         xmlns="http://www.w3.org/2000/svg"
       >
         <rect
@@ -91,7 +91,7 @@ exports[`NuclearJamSearchResultTrack > (Snapshot) renders a minimal track 1`] = 
       class="min-w-0 flex-1"
     >
       <div
-        class="text-foreground truncate text-sm font-bold"
+        class="text-foreground truncate text-sm leading-5 font-semibold"
       >
         Untitled
       </div>

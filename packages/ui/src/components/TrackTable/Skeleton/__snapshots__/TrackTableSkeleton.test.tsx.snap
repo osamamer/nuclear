@@ -3,40 +3,14 @@
 exports[`TrackTableSkeleton > (Snapshot) Defaults 1`] = `
 <DocumentFragment>
   <table
-    class="border-border relative w-full table-fixed border-(length:--border-width)"
+    class="relative w-full table-fixed border-separate border-spacing-0"
     data-testid="track-table-skeleton"
     role="table"
   >
     <thead>
       <tr
-        class="border-border surface-primary border-b-(length:--border-width)"
+        class="border-border/50 bg-background/95 text-foreground/55 border-b text-xs font-semibold tracking-wide uppercase"
       >
-        <th
-          class="w-10 text-center"
-          role="columnheader"
-        >
-          <div
-            class="flex h-6 items-center justify-center"
-          >
-            <div
-              class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) size-4"
-              data-testid="skeleton"
-            />
-          </div>
-        </th>
-        <th
-          class="px-2 text-left"
-          role="columnheader"
-        >
-          <div
-            class="flex h-6 items-center"
-          >
-            <div
-              class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-16"
-              data-testid="skeleton"
-            />
-          </div>
-        </th>
         <th
           class="px-2 text-left w-[40%]"
           role="columnheader"
@@ -67,383 +41,463 @@ exports[`TrackTableSkeleton > (Snapshot) Defaults 1`] = `
     </thead>
     <tbody>
       <tr
-        class="border-border bg-muted border-b-(length:--border-width)"
+        class="border-b border-transparent"
         data-testid="track-row-skeleton"
-        style="height: 42px;"
+        style="height: 56px;"
       >
         <td
-          class="w-10 text-center"
+          class="px-2"
         >
           <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) mx-auto size-8"
-            data-testid="skeleton"
-          />
+            class="flex items-center gap-3"
+          >
+            <div
+              class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) size-10 shrink-0"
+              data-testid="skeleton"
+            />
+            <div
+              class="flex min-w-0 flex-1 flex-col gap-1.5"
+            >
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-3/4"
+                data-testid="skeleton"
+              />
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3 w-1/3"
+                data-testid="skeleton"
+              />
+            </div>
+          </div>
         </td>
         <td
           class="px-2"
         >
           <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-3/4"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
-          class="px-2"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-3/4"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
-          class="px-2"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-3/4"
-            data-testid="skeleton"
-          />
+            class="flex items-center gap-3"
+          >
+            <div
+              class="flex min-w-0 flex-1 flex-col gap-1.5"
+            >
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-3/4"
+                data-testid="skeleton"
+              />
+            </div>
+          </div>
         </td>
       </tr>
       <tr
-        class="border-border bg-muted border-b-(length:--border-width)"
+        class="border-b border-transparent"
         data-testid="track-row-skeleton"
-        style="height: 42px;"
+        style="height: 56px;"
       >
         <td
-          class="w-10 text-center"
+          class="px-2"
         >
           <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) mx-auto size-8"
-            data-testid="skeleton"
-          />
+            class="flex items-center gap-3"
+          >
+            <div
+              class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) size-10 shrink-0"
+              data-testid="skeleton"
+            />
+            <div
+              class="flex min-w-0 flex-1 flex-col gap-1.5"
+            >
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-1/2"
+                data-testid="skeleton"
+              />
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3 w-1/3"
+                data-testid="skeleton"
+              />
+            </div>
+          </div>
         </td>
         <td
           class="px-2"
         >
           <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-1/2"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
-          class="px-2"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-1/2"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
-          class="px-2"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-1/2"
-            data-testid="skeleton"
-          />
+            class="flex items-center gap-3"
+          >
+            <div
+              class="flex min-w-0 flex-1 flex-col gap-1.5"
+            >
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-1/2"
+                data-testid="skeleton"
+              />
+            </div>
+          </div>
         </td>
       </tr>
       <tr
-        class="border-border bg-muted border-b-(length:--border-width)"
+        class="border-b border-transparent"
         data-testid="track-row-skeleton"
-        style="height: 42px;"
+        style="height: 56px;"
       >
         <td
-          class="w-10 text-center"
+          class="px-2"
         >
           <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) mx-auto size-8"
-            data-testid="skeleton"
-          />
+            class="flex items-center gap-3"
+          >
+            <div
+              class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) size-10 shrink-0"
+              data-testid="skeleton"
+            />
+            <div
+              class="flex min-w-0 flex-1 flex-col gap-1.5"
+            >
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-2/3"
+                data-testid="skeleton"
+              />
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3 w-1/3"
+                data-testid="skeleton"
+              />
+            </div>
+          </div>
         </td>
         <td
           class="px-2"
         >
           <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-2/3"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
-          class="px-2"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-2/3"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
-          class="px-2"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-2/3"
-            data-testid="skeleton"
-          />
+            class="flex items-center gap-3"
+          >
+            <div
+              class="flex min-w-0 flex-1 flex-col gap-1.5"
+            >
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-2/3"
+                data-testid="skeleton"
+              />
+            </div>
+          </div>
         </td>
       </tr>
       <tr
-        class="border-border bg-muted border-b-(length:--border-width)"
+        class="border-b border-transparent"
         data-testid="track-row-skeleton"
-        style="height: 42px;"
+        style="height: 56px;"
       >
         <td
-          class="w-10 text-center"
+          class="px-2"
         >
           <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) mx-auto size-8"
-            data-testid="skeleton"
-          />
+            class="flex items-center gap-3"
+          >
+            <div
+              class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) size-10 shrink-0"
+              data-testid="skeleton"
+            />
+            <div
+              class="flex min-w-0 flex-1 flex-col gap-1.5"
+            >
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-5/6"
+                data-testid="skeleton"
+              />
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3 w-1/3"
+                data-testid="skeleton"
+              />
+            </div>
+          </div>
         </td>
         <td
           class="px-2"
         >
           <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-5/6"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
-          class="px-2"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-5/6"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
-          class="px-2"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-5/6"
-            data-testid="skeleton"
-          />
+            class="flex items-center gap-3"
+          >
+            <div
+              class="flex min-w-0 flex-1 flex-col gap-1.5"
+            >
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-5/6"
+                data-testid="skeleton"
+              />
+            </div>
+          </div>
         </td>
       </tr>
       <tr
-        class="border-border bg-muted border-b-(length:--border-width)"
+        class="border-b border-transparent"
         data-testid="track-row-skeleton"
-        style="height: 42px;"
+        style="height: 56px;"
       >
         <td
-          class="w-10 text-center"
+          class="px-2"
         >
           <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) mx-auto size-8"
-            data-testid="skeleton"
-          />
+            class="flex items-center gap-3"
+          >
+            <div
+              class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) size-10 shrink-0"
+              data-testid="skeleton"
+            />
+            <div
+              class="flex min-w-0 flex-1 flex-col gap-1.5"
+            >
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-3/4"
+                data-testid="skeleton"
+              />
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3 w-1/3"
+                data-testid="skeleton"
+              />
+            </div>
+          </div>
         </td>
         <td
           class="px-2"
         >
           <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-3/4"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
-          class="px-2"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-3/4"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
-          class="px-2"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-3/4"
-            data-testid="skeleton"
-          />
+            class="flex items-center gap-3"
+          >
+            <div
+              class="flex min-w-0 flex-1 flex-col gap-1.5"
+            >
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-3/4"
+                data-testid="skeleton"
+              />
+            </div>
+          </div>
         </td>
       </tr>
       <tr
-        class="border-border bg-muted border-b-(length:--border-width)"
+        class="border-b border-transparent"
         data-testid="track-row-skeleton"
-        style="height: 42px;"
+        style="height: 56px;"
       >
         <td
-          class="w-10 text-center"
+          class="px-2"
         >
           <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) mx-auto size-8"
-            data-testid="skeleton"
-          />
+            class="flex items-center gap-3"
+          >
+            <div
+              class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) size-10 shrink-0"
+              data-testid="skeleton"
+            />
+            <div
+              class="flex min-w-0 flex-1 flex-col gap-1.5"
+            >
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-1/2"
+                data-testid="skeleton"
+              />
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3 w-1/3"
+                data-testid="skeleton"
+              />
+            </div>
+          </div>
         </td>
         <td
           class="px-2"
         >
           <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-1/2"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
-          class="px-2"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-1/2"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
-          class="px-2"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-1/2"
-            data-testid="skeleton"
-          />
+            class="flex items-center gap-3"
+          >
+            <div
+              class="flex min-w-0 flex-1 flex-col gap-1.5"
+            >
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-1/2"
+                data-testid="skeleton"
+              />
+            </div>
+          </div>
         </td>
       </tr>
       <tr
-        class="border-border bg-muted border-b-(length:--border-width)"
+        class="border-b border-transparent"
         data-testid="track-row-skeleton"
-        style="height: 42px;"
+        style="height: 56px;"
       >
         <td
-          class="w-10 text-center"
+          class="px-2"
         >
           <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) mx-auto size-8"
-            data-testid="skeleton"
-          />
+            class="flex items-center gap-3"
+          >
+            <div
+              class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) size-10 shrink-0"
+              data-testid="skeleton"
+            />
+            <div
+              class="flex min-w-0 flex-1 flex-col gap-1.5"
+            >
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-2/3"
+                data-testid="skeleton"
+              />
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3 w-1/3"
+                data-testid="skeleton"
+              />
+            </div>
+          </div>
         </td>
         <td
           class="px-2"
         >
           <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-2/3"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
-          class="px-2"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-2/3"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
-          class="px-2"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-2/3"
-            data-testid="skeleton"
-          />
+            class="flex items-center gap-3"
+          >
+            <div
+              class="flex min-w-0 flex-1 flex-col gap-1.5"
+            >
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-2/3"
+                data-testid="skeleton"
+              />
+            </div>
+          </div>
         </td>
       </tr>
       <tr
-        class="border-border bg-muted border-b-(length:--border-width)"
+        class="border-b border-transparent"
         data-testid="track-row-skeleton"
-        style="height: 42px;"
+        style="height: 56px;"
       >
         <td
-          class="w-10 text-center"
+          class="px-2"
         >
           <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) mx-auto size-8"
-            data-testid="skeleton"
-          />
+            class="flex items-center gap-3"
+          >
+            <div
+              class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) size-10 shrink-0"
+              data-testid="skeleton"
+            />
+            <div
+              class="flex min-w-0 flex-1 flex-col gap-1.5"
+            >
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-5/6"
+                data-testid="skeleton"
+              />
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3 w-1/3"
+                data-testid="skeleton"
+              />
+            </div>
+          </div>
         </td>
         <td
           class="px-2"
         >
           <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-5/6"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
-          class="px-2"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-5/6"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
-          class="px-2"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-5/6"
-            data-testid="skeleton"
-          />
+            class="flex items-center gap-3"
+          >
+            <div
+              class="flex min-w-0 flex-1 flex-col gap-1.5"
+            >
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-5/6"
+                data-testid="skeleton"
+              />
+            </div>
+          </div>
         </td>
       </tr>
       <tr
-        class="border-border bg-muted border-b-(length:--border-width)"
+        class="border-b border-transparent"
         data-testid="track-row-skeleton"
-        style="height: 42px;"
+        style="height: 56px;"
       >
         <td
-          class="w-10 text-center"
+          class="px-2"
         >
           <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) mx-auto size-8"
-            data-testid="skeleton"
-          />
+            class="flex items-center gap-3"
+          >
+            <div
+              class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) size-10 shrink-0"
+              data-testid="skeleton"
+            />
+            <div
+              class="flex min-w-0 flex-1 flex-col gap-1.5"
+            >
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-3/4"
+                data-testid="skeleton"
+              />
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3 w-1/3"
+                data-testid="skeleton"
+              />
+            </div>
+          </div>
         </td>
         <td
           class="px-2"
         >
           <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-3/4"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
-          class="px-2"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-3/4"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
-          class="px-2"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-3/4"
-            data-testid="skeleton"
-          />
+            class="flex items-center gap-3"
+          >
+            <div
+              class="flex min-w-0 flex-1 flex-col gap-1.5"
+            >
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-3/4"
+                data-testid="skeleton"
+              />
+            </div>
+          </div>
         </td>
       </tr>
       <tr
-        class="border-border bg-muted border-b-(length:--border-width)"
+        class="border-b border-transparent"
         data-testid="track-row-skeleton"
-        style="height: 42px;"
+        style="height: 56px;"
       >
         <td
-          class="w-10 text-center"
+          class="px-2"
         >
           <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) mx-auto size-8"
-            data-testid="skeleton"
-          />
+            class="flex items-center gap-3"
+          >
+            <div
+              class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) size-10 shrink-0"
+              data-testid="skeleton"
+            />
+            <div
+              class="flex min-w-0 flex-1 flex-col gap-1.5"
+            >
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-1/2"
+                data-testid="skeleton"
+              />
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3 w-1/3"
+                data-testid="skeleton"
+              />
+            </div>
+          </div>
         </td>
         <td
           class="px-2"
         >
           <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-1/2"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
-          class="px-2"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-1/2"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
-          class="px-2"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-1/2"
-            data-testid="skeleton"
-          />
+            class="flex items-center gap-3"
+          >
+            <div
+              class="flex min-w-0 flex-1 flex-col gap-1.5"
+            >
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-1/2"
+                data-testid="skeleton"
+              />
+            </div>
+          </div>
         </td>
       </tr>
     </tbody>
@@ -454,13 +508,13 @@ exports[`TrackTableSkeleton > (Snapshot) Defaults 1`] = `
 exports[`TrackTableSkeleton > (Snapshot) WithPositionAndWithoutDuration 1`] = `
 <DocumentFragment>
   <table
-    class="border-border relative w-full table-fixed border-(length:--border-width)"
+    class="relative w-full table-fixed border-separate border-spacing-0"
     data-testid="track-table-skeleton"
     role="table"
   >
     <thead>
       <tr
-        class="border-border surface-primary border-b-(length:--border-width)"
+        class="border-border/50 bg-background/95 text-foreground/55 border-b text-xs font-semibold tracking-wide uppercase"
       >
         <th
           class="w-10 text-center"
@@ -471,32 +525,6 @@ exports[`TrackTableSkeleton > (Snapshot) WithPositionAndWithoutDuration 1`] = `
           >
             <div
               class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) size-4"
-              data-testid="skeleton"
-            />
-          </div>
-        </th>
-        <th
-          class="w-10 text-center"
-          role="columnheader"
-        >
-          <div
-            class="flex h-6 items-center justify-center"
-          >
-            <div
-              class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) size-4"
-              data-testid="skeleton"
-            />
-          </div>
-        </th>
-        <th
-          class="px-2 text-left"
-          role="columnheader"
-        >
-          <div
-            class="flex h-6 items-center"
-          >
-            <div
-              class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-16"
               data-testid="skeleton"
             />
           </div>
@@ -518,9 +546,9 @@ exports[`TrackTableSkeleton > (Snapshot) WithPositionAndWithoutDuration 1`] = `
     </thead>
     <tbody>
       <tr
-        class="border-border bg-muted border-b-(length:--border-width)"
+        class="border-b border-transparent"
         data-testid="track-row-skeleton"
-        style="height: 42px;"
+        style="height: 56px;"
       >
         <td
           class="w-10 text-center"
@@ -531,34 +559,34 @@ exports[`TrackTableSkeleton > (Snapshot) WithPositionAndWithoutDuration 1`] = `
           />
         </td>
         <td
-          class="w-10 text-center"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) mx-auto size-8"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
           class="px-2"
         >
           <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-3/4"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
-          class="px-2"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-3/4"
-            data-testid="skeleton"
-          />
+            class="flex items-center gap-3"
+          >
+            <div
+              class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) size-10 shrink-0"
+              data-testid="skeleton"
+            />
+            <div
+              class="flex min-w-0 flex-1 flex-col gap-1.5"
+            >
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-3/4"
+                data-testid="skeleton"
+              />
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3 w-1/3"
+                data-testid="skeleton"
+              />
+            </div>
+          </div>
         </td>
       </tr>
       <tr
-        class="border-border bg-muted border-b-(length:--border-width)"
+        class="border-b border-transparent"
         data-testid="track-row-skeleton"
-        style="height: 42px;"
+        style="height: 56px;"
       >
         <td
           class="w-10 text-center"
@@ -569,34 +597,34 @@ exports[`TrackTableSkeleton > (Snapshot) WithPositionAndWithoutDuration 1`] = `
           />
         </td>
         <td
-          class="w-10 text-center"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) mx-auto size-8"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
           class="px-2"
         >
           <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-1/2"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
-          class="px-2"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-1/2"
-            data-testid="skeleton"
-          />
+            class="flex items-center gap-3"
+          >
+            <div
+              class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) size-10 shrink-0"
+              data-testid="skeleton"
+            />
+            <div
+              class="flex min-w-0 flex-1 flex-col gap-1.5"
+            >
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-1/2"
+                data-testid="skeleton"
+              />
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3 w-1/3"
+                data-testid="skeleton"
+              />
+            </div>
+          </div>
         </td>
       </tr>
       <tr
-        class="border-border bg-muted border-b-(length:--border-width)"
+        class="border-b border-transparent"
         data-testid="track-row-skeleton"
-        style="height: 42px;"
+        style="height: 56px;"
       >
         <td
           class="w-10 text-center"
@@ -607,34 +635,34 @@ exports[`TrackTableSkeleton > (Snapshot) WithPositionAndWithoutDuration 1`] = `
           />
         </td>
         <td
-          class="w-10 text-center"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) mx-auto size-8"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
           class="px-2"
         >
           <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-2/3"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
-          class="px-2"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-2/3"
-            data-testid="skeleton"
-          />
+            class="flex items-center gap-3"
+          >
+            <div
+              class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) size-10 shrink-0"
+              data-testid="skeleton"
+            />
+            <div
+              class="flex min-w-0 flex-1 flex-col gap-1.5"
+            >
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-2/3"
+                data-testid="skeleton"
+              />
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3 w-1/3"
+                data-testid="skeleton"
+              />
+            </div>
+          </div>
         </td>
       </tr>
       <tr
-        class="border-border bg-muted border-b-(length:--border-width)"
+        class="border-b border-transparent"
         data-testid="track-row-skeleton"
-        style="height: 42px;"
+        style="height: 56px;"
       >
         <td
           class="w-10 text-center"
@@ -645,34 +673,34 @@ exports[`TrackTableSkeleton > (Snapshot) WithPositionAndWithoutDuration 1`] = `
           />
         </td>
         <td
-          class="w-10 text-center"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) mx-auto size-8"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
           class="px-2"
         >
           <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-5/6"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
-          class="px-2"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-5/6"
-            data-testid="skeleton"
-          />
+            class="flex items-center gap-3"
+          >
+            <div
+              class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) size-10 shrink-0"
+              data-testid="skeleton"
+            />
+            <div
+              class="flex min-w-0 flex-1 flex-col gap-1.5"
+            >
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-5/6"
+                data-testid="skeleton"
+              />
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3 w-1/3"
+                data-testid="skeleton"
+              />
+            </div>
+          </div>
         </td>
       </tr>
       <tr
-        class="border-border bg-muted border-b-(length:--border-width)"
+        class="border-b border-transparent"
         data-testid="track-row-skeleton"
-        style="height: 42px;"
+        style="height: 56px;"
       >
         <td
           class="w-10 text-center"
@@ -683,34 +711,34 @@ exports[`TrackTableSkeleton > (Snapshot) WithPositionAndWithoutDuration 1`] = `
           />
         </td>
         <td
-          class="w-10 text-center"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) mx-auto size-8"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
           class="px-2"
         >
           <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-3/4"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
-          class="px-2"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-3/4"
-            data-testid="skeleton"
-          />
+            class="flex items-center gap-3"
+          >
+            <div
+              class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) size-10 shrink-0"
+              data-testid="skeleton"
+            />
+            <div
+              class="flex min-w-0 flex-1 flex-col gap-1.5"
+            >
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-3/4"
+                data-testid="skeleton"
+              />
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3 w-1/3"
+                data-testid="skeleton"
+              />
+            </div>
+          </div>
         </td>
       </tr>
       <tr
-        class="border-border bg-muted border-b-(length:--border-width)"
+        class="border-b border-transparent"
         data-testid="track-row-skeleton"
-        style="height: 42px;"
+        style="height: 56px;"
       >
         <td
           class="w-10 text-center"
@@ -721,34 +749,34 @@ exports[`TrackTableSkeleton > (Snapshot) WithPositionAndWithoutDuration 1`] = `
           />
         </td>
         <td
-          class="w-10 text-center"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) mx-auto size-8"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
           class="px-2"
         >
           <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-1/2"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
-          class="px-2"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-1/2"
-            data-testid="skeleton"
-          />
+            class="flex items-center gap-3"
+          >
+            <div
+              class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) size-10 shrink-0"
+              data-testid="skeleton"
+            />
+            <div
+              class="flex min-w-0 flex-1 flex-col gap-1.5"
+            >
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-1/2"
+                data-testid="skeleton"
+              />
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3 w-1/3"
+                data-testid="skeleton"
+              />
+            </div>
+          </div>
         </td>
       </tr>
       <tr
-        class="border-border bg-muted border-b-(length:--border-width)"
+        class="border-b border-transparent"
         data-testid="track-row-skeleton"
-        style="height: 42px;"
+        style="height: 56px;"
       >
         <td
           class="w-10 text-center"
@@ -759,34 +787,34 @@ exports[`TrackTableSkeleton > (Snapshot) WithPositionAndWithoutDuration 1`] = `
           />
         </td>
         <td
-          class="w-10 text-center"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) mx-auto size-8"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
           class="px-2"
         >
           <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-2/3"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
-          class="px-2"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-2/3"
-            data-testid="skeleton"
-          />
+            class="flex items-center gap-3"
+          >
+            <div
+              class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) size-10 shrink-0"
+              data-testid="skeleton"
+            />
+            <div
+              class="flex min-w-0 flex-1 flex-col gap-1.5"
+            >
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-2/3"
+                data-testid="skeleton"
+              />
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3 w-1/3"
+                data-testid="skeleton"
+              />
+            </div>
+          </div>
         </td>
       </tr>
       <tr
-        class="border-border bg-muted border-b-(length:--border-width)"
+        class="border-b border-transparent"
         data-testid="track-row-skeleton"
-        style="height: 42px;"
+        style="height: 56px;"
       >
         <td
           class="w-10 text-center"
@@ -797,34 +825,34 @@ exports[`TrackTableSkeleton > (Snapshot) WithPositionAndWithoutDuration 1`] = `
           />
         </td>
         <td
-          class="w-10 text-center"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) mx-auto size-8"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
           class="px-2"
         >
           <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-5/6"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
-          class="px-2"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-5/6"
-            data-testid="skeleton"
-          />
+            class="flex items-center gap-3"
+          >
+            <div
+              class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) size-10 shrink-0"
+              data-testid="skeleton"
+            />
+            <div
+              class="flex min-w-0 flex-1 flex-col gap-1.5"
+            >
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-5/6"
+                data-testid="skeleton"
+              />
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3 w-1/3"
+                data-testid="skeleton"
+              />
+            </div>
+          </div>
         </td>
       </tr>
       <tr
-        class="border-border bg-muted border-b-(length:--border-width)"
+        class="border-b border-transparent"
         data-testid="track-row-skeleton"
-        style="height: 42px;"
+        style="height: 56px;"
       >
         <td
           class="w-10 text-center"
@@ -835,34 +863,34 @@ exports[`TrackTableSkeleton > (Snapshot) WithPositionAndWithoutDuration 1`] = `
           />
         </td>
         <td
-          class="w-10 text-center"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) mx-auto size-8"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
           class="px-2"
         >
           <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-3/4"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
-          class="px-2"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-3/4"
-            data-testid="skeleton"
-          />
+            class="flex items-center gap-3"
+          >
+            <div
+              class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) size-10 shrink-0"
+              data-testid="skeleton"
+            />
+            <div
+              class="flex min-w-0 flex-1 flex-col gap-1.5"
+            >
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-3/4"
+                data-testid="skeleton"
+              />
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3 w-1/3"
+                data-testid="skeleton"
+              />
+            </div>
+          </div>
         </td>
       </tr>
       <tr
-        class="border-border bg-muted border-b-(length:--border-width)"
+        class="border-b border-transparent"
         data-testid="track-row-skeleton"
-        style="height: 42px;"
+        style="height: 56px;"
       >
         <td
           class="w-10 text-center"
@@ -873,28 +901,28 @@ exports[`TrackTableSkeleton > (Snapshot) WithPositionAndWithoutDuration 1`] = `
           />
         </td>
         <td
-          class="w-10 text-center"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) mx-auto size-8"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
           class="px-2"
         >
           <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-1/2"
-            data-testid="skeleton"
-          />
-        </td>
-        <td
-          class="px-2"
-        >
-          <div
-            class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-1/2"
-            data-testid="skeleton"
-          />
+            class="flex items-center gap-3"
+          >
+            <div
+              class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) size-10 shrink-0"
+              data-testid="skeleton"
+            />
+            <div
+              class="flex min-w-0 flex-1 flex-col gap-1.5"
+            >
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3.5 w-1/2"
+                data-testid="skeleton"
+              />
+              <div
+                class="bg-muted border-border animate-pulse rounded-md border-(length:--border-width) h-3 w-1/3"
+                data-testid="skeleton"
+              />
+            </div>
+          </div>
         </td>
       </tr>
     </tbody>

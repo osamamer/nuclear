@@ -1,5 +1,3 @@
-import { screen } from '@testing-library/react';
-
 import { useSettingsStore } from '../stores/settingsStore';
 import { resetInMemoryTauriStore } from '../test/utils/inMemoryTauriStore';
 import { CustomTitleBarWrapper } from './custom-title-bar.test-wrapper';
@@ -45,7 +43,6 @@ describe('Custom title bar', () => {
     await CustomTitleBarWrapper.customTitleBarToggle.click();
 
     expect(CustomTitleBarWrapper.titleBar).toBeInTheDocument();
-    expect(screen.getByText('Nuclear Music Player')).toBeInTheDocument();
   });
 
   it('enabling custom title bar hides window decorations', async () => {

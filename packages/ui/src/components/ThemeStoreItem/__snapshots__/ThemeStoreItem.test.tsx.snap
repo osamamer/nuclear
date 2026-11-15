@@ -72,7 +72,7 @@ exports[`ThemeStoreItem > (Snapshot) renders installed state 1`] = `
           class="shrink-0"
         >
           <button
-            class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-primary border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none h-10 px-4 py-2 w-28"
+            class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-background border-border hover:bg-primary/10 border-(length:--border-width) h-10 px-4 py-2 w-28"
             data-disabled=""
             data-headlessui-state="disabled"
             disabled=""
@@ -109,7 +109,7 @@ exports[`ThemeStoreItem > (Snapshot) renders installed state 1`] = `
     >
       <div>
         <button
-          class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-primary border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none size-8 justify-center"
+          class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-background border-border hover:bg-primary/10 border-(length:--border-width) size-8 justify-center"
           data-headlessui-state=""
           data-testid="theme-store-item-apply"
           type="button"
@@ -141,7 +141,7 @@ exports[`ThemeStoreItem > (Snapshot) renders installed state 1`] = `
       </div>
       <div>
         <button
-          class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none size-8 justify-center surface-accent-red"
+          class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-background border-(length:--border-width) size-8 justify-center border-accent-red/40 text-accent-red hover:bg-accent-red/10"
           data-headlessui-state=""
           data-testid="theme-store-item-uninstall"
           type="button"
@@ -248,7 +248,7 @@ exports[`ThemeStoreItem > (Snapshot) renders with all props 1`] = `
           class="shrink-0"
         >
           <button
-            class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-primary border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none h-10 px-4 py-2 w-28"
+            class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-background border-border hover:bg-primary/10 border-(length:--border-width) h-10 px-4 py-2 w-28"
             data-headlessui-state=""
             data-testid="theme-store-item-install"
             type="button"

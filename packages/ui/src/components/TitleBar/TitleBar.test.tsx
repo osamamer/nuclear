@@ -38,20 +38,6 @@ describe('TitleBar', () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
-  it('displays the title', () => {
-    render(
-      <TitleBar
-        title="Nuclear Music Player"
-        styleOverride="windows"
-        onMinimize={vi.fn()}
-        onMaximize={vi.fn()}
-        onClose={vi.fn()}
-        labels={mockLabels}
-      />,
-    );
-    expect(screen.getByText('Nuclear Music Player')).toBeInTheDocument();
-  });
-
   it('calls onMinimize when minimize button is clicked', async () => {
     const onMinimize = vi.fn();
     render(

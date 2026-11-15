@@ -3,7 +3,7 @@
 exports[`StatChip.Skeleton > (Snapshot) renders correctly 1`] = `
 <div>
   <div
-    class="border-border bg-background shadow-shadow flex items-center gap-2 rounded-md border-(length:--border-width) px-2 py-1"
+    class="border-border/70 flex items-center gap-2 rounded-md border-(length:--border-width) bg-transparent px-2 py-1"
     data-testid="stat-chip-skeleton"
   >
     <div

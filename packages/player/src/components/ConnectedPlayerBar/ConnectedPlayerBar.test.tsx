@@ -127,7 +127,7 @@ describe('ConnectedNowPlaying', () => {
 });
 
 describe('ConnectedControls', () => {
-  it('refuses Next on a playing track and shows the skip countdown bubble', async () => {
+  it('refuses the first Next on a playing track and shows the skip countdown bubble on the second', async () => {
     Wrapper.seedQueueItems([
       new Wrapper.QueueItemBuilder().withId('first').withTitle('First').build(),
       new Wrapper.QueueItemBuilder()
@@ -135,8 +135,12 @@ describe('ConnectedControls', () => {
         .withTitle('Second')
         .build(),
     ]);
+    useSoundStore.setState({ seek: 30, duration: 200 });
     useSoundStore.getState().play();
     await Wrapper.mount();
+
+    await Wrapper.controls.nextButton.click();
+    expect(Wrapper.nowPlaying.title('First')).toBeInTheDocument();
 
     await Wrapper.controls.nextButton.click();
 
@@ -162,6 +166,7 @@ describe('ConnectedControls', () => {
       ],
       1,
     );
+    useSoundStore.setState({ seek: 30, duration: 200 });
     useSoundStore.getState().play();
     await Wrapper.mount();
 

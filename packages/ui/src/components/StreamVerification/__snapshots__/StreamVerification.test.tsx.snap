@@ -33,7 +33,7 @@ exports[`StreamVerification > (Snapshot) renders loading status 1`] = `
       >
         <button
           aria-label="How stream verification works"
-          class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 size-8 justify-center"
+          class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground hover:bg-primary/10 size-8 justify-center"
           data-headlessui-state=""
           type="button"
         >
@@ -108,7 +108,7 @@ exports[`StreamVerification > (Snapshot) renders the explanation 1`] = `
           >
             <button
               aria-label="How stream verification works"
-              class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 size-8 justify-center"
+              class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground hover:bg-primary/10 size-8 justify-center"
               data-headlessui-state="hover"
               data-hover=""
               type="button"
@@ -150,7 +150,7 @@ exports[`StreamVerification > (Snapshot) renders the explanation 1`] = `
         </div>
       </div>
       <button
-        class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-primary border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none h-8 px-2 text-sm"
+        class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-background border-border hover:bg-primary/10 border-(length:--border-width) h-8 px-2 text-sm"
         data-headlessui-state=""
         type="button"
       >
@@ -189,7 +189,7 @@ exports[`StreamVerification > (Snapshot) renders the explanation 1`] = `
           Explanation of stream verification
         </p>
         <button
-          class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-primary border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none h-8 px-2 text-sm gap-1"
+          class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-background border-border hover:bg-primary/10 border-(length:--border-width) h-8 px-2 text-sm gap-1"
           data-headlessui-state=""
           type="button"
         >
@@ -259,7 +259,7 @@ exports[`StreamVerification > (Snapshot) renders unverified status 1`] = `
       >
         <button
           aria-label="How stream verification works"
-          class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 size-8 justify-center"
+          class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground hover:bg-primary/10 size-8 justify-center"
           data-headlessui-state=""
           type="button"
         >
@@ -293,7 +293,7 @@ exports[`StreamVerification > (Snapshot) renders unverified status 1`] = `
     </div>
   </div>
   <button
-    class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-primary border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none h-8 px-2 text-sm"
+    class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-background border-border hover:bg-primary/10 border-(length:--border-width) h-8 px-2 text-sm"
     data-headlessui-state=""
     type="button"
   >
@@ -330,7 +330,7 @@ exports[`StreamVerification > (Snapshot) renders verified status 1`] = `
       >
         <button
           aria-label="How stream verification works"
-          class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 size-8 justify-center"
+          class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground hover:bg-primary/10 size-8 justify-center"
           data-headlessui-state=""
           type="button"
         >
@@ -364,7 +364,7 @@ exports[`StreamVerification > (Snapshot) renders verified status 1`] = `
     </div>
   </div>
   <button
-    class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-primary border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none h-8 px-2 text-sm"
+    class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-background border-border hover:bg-primary/10 border-(length:--border-width) h-8 px-2 text-sm"
     data-headlessui-state=""
     type="button"
   >
@@ -401,7 +401,7 @@ exports[`StreamVerification > (Snapshot) renders verifiedByUser status 1`] = `
       >
         <button
           aria-label="How stream verification works"
-          class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 size-8 justify-center"
+          class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground hover:bg-primary/10 size-8 justify-center"
           data-headlessui-state=""
           type="button"
         >
@@ -435,7 +435,7 @@ exports[`StreamVerification > (Snapshot) renders verifiedByUser status 1`] = `
     </div>
   </div>
   <button
-    class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-primary border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none h-8 px-2 text-sm"
+    class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-background border-border hover:bg-primary/10 border-(length:--border-width) h-8 px-2 text-sm"
     data-headlessui-state=""
     type="button"
   >
@@ -472,7 +472,7 @@ exports[`StreamVerification > (Snapshot) renders weaklyVerified status 1`] = `
       >
         <button
           aria-label="How stream verification works"
-          class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 size-8 justify-center"
+          class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground hover:bg-primary/10 size-8 justify-center"
           data-headlessui-state=""
           type="button"
         >
@@ -506,7 +506,7 @@ exports[`StreamVerification > (Snapshot) renders weaklyVerified status 1`] = `
     </div>
   </div>
   <button
-    class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-primary border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none h-8 px-2 text-sm"
+    class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-background border-border hover:bg-primary/10 border-(length:--border-width) h-8 px-2 text-sm"
     data-headlessui-state=""
     type="button"
   >

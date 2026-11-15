@@ -411,7 +411,7 @@
     "blacklist": {
       "title": "Blacklist",
       "description": "Add tracks, artists, albums, or keywords to keep matching songs out of playback.",
-      "skipBehavior": "Manual skips are refused twice. The third attempt waits five seconds and can be canceled. To start another song directly, pause the current one for more than five seconds first.",
+      "skipBehavior": "Songs can be skipped freely during their first ten seconds. After that, the first manual skip is refused, the second starts a five-second countdown, and the next attempt after it ends goes through. To start another song directly, pause the current one for more than five seconds first.",
       "matchType": "Match type",
       "matchValue": "Track, artist, album, or keyword",
       "schedule": "When it applies",
@@ -710,6 +710,7 @@
       "forwardReady": "Fast-forward allowed",
       "rewindRefused": "No rewinds left for this song. Let it play forward.",
       "rewindUsed": "That was your rewind for this song.",
+      "forwardFirstRefused": "Fast-forward refused. Try again to start the 10-second wait.",
       "forwardWaiting": "Fast-forward unlocks in {{seconds}}s. Try again then.",
       "forwardRefused": "You've already fast-forwarded this song.",
       "forwardUsed": "That was your fast-forward for this song."

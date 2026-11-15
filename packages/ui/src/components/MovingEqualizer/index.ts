@@ -1,0 +1,1 @@
+export { MovingEqualizer } from './MovingEqualizer';

@@ -21,6 +21,7 @@ export * from './LogViewer';
 export * from './Loader';
 export * from './Lyrics';
 export * from './Mosaic';
+export * from './MovingEqualizer';
 export * from './NuclearJam';
 export * from './Pagination';
 export * from './PlayerBar';

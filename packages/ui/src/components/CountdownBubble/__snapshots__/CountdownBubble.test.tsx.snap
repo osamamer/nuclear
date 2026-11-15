@@ -11,38 +11,44 @@ exports[`CountdownBubble > (Snapshot) renders a running countdown 1`] = `
     initial="[object Object]"
     transition="[object Object]"
   >
-    <svg
-      aria-hidden="true"
-      class="absolute inset-0 m-auto size-13 -rotate-90"
-      viewBox="0 0 52 52"
+    <div
+      aria-label="Skip unlocks in 4 seconds"
+      class="flex size-full items-center justify-center"
+      role="status"
     >
-      <circle
-        cx="26"
-        cy="26"
-        fill="none"
-        r="23"
-        stroke="currentColor"
-        stroke-opacity="0.25"
-        stroke-width="3"
-      />
-      <circle
-        cx="26"
-        cy="26"
-        fill="none"
-        r="23"
-        stroke="currentColor"
-        stroke-dasharray="144.51326206513048"
-        stroke-dashoffset="52.02477434344697"
-        stroke-linecap="round"
-        stroke-width="3"
-      />
-    </svg>
-    <span
-      class="font-heading relative text-xl font-bold"
-      data-testid="countdown-bubble-seconds"
-    >
-      4
-    </span>
+      <svg
+        aria-hidden="true"
+        class="absolute inset-0 m-auto size-13 -rotate-90"
+        viewBox="0 0 52 52"
+      >
+        <circle
+          cx="26"
+          cy="26"
+          fill="none"
+          r="23"
+          stroke="currentColor"
+          stroke-opacity="0.25"
+          stroke-width="3"
+        />
+        <circle
+          cx="26"
+          cy="26"
+          fill="none"
+          r="23"
+          stroke="currentColor"
+          stroke-dasharray="144.51326206513048"
+          stroke-dashoffset="52.02477434344697"
+          stroke-linecap="round"
+          stroke-width="3"
+        />
+      </svg>
+      <span
+        class="font-heading relative text-xl font-bold"
+        data-testid="countdown-bubble-seconds"
+      >
+        4
+      </span>
+    </div>
   </div>
 </div>
 `;
@@ -58,23 +64,29 @@ exports[`CountdownBubble > (Snapshot) renders the ready state 1`] = `
     initial="[object Object]"
     transition="[object Object]"
   >
-    <svg
-      aria-hidden="true"
-      class="lucide lucide-check size-7"
-      fill="none"
-      height="24"
-      stroke="currentColor"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="3"
-      viewBox="0 0 24 24"
-      width="24"
-      xmlns="http://www.w3.org/2000/svg"
+    <div
+      aria-label="Skip allowed"
+      class="flex size-full items-center justify-center"
+      role="status"
     >
-      <path
-        d="M20 6 9 17l-5-5"
-      />
-    </svg>
+      <svg
+        aria-hidden="true"
+        class="lucide lucide-check size-7"
+        fill="none"
+        height="24"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="3"
+        viewBox="0 0 24 24"
+        width="24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M20 6 9 17l-5-5"
+        />
+      </svg>
+    </div>
   </div>
 </div>
 `;

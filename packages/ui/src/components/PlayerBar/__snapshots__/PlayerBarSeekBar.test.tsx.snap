@@ -3,35 +3,25 @@
 exports[`PlayerBarSeekBar > (Snapshot) default render 1`] = `
 <DocumentFragment>
   <div
-    class="w-full select-none"
+    class="w-full px-4 select-none"
   >
     <div
       aria-disabled="false"
-      class="relative h-4 w-full"
+      class="group relative h-4 w-full"
       data-testid="player-seek-bar"
     >
       <div
-        class="border-border surface-seekbar-track absolute inset-0 border-t-(length:--border-width)"
+        class="surface-seekbar-track absolute inset-x-0 top-1/2 h-0.5 -translate-y-1/2 overflow-hidden rounded-full"
       >
         <div
-          class="absolute right-0 left-0 z-10 flex h-full flex-row items-center justify-between px-2 pt-0.5 text-xs leading-none"
-        >
-          <span
-            class="tabular-nums"
-          >
-            1:37
-          </span>
-          <span
-            class="tabular-nums"
-          >
-            -21:37
-          </span>
-        </div>
-        <div
-          class="surface-seekbar h-full transition-none"
+          class="surface-seekbar h-full rounded-full transition-[width] duration-150"
           style="width: 25%;"
         />
       </div>
+      <div
+        class="surface-seekbar border-background shadow-shadow pointer-events-none absolute top-1/2 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 opacity-0 transition-opacity group-hover:opacity-100"
+        style="left: 25%;"
+      />
     </div>
   </div>
 </DocumentFragment>

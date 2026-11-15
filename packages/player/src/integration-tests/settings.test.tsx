@@ -119,18 +119,20 @@ describe('Settings integration', () => {
     expect(persisted).toBe('fr');
   });
 
-  it('dark mode toggle persists across restarts', async () => {
+  it('starts in dark mode and a switch to light mode persists across restarts', async () => {
     await initializeSettingsStore();
     registerBuiltInCoreSettings();
 
     render(<App />);
 
     const toggle = await screen.findByRole('switch', { name: 'Toggle theme' });
+    await waitFor(() => {
+      expect(document.documentElement.getAttribute('data-theme')).toBe('dark');
+    });
     await userEvent.click(toggle);
 
-    expect(document.documentElement.getAttribute('data-theme')).toBe('dark');
+    expect(document.documentElement.getAttribute('data-theme')).toBeNull();
 
-    // Simulate player restart
     cleanup();
     useSettingsStore.setState({ definitions: {}, values: {}, loaded: false });
     await initializeSettingsStore();
@@ -141,8 +143,8 @@ describe('Settings integration', () => {
     await waitFor(() => {
       expect(
         screen.getByRole('switch', { name: 'Toggle theme' }),
-      ).toHaveAttribute('aria-checked', 'true');
-      expect(document.documentElement.getAttribute('data-theme')).toBe('dark');
+      ).toHaveAttribute('aria-checked', 'false');
+      expect(document.documentElement.getAttribute('data-theme')).toBeNull();
     });
   });
 });

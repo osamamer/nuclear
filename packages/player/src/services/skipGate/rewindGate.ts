@@ -10,6 +10,7 @@ export type RewindDecision =
   | { kind: 'allowedUsedRewind'; remaining: number }
   | { kind: 'allowedUsedForward' }
   | { kind: 'rewindRefused' }
+  | { kind: 'forwardFirstRefused' }
   | { kind: 'forwardWaiting'; remainingMs: number }
   | { kind: 'forwardRefused' };
 
@@ -17,12 +18,14 @@ let trackKey: string | null = null;
 let rewindsUsed = 0;
 let forwardsUsed = 0;
 let forwardUnlockAtMs: number | null = null;
+let forwardFirstRefused = false;
 let forwardSkippedMs = 0;
 
 const resetBudgets = (): void => {
   rewindsUsed = 0;
   forwardsUsed = 0;
   forwardUnlockAtMs = null;
+  forwardFirstRefused = false;
   forwardSkippedMs = 0;
   useSkipCountdownStore.getState().setForward(null);
 };
@@ -42,6 +45,10 @@ const checkForward = (deltaMs: number): RewindDecision => {
 
   const now = Date.now();
   if (forwardUnlockAtMs === null) {
+    if (!forwardFirstRefused) {
+      forwardFirstRefused = true;
+      return { kind: 'forwardFirstRefused' };
+    }
     forwardUnlockAtMs = now + FORWARD_WAIT_MS;
     showForwardCountdown(forwardUnlockAtMs);
     return { kind: 'forwardWaiting', remainingMs: FORWARD_WAIT_MS };

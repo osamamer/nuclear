@@ -50,6 +50,7 @@ describe('Sound component', () => {
     await waitFor(() => expect(playMock).toHaveBeenCalled());
 
     SoundWrapper.seekTo(37);
+    SoundWrapper.seekTo(37);
     vi.setSystemTime(Date.now() + 10_000);
     SoundWrapper.seekTo(37);
     await waitFor(() => {

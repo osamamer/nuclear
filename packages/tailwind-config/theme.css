@@ -4,6 +4,18 @@
 @custom-variant narrow (@media (width < 1080px));
 
 @theme {
+  --animate-eq-bar: eq-bar 0.9s ease-in-out infinite;
+
+  @keyframes eq-bar {
+    0%,
+    100% {
+      transform: scaleY(0.3);
+    }
+    50% {
+      transform: scaleY(1);
+    }
+  }
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 

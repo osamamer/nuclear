@@ -19,36 +19,10 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
           class="flex flex-row items-center gap-4"
         >
           <div
-            class="flex items-center"
-          >
-            <span
-              class="ml-0.5"
-            >
-              <svg
-                class="h-6 w-6"
-                height="100"
-                id="svg2"
-                viewBox="0 0 99.999998 100"
-                width="100"
-                xmlns="http://www.w3.org/2000/svg"
-                xmlns:svg="http://www.w3.org/2000/svg"
-              >
-                <defs
-                  id="defs2"
-                />
-                <path
-                  d="M 49.999997,5.5078125e-6 C 10.000227,5.5078125e-6 -2.8686701e-6,10.000046 -2.8686701e-6,50.000006 -2.8686701e-6,89.999966 10.000227,100.00001 49.999997,100.00001 c 39.99977,0 50,-10.000044 50,-50.000004 0,-39.99996 -10.00023,-50.0000004921875 -50,-50.0000004921875 z M 29.999997,23.599616 h 40 l -20,26.40039 h 40 l -20,26.40039 -20,-26.40039 -20,26.40039 L 9.9999971,50.000006 H 49.999997 Z"
-                  id="path1"
-                  style="fill: currentColor; stroke-width: 0.999999;"
-                />
-              </svg>
-            </span>
-          </div>
-          <div
             class="flex flex-row items-center gap-2"
           >
             <button
-              class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-primary border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none size-8 justify-center"
+              class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-background border-border hover:bg-primary/10 border-(length:--border-width) size-8 justify-center text-foreground/75 hover:text-foreground"
               data-headlessui-state=""
               data-testid="top-bar-back"
               type="button"
@@ -72,7 +46,7 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
               </svg>
             </button>
             <button
-              class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-primary border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none size-8 justify-center"
+              class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-background border-border hover:bg-primary/10 border-(length:--border-width) size-8 justify-center text-foreground/75 hover:text-foreground"
               data-disabled=""
               data-headlessui-state="disabled"
               data-testid="top-bar-forward"
@@ -139,7 +113,7 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
             />
           </div>
           <button
-            class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 absolute top-1/2 right-1 size-6 -translate-y-1/2 justify-center p-0"
+            class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground hover:bg-primary/10 absolute top-1/2 right-1 size-6 -translate-y-1/2 justify-center p-0"
             data-headlessui-state=""
             data-testid="search-box-clear"
             type="button"
@@ -169,18 +143,100 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
         <div
           class="flex flex-row items-center justify-end gap-2"
         >
+          <div
+            class="relative flex items-center"
+            data-headlessui-state=""
+          >
+            <div
+              aria-expanded="false"
+              class="cursor-pointer"
+              data-headlessui-state=""
+              id="headlessui-popover-button-:r4:"
+            >
+              <span
+                class="text-foreground/70 hover:bg-foreground/10 relative flex size-8 items-center justify-center rounded-full transition-colors"
+                data-testid="playlist-downloads-button"
+                title="Playlist downloads"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-download"
+                  fill="none"
+                  height="17"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="17"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 15V3"
+                  />
+                  <path
+                    d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                  />
+                  <path
+                    d="m7 10 5 5 5-5"
+                  />
+                </svg>
+                <span
+                  class="sr-only"
+                >
+                  Playlist downloads
+                </span>
+              </span>
+            </div>
+          </div>
+          <button
+            aria-label="Hide queue panel"
+            class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground hover:bg-primary/10 size-8 justify-center"
+            data-headlessui-state=""
+            data-testid="toggle-queue-panel-button"
+            title="Hide queue panel"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-panel-right-close"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                height="18"
+                rx="2"
+                width="18"
+                x="3"
+                y="3"
+              />
+              <path
+                d="M15 3v18"
+              />
+              <path
+                d="m8 9 3 3-3 3"
+              />
+            </svg>
+          </button>
           <button
             aria-checked="false"
             aria-label="Toggle theme"
-            class="border-border focus:ring-ring focus:ring-offset-muted relative inline-flex h-6 w-11 cursor-pointer items-center rounded-full border-(length:--border-width) transition-all focus:ring-2 focus:ring-offset-2 focus:outline-none data-checked:surface-primary surface-input data-disabled:cursor-not-allowed data-disabled:opacity-50 group justify-self-end"
+            class="border-border focus:ring-ring focus:ring-offset-muted relative inline-flex h-6 w-11 cursor-pointer items-center rounded-full border-(length:--border-width) transition-all focus:ring-2 focus:ring-offset-2 focus:outline-none surface-input data-checked:border-primary/60 hover:border-primary/40 data-disabled:cursor-not-allowed data-disabled:opacity-50 group justify-self-end"
             data-headlessui-state=""
-            id="headlessui-switch-:r2:"
+            id="headlessui-switch-:r6:"
             role="switch"
             tabindex="0"
             type="button"
           >
             <span
-              class="border-border bg-muted [&>svg]:fill-muted pointer-events-none flex h-4 w-4 items-center justify-center rounded-full border-(length:--border-width) ring-0 transition-transform translate-x-1 group-data-checked:translate-x-5"
+              class="border-border bg-muted [&>svg]:fill-muted group-data-checked:border-primary/60 group-data-checked:bg-primary/15 pointer-events-none flex h-4 w-4 items-center justify-center rounded-full border-(length:--border-width) ring-0 transition-all translate-x-1 group-data-checked:translate-x-5"
             >
               <svg
                 aria-hidden="true"
@@ -234,16 +290,15 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
       class="surface-muted relative grid h-full min-h-0 grid-cols-[auto_1fr_auto]"
     >
       <div
-        animate="[object Object]"
         class="border-border relative flex flex-col overflow-hidden surface-sidebar-left border-r-(length:--border-width) p-2"
         data-testid="sidebar-left"
-        transition="[object Object]"
+        style="width: 200px;"
       >
         <span
-          class="mb-4 flex flex-row items-center justify-end px-2 pt-2"
+          class="mb-3 flex flex-row items-center justify-start px-2 pt-2"
         >
           <button
-            class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-primary border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none size-10 justify-center top-2 px-2 right-1"
+            class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground/60 hover:bg-muted/70 hover:text-foreground size-8 justify-center p-0 [&>svg]:size-4"
             data-headlessui-state=""
             data-testid="sidebar-toggle-left"
             type="button"
@@ -278,419 +333,513 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
           class="flex flex-1 flex-col overflow-hidden px-2 pb-2"
         >
           <div
-            class="flex flex-1 flex-col"
+            class="flex min-h-0 flex-1 flex-col"
             data-testid="sidebar-navigation"
           >
             <div
-              class="flex flex-1 flex-col gap-2 overflow-y-auto"
+              class="flex min-h-0 flex-1 flex-col gap-2"
             >
-              <a
-                href="/dashboard"
-              >
-                <div>
-                  <div
-                    class="flex w-full items-center overflow-hidden rounded-md border-(length:--border-width) border-transparent"
-                    data-testid="sidebar-navigation-item"
-                  >
-                    <div
-                      class="flex size-8 shrink-0 items-center justify-center"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="lucide lucide-gauge"
-                        fill="none"
-                        height="24"
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="m12 14 4-4"
-                        />
-                        <path
-                          d="M3.34 19a10 10 0 1 1 17.32 0"
-                        />
-                      </svg>
-                    </div>
-                    <span
-                      class="text-sm whitespace-nowrap transition-opacity duration-150 opacity-100"
-                    >
-                      Dashboard
-                    </span>
-                  </div>
-                </div>
-              </a>
-              <a
-                href="/favorites/albums"
-              >
-                <div>
-                  <div
-                    class="flex w-full items-center overflow-hidden rounded-md border-(length:--border-width) border-transparent"
-                    data-testid="sidebar-navigation-item"
-                  >
-                    <div
-                      class="flex size-8 shrink-0 items-center justify-center"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="lucide lucide-disc"
-                        fill="none"
-                        height="24"
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <circle
-                          cx="12"
-                          cy="12"
-                          r="10"
-                        />
-                        <circle
-                          cx="12"
-                          cy="12"
-                          r="2"
-                        />
-                      </svg>
-                    </div>
-                    <span
-                      class="text-sm whitespace-nowrap transition-opacity duration-150 opacity-100"
-                    >
-                      Favorite albums
-                    </span>
-                  </div>
-                </div>
-              </a>
-              <a
-                href="/favorites/tracks"
-              >
-                <div>
-                  <div
-                    class="flex w-full items-center overflow-hidden rounded-md border-(length:--border-width) border-transparent"
-                    data-testid="sidebar-navigation-item"
-                  >
-                    <div
-                      class="flex size-8 shrink-0 items-center justify-center"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="lucide lucide-music"
-                        fill="none"
-                        height="24"
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M9 18V5l12-2v13"
-                        />
-                        <circle
-                          cx="6"
-                          cy="18"
-                          r="3"
-                        />
-                        <circle
-                          cx="18"
-                          cy="16"
-                          r="3"
-                        />
-                      </svg>
-                    </div>
-                    <span
-                      class="text-sm whitespace-nowrap transition-opacity duration-150 opacity-100"
-                    >
-                      Favorite tracks
-                    </span>
-                  </div>
-                </div>
-              </a>
-              <a
-                href="/favorites/artists"
-              >
-                <div>
-                  <div
-                    class="flex w-full items-center overflow-hidden rounded-md border-(length:--border-width) border-transparent"
-                    data-testid="sidebar-navigation-item"
-                  >
-                    <div
-                      class="flex size-8 shrink-0 items-center justify-center"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="lucide lucide-user"
-                        fill="none"
-                        height="24"
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"
-                        />
-                        <circle
-                          cx="12"
-                          cy="7"
-                          r="4"
-                        />
-                      </svg>
-                    </div>
-                    <span
-                      class="text-sm whitespace-nowrap transition-opacity duration-150 opacity-100"
-                    >
-                      Favorite artists
-                    </span>
-                  </div>
-                </div>
-              </a>
-              <a
-                href="/playlists"
-              >
-                <div>
-                  <div
-                    class="flex w-full items-center overflow-hidden rounded-md border-(length:--border-width) border-transparent"
-                    data-testid="sidebar-navigation-item"
-                  >
-                    <div
-                      class="flex size-8 shrink-0 items-center justify-center"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="lucide lucide-list-music"
-                        fill="none"
-                        height="24"
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M21 15V6"
-                        />
-                        <path
-                          d="M18.5 18a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"
-                        />
-                        <path
-                          d="M12 12H3"
-                        />
-                        <path
-                          d="M16 6H3"
-                        />
-                        <path
-                          d="M12 18H3"
-                        />
-                      </svg>
-                    </div>
-                    <span
-                      class="text-sm whitespace-nowrap transition-opacity duration-150 opacity-100"
-                    >
-                      Playlists
-                    </span>
-                  </div>
-                </div>
-              </a>
-              <a
-                href="/history"
-              >
-                <div>
-                  <div
-                    class="flex w-full items-center overflow-hidden rounded-md border-(length:--border-width) border-transparent"
-                    data-testid="sidebar-navigation-item"
-                  >
-                    <div
-                      class="flex size-8 shrink-0 items-center justify-center"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="lucide lucide-history"
-                        fill="none"
-                        height="24"
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
-                        />
-                        <path
-                          d="M3 3v5h5"
-                        />
-                        <path
-                          d="M12 7v5l4 2"
-                        />
-                      </svg>
-                    </div>
-                    <span
-                      class="text-sm whitespace-nowrap transition-opacity duration-150 opacity-100"
-                    >
-                      History
-                    </span>
-                  </div>
-                </div>
-              </a>
-              <a
-                href="/lyrics"
-              >
-                <div>
-                  <div
-                    class="flex w-full items-center overflow-hidden rounded-md border-(length:--border-width) border-transparent"
-                    data-testid="sidebar-navigation-item"
-                  >
-                    <div
-                      class="flex size-8 shrink-0 items-center justify-center"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="lucide lucide-mic-vocal"
-                        fill="none"
-                        height="24"
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="m11 7.601-5.994 8.19a1 1 0 0 0 .1 1.298l.817.818a1 1 0 0 0 1.314.087L15.09 12"
-                        />
-                        <path
-                          d="M16.5 21.174C15.5 20.5 14.372 20 13 20c-2.058 0-3.928 2.356-6 2-2.072-.356-2.775-3.369-1.5-4.5"
-                        />
-                        <circle
-                          cx="16"
-                          cy="7"
-                          r="5"
-                        />
-                      </svg>
-                    </div>
-                    <span
-                      class="text-sm whitespace-nowrap transition-opacity duration-150 opacity-100"
-                    >
-                      Lyrics
-                    </span>
-                  </div>
-                </div>
-              </a>
-              <a
-                href="/sources"
-              >
-                <div>
-                  <div
-                    class="flex w-full items-center overflow-hidden rounded-md border-(length:--border-width) border-transparent"
-                    data-testid="sidebar-navigation-item"
-                  >
-                    <div
-                      class="flex size-8 shrink-0 items-center justify-center"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="lucide lucide-cable"
-                        fill="none"
-                        height="24"
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M17 19a1 1 0 0 1-1-1v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2a1 1 0 0 1-1 1z"
-                        />
-                        <path
-                          d="M17 21v-2"
-                        />
-                        <path
-                          d="M19 14V6.5a1 1 0 0 0-7 0v11a1 1 0 0 1-7 0V10"
-                        />
-                        <path
-                          d="M21 21v-2"
-                        />
-                        <path
-                          d="M3 5V3"
-                        />
-                        <path
-                          d="M4 10a2 2 0 0 1-2-2V6a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2a2 2 0 0 1-2 2z"
-                        />
-                        <path
-                          d="M7 5V3"
-                        />
-                      </svg>
-                    </div>
-                    <span
-                      class="text-sm whitespace-nowrap transition-opacity duration-150 opacity-100"
-                    >
-                      Sources
-                    </span>
-                  </div>
-                </div>
-              </a>
               <div
-                class="contents"
-                data-testid="custom-view-sidebar-entries"
-              />
-            </div>
-            <div>
-              <div
-                class="flex w-full items-center overflow-hidden rounded-md border-(length:--border-width) cursor-pointer border-transparent"
-                data-testid="sidebar-navigation-item"
-                role="button"
+                class="flex min-h-0 flex-1 [scrollbar-width:thin] flex-col gap-1 overflow-y-auto"
               >
                 <div
-                  class="flex size-8 shrink-0 items-center justify-center"
+                  class="contents"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="lucide lucide-settings"
-                    fill="none"
-                    height="24"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
+                  <a
+                    href="/playlists"
                   >
-                    <path
-                      d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"
-                    />
-                    <circle
-                      cx="12"
-                      cy="12"
-                      r="3"
-                    />
-                  </svg>
+                    <div>
+                      <div
+                        class="group flex min-h-10 w-full min-w-0 cursor-pointer items-center gap-2 overflow-hidden rounded-xl border border-transparent px-1.5 transition-colors duration-150 bg-primary/10 text-foreground hover:bg-primary/15"
+                        data-testid="sidebar-navigation-item"
+                        role="button"
+                      >
+                        <div
+                          class="flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-primary"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="lucide lucide-list-music"
+                            fill="none"
+                            height="24"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M21 15V6"
+                            />
+                            <path
+                              d="M18.5 18a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"
+                            />
+                            <path
+                              d="M12 12H3"
+                            />
+                            <path
+                              d="M16 6H3"
+                            />
+                            <path
+                              d="M12 18H3"
+                            />
+                          </svg>
+                        </div>
+                        <span
+                          class="min-w-0 truncate text-sm whitespace-nowrap font-semibold"
+                        >
+                          Playlists
+                        </span>
+                      </div>
+                    </div>
+                  </a>
                 </div>
-                <span
-                  class="text-sm whitespace-nowrap transition-opacity duration-150 opacity-100"
+                <div
+                  class="contents"
                 >
-                  Preferences
-                </span>
+                  <a
+                    href="/dashboard"
+                  >
+                    <div>
+                      <div
+                        class="group flex min-h-10 w-full min-w-0 cursor-pointer items-center gap-2 overflow-hidden rounded-xl border border-transparent px-1.5 transition-colors duration-150 text-foreground/70 hover:bg-muted/70 hover:text-foreground"
+                        data-testid="sidebar-navigation-item"
+                      >
+                        <div
+                          class="flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="lucide lucide-gauge"
+                            fill="none"
+                            height="24"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="m12 14 4-4"
+                            />
+                            <path
+                              d="M3.34 19a10 10 0 1 1 17.32 0"
+                            />
+                          </svg>
+                        </div>
+                        <span
+                          class="min-w-0 truncate text-sm whitespace-nowrap"
+                        >
+                          Dashboard
+                        </span>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div
+                  class="contents"
+                >
+                  <a
+                    href="/favorites/albums"
+                  >
+                    <div>
+                      <div
+                        class="group flex min-h-10 w-full min-w-0 cursor-pointer items-center gap-2 overflow-hidden rounded-xl border border-transparent px-1.5 transition-colors duration-150 text-foreground/70 hover:bg-muted/70 hover:text-foreground"
+                        data-testid="sidebar-navigation-item"
+                      >
+                        <div
+                          class="flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="lucide lucide-disc"
+                            fill="none"
+                            height="24"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <circle
+                              cx="12"
+                              cy="12"
+                              r="10"
+                            />
+                            <circle
+                              cx="12"
+                              cy="12"
+                              r="2"
+                            />
+                          </svg>
+                        </div>
+                        <span
+                          class="min-w-0 truncate text-sm whitespace-nowrap"
+                        >
+                          Favorite albums
+                        </span>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div
+                  class="contents"
+                >
+                  <a
+                    href="/favorites/tracks"
+                  >
+                    <div>
+                      <div
+                        class="group flex min-h-10 w-full min-w-0 cursor-pointer items-center gap-2 overflow-hidden rounded-xl border border-transparent px-1.5 transition-colors duration-150 text-foreground/70 hover:bg-muted/70 hover:text-foreground"
+                        data-testid="sidebar-navigation-item"
+                      >
+                        <div
+                          class="flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="lucide lucide-music"
+                            fill="none"
+                            height="24"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M9 18V5l12-2v13"
+                            />
+                            <circle
+                              cx="6"
+                              cy="18"
+                              r="3"
+                            />
+                            <circle
+                              cx="18"
+                              cy="16"
+                              r="3"
+                            />
+                          </svg>
+                        </div>
+                        <span
+                          class="min-w-0 truncate text-sm whitespace-nowrap"
+                        >
+                          Favorite tracks
+                        </span>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div
+                  class="contents"
+                >
+                  <a
+                    href="/favorites/artists"
+                  >
+                    <div>
+                      <div
+                        class="group flex min-h-10 w-full min-w-0 cursor-pointer items-center gap-2 overflow-hidden rounded-xl border border-transparent px-1.5 transition-colors duration-150 text-foreground/70 hover:bg-muted/70 hover:text-foreground"
+                        data-testid="sidebar-navigation-item"
+                      >
+                        <div
+                          class="flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="lucide lucide-user"
+                            fill="none"
+                            height="24"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"
+                            />
+                            <circle
+                              cx="12"
+                              cy="7"
+                              r="4"
+                            />
+                          </svg>
+                        </div>
+                        <span
+                          class="min-w-0 truncate text-sm whitespace-nowrap"
+                        >
+                          Favorite artists
+                        </span>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div
+                  class="contents"
+                >
+                  <a
+                    href="/history"
+                  >
+                    <div>
+                      <div
+                        class="group flex min-h-10 w-full min-w-0 cursor-pointer items-center gap-2 overflow-hidden rounded-xl border border-transparent px-1.5 transition-colors duration-150 text-foreground/70 hover:bg-muted/70 hover:text-foreground"
+                        data-testid="sidebar-navigation-item"
+                      >
+                        <div
+                          class="flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="lucide lucide-history"
+                            fill="none"
+                            height="24"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"
+                            />
+                            <path
+                              d="M3 3v5h5"
+                            />
+                            <path
+                              d="M12 7v5l4 2"
+                            />
+                          </svg>
+                        </div>
+                        <span
+                          class="min-w-0 truncate text-sm whitespace-nowrap"
+                        >
+                          History
+                        </span>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div
+                  class="contents"
+                >
+                  <a
+                    href="/lyrics"
+                  >
+                    <div>
+                      <div
+                        class="group flex min-h-10 w-full min-w-0 cursor-pointer items-center gap-2 overflow-hidden rounded-xl border border-transparent px-1.5 transition-colors duration-150 text-foreground/70 hover:bg-muted/70 hover:text-foreground"
+                        data-testid="sidebar-navigation-item"
+                      >
+                        <div
+                          class="flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="lucide lucide-mic-vocal"
+                            fill="none"
+                            height="24"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="m11 7.601-5.994 8.19a1 1 0 0 0 .1 1.298l.817.818a1 1 0 0 0 1.314.087L15.09 12"
+                            />
+                            <path
+                              d="M16.5 21.174C15.5 20.5 14.372 20 13 20c-2.058 0-3.928 2.356-6 2-2.072-.356-2.775-3.369-1.5-4.5"
+                            />
+                            <circle
+                              cx="16"
+                              cy="7"
+                              r="5"
+                            />
+                          </svg>
+                        </div>
+                        <span
+                          class="min-w-0 truncate text-sm whitespace-nowrap"
+                        >
+                          Lyrics
+                        </span>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div
+                  class="contents"
+                >
+                  <a
+                    href="/sources"
+                  >
+                    <div>
+                      <div
+                        class="group flex min-h-10 w-full min-w-0 cursor-pointer items-center gap-2 overflow-hidden rounded-xl border border-transparent px-1.5 transition-colors duration-150 text-foreground/70 hover:bg-muted/70 hover:text-foreground"
+                        data-testid="sidebar-navigation-item"
+                      >
+                        <div
+                          class="flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="lucide lucide-cable"
+                            fill="none"
+                            height="24"
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M17 19a1 1 0 0 1-1-1v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2a1 1 0 0 1-1 1z"
+                            />
+                            <path
+                              d="M17 21v-2"
+                            />
+                            <path
+                              d="M19 14V6.5a1 1 0 0 0-7 0v11a1 1 0 0 1-7 0V10"
+                            />
+                            <path
+                              d="M21 21v-2"
+                            />
+                            <path
+                              d="M3 5V3"
+                            />
+                            <path
+                              d="M4 10a2 2 0 0 1-2-2V6a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2a2 2 0 0 1-2 2z"
+                            />
+                            <path
+                              d="M7 5V3"
+                            />
+                          </svg>
+                        </div>
+                        <span
+                          class="min-w-0 truncate text-sm whitespace-nowrap"
+                        >
+                          Sources
+                        </span>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div
+                  class="contents"
+                  data-testid="custom-view-sidebar-entries"
+                />
+              </div>
+              <div
+                class="border-foreground/10 mt-auto flex flex-col gap-1 border-t pt-2"
+              >
+                <div>
+                  <div
+                    class="group flex min-h-10 w-full min-w-0 cursor-pointer items-center gap-2 overflow-hidden rounded-xl border border-transparent px-1.5 transition-colors duration-150 text-foreground/70 hover:bg-muted/70 hover:text-foreground"
+                    data-testid="sidebar-navigation-item"
+                    role="button"
+                  >
+                    <div
+                      class="flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px] text-foreground/55 group-hover:text-foreground"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="lucide lucide-settings"
+                        fill="none"
+                        height="24"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"
+                        />
+                        <circle
+                          cx="12"
+                          cy="12"
+                          r="3"
+                        />
+                      </svg>
+                    </div>
+                    <span
+                      class="min-w-0 truncate text-sm whitespace-nowrap"
+                    >
+                      Preferences
+                    </span>
+                  </div>
+                </div>
+                <div
+                  class="relative w-full"
+                  data-headlessui-state=""
+                >
+                  <div
+                    aria-expanded="false"
+                    class="cursor-pointer"
+                    data-headlessui-state=""
+                    id="headlessui-popover-button-:r9:"
+                  >
+                    <button
+                      aria-label="Customize sidebar"
+                      class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center whitespace-nowrap outline-none disabled:cursor-not-allowed disabled:opacity-50 h-auto text-foreground/70 hover:bg-muted/70 hover:text-foreground min-h-10 w-full min-w-0 gap-2 rounded-xl px-1.5 text-left transition-colors justify-start"
+                      data-headlessui-state=""
+                      title="Customize sidebar"
+                      type="button"
+                    >
+                      <span
+                        class="text-foreground/55 flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px]"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="lucide lucide-panel-left"
+                          fill="none"
+                          height="24"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect
+                            height="18"
+                            rx="2"
+                            width="18"
+                            x="3"
+                            y="3"
+                          />
+                          <path
+                            d="M9 3v18"
+                          />
+                        </svg>
+                      </span>
+                      <span
+                        class="min-w-0 truncate text-sm whitespace-nowrap"
+                      >
+                        Customize sidebar
+                      </span>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -781,7 +930,7 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
                     </div>
                     <div>
                       <button
-                        class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-primary border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none h-10 px-4 py-2"
+                        class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-background border-border hover:bg-primary/10 border-(length:--border-width) h-10 px-4 py-2"
                         data-headlessui-state=""
                         data-testid="search-empty-state-action"
                         type="button"
@@ -797,16 +946,15 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
         </div>
       </main>
       <div
-        animate="[object Object]"
         class="border-border relative flex flex-col overflow-hidden surface-sidebar-right border-l-(length:--border-width)"
         data-testid="sidebar-right"
-        transition="[object Object]"
+        style="width: 200px;"
       >
         <span
-          class="mb-4 flex flex-row items-center justify-start px-2 pt-2"
+          class="mb-3 flex flex-row items-center justify-start px-2 pt-2"
         >
           <button
-            class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-primary border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none size-10 justify-center top-2 px-2 left-1"
+            class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground/60 hover:bg-muted/70 hover:text-foreground size-8 justify-center p-0 [&>svg]:size-4"
             data-headlessui-state=""
             data-testid="sidebar-toggle-right"
             type="button"
@@ -893,41 +1041,35 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
         />
       </div>
     </div>
-    <div
-      class="w-full select-none"
+    <footer
+      class="surface-bottombar border-border flex h-16 items-center px-4 relative border-t-0"
     >
       <div
-        aria-disabled="false"
-        class="relative h-4 w-full cursor-pointer"
-        data-testid="player-seek-bar"
+        class="absolute inset-x-0 top-0 z-10 -translate-y-1/2"
       >
         <div
-          class="border-border surface-seekbar-track absolute inset-0 border-t-(length:--border-width)"
+          class="w-full px-4 select-none"
         >
           <div
-            class="absolute right-0 left-0 z-10 flex h-full flex-row items-center justify-between px-2 pt-0.5 text-xs leading-none"
+            aria-disabled="false"
+            class="group relative h-4 w-full cursor-pointer"
+            data-testid="player-seek-bar"
           >
-            <span
-              class="tabular-nums"
+            <div
+              class="surface-seekbar-track absolute inset-x-0 top-1/2 h-0.5 -translate-y-1/2 overflow-hidden rounded-full"
             >
-              0:00
-            </span>
-            <span
-              class="tabular-nums"
-            >
-              0:00
-            </span>
+              <div
+                class="surface-seekbar h-full rounded-full transition-[width] duration-150"
+                style="width: 0%;"
+              />
+            </div>
+            <div
+              class="surface-seekbar border-background shadow-shadow pointer-events-none absolute top-1/2 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 opacity-0 transition-opacity group-hover:opacity-100"
+              style="left: 0%;"
+            />
           </div>
-          <div
-            class="surface-seekbar h-full transition-none"
-            style="width: 0%;"
-          />
         </div>
       </div>
-    </div>
-    <footer
-      class="surface-bottombar border-border flex h-16 items-center border-t-(length:--border-width) px-4"
-    >
       <div
         class="grid w-full grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-4"
       >
@@ -938,7 +1080,7 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
             class="flex min-w-0 items-center gap-3"
           >
             <div
-              class="border-border bg-muted size-12 shrink-0 overflow-hidden rounded-md border-(length:--border-width)"
+              class="bg-muted size-10 shrink-0 overflow-hidden rounded-md"
             >
               <div
                 class="text-muted-foreground flex size-full items-center justify-center"
@@ -972,13 +1114,13 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
               class="min-w-0 flex-1"
             >
               <div
-                class="truncate text-sm font-bold"
+                class="truncate text-sm leading-5 font-semibold"
                 data-testid="now-playing-title"
               >
                 No track playing
               </div>
               <div
-                class="truncate text-xs opacity-70"
+                class="text-foreground/60 truncate text-xs"
                 data-testid="player-now-playing-artist"
               />
             </div>
@@ -992,7 +1134,8 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
           >
             <div>
               <button
-                class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 size-10 justify-center"
+                aria-pressed="false"
+                class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground hover:bg-primary/10 size-10 justify-center rounded-full"
                 data-headlessui-state=""
                 data-testid="player-shuffle-button"
                 type="button"
@@ -1029,7 +1172,7 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
               </button>
             </div>
             <button
-              class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 size-10 justify-center"
+              class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground hover:bg-primary/10 size-10 justify-center rounded-full"
               data-headlessui-state=""
               type="button"
             >
@@ -1055,7 +1198,7 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
               </svg>
             </button>
             <button
-              class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-primary border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none size-10 justify-center"
+              class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 border-border hover:bg-primary/10 border-(length:--border-width) size-10 justify-center surface-primary rounded-full"
               data-headlessui-state=""
               data-testid="player-play-button"
               type="button"
@@ -1079,7 +1222,7 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
               </svg>
             </button>
             <button
-              class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 size-10 justify-center"
+              class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground hover:bg-primary/10 size-10 justify-center rounded-full"
               data-headlessui-state=""
               data-testid="player-next-button"
               type="button"
@@ -1107,7 +1250,8 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
             </button>
             <div>
               <button
-                class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 size-10 justify-center"
+                aria-pressed="false"
+                class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground hover:bg-primary/10 size-10 justify-center rounded-full"
                 data-headlessui-state=""
                 data-testid="player-repeat-button"
                 type="button"
@@ -1149,7 +1293,9 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
             class="flex items-center gap-2"
           >
             <button
-              class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 size-10 justify-center"
+              aria-label="common.actions.mute"
+              aria-pressed="false"
+              class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 hover:bg-primary/10 justify-center text-primary size-6 p-0"
               data-headlessui-state=""
               type="button"
             >
@@ -1157,13 +1303,13 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
                 aria-hidden="true"
                 class="lucide lucide-volume2 lucide-volume-2"
                 fill="none"
-                height="16"
+                height="14"
                 stroke="currentColor"
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 stroke-width="2"
                 viewBox="0 0 24 24"
-                width="16"
+                width="14"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
@@ -1185,32 +1331,32 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
                 class="flex w-full flex-col gap-2"
               >
                 <div
-                  class="relative h-6 w-full overscroll-contain"
+                  class="relative w-full overscroll-contain h-4"
                 >
                   <div
                     class="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2"
                   >
                     <div
-                      class="border-border surface-input relative h-3 w-full rounded-md border-(length:--border-width)"
+                      class="border-border surface-input relative w-full rounded-md border-(length:--border-width) h-1"
                     >
                       <div
                         class="bg-primary absolute top-0 left-0 h-full rounded-l"
                         style="width: 100%;"
                       />
                       <div
-                        class="border-border bg-input absolute top-1/2 -ml-2 h-5 w-5 -translate-y-1/2 rounded-full border-(length:--border-width)"
+                        class="absolute top-1/2 -translate-y-1/2 rounded-full border-(length:--border-width) border-primary bg-primary -ml-1.5 h-3 w-3"
                         style="left: 100%;"
                       />
                     </div>
                   </div>
                   <input
-                    aria-labelledby=":r3:-label"
+                    aria-labelledby=":rb:-label"
                     aria-valuemax="100"
                     aria-valuemin="0"
                     aria-valuenow="100"
                     aria-valuetext="100"
-                    class="absolute inset-0 z-[1] h-6 w-full appearance-none opacity-0 cursor-pointer"
-                    id=":r3:"
+                    class="absolute inset-0 z-[1] w-full cursor-pointer appearance-none opacity-0 h-4"
+                    id=":rb:"
                     max="100"
                     min="0"
                     step="1"
@@ -1224,6 +1370,9 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
         </div>
       </div>
     </footer>
+    <div
+      class="pointer-events-none fixed top-28 right-4 z-50 flex flex-col items-end gap-3"
+    />
     <section
       aria-atomic="false"
       aria-label="Notifications alt+T"

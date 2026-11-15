@@ -4,6 +4,7 @@ export type SkipFeedback =
   | { kind: 'skipRefused' }
   | { kind: 'rewindRefused' }
   | { kind: 'rewindUsed' }
+  | { kind: 'forwardFirstRefused' }
   | { kind: 'forwardWaiting'; remainingSeconds: number }
   | { kind: 'forwardRefused' }
   | { kind: 'forwardUsed' }

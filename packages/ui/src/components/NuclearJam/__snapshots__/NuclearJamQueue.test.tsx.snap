@@ -77,24 +77,24 @@ exports[`NuclearJamQueue > (Snapshot) renders the queue with items 1`] = `
         style="scrollbar-width: none;"
       >
         <div
-          class="border-border flex items-center gap-3 border-b-(length:--border-width) px-4 py-2"
+          class="flex h-14 items-center gap-3 rounded-lg px-2 transition-colors hover:bg-muted/70"
           data-is-current="false"
           data-testid="jam-queue-item"
         >
           <div
-            class="border-border bg-muted flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-md border-(length:--border-width)"
+            class="bg-muted flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md"
           >
             <svg
               aria-hidden="true"
               class="lucide lucide-cassette-tape text-muted-foreground opacity-20"
               fill="none"
-              height="40"
+              height="24"
               stroke="currentColor"
               stroke-linecap="round"
               stroke-linejoin="round"
-              stroke-width="1.2"
+              stroke-width="2"
               viewBox="0 0 24 24"
-              width="40"
+              width="24"
               xmlns="http://www.w3.org/2000/svg"
             >
               <rect
@@ -126,36 +126,36 @@ exports[`NuclearJamQueue > (Snapshot) renders the queue with items 1`] = `
             class="min-w-0 flex-1"
           >
             <div
-              class="truncate text-sm font-bold"
+              class="truncate text-sm leading-5 font-semibold"
             >
               First Test Track
             </div>
             <div
-              class="truncate text-xs opacity-60"
+              class="text-foreground/60 truncate text-xs"
             >
               Test Artist
             </div>
           </div>
         </div>
         <div
-          class="border-border flex items-center gap-3 border-b-(length:--border-width) px-4 py-2 surface-primary"
+          class="flex h-14 items-center gap-3 rounded-lg px-2 transition-colors bg-primary/10"
           data-is-current="true"
           data-testid="jam-queue-item"
         >
           <div
-            class="border-border bg-muted flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-md border-(length:--border-width)"
+            class="bg-muted flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md"
           >
             <svg
               aria-hidden="true"
               class="lucide lucide-cassette-tape text-muted-foreground opacity-20"
               fill="none"
-              height="40"
+              height="24"
               stroke="currentColor"
               stroke-linecap="round"
               stroke-linejoin="round"
-              stroke-width="1.2"
+              stroke-width="2"
               viewBox="0 0 24 24"
-              width="40"
+              width="24"
               xmlns="http://www.w3.org/2000/svg"
             >
               <rect
@@ -187,36 +187,36 @@ exports[`NuclearJamQueue > (Snapshot) renders the queue with items 1`] = `
             class="min-w-0 flex-1"
           >
             <div
-              class="truncate text-sm font-bold"
+              class="truncate text-sm leading-5 font-semibold"
             >
               Second Test Track
             </div>
             <div
-              class="truncate text-xs opacity-60"
+              class="text-foreground/60 truncate text-xs"
             >
               Test Artist
             </div>
           </div>
         </div>
         <div
-          class="border-border flex items-center gap-3 border-b-(length:--border-width) px-4 py-2"
+          class="flex h-14 items-center gap-3 rounded-lg px-2 transition-colors hover:bg-muted/70"
           data-is-current="false"
           data-testid="jam-queue-item"
         >
           <div
-            class="border-border bg-muted flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-md border-(length:--border-width)"
+            class="bg-muted flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md"
           >
             <svg
               aria-hidden="true"
               class="lucide lucide-cassette-tape text-muted-foreground opacity-20"
               fill="none"
-              height="40"
+              height="24"
               stroke="currentColor"
               stroke-linecap="round"
               stroke-linejoin="round"
-              stroke-width="1.2"
+              stroke-width="2"
               viewBox="0 0 24 24"
-              width="40"
+              width="24"
               xmlns="http://www.w3.org/2000/svg"
             >
               <rect
@@ -248,12 +248,12 @@ exports[`NuclearJamQueue > (Snapshot) renders the queue with items 1`] = `
             class="min-w-0 flex-1"
           >
             <div
-              class="truncate text-sm font-bold"
+              class="truncate text-sm leading-5 font-semibold"
             >
               Third Test Track
             </div>
             <div
-              class="truncate text-xs opacity-60"
+              class="text-foreground/60 truncate text-xs"
             >
               Test Artist
             </div>

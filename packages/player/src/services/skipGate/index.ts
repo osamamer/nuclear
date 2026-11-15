@@ -35,6 +35,9 @@ const reportRewindDecision = (decision: RewindDecision): boolean => {
     case 'rewindRefused':
       refuseWithFeedback({ kind: 'rewindRefused' });
       return false;
+    case 'forwardFirstRefused':
+      refuseWithFeedback({ kind: 'forwardFirstRefused' });
+      return false;
     case 'forwardWaiting':
       refuseWithFeedback({
         kind: 'forwardWaiting',

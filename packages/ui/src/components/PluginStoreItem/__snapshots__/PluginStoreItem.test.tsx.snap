@@ -56,7 +56,7 @@ exports[`PluginStoreItem > (Snapshot) renders default state 1`] = `
     class="shrink-0"
   >
     <button
-      class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-primary border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none h-10 px-4 py-2 w-28"
+      class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-background border-border hover:bg-primary/10 border-(length:--border-width) h-10 px-4 py-2 w-28"
       data-headlessui-state=""
       type="button"
     >
@@ -149,7 +149,7 @@ exports[`PluginStoreItem > (Snapshot) renders installed state 1`] = `
     class="shrink-0"
   >
     <button
-      class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-primary border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none h-10 px-4 py-2 w-28"
+      class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-background border-border hover:bg-primary/10 border-(length:--border-width) h-10 px-4 py-2 w-28"
       data-disabled=""
       data-headlessui-state="disabled"
       disabled=""
@@ -238,7 +238,7 @@ exports[`PluginStoreItem > (Snapshot) renders installing state 1`] = `
     class="shrink-0"
   >
     <button
-      class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-primary border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none h-10 px-4 py-2 w-28"
+      class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-background border-border hover:bg-primary/10 border-(length:--border-width) h-10 px-4 py-2 w-28"
       data-disabled=""
       data-headlessui-state="disabled"
       disabled=""
@@ -339,7 +339,7 @@ exports[`PluginStoreItem > (Snapshot) renders with custom labels 1`] = `
     class="shrink-0"
   >
     <button
-      class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-primary border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none h-10 px-4 py-2 w-28"
+      class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-background border-border hover:bg-primary/10 border-(length:--border-width) h-10 px-4 py-2 w-28"
       data-headlessui-state=""
       type="button"
     >
@@ -432,7 +432,7 @@ exports[`PluginStoreItem > (Snapshot) renders with long description 1`] = `
     class="shrink-0"
   >
     <button
-      class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-primary border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none h-10 px-4 py-2 w-28"
+      class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-background border-border hover:bg-primary/10 border-(length:--border-width) h-10 px-4 py-2 w-28"
       data-headlessui-state=""
       type="button"
     >

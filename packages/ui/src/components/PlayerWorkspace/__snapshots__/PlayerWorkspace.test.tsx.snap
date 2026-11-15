@@ -14,7 +14,7 @@ exports[`PlayerWorkspace > (Snapshot) both sidebars collapsed 1`] = `
         class="mb-3 flex flex-row items-center justify-center py-2"
       >
         <button
-          class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground/60 hover:bg-muted/70 hover:text-foreground size-8 justify-center p-0 [&>svg]:size-4"
+          class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground/60 hover:bg-muted/70 hover:text-foreground size-8 justify-center p-0 [&>svg]:size-4"
           data-headlessui-state=""
           data-testid="sidebar-toggle-left"
           type="button"
@@ -62,7 +62,7 @@ exports[`PlayerWorkspace > (Snapshot) both sidebars collapsed 1`] = `
         class="mb-3 flex flex-row items-center justify-center py-2"
       >
         <button
-          class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground/60 hover:bg-muted/70 hover:text-foreground size-8 justify-center p-0 [&>svg]:size-4"
+          class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground/60 hover:bg-muted/70 hover:text-foreground size-8 justify-center p-0 [&>svg]:size-4"
           data-headlessui-state=""
           data-testid="sidebar-toggle-right"
           type="button"
@@ -115,7 +115,7 @@ exports[`PlayerWorkspace > (Snapshot) both sidebars expanded 1`] = `
         class="mb-3 flex flex-row items-center justify-start px-2 pt-2"
       >
         <button
-          class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground/60 hover:bg-muted/70 hover:text-foreground size-8 justify-center p-0 [&>svg]:size-4"
+          class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground/60 hover:bg-muted/70 hover:text-foreground size-8 justify-center p-0 [&>svg]:size-4"
           data-headlessui-state=""
           data-testid="sidebar-toggle-left"
           type="button"
@@ -166,7 +166,7 @@ exports[`PlayerWorkspace > (Snapshot) both sidebars expanded 1`] = `
         class="mb-3 flex flex-row items-center justify-start px-2 pt-2"
       >
         <button
-          class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground/60 hover:bg-muted/70 hover:text-foreground size-8 justify-center p-0 [&>svg]:size-4"
+          class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground/60 hover:bg-muted/70 hover:text-foreground size-8 justify-center p-0 [&>svg]:size-4"
           data-headlessui-state=""
           data-testid="sidebar-toggle-right"
           type="button"

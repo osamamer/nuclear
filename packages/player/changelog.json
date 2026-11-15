@@ -1,6 +1,30 @@
 [
   {
     "date": "2026-11-15T00:00",
+    "description": "The now playing badge in track lists and the sidebar now shows a moving equalizer.",
+    "type": "improvement",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "UI",
+        "color": "blue"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-15T00:00",
+    "description": "Songs can be skipped freely during their first ten seconds of play. After that, the first attempt to skip or fast-forward is refused without starting a timer, and the second attempt starts the countdown.",
+    "type": "improvement",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Playback",
+        "color": "purple"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-15T00:00",
     "description": "Replace the skip guard with a five-second countdown shown in a draggable bubble that turns green when skipping is allowed. Pausing for five seconds, or really playing 70% of a song (seven minutes for songs over ten minutes), lets you move on freely. Each song allows one rewind and one fast-forward after a ten-second wait. The rules apply to the player bar, shortcuts, the queue, Play now, plugins, MPD, MCP, and Nuclear Jam.",
     "type": "feature",
     "contributors": ["nukeop"],

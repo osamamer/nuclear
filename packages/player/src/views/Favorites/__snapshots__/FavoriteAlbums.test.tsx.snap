@@ -134,7 +134,7 @@ exports[`FavoriteAlbums view > (Snapshot) renders with albums 1`] = `
                 data-testid="card-container"
               >
                 <button
-                  class="cursor-pointer rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none h-auto surface-card group-hover:translate-x-shadow-x group-hover:translate-y-shadow-y flex w-full flex-col items-stretch gap-2 p-2 text-left group-hover:shadow-none"
+                  class="data-selected:bg-primary/10 data-selected:text-primary cursor-pointer rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 border-border hover:bg-primary/10 border-(length:--border-width) h-auto surface-card group-hover:translate-x-shadow-x group-hover:translate-y-shadow-y flex w-full flex-col items-stretch gap-2 p-2 text-left group-hover:shadow-none"
                   data-headlessui-state=""
                   data-testid="card"
                   type="button"
@@ -221,11 +221,11 @@ exports[`FavoriteAlbums view > (Snapshot) renders with albums 1`] = `
                               aria-expanded="false"
                               class="cursor-pointer"
                               data-headlessui-state=""
-                              id="headlessui-popover-button-:r9:"
+                              id="headlessui-popover-button-:rp:"
                             >
                               <button
                                 aria-label="More actions"
-                                class="inline-flex cursor-pointer items-center whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 size-8 justify-center surface-background hover:surface-muted rounded-none bg-clip-padding"
+                                class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground hover:bg-primary/10 size-8 justify-center surface-background hover:surface-muted rounded-none bg-clip-padding"
                                 data-headlessui-state=""
                                 data-testid="card-menu-button"
                                 type="button"
@@ -266,7 +266,7 @@ exports[`FavoriteAlbums view > (Snapshot) renders with albums 1`] = `
                         <div>
                           <button
                             aria-label="Play"
-                            class="inline-flex cursor-pointer items-center whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 size-8 justify-center surface-primary hover:surface-muted rounded-none bg-clip-padding"
+                            class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 size-8 justify-center text-foreground hover:bg-primary/10 rounded-none bg-clip-padding"
                             data-headlessui-state=""
                             data-testid="card-play-button"
                             type="button"
@@ -300,7 +300,7 @@ exports[`FavoriteAlbums view > (Snapshot) renders with albums 1`] = `
                 data-testid="card-container"
               >
                 <button
-                  class="cursor-pointer rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none h-auto surface-card group-hover:translate-x-shadow-x group-hover:translate-y-shadow-y flex w-full flex-col items-stretch gap-2 p-2 text-left group-hover:shadow-none"
+                  class="data-selected:bg-primary/10 data-selected:text-primary cursor-pointer rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 border-border hover:bg-primary/10 border-(length:--border-width) h-auto surface-card group-hover:translate-x-shadow-x group-hover:translate-y-shadow-y flex w-full flex-col items-stretch gap-2 p-2 text-left group-hover:shadow-none"
                   data-headlessui-state=""
                   data-testid="card"
                   type="button"
@@ -387,11 +387,11 @@ exports[`FavoriteAlbums view > (Snapshot) renders with albums 1`] = `
                               aria-expanded="false"
                               class="cursor-pointer"
                               data-headlessui-state=""
-                              id="headlessui-popover-button-:rd:"
+                              id="headlessui-popover-button-:rt:"
                             >
                               <button
                                 aria-label="More actions"
-                                class="inline-flex cursor-pointer items-center whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 size-8 justify-center surface-background hover:surface-muted rounded-none bg-clip-padding"
+                                class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground hover:bg-primary/10 size-8 justify-center surface-background hover:surface-muted rounded-none bg-clip-padding"
                                 data-headlessui-state=""
                                 data-testid="card-menu-button"
                                 type="button"
@@ -432,7 +432,7 @@ exports[`FavoriteAlbums view > (Snapshot) renders with albums 1`] = `
                         <div>
                           <button
                             aria-label="Play"
-                            class="inline-flex cursor-pointer items-center whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 size-8 justify-center surface-primary hover:surface-muted rounded-none bg-clip-padding"
+                            class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 size-8 justify-center text-foreground hover:bg-primary/10 rounded-none bg-clip-padding"
                             data-headlessui-state=""
                             data-testid="card-play-button"
                             type="button"

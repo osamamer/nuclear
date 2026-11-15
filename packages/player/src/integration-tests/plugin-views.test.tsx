@@ -173,15 +173,17 @@ describe('Custom views from plugins', () => {
     expect(CustomViewsWrapper.sidebar.entryTitles).toEqual([]);
   });
 
-  it('removes a view with an unknown icon and keeps the sidebar working', async () => {
+  it('keeps a view with an unknown icon in the sidebar with a fallback icon', async () => {
     views.register(createPodcastsView(PLUGIN_ID));
     views.register(UNKNOWN_ICON_VIEW);
     await CustomViewsWrapper.mount('/dashboard');
-    await CustomViewsWrapper.crashToast.find();
 
     await CustomViewsWrapper.sidebar.entry('Podcasts').click();
 
     expect(await CustomViewsWrapper.podcastList.find()).toBeVisible();
-    expect(CustomViewsWrapper.sidebar.entryTitles).toEqual(['Podcasts']);
+    expect(CustomViewsWrapper.sidebar.entryTitles).toEqual([
+      'Podcasts',
+      'Mystery',
+    ]);
   });
 });

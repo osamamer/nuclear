@@ -1550,7 +1550,7 @@ exports[`Settings view > (Snapshot) renders the settings view 1`] = `
                                   >
                                     <button
                                       aria-checked="false"
-                                      aria-label="Automatically download playlist tracks"
+                                      aria-label="Automatically download selected playlists"
                                       class="border-border focus:ring-ring focus:ring-offset-muted relative inline-flex h-6 w-11 cursor-pointer items-center rounded-full border-(length:--border-width) transition-all focus:ring-2 focus:ring-offset-2 focus:outline-none surface-input data-checked:border-primary/60 hover:border-primary/40 data-disabled:cursor-not-allowed data-disabled:opacity-50 group"
                                       data-headlessui-state=""
                                       id="headlessui-switch-:r1j:"
@@ -1565,13 +1565,13 @@ exports[`Settings view > (Snapshot) renders the settings view 1`] = `
                                     <span
                                       class="text-foreground text-sm font-semibold"
                                     >
-                                      Automatically download playlist tracks
+                                      Automatically download selected playlists
                                     </span>
                                   </div>
                                   <p
                                     class="text-foreground/60 text-sm select-none"
                                   >
-                                    Save tracks from your playlists on this device and play the downloaded copy when available.
+                                    Choose playlists with Keep downloaded in their menu. Saved tracks play from this device when available.
                                   </p>
                                 </div>
                               </div>

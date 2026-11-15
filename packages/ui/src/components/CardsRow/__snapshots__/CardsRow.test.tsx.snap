@@ -36,7 +36,7 @@ exports[`CardsRow > (Snapshot) renders correctly with items 1`] = `
             value=""
           />
           <div
-            class="surface-primary border-border flex items-center gap-2 border-l-(length:--border-width) px-3 text-sm"
+            class="surface-background border-border flex items-center gap-2 border-l-(length:--border-width) px-3 text-sm"
           >
             <button
               class="cursor-pointer"
@@ -68,7 +68,7 @@ exports[`CardsRow > (Snapshot) renders correctly with items 1`] = `
         class="flex items-center gap-2"
       >
         <button
-          class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-primary border-border border-(length:--border-width) size-10 justify-center"
+          class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-background border-border hover:bg-primary/10 border-(length:--border-width) size-10 justify-center"
           data-headlessui-state=""
           data-testid="cards-row-scroll-left"
           type="button"
@@ -92,7 +92,7 @@ exports[`CardsRow > (Snapshot) renders correctly with items 1`] = `
           </svg>
         </button>
         <button
-          class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-primary border-border border-(length:--border-width) size-10 justify-center"
+          class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-background border-border hover:bg-primary/10 border-(length:--border-width) size-10 justify-center"
           data-headlessui-state=""
           data-testid="cards-row-scroll-right"
           type="button"
@@ -127,7 +127,7 @@ exports[`CardsRow > (Snapshot) renders correctly with items 1`] = `
       data-testid="card-container"
     >
       <button
-        class="cursor-pointer rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none h-auto surface-card group-hover:translate-x-shadow-x group-hover:translate-y-shadow-y flex w-full flex-col items-stretch gap-2 p-2 text-left group-hover:shadow-none"
+        class="data-selected:bg-primary/10 data-selected:text-primary cursor-pointer rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 border-border hover:bg-primary/10 border-(length:--border-width) h-auto surface-card group-hover:translate-x-shadow-x group-hover:translate-y-shadow-y flex w-full flex-col items-stretch gap-2 p-2 text-left group-hover:shadow-none"
         data-headlessui-state=""
         data-testid="card"
         type="button"
@@ -211,7 +211,7 @@ exports[`CardsRow > (Snapshot) renders correctly with items 1`] = `
       data-testid="card-container"
     >
       <button
-        class="cursor-pointer rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none h-auto surface-card group-hover:translate-x-shadow-x group-hover:translate-y-shadow-y flex w-full flex-col items-stretch gap-2 p-2 text-left group-hover:shadow-none"
+        class="data-selected:bg-primary/10 data-selected:text-primary cursor-pointer rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 border-border hover:bg-primary/10 border-(length:--border-width) h-auto surface-card group-hover:translate-x-shadow-x group-hover:translate-y-shadow-y flex w-full flex-col items-stretch gap-2 p-2 text-left group-hover:shadow-none"
         data-headlessui-state=""
         data-testid="card"
         type="button"
@@ -295,7 +295,7 @@ exports[`CardsRow > (Snapshot) renders correctly with items 1`] = `
       data-testid="card-container"
     >
       <button
-        class="cursor-pointer rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none h-auto surface-card group-hover:translate-x-shadow-x group-hover:translate-y-shadow-y flex w-full flex-col items-stretch gap-2 p-2 text-left group-hover:shadow-none"
+        class="data-selected:bg-primary/10 data-selected:text-primary cursor-pointer rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 border-border hover:bg-primary/10 border-(length:--border-width) h-auto surface-card group-hover:translate-x-shadow-x group-hover:translate-y-shadow-y flex w-full flex-col items-stretch gap-2 p-2 text-left group-hover:shadow-none"
         data-headlessui-state=""
         data-testid="card"
         type="button"

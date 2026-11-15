@@ -108,6 +108,7 @@ describe('Global keyboard shortcuts', () => {
     useSoundStore.setState({ seek: 50, duration: 200 });
 
     await user.keyboard('{ArrowRight}');
+    await user.keyboard('{ArrowRight}');
     expect(useSoundStore.getState().seek).toBe(50);
 
     vi.setSystemTime(Date.now() + 10_000);

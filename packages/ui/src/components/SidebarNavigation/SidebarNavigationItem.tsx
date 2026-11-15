@@ -1,8 +1,8 @@
 import { Link } from '@tanstack/react-router';
-import { AudioLines } from 'lucide-react';
 import { FC, ReactNode } from 'react';
 
 import { cn } from '../../utils';
+import { MovingEqualizer } from '../MovingEqualizer';
 import { Tooltip } from '../Tooltip/Tooltip';
 import { useSidebarCompact } from './SidebarCompactContext';
 
@@ -100,10 +100,10 @@ export const SidebarNavigationItem: FC<SidebarNavigationItemProps> = ({
             {isPlaying && !isCompact && (
               <span
                 aria-label={playingLabel}
-                className="text-accent-green mr-2 ml-auto flex shrink-0 animate-pulse items-center"
+                className="text-accent-green mr-2 ml-auto flex shrink-0 items-center"
                 data-testid="sidebar-playing-indicator"
               >
-                <AudioLines size={16} />
+                <MovingEqualizer size="md" />
               </span>
             )}
           </div>

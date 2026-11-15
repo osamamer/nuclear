@@ -32,6 +32,9 @@ export const useSkipFeedback = (): boolean => {
       case 'rewindRefused':
         toast.warning(t('skipGate.rewindRefused'));
         break;
+      case 'forwardFirstRefused':
+        toast.warning(t('skipGate.forwardFirstRefused'));
+        break;
       case 'forwardWaiting':
         toast.warning(
           t('skipGate.forwardWaiting', { seconds: feedback.remainingSeconds }),

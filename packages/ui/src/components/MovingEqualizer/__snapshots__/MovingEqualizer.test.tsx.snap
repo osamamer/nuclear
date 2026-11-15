@@ -1,0 +1,63 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`MovingEqualizer > (Snapshot) renders the medium equalizer 1`] = `
+<div>
+  <span
+    aria-hidden="true"
+    class="inline-flex items-end h-4 gap-[3px]"
+    data-testid="moving-equalizer"
+  >
+    <span
+      class="animate-eq-bar h-full origin-bottom rounded-full bg-current motion-reduce:animate-none w-[3px]"
+      data-testid="moving-equalizer-bar"
+      style="animation-delay: -0.45s;"
+    />
+    <span
+      class="animate-eq-bar h-full origin-bottom rounded-full bg-current motion-reduce:animate-none w-[3px]"
+      data-testid="moving-equalizer-bar"
+      style="animation-delay: -0.15s;"
+    />
+    <span
+      class="animate-eq-bar h-full origin-bottom rounded-full bg-current motion-reduce:animate-none w-[3px]"
+      data-testid="moving-equalizer-bar"
+      style="animation-delay: -0.6s;"
+    />
+    <span
+      class="animate-eq-bar h-full origin-bottom rounded-full bg-current motion-reduce:animate-none w-[3px]"
+      data-testid="moving-equalizer-bar"
+      style="animation-delay: -0.3s;"
+    />
+  </span>
+</div>
+`;
+
+exports[`MovingEqualizer > (Snapshot) renders the small equalizer 1`] = `
+<div>
+  <span
+    aria-hidden="true"
+    class="inline-flex items-end h-3 gap-[2px]"
+    data-testid="moving-equalizer"
+  >
+    <span
+      class="animate-eq-bar h-full origin-bottom rounded-full bg-current motion-reduce:animate-none w-[2px]"
+      data-testid="moving-equalizer-bar"
+      style="animation-delay: -0.45s;"
+    />
+    <span
+      class="animate-eq-bar h-full origin-bottom rounded-full bg-current motion-reduce:animate-none w-[2px]"
+      data-testid="moving-equalizer-bar"
+      style="animation-delay: -0.15s;"
+    />
+    <span
+      class="animate-eq-bar h-full origin-bottom rounded-full bg-current motion-reduce:animate-none w-[2px]"
+      data-testid="moving-equalizer-bar"
+      style="animation-delay: -0.6s;"
+    />
+    <span
+      class="animate-eq-bar h-full origin-bottom rounded-full bg-current motion-reduce:animate-none w-[2px]"
+      data-testid="moving-equalizer-bar"
+      style="animation-delay: -0.3s;"
+    />
+  </span>
+</div>
+`;

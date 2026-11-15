@@ -468,7 +468,35 @@ describe('useQueueStore', () => {
 
     beforeEach(() => {
       useQueueStore.getState().addToQueue(tracks);
-      useSoundStore.setState({ seek: 10, duration: 200 });
+      useSoundStore.setState({ seek: 20, duration: 200 });
+    });
+
+    it('skips freely during the first ten seconds of a playing track', () => {
+      useSoundStore.getState().play();
+      useSoundStore.setState({ seek: 9.9 });
+
+      useQueueStore.getState().goToNext();
+
+      expect(currentTitle()).toBe('Track 2');
+    });
+
+    it('keeps protecting a track rewound to its start after ten seconds of play', () => {
+      useSoundStore.getState().play();
+      advanceSeconds(10);
+      useSoundStore.setState({ seek: 0 });
+
+      useQueueStore.getState().goToNext();
+
+      expect(currentTitle()).toBe('Track 1');
+    });
+
+    it('starts protecting the track once it has played ten seconds', () => {
+      useSoundStore.getState().play();
+      useSoundStore.setState({ seek: 10 });
+
+      useQueueStore.getState().goToNext();
+
+      expect(currentTitle()).toBe('Track 1');
     });
 
     it('never blocks a track that has not started playing', () => {
@@ -476,7 +504,7 @@ describe('useQueueStore', () => {
       expect(currentTitle()).toBe('Track 2');
     });
 
-    it('refuses the first skip of a playing track and starts a five-second countdown', () => {
+    it('refuses the first skip of a playing track without starting a countdown', () => {
       useSoundStore.getState().play();
 
       useQueueStore.getState().goToNext();
@@ -485,6 +513,17 @@ describe('useQueueStore', () => {
       expect(useSkipFeedbackStore.getState().feedback).toEqual({
         kind: 'skipRefused',
       });
+      expect(useSkipCountdownStore.getState().skip).toBeNull();
+    });
+
+    it('refuses the second skip and starts a five-second countdown', () => {
+      useSoundStore.getState().play();
+      useQueueStore.getState().goToNext();
+      advanceSeconds(10);
+
+      useQueueStore.getState().goToNext();
+
+      expect(currentTitle()).toBe('Track 1');
       expect(useSkipCountdownStore.getState().skip?.deadlineMs).toBe(
         Date.now() + 5000,
       );
@@ -492,6 +531,7 @@ describe('useQueueStore', () => {
 
     it('keeps refusing while the countdown runs and lets the next attempt through once it ends', () => {
       useSoundStore.getState().play();
+      useQueueStore.getState().goToNext();
       useQueueStore.getState().goToNext();
 
       advanceSeconds(4.9);
@@ -508,9 +548,11 @@ describe('useQueueStore', () => {
     it('protects the new track again once it starts playing', () => {
       useSoundStore.getState().play();
       useQueueStore.getState().goToNext();
+      useQueueStore.getState().goToNext();
       advanceSeconds(5);
       useQueueStore.getState().goToNext();
       useSoundStore.getState().play();
+      useSoundStore.setState({ seek: 20 });
 
       useQueueStore.getState().goToNext();
 
@@ -564,6 +606,8 @@ describe('useQueueStore', () => {
       advanceSeconds(3);
 
       useQueueStore.getState().goToNext();
+      expect(useSkipCountdownStore.getState().skip).toBeNull();
+      useQueueStore.getState().goToNext();
       expect(currentTitle()).toBe('Track 1');
       expect(useSkipCountdownStore.getState().skip?.deadlineMs).toBe(
         Date.now() + 2000,
@@ -576,6 +620,7 @@ describe('useQueueStore', () => {
 
     it('does not let stopping a song bypass the wait', () => {
       useSoundStore.getState().play();
+      advanceSeconds(10);
       useSoundStore.getState().stop();
 
       playbackManager.playTracks([createMockTrack('New Track')]);
@@ -603,6 +648,7 @@ describe('useQueueStore', () => {
     it('does not count fast-forwarded time towards the 70%', () => {
       useSoundStore.getState().play();
       useSoundStore.setState({ seek: 10, duration: 200 });
+      useSoundStore.getState().seekTo(150);
       useSoundStore.getState().seekTo(150);
       advanceSeconds(10);
       useSoundStore.getState().seekTo(150);

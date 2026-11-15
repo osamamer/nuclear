@@ -38,7 +38,7 @@ exports[`Dialog > (Snapshot) renders open dialog 1`] = `
       >
         <button
           aria-label="Close"
-          class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 size-8 justify-center absolute top-3 right-3"
+          class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground hover:bg-primary/10 size-8 justify-center absolute top-3 right-3"
           data-headlessui-state=""
           data-testid="dialog-x-close"
           type="button"

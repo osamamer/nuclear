@@ -170,6 +170,7 @@ describe('Listening history', () => {
     await Wrapper.startPlayback(180);
 
     await PlayerBarWrapper.seekBar.clickAtPercent(25);
+    await PlayerBarWrapper.seekBar.clickAtPercent(25);
     vi.setSystemTime(Date.parse('2026-07-11T12:00:10Z'));
     await PlayerBarWrapper.seekBar.clickAtPercent(25);
     await PlayerBarWrapper.seekBar.clickAtPercent(10);

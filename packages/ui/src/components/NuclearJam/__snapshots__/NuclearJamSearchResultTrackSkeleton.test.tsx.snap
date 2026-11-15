@@ -3,11 +3,11 @@
 exports[`NuclearJam.SearchResultTrack.Skeleton > (Snapshot) renders correctly 1`] = `
 <div>
   <div
-    class="border-border flex w-full items-center gap-3 border-b-(length:--border-width) px-4 py-2"
+    class="flex h-14 w-full items-center gap-3 rounded-lg px-2"
     data-testid="jam-search-result-track-skeleton"
   >
     <div
-      class="bg-muted border-border animate-pulse border-(length:--border-width) size-12 shrink-0 rounded-md"
+      class="bg-muted border-border animate-pulse border-(length:--border-width) size-10 shrink-0 rounded-md"
       data-testid="skeleton"
     />
     <div

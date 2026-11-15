@@ -1,10 +1,11 @@
 import { CellContext } from '@tanstack/react-table';
-import { AudioLines, DiscIcon, EllipsisVertical, Plus } from 'lucide-react';
+import { DiscIcon, EllipsisVertical, Plus } from 'lucide-react';
 import { FC, forwardRef } from 'react';
 
 import { pickArtwork, Track } from '@nuclearplayer/model';
 
 import { Button } from '../../Button';
+import { MovingEqualizer } from '../../MovingEqualizer';
 import { useTrackTableContext } from '../TrackTableContext';
 import { ContextMenuWrapperProps } from '../types';
 
@@ -107,7 +108,7 @@ export const TitleCell = <T extends Track>({
                 className="bg-accent-green/15 text-accent-green inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold tracking-wide uppercase"
                 data-testid="now-playing-indicator"
               >
-                <AudioLines size={12} aria-hidden="true" />
+                <MovingEqualizer />
                 {labels.nowPlaying}
               </span>
             )}

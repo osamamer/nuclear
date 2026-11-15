@@ -54,7 +54,16 @@ describe('seeking limits', () => {
     expect(feedback()).toEqual({ kind: 'rewindRefused' });
   });
 
-  it('makes the first fast-forward wait ten seconds and starts the forward countdown', () => {
+  it('refuses the first fast-forward without starting the forward countdown', () => {
+    useSoundStore.getState().seekTo(120);
+
+    expect(seek()).toBe(60);
+    expect(feedback()).toEqual({ kind: 'forwardFirstRefused' });
+    expect(useSkipCountdownStore.getState().forward).toBeNull();
+  });
+
+  it('makes the second fast-forward attempt start the ten-second wait', () => {
+    useSoundStore.getState().seekTo(120);
     useSoundStore.getState().seekTo(120);
 
     expect(seek()).toBe(60);
@@ -73,6 +82,7 @@ describe('seeking limits', () => {
   });
 
   it('allows a single fast-forward once the wait is over', () => {
+    useSoundStore.getState().seekTo(120);
     useSoundStore.getState().seekTo(120);
     advanceSeconds(10);
 

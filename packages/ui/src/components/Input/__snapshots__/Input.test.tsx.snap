@@ -42,7 +42,7 @@ exports[`Input > (Snapshot) renders with endAddon 1`] = `
       type="text"
     />
     <div
-      class="surface-primary border-border flex items-center gap-2 border-l-(length:--border-width) px-3 text-sm"
+      class="surface-background border-border flex items-center gap-2 border-l-(length:--border-width) px-3 text-sm"
     >
       <button
         type="button"

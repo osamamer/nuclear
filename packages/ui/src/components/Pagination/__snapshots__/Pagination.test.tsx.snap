@@ -8,7 +8,7 @@ exports[`Pagination > (Snapshot) renders a middle page with ellipses on both sid
 >
   <button
     aria-label="Previous page"
-    class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-background border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none size-8 justify-center"
+    class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-background border-border hover:bg-primary/10 border-(length:--border-width) size-8 justify-center"
     data-headlessui-state=""
     type="button"
   >
@@ -56,7 +56,7 @@ exports[`Pagination > (Snapshot) renders a middle page with ellipses on both sid
   <button
     aria-current="page"
     aria-label="Page 12"
-    class="inline-flex size-8 cursor-pointer items-center justify-center rounded-md border-(length:--border-width) text-sm font-medium transition-colors surface-primary border-border"
+    class="inline-flex size-8 cursor-pointer items-center justify-center rounded-md border-(length:--border-width) text-sm font-medium transition-colors border-primary/40 text-primary"
     data-testid="pagination-item"
     type="button"
   >
@@ -87,7 +87,7 @@ exports[`Pagination > (Snapshot) renders a middle page with ellipses on both sid
   </button>
   <button
     aria-label="Next page"
-    class="inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-background border-border shadow-shadow hover:translate-x-shadow-x hover:translate-y-shadow-y border-(length:--border-width) hover:shadow-none size-8 justify-center"
+    class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-background border-border hover:bg-primary/10 border-(length:--border-width) size-8 justify-center"
     data-headlessui-state=""
     type="button"
   >
