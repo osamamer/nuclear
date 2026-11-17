@@ -4,6 +4,7 @@ import { type FC } from 'react';
 import { useTranslation } from '@nuclearplayer/i18n';
 import { Button, Input } from '@nuclearplayer/ui';
 
+import { useIsLightProfile } from '../../../stores/lightProfileStore';
 import type { PlaylistSortBy, SortDirection } from '../hooks/usePlaylistSort';
 import { useCreatePlaylistContext } from '../PlaylistsContext';
 import { CreateFolderButton } from './CreateFolderButton';
@@ -35,6 +36,7 @@ export const PlaylistsToolbar: FC<PlaylistsToolbarProps> = ({
 }) => {
   const { t } = useTranslation('playlists');
   const { openCreateDialog } = useCreatePlaylistContext();
+  const isLight = useIsLightProfile();
 
   return (
     <div className="mb-4 flex items-center gap-2">
@@ -44,11 +46,13 @@ export const PlaylistsToolbar: FC<PlaylistsToolbarProps> = ({
           {t('common:actions.back')}
         </Button>
       )}
-      <Button onClick={openCreateDialog} data-testid="create-playlist-button">
-        <Plus size={16} />
-        {t('create')}
-      </Button>
-      {!isInFolder && (
+      {!isLight && (
+        <Button onClick={openCreateDialog} data-testid="create-playlist-button">
+          <Plus size={16} />
+          {t('create')}
+        </Button>
+      )}
+      {!isInFolder && !isLight && (
         <>
           <CreateFolderButton />
           <ImportPlaylistMenu />

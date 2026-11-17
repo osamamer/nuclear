@@ -40,9 +40,17 @@ export const commands = {
 	historyTopArtists: (range: TimeRange, limit: number) => typedError<TopArtist[], string>(__TAURI_INVOKE("history_top_artists", { range, limit })),
 	historyTopAlbums: (range: TimeRange, limit: number) => typedError<TopAlbum[], string>(__TAURI_INVOKE("history_top_albums", { range, limit })),
 	historyTopTracks: (range: TimeRange, limit: number) => typedError<TopTrack[], string>(__TAURI_INVOKE("history_top_tracks", { range, limit })),
+	lightProfileActive: () => typedError<ActiveLightProfile | null, string>(__TAURI_INVOKE("light_profile_active")),
+	lightProfilesList: () => typedError<LightProfile[], string>(__TAURI_INVOKE("light_profiles_list")),
+	lightProfilesSave: (profiles: LightProfile[]) => typedError<null, string>(__TAURI_INVOKE("light_profiles_save", { profiles })),
 };
 
 /* Types */
+export type ActiveLightProfile = {
+	name: string,
+	playlistsJson: string[],
+};
+
 export type BridgeNotification = {
 	subsystem: string,
 };
@@ -79,6 +87,11 @@ export type HistoryEntry = {
 
 export type HourlyListeningTime = {
 	values: number[],
+};
+
+export type LightProfile = {
+	name: string,
+	playlistIds: string[],
 };
 
 export type HttpApiStartResult = {

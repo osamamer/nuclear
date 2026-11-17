@@ -2,7 +2,7 @@ const PROFILE_FLAG: &str = "--profile";
 
 pub struct DefaultIdentifier(pub String);
 
-fn is_safe_name(name: &str) -> bool {
+pub fn is_safe_name(name: &str) -> bool {
     !name.is_empty()
         && name.chars().all(|character| {
             character.is_ascii_alphanumeric() || character == '-' || character == '_'

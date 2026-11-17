@@ -8,6 +8,7 @@ import { Button, TopBar, TopBarNavigation } from '@nuclearplayer/ui';
 import { useCanGoForward } from '../hooks/useCanGoForward';
 import { useFramelessWindow } from '../hooks/useFramelessWindow';
 import { useLayoutStore } from '../stores/layoutStore';
+import { useIsLightProfile } from '../stores/lightProfileStore';
 import { ConnectedThemeController } from './ConnectedThemeController';
 import { JamQrCodeButton } from './JamQrCodeButton';
 import { PlaylistDownloadStatus } from './PlaylistDownloadStatus';
@@ -24,6 +25,7 @@ export const ConnectedTopBar: FC = () => {
     (state) => state.toggleRightSidebarVisibility,
   );
   const { t } = useTranslation('queue');
+  const isLight = useIsLightProfile();
 
   return (
     <TopBar draggable={frameless}>
@@ -34,12 +36,12 @@ export const ConnectedTopBar: FC = () => {
           canGoBack={canGoBack}
           canGoForward={canGoForward}
         />
-        <UpdateBadge />
+        {!isLight && <UpdateBadge />}
       </div>
-      <SearchBox />
+      {isLight ? <div /> : <SearchBox />}
       <div className="flex flex-row items-center justify-end gap-2">
-        <PlaylistDownloadStatus />
-        <JamQrCodeButton />
+        {!isLight && <PlaylistDownloadStatus />}
+        {!isLight && <JamQrCodeButton />}
         <Button
           size="icon-sm"
           variant="text"

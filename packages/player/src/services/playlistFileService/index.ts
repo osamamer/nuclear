@@ -9,7 +9,7 @@ import { buildThumbnails } from './buildThumbnails';
 import { PlaylistFileStore } from './PlaylistFileStore';
 import { PlaylistIndexStore } from './PlaylistIndexStore';
 
-const toIndexEntry = (playlist: Playlist): PlaylistIndexEntry => ({
+export const toIndexEntry = (playlist: Playlist): PlaylistIndexEntry => ({
   kind: 'playlist',
   id: playlist.id,
   name: playlist.name,

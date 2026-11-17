@@ -1,5 +1,7 @@
 import React from 'react';
 
+import type { Playlist } from '@nuclearplayer/model';
+
 import App from './App';
 import { initLogStream } from './hooks/useLogStream';
 import { applyAccentColor } from './services/accentColor';
@@ -16,6 +18,10 @@ import {
   applyLanguageFromSettings,
   initLanguageWatcher,
 } from './services/languageService';
+import {
+  initializeLightProfile,
+  showOnlyPlaylists,
+} from './services/lightProfile';
 import { loadMarketplaceThemes } from './services/marketplaceThemeDirService';
 import { initMcpHandler } from './services/mcp';
 import { initMpdHandler } from './services/mpd';
@@ -34,7 +40,7 @@ import { initializeStreamVerificationStore } from './stores/streamVerificationSt
 import { hydrateThemeStore } from './stores/themeStore';
 import { useUpdaterStore } from './stores/updaterStore';
 
-const initializeStores = () =>
+const initializeStores = (lightPlaylists: Playlist[] | null) =>
   initializeSettingsStore()
     .then(() => initializeShortcutsStore())
     .then(() => initializeBlacklistStore())
@@ -42,7 +48,11 @@ const initializeStores = () =>
     .then(() => startBlacklistScheduleEnforcement())
     .then(() => initializeFavoritesStore())
     .then(() => initializeStreamVerificationStore())
-    .then(() => initializePlaylistStore());
+    .then(() =>
+      lightPlaylists
+        ? showOnlyPlaylists(lightPlaylists)
+        : initializePlaylistStore(),
+    );
 
 const initRemoteControl = () =>
   initMcpHandler()
@@ -65,7 +75,11 @@ const initThemes = () =>
       ),
     );
 
-const startBackgroundTasks = () => {
+const startBackgroundTasks = (isLight: boolean) => {
+  if (isLight) {
+    void hydratePluginsFromRegistry();
+    return;
+  }
   void hydratePluginsFromRegistry().then(
     startPlaylistDownloadService,
     startPlaylistDownloadService,
@@ -78,16 +92,19 @@ export const initPlayerApp = async (
 ) => {
   initLogStream();
 
-  await initializeStores()
+  const lightPlaylists = await initializeLightProfile();
+  const isLight = lightPlaylists !== null;
+
+  await initializeStores(lightPlaylists)
     .then(() => registerBuiltInCoreSettings())
     .then(() => initDiscoveryService())
-    .then(() => initRemoteControl())
-    .then(() => initDiscordHandler())
+    .then(() => (isLight ? undefined : initRemoteControl()))
+    .then(() => (isLight ? undefined : initDiscordHandler()))
     .then(() => initPlaybackEventBridge())
     .then(() => initHistoryService())
     .then(() => initLanguage())
     .then(() => initThemes())
-    .then(() => startBackgroundTasks());
+    .then(() => startBackgroundTasks(isLight));
 
   root.render(
     <React.StrictMode>

@@ -1,4 +1,8 @@
-import { createRootRoute } from '@tanstack/react-router';
+import {
+  createRootRoute,
+  useNavigate,
+  useRouterState,
+} from '@tanstack/react-router';
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import {
   CableIcon,
@@ -44,10 +48,23 @@ import { StreamResolver } from '../components/StreamResolver';
 import { useSkipFeedback } from '../hooks/useSkipFeedback';
 import { GlobalShortcuts } from '../shortcuts';
 import { useLayoutStore } from '../stores/layoutStore';
+import { useIsLightProfile } from '../stores/lightProfileStore';
 import { useSettingsModalStore } from '../stores/settingsModalStore';
 import { useStartupStore } from '../stores/startupStore';
 
 const PERSISTENT_ROUTE_IDS = ['/playlists/$playlistId'];
+
+const useKeepLightProfileOnPlaylists = (isLight: boolean) => {
+  const navigate = useNavigate();
+  const pathname = useRouterState({
+    select: (state) => state.location.pathname,
+  });
+  useEffect(() => {
+    if (isLight && !pathname.startsWith('/playlists')) {
+      void navigate({ to: '/playlists', replace: true });
+    }
+  }, [isLight, pathname, navigate]);
+};
 
 const RootComponent = () => {
   const { t } = useTranslation('navigation');
@@ -66,7 +83,9 @@ const RootComponent = () => {
   const openSettings = useSettingsModalStore((state) => state.open);
   const isStartingUp = useStartupStore((state) => state.isStartingUp);
   const isRefusalShaking = useSkipFeedback();
-  const sidebarItems = [
+  const isLight = useIsLightProfile();
+  useKeepLightProfileOnPlaylists(isLight);
+  const allSidebarItems = [
     {
       id: SIDEBAR_ITEM_IDS.playlists,
       to: '/playlists',
@@ -124,7 +143,13 @@ const RootComponent = () => {
       isFeatured: false,
     },
   ];
-  const isSidebarItemVisible = (id: string) => !hiddenSidebarItems.includes(id);
+  const sidebarItems = isLight
+    ? allSidebarItems.filter((item) => item.id === SIDEBAR_ITEM_IDS.playlists)
+    : allSidebarItems;
+  const isSidebarItemVisible = (id: string) =>
+    isLight
+      ? id === SIDEBAR_ITEM_IDS.playlists
+      : !hiddenSidebarItems.includes(id);
 
   useEffect(() => {
     const window = getCurrentWindow();
@@ -183,7 +208,7 @@ const RootComponent = () => {
                           )}
                       </div>
                     ))}
-                  <CustomViewSidebarEntries />
+                  {!isLight && <CustomViewSidebarEntries />}
                 </div>
                 <div className="border-foreground/10 mt-auto flex flex-col gap-1 border-t pt-2">
                   {isSidebarItemVisible(SIDEBAR_ITEM_IDS.settings) && (
@@ -193,14 +218,16 @@ const RootComponent = () => {
                       onClick={() => openSettings()}
                     />
                   )}
-                  <SidebarNavigationVisibilityMenu
-                    isCompact={leftSidebar.isCollapsed}
-                    builtInItems={sidebarItems.map(({ id, label, icon }) => ({
-                      id,
-                      label,
-                      icon,
-                    }))}
-                  />
+                  {!isLight && (
+                    <SidebarNavigationVisibilityMenu
+                      isCompact={leftSidebar.isCollapsed}
+                      builtInItems={sidebarItems.map(({ id, label, icon }) => ({
+                        id,
+                        label,
+                        icon,
+                      }))}
+                    />
+                  )}
                 </div>
               </div>
             </SidebarNavigation>
@@ -228,7 +255,7 @@ const RootComponent = () => {
       <ConnectedPlayerBar />
       <ConnectedSkipCountdownBubbles />
       <Toaster />
-      <ConnectedSettingsModal />
+      {!isLight && <ConnectedSettingsModal />}
       <DevTools />
     </PlayerShell>
   );

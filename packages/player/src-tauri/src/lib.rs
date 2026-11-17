@@ -6,6 +6,7 @@ pub mod downloads;
 pub mod history;
 pub mod http;
 pub mod http_api;
+pub mod light_profile;
 pub mod logging;
 pub mod mcp;
 pub mod mpd;
@@ -75,7 +76,10 @@ fn specta_builder() -> tauri_specta::Builder<tauri::Wry> {
         history::commands::history_first_play_at,
         history::commands::history_top_artists,
         history::commands::history_top_albums,
-        history::commands::history_top_tracks
+        history::commands::history_top_tracks,
+        light_profile::light_profile_active,
+        light_profile::light_profiles_list,
+        light_profile::light_profiles_save
     ])
 }
 
@@ -133,6 +137,7 @@ pub fn run() {
     builder
         .invoke_handler(specta_builder.invoke_handler())
         .manage(profile::DefaultIdentifier(default_identifier))
+        .manage(light_profile::CurrentProfile::new(profile.clone()))
         .setup(move |app| {
             if let Some(name) = &profile {
                 log::info!("Using profile {name}");

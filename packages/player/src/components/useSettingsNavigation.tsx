@@ -1,6 +1,7 @@
 import {
   BanIcon,
   BlocksIcon,
+  FeatherIcon,
   KeyboardIcon,
   PaletteIcon,
   ScrollTextIcon,
@@ -14,6 +15,7 @@ import { SettingsNavigationSection } from '@nuclearplayer/ui';
 import { useSettingsModalStore } from '../stores/settingsModalStore';
 import { Blacklist } from '../views/Blacklist';
 import { KeyboardShortcuts } from '../views/KeyboardShortcuts';
+import { LightProfiles } from '../views/LightProfiles';
 import { Logs } from '../views/Logs/Logs';
 import { Plugins } from '../views/Plugins/Plugins';
 import { Settings } from '../views/Settings/Settings';
@@ -27,6 +29,12 @@ const APP_TABS = [
     labelKey: 'blacklist.title',
     icon: <BanIcon />,
     view: <Blacklist />,
+  },
+  {
+    id: 'light-profiles',
+    labelKey: 'lightProfiles.title',
+    icon: <FeatherIcon />,
+    view: <LightProfiles />,
   },
   {
     id: 'shortcuts',

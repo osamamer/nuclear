@@ -606,6 +606,19 @@
           "description": "Show what you're listening to on your Discord profile."
         }
       }
+    },
+    "lightProfiles": {
+      "title": "Light profiles",
+      "description": "A light profile is a separate, calmer Nuclear that only shows the playlists you choose here: no search, dashboard, settings or anything else. Each one gets its own launcher in your app menu.",
+      "blocking": "App blockers such as Claritard see each light profile as its own app, so you can pause or limit the full Nuclear while leaving a light profile alone. Light profiles can only be changed from here, in the full Nuclear.",
+      "name": "Profile name",
+      "namePlaceholder": "calm (letters, digits, - and _)",
+      "add": "Add profile",
+      "empty": "No light profiles yet. Add one above, then tick the playlists it may play.",
+      "launcherName": "Nuclear ({{name}})",
+      "chosenCount_one": "{{count}} playlist",
+      "chosenCount_other": "{{count}} playlists",
+      "remove": "Remove {{name}}"
     }
   },
   "queue": {
