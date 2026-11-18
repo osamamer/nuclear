@@ -16,18 +16,26 @@ exports[`TrackContextMenu > (Snapshot) renders header without cover image 1`] = 
     aria-hidden="true"
     data-aria-hidden="true"
   >
-    <button
-      aria-controls="radix-:r5:"
-      aria-expanded="true"
-      aria-haspopup="menu"
-      data-radix-popper-align="end"
-      data-radix-popper-side="bottom"
-      data-state="open"
-      id="radix-:r4:"
-      type="button"
+    <div
+      data-testid="menu-row"
     >
-      Open
-    </button>
+      <span>
+        Row label
+      </span>
+      <button
+        aria-controls="radix-:r5:"
+        aria-expanded="true"
+        aria-haspopup="menu"
+        data-radix-popper-align="end"
+        data-radix-popper-side="bottom"
+        data-state="open"
+        data-track-context-trigger=""
+        id="radix-:r4:"
+        type="button"
+      >
+        Open
+      </button>
+    </div>
   </div>
   <div
     data-radix-popper-content-wrapper=""
@@ -113,18 +121,26 @@ exports[`TrackContextMenu > (Snapshot) renders header without subtitle 1`] = `
     aria-hidden="true"
     data-aria-hidden="true"
   >
-    <button
-      aria-controls="radix-:r8:"
-      aria-expanded="true"
-      aria-haspopup="menu"
-      data-radix-popper-align="end"
-      data-radix-popper-side="bottom"
-      data-state="open"
-      id="radix-:r7:"
-      type="button"
+    <div
+      data-testid="menu-row"
     >
-      Open
-    </button>
+      <span>
+        Row label
+      </span>
+      <button
+        aria-controls="radix-:r8:"
+        aria-expanded="true"
+        aria-haspopup="menu"
+        data-radix-popper-align="end"
+        data-radix-popper-side="bottom"
+        data-state="open"
+        data-track-context-trigger=""
+        id="radix-:r7:"
+        type="button"
+      >
+        Open
+      </button>
+    </div>
   </div>
   <div
     data-radix-popper-content-wrapper=""
@@ -210,18 +226,26 @@ exports[`TrackContextMenu > (Snapshot) renders with header and actions 1`] = `
     aria-hidden="true"
     data-aria-hidden="true"
   >
-    <button
-      aria-controls="radix-:r1:"
-      aria-expanded="true"
-      aria-haspopup="menu"
-      data-radix-popper-align="end"
-      data-radix-popper-side="bottom"
-      data-state="open"
-      id="radix-:r0:"
-      type="button"
+    <div
+      data-testid="menu-row"
     >
-      Open
-    </button>
+      <span>
+        Row label
+      </span>
+      <button
+        aria-controls="radix-:r1:"
+        aria-expanded="true"
+        aria-haspopup="menu"
+        data-radix-popper-align="end"
+        data-radix-popper-side="bottom"
+        data-state="open"
+        data-track-context-trigger=""
+        id="radix-:r0:"
+        type="button"
+      >
+        Open
+      </button>
+    </div>
   </div>
   <div
     data-radix-popper-content-wrapper=""

@@ -1,5 +1,41 @@
 [
   {
+    "date": "2026-11-18T00:00",
+    "description": "New Discover page: song and artist picks based on your listening history, playlists and favorites. Tap artists in your taste DNA to steer the picks, pick a mode from comfort zone to adventurous, and find old favorites you haven't played in a while.",
+    "type": "feature",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Discover",
+        "color": "purple"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-18T00:00",
+    "description": "An AI curator on the Discover page finds songs from a plain-language request like \"dreamy 80s synthpop, but less famous\". It uses an installed Claude Code or Codex CLI, or an Anthropic API key, and search results link straight to it.",
+    "type": "feature",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "AI",
+        "color": "cyan"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-18T00:00",
+    "description": "Right-click any song and choose \"Choose version…\" to switch to a live, acoustic, remix, cover or other version. Nuclear can remember your choice for next time.",
+    "type": "feature",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Playback",
+        "color": "green"
+      }
+    ]
+  },
+  {
     "date": "2026-11-15T00:00",
     "description": "The last playlist and song are no longer shown as playing when you open the app, and now-playing equalizer icons only move while music is actually playing.",
     "type": "fix",

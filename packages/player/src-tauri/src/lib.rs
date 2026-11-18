@@ -1,3 +1,4 @@
+pub mod ai;
 pub mod bridge;
 pub mod commands;
 pub mod db;
@@ -79,7 +80,9 @@ fn specta_builder() -> tauri_specta::Builder<tauri::Wry> {
         history::commands::history_top_tracks,
         light_profile::light_profile_active,
         light_profile::light_profiles_list,
-        light_profile::light_profiles_save
+        light_profile::light_profiles_save,
+        ai::ai_complete,
+        ai::ai_detect_backends
     ])
 }
 

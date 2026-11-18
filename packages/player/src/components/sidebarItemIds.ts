@@ -1,6 +1,7 @@
 export const SIDEBAR_ITEM_IDS = {
   playlists: 'playlists',
   dashboard: 'dashboard',
+  discover: 'discover',
   favoriteAlbums: 'favorite-albums',
   favoriteTracks: 'favorite-tracks',
   favoriteArtists: 'favorite-artists',

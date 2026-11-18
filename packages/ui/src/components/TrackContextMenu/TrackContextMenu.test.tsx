@@ -72,6 +72,22 @@ describe('TrackContextMenu', () => {
     expect(onParentClick).not.toHaveBeenCalled();
   });
 
+  it('opens when the trigger is right-clicked', async () => {
+    Wrapper.mount({ title: 'Roads', subtitle: 'Portishead' });
+
+    await Wrapper.rightClickTrigger();
+
+    expect(await screen.findByText('Play Now')).toBeInTheDocument();
+  });
+
+  it('opens when anything in the surrounding row is right-clicked', async () => {
+    Wrapper.mount({ title: 'Roads', subtitle: 'Portishead' });
+
+    await Wrapper.rightClickRow();
+
+    expect(await screen.findByText('Play Now')).toBeInTheDocument();
+  });
+
   describe('Submenu', () => {
     const submenuItems = [
       { label: 'Option A', onClick: vi.fn() },

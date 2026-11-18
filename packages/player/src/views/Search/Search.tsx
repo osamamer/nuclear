@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate, useSearch } from '@tanstack/react-router';
+import { Sparkles } from 'lucide-react';
 import type { FC } from 'react';
 
 import { useTranslation } from '@nuclearplayer/i18n';
@@ -20,6 +21,7 @@ import {
 import { ConnectedTrackTable } from '../../components/ConnectedTrackTable';
 import { useActiveProvider } from '../../hooks/useActiveProvider';
 import { metadataHost } from '../../services/metadataHost';
+import { useAiBackend } from '../Discover/hooks/useDiscover';
 import { SearchEmptyState } from './SearchEmptyState';
 
 const SearchContent: FC<{
@@ -109,6 +111,30 @@ const SearchContent: FC<{
   return <Tabs items={tabsItems as TabsItem[]} className="flex-1" />;
 };
 
+const AskAiBanner: FC<{ query: string }> = ({ query }) => {
+  const { t } = useTranslation('discovery');
+  const navigate = useNavigate();
+  const { data: backend } = useAiBackend();
+
+  if (!backend || !query) {
+    return null;
+  }
+
+  return (
+    <button
+      type="button"
+      data-testid="search-ask-ai"
+      onClick={() => navigate({ to: '/discover', search: { ai: query } })}
+      className="border-border bg-primary/10 hover:bg-primary/15 text-foreground mb-4 flex w-full cursor-pointer items-center gap-3 rounded-xl border-(length:--border-width) px-4 py-3 text-left text-sm transition-colors"
+    >
+      <Sparkles size={18} className="text-primary shrink-0" />
+      <span className="min-w-0 flex-1 truncate">
+        {t('ai.askAboutSearch', { query })}
+      </span>
+    </button>
+  );
+};
+
 export const Search: FC = () => {
   const { t } = useTranslation(['search', 'common']);
   const { q } = useSearch({ from: '/search' });
@@ -136,6 +162,7 @@ export const Search: FC = () => {
       title={t('search:title')}
       subtitle={`${t('search:query')}: "${q}"`}
     >
+      <AskAiBanner query={q} />
       <SearchContent
         provider={provider}
         isLoading={isLoading}

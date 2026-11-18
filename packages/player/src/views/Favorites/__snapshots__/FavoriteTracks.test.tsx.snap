@@ -384,6 +384,7 @@ exports[`FavoriteTracks view > (Snapshot) renders with tracks 1`] = `
                                 data-headlessui-state=""
                                 data-state="closed"
                                 data-testid="track-context-menu-button"
+                                data-track-context-trigger=""
                                 id="radix-:rq:"
                                 type="button"
                               >
@@ -550,6 +551,7 @@ exports[`FavoriteTracks view > (Snapshot) renders with tracks 1`] = `
                                 data-headlessui-state=""
                                 data-state="closed"
                                 data-testid="track-context-menu-button"
+                                data-track-context-trigger=""
                                 id="radix-:rs:"
                                 type="button"
                               >

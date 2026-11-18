@@ -1,7 +1,7 @@
 import { render, RenderResult, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { TrackContextMenu } from '.';
+import { openNearestTrackContextMenu, TrackContextMenu } from '.';
 
 const user = userEvent.setup();
 
@@ -77,12 +77,29 @@ export const TrackContextMenuWrapper = {
     );
 
     return render(
-      onParentClick ? <div onClick={onParentClick}>{menu}</div> : menu,
+      <div data-testid="menu-row" onContextMenu={openNearestTrackContextMenu}>
+        <span>Row label</span>
+        {onParentClick ? <div onClick={onParentClick}>{menu}</div> : menu}
+      </div>,
     );
   },
 
   async open() {
     await user.click(screen.getByText('Open'));
+  },
+
+  async rightClickTrigger() {
+    await user.pointer({
+      keys: '[MouseRight]',
+      target: screen.getByText('Open'),
+    });
+  },
+
+  async rightClickRow() {
+    await user.pointer({
+      keys: '[MouseRight]',
+      target: screen.getByText('Row label'),
+    });
   },
 
   action(label: string) {

@@ -99,6 +99,18 @@ export const AlbumWrapper = {
     );
     await screen.findByText('Play now');
   },
+  async rightClickTrack(trackTitle: string) {
+    const allTracks = await screen.findAllByTestId('track-row');
+    const trackRow = allTracks.find((row) =>
+      row.textContent?.includes(trackTitle),
+    );
+
+    await user.pointer({
+      keys: '[MouseRight]',
+      target: within(trackRow!).getByText(trackTitle),
+    });
+    await screen.findByText('Play now');
+  },
   async toggleTrackFavoriteViaContextMenu(trackTitle: string) {
     await this.openTrackContextMenu(trackTitle);
     const addButton = screen.queryByText('Add to favorites');

@@ -6,6 +6,7 @@ import {
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import {
   CableIcon,
+  CompassIcon,
   DiscIcon,
   GaugeIcon,
   HistoryIcon,
@@ -37,6 +38,7 @@ import { ConnectedSkipCountdownBubbles } from '../components/ConnectedSkipCountd
 import { ConnectedStreamVerification } from '../components/ConnectedStreamVerification';
 import { ConnectedTitleBar } from '../components/ConnectedTitleBar';
 import { ConnectedTopBar } from '../components/ConnectedTopBar';
+import { ConnectedVersionPicker } from '../components/ConnectedVersionPicker';
 import { CustomViewSidebarEntries } from '../components/CustomViewSidebarEntries';
 import { DevTools } from '../components/DevTools';
 import { FlatpakWarningBanner } from '../components/FlatpakWarningBanner';
@@ -98,6 +100,13 @@ const RootComponent = () => {
       to: '/dashboard',
       icon: <GaugeIcon />,
       label: t('dashboard'),
+      isFeatured: false,
+    },
+    {
+      id: SIDEBAR_ITEM_IDS.discover,
+      to: '/discover',
+      icon: <CompassIcon />,
+      label: t('discover'),
       isFeatured: false,
     },
     {
@@ -254,6 +263,7 @@ const RootComponent = () => {
 
       <ConnectedPlayerBar />
       <ConnectedSkipCountdownBubbles />
+      <ConnectedVersionPicker />
       <Toaster />
       {!isLight && <ConnectedSettingsModal />}
       <DevTools />

@@ -1379,6 +1379,110 @@ exports[`Settings view > (Snapshot) renders the settings view 1`] = `
                                     Show what you're listening to on your Discord profile.
                                   </p>
                                 </div>
+                                <div
+                                  class="relative flex w-full flex-col gap-2"
+                                >
+                                  <label
+                                    class="text-foreground text-sm font-semibold"
+                                    for="select-:r18:"
+                                    id="select-:r18:-label"
+                                  >
+                                    AI assistant
+                                  </label>
+                                  <button
+                                    aria-expanded="false"
+                                    aria-haspopup="listbox"
+                                    class="border-border focus-visible:ring-ring focus-visible:ring-offset-muted relative flex w-full items-center justify-between rounded-md border-(length:--border-width) text-left transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 surface-background hover:bg-primary/10 px-3 py-2 text-sm"
+                                    data-headlessui-state=""
+                                    id="select-:r18:"
+                                    type="button"
+                                  >
+                                    <span
+                                      class="flex min-w-0 items-center gap-2"
+                                    >
+                                      <span
+                                        class="truncate"
+                                      >
+                                        Auto-detect
+                                      </span>
+                                    </span>
+                                    <span
+                                      class="flex items-center"
+                                    >
+                                      <svg
+                                        aria-hidden="true"
+                                        class="lucide lucide-chevron-down text-foreground transition-transform"
+                                        fill="none"
+                                        height="16"
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        viewBox="0 0 24 24"
+                                        width="16"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          d="m6 9 6 6 6-6"
+                                        />
+                                      </svg>
+                                    </span>
+                                  </button>
+                                  <p
+                                    class="text-foreground/60 text-sm select-none"
+                                    id="select-:r18:-description"
+                                  >
+                                    Which AI powers the Discover curator. Auto-detect uses an installed Claude Code or Codex CLI (your existing login), then falls back to an Anthropic API key.
+                                  </p>
+                                </div>
+                                <div
+                                  class="flex w-full flex-col gap-2"
+                                >
+                                  <label
+                                    class="text-foreground text-sm font-semibold"
+                                    for="input-:r1f:"
+                                    id="input-:r1f:-label"
+                                  >
+                                    Anthropic API key
+                                  </label>
+                                  <input
+                                    class="border-border focus-visible:ring-ring focus-visible:ring-offset-muted w-full px-3 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none surface-input placeholder:text-input-foreground/60 h-10 rounded-md border-(length:--border-width)"
+                                    data-headlessui-state=""
+                                    id="input-:r1f:"
+                                    type="password"
+                                    value=""
+                                  />
+                                  <p
+                                    class="text-foreground/60 text-sm select-none"
+                                    id="input-:r1f:-description"
+                                  >
+                                    Used when the AI assistant is set to Anthropic API, or when no CLI is installed. Stored in your local settings file.
+                                  </p>
+                                </div>
+                                <div
+                                  class="flex w-full flex-col gap-2"
+                                >
+                                  <label
+                                    class="text-foreground text-sm font-semibold"
+                                    for="input-:r1h:"
+                                    id="input-:r1h:-label"
+                                  >
+                                    AI model
+                                  </label>
+                                  <input
+                                    class="border-border focus-visible:ring-ring focus-visible:ring-offset-muted w-full px-3 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none surface-input placeholder:text-input-foreground/60 h-10 rounded-md border-(length:--border-width)"
+                                    data-headlessui-state=""
+                                    id="input-:r1h:"
+                                    type="text"
+                                    value=""
+                                  />
+                                  <p
+                                    class="text-foreground/60 text-sm select-none"
+                                    id="input-:r1h:-description"
+                                  >
+                                    Optional model override. Leave empty for the default (claude-opus-5-5 for the Anthropic API, the CLI default otherwise).
+                                  </p>
+                                </div>
                               </div>
                             </div>
                           </section>
@@ -1414,8 +1518,8 @@ exports[`Settings view > (Snapshot) renders the settings view 1`] = `
                                     >
                                       <label
                                         class="text-foreground font-semibold"
-                                        for=":r18:"
-                                        id=":r18:-label"
+                                        for=":r1j:"
+                                        id=":r1j:-label"
                                       >
                                         Discovery variety
                                       </label>
@@ -1450,13 +1554,13 @@ exports[`Settings view > (Snapshot) renders the settings view 1`] = `
                                         </div>
                                       </div>
                                       <input
-                                        aria-labelledby=":r18:-label"
+                                        aria-labelledby=":r1j:-label"
                                         aria-valuemax="1"
                                         aria-valuemin="0"
                                         aria-valuenow="0.5"
                                         aria-valuetext="0.5"
                                         class="absolute inset-0 z-[1] w-full cursor-pointer appearance-none opacity-0 h-6"
-                                        id=":r18:"
+                                        id=":r1j:"
                                         max="1"
                                         min="0"
                                         step="0.05"
@@ -1481,22 +1585,22 @@ exports[`Settings view > (Snapshot) renders the settings view 1`] = `
                                 >
                                   <label
                                     class="text-foreground text-sm font-semibold"
-                                    for="input-:r19:"
-                                    id="input-:r19:-label"
+                                    for="input-:r1k:"
+                                    id="input-:r1k:-label"
                                   >
                                     Skip duration
                                   </label>
                                   <input
                                     class="border-border focus-visible:ring-ring focus-visible:ring-offset-muted w-full px-3 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none surface-input placeholder:text-input-foreground/60 h-10 rounded-md border-(length:--border-width)"
                                     data-headlessui-state=""
-                                    id="input-:r19:"
+                                    id="input-:r1k:"
                                     inputmode="numeric"
                                     type="number"
                                     value="5"
                                   />
                                   <p
                                     class="text-foreground/60 text-sm select-none"
-                                    id="input-:r19:-description"
+                                    id="input-:r1k:-description"
                                   >
                                     Number of seconds to skip forward/backward
                                   </p>
@@ -1506,22 +1610,22 @@ exports[`Settings view > (Snapshot) renders the settings view 1`] = `
                                 >
                                   <label
                                     class="text-foreground text-sm font-semibold"
-                                    for="input-:r1b:"
-                                    id="input-:r1b:-label"
+                                    for="input-:r1m:"
+                                    id="input-:r1m:-label"
                                   >
                                     Crossfade
                                   </label>
                                   <input
                                     class="border-border focus-visible:ring-ring focus-visible:ring-offset-muted w-full px-3 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none surface-input placeholder:text-input-foreground/60 h-10 rounded-md border-(length:--border-width)"
                                     data-headlessui-state=""
-                                    id="input-:r1b:"
+                                    id="input-:r1m:"
                                     inputmode="numeric"
                                     type="number"
                                     value="0"
                                   />
                                   <p
                                     class="text-foreground/60 text-sm select-none"
-                                    id="input-:r1b:-description"
+                                    id="input-:r1m:-description"
                                   >
                                     Crossfade duration between tracks in milliseconds
                                   </p>
@@ -1531,22 +1635,22 @@ exports[`Settings view > (Snapshot) renders the settings view 1`] = `
                                 >
                                   <label
                                     class="text-foreground text-sm font-semibold"
-                                    for="input-:r1d:"
-                                    id="input-:r1d:-label"
+                                    for="input-:r1o:"
+                                    id="input-:r1o:-label"
                                   >
                                     Stream expiry time
                                   </label>
                                   <input
                                     class="border-border focus-visible:ring-ring focus-visible:ring-offset-muted w-full px-3 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none surface-input placeholder:text-input-foreground/60 h-10 rounded-md border-(length:--border-width)"
                                     data-headlessui-state=""
-                                    id="input-:r1d:"
+                                    id="input-:r1o:"
                                     inputmode="numeric"
                                     type="number"
                                     value="3600000"
                                   />
                                   <p
                                     class="text-foreground/60 text-sm select-none"
-                                    id="input-:r1d:-description"
+                                    id="input-:r1o:-description"
                                   >
                                     How long before a resolved stream URL is considered expired and needs re-resolution
                                   </p>
@@ -1556,22 +1660,22 @@ exports[`Settings view > (Snapshot) renders the settings view 1`] = `
                                 >
                                   <label
                                     class="text-foreground text-sm font-semibold"
-                                    for="input-:r1f:"
-                                    id="input-:r1f:-label"
+                                    for="input-:r1q:"
+                                    id="input-:r1q:-label"
                                   >
                                     Stream resolution retries
                                   </label>
                                   <input
                                     class="border-border focus-visible:ring-ring focus-visible:ring-offset-muted w-full px-3 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none surface-input placeholder:text-input-foreground/60 h-10 rounded-md border-(length:--border-width)"
                                     data-headlessui-state=""
-                                    id="input-:r1f:"
+                                    id="input-:r1q:"
                                     inputmode="numeric"
                                     type="number"
                                     value="3"
                                   />
                                   <p
                                     class="text-foreground/60 text-sm select-none"
-                                    id="input-:r1f:-description"
+                                    id="input-:r1q:-description"
                                   >
                                     Number of times to retry resolving a stream URL before moving to the next candidate
                                   </p>
@@ -1588,7 +1692,7 @@ exports[`Settings view > (Snapshot) renders the settings view 1`] = `
                                       class="border-border focus:ring-ring focus:ring-offset-muted relative inline-flex h-6 w-11 cursor-pointer items-center rounded-full border-(length:--border-width) transition-all focus:ring-2 focus:ring-offset-2 focus:outline-none surface-input data-checked:border-primary/60 hover:border-primary/40 data-disabled:cursor-not-allowed data-disabled:opacity-50 group"
                                       data-checked=""
                                       data-headlessui-state="checked"
-                                      id="headlessui-switch-:r1h:"
+                                      id="headlessui-switch-:r1s:"
                                       role="switch"
                                       tabindex="0"
                                       type="button"
@@ -1621,7 +1725,7 @@ exports[`Settings view > (Snapshot) renders the settings view 1`] = `
                                       class="border-border focus:ring-ring focus:ring-offset-muted relative inline-flex h-6 w-11 cursor-pointer items-center rounded-full border-(length:--border-width) transition-all focus:ring-2 focus:ring-offset-2 focus:outline-none surface-input data-checked:border-primary/60 hover:border-primary/40 data-disabled:cursor-not-allowed data-disabled:opacity-50 group"
                                       data-checked=""
                                       data-headlessui-state="checked"
-                                      id="headlessui-switch-:r1i:"
+                                      id="headlessui-switch-:r1t:"
                                       role="switch"
                                       tabindex="0"
                                       type="button"
@@ -1653,7 +1757,7 @@ exports[`Settings view > (Snapshot) renders the settings view 1`] = `
                                       aria-label="Automatically download selected playlists"
                                       class="border-border focus:ring-ring focus:ring-offset-muted relative inline-flex h-6 w-11 cursor-pointer items-center rounded-full border-(length:--border-width) transition-all focus:ring-2 focus:ring-offset-2 focus:outline-none surface-input data-checked:border-primary/60 hover:border-primary/40 data-disabled:cursor-not-allowed data-disabled:opacity-50 group"
                                       data-headlessui-state=""
-                                      id="headlessui-switch-:r1j:"
+                                      id="headlessui-switch-:r1u:"
                                       role="switch"
                                       tabindex="0"
                                       type="button"
@@ -1710,7 +1814,7 @@ exports[`Settings view > (Snapshot) renders the settings view 1`] = `
                                       class="border-border focus:ring-ring focus:ring-offset-muted relative inline-flex h-6 w-11 cursor-pointer items-center rounded-full border-(length:--border-width) transition-all focus:ring-2 focus:ring-offset-2 focus:outline-none surface-input data-checked:border-primary/60 hover:border-primary/40 data-disabled:cursor-not-allowed data-disabled:opacity-50 group"
                                       data-checked=""
                                       data-headlessui-state="checked"
-                                      id="headlessui-switch-:r1k:"
+                                      id="headlessui-switch-:r1v:"
                                       role="switch"
                                       tabindex="0"
                                       type="button"
@@ -1767,7 +1871,7 @@ exports[`Settings view > (Snapshot) renders the settings view 1`] = `
                                       class="border-border focus:ring-ring focus:ring-offset-muted relative inline-flex h-6 w-11 cursor-pointer items-center rounded-full border-(length:--border-width) transition-all focus:ring-2 focus:ring-offset-2 focus:outline-none surface-input data-checked:border-primary/60 hover:border-primary/40 data-disabled:cursor-not-allowed data-disabled:opacity-50 group"
                                       data-checked=""
                                       data-headlessui-state="checked"
-                                      id="headlessui-switch-:r1l:"
+                                      id="headlessui-switch-:r20:"
                                       role="switch"
                                       tabindex="0"
                                       type="button"
@@ -1799,7 +1903,7 @@ exports[`Settings view > (Snapshot) renders the settings view 1`] = `
                                       aria-label="Auto-install updates"
                                       class="border-border focus:ring-ring focus:ring-offset-muted relative inline-flex h-6 w-11 cursor-pointer items-center rounded-full border-(length:--border-width) transition-all focus:ring-2 focus:ring-offset-2 focus:outline-none surface-input data-checked:border-primary/60 hover:border-primary/40 data-disabled:cursor-not-allowed data-disabled:opacity-50 group"
                                       data-headlessui-state=""
-                                      id="headlessui-switch-:r1m:"
+                                      id="headlessui-switch-:r21:"
                                       role="switch"
                                       tabindex="0"
                                       type="button"

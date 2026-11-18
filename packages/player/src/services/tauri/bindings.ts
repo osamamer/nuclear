@@ -43,12 +43,30 @@ export const commands = {
 	lightProfileActive: () => typedError<ActiveLightProfile | null, string>(__TAURI_INVOKE("light_profile_active")),
 	lightProfilesList: () => typedError<LightProfile[], string>(__TAURI_INVOKE("light_profiles_list")),
 	lightProfilesSave: (profiles: LightProfile[]) => typedError<null, string>(__TAURI_INVOKE("light_profiles_save", { profiles })),
+	aiComplete: (request: AiRequest) => typedError<string, string>(__TAURI_INVOKE("ai_complete", { request })),
+	aiDetectBackends: () => __TAURI_INVOKE<AiAvailability>("ai_detect_backends"),
 };
 
 /* Types */
 export type ActiveLightProfile = {
 	name: string,
 	playlistsJson: string[],
+};
+
+export type AiAvailability = {
+	claudeCli: boolean,
+	codexCli: boolean,
+};
+
+export type AiBackend = "claudeCli" | "codexCli" | "anthropicApi";
+
+export type AiRequest = {
+	backend: AiBackend,
+	system: string,
+	prompt: string,
+	jsonSchema: string | null,
+	apiKey: string | null,
+	model: string | null,
 };
 
 export type BridgeNotification = {

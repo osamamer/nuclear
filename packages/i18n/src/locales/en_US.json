@@ -31,6 +31,7 @@
   "navigation": {
     "explore": "Explore",
     "dashboard": "Dashboard",
+    "discover": "Discover",
     "collection": "Collection",
     "favoriteAlbums": "Favorite albums",
     "favoriteTracks": "Favorite tracks",
@@ -102,7 +103,83 @@
     "noProviders": "No providers installed"
   },
   "discovery": {
-    "recommendationError": "Failed to get recommendations"
+    "recommendationError": "Failed to get recommendations",
+    "page": {
+      "title": "Discover",
+      "subtitle": "Fresh finds tuned to your history, playlists and favorites.",
+      "tasteDna": "Your taste DNA",
+      "tasteDnaHint": "Tap artists to steer the picks",
+      "steeringWith_one": "Steering with {{count}} artist",
+      "steeringWith_other": "Steering with {{count}} artists",
+      "resetSeeds": "Reset",
+      "modes": {
+        "familiar": "Comfort zone",
+        "balanced": "Balanced",
+        "adventurous": "Adventurous"
+      },
+      "modeEyebrow": {
+        "familiar": "Close to home",
+        "balanced": "Picked for you",
+        "adventurous": "Off the beaten path"
+      },
+      "shuffle": "Shuffle the deck",
+      "picksTitle": "Songs you might love",
+      "because": "Because you like {{artists}}",
+      "becauseShort": "Like {{artists}}",
+      "artistsEyebrow": "New faces",
+      "artistsTitle": "Artists to explore",
+      "rediscoverEyebrow": "Back from the vault",
+      "rediscoverTitle": "Rediscover",
+      "rediscoverSubtitle": "Songs you used to play a lot but haven't heard in a while.",
+      "noTasteTitle": "Play a few songs first",
+      "noTasteDescription": "Discover learns from your listening history, playlists and favorites. Listen for a bit and come back.",
+      "noSourceTitle": "No discovery source available",
+      "noSourceDescription": "Install a metadata plugin that supports related artists, or a discovery plugin, to get recommendations.",
+      "browsePlugins": "Browse plugins",
+      "playAll": "Play all",
+      "queueAll": "Queue all",
+      "playTrack": "Play {{title}}",
+      "trackOptions": "Track options"
+    },
+    "ai": {
+      "eyebrow": "AI curator",
+      "poweredBy": "via {{name}}",
+      "title": "What do you feel like hearing?",
+      "placeholder": "e.g. \"dreamy 80s synthpop like The Cure, but less famous\"",
+      "setupHint": "Connect Claude Code, Codex or an Anthropic API key to use the AI curator.",
+      "setupAction": "Set up AI",
+      "thinking": "Digging through the crates…",
+      "error": "The AI curator ran into a problem: {{message}}",
+      "resultsEyebrow": "Curated by AI",
+      "clear": "Clear",
+      "askAboutSearch": "Not what you meant? Ask the AI curator about \"{{query}}\"",
+      "vibes": {
+        "lateNight": {
+          "label": "Late-night drive",
+          "prompt": "Moody, atmospheric songs for a late-night drive through the city"
+        },
+        "focus": {
+          "label": "Deep focus",
+          "prompt": "Instrumental or low-vocal music that helps me focus for hours"
+        },
+        "workout": {
+          "label": "Workout",
+          "prompt": "High-energy songs to push through a hard workout"
+        },
+        "deepCuts": {
+          "label": "Deep cuts",
+          "prompt": "Lesser-known deep cuts from artists I already love"
+        },
+        "roadTrip": {
+          "label": "Road trip",
+          "prompt": "Sing-along songs for a sunny road trip with friends"
+        },
+        "rainyDay": {
+          "label": "Rainy day",
+          "prompt": "Cozy, melancholic songs for a rainy afternoon indoors"
+        }
+      }
+    }
   },
   "favorites": {
     "albums": {
@@ -605,6 +682,20 @@
           "title": "Discord Rich Presence",
           "description": "Show what you're listening to on your Discord profile."
         }
+      },
+      "ai": {
+        "backend": {
+          "title": "AI assistant",
+          "description": "Which AI powers the Discover curator. Auto-detect uses an installed Claude Code or Codex CLI (your existing login), then falls back to an Anthropic API key."
+        },
+        "anthropicApiKey": {
+          "title": "Anthropic API key",
+          "description": "Used when the AI assistant is set to Anthropic API, or when no CLI is installed. Stored in your local settings file."
+        },
+        "model": {
+          "title": "AI model",
+          "description": "Optional model override. Leave empty for the default (claude-opus-5-5 for the Anthropic API, the CLI default otherwise)."
+        }
       }
     },
     "lightProfiles": {
@@ -661,7 +752,25 @@
       "playNext": "Play next",
       "addToQueue": "Add to queue",
       "addToFavorites": "Add to favorites",
-      "removeFromFavorites": "Remove from favorites"
+      "removeFromFavorites": "Remove from favorites",
+      "chooseVersion": "Choose version…"
+    },
+    "versions": {
+      "title": "Choose a version",
+      "none": "No versions found for this filter.",
+      "yourPick": "Your pick",
+      "remember": "Always play this version of the song",
+      "cancel": "Cancel",
+      "play": "Play this version",
+      "variants": {
+        "original": "Original",
+        "live": "Live",
+        "acoustic": "Acoustic",
+        "remix": "Remix",
+        "cover": "Cover",
+        "instrumental": "Instrumental",
+        "remastered": "Remastered"
+      }
     }
   },
   "trackTable": {

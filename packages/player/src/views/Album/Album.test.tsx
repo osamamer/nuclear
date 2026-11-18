@@ -202,6 +202,16 @@ describe('Album view', () => {
       ).toBeInTheDocument();
     });
 
+    it('opens track context menu when right-clicking the track row', async () => {
+      await AlbumWrapper.mount('Prism');
+      await AlbumWrapper.rightClickTrack('Going Solo');
+
+      expect(AlbumWrapper.contextMenu.getItem('Play now')).toBeInTheDocument();
+      expect(
+        AlbumWrapper.contextMenu.getItem('Choose version…'),
+      ).toBeInTheDocument();
+    });
+
     it('adds track to favorites via context menu', async () => {
       await AlbumWrapper.mount('Prism');
       await AlbumWrapper.toggleTrackFavoriteViaContextMenu('Going Solo');

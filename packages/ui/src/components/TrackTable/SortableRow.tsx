@@ -6,6 +6,7 @@ import { memo, useCallback } from 'react';
 import { Track } from '@nuclearplayer/model';
 
 import { cn } from '../../utils';
+import { openNearestTrackContextMenu } from '../TrackContextMenu/openNearestTrackContextMenu';
 
 type SortableRowProps<T extends Track = Track> = {
   row: Row<T>;
@@ -63,6 +64,7 @@ function SortableRowImpl<T extends Track = Track>({
         'cursor-pointer': Boolean(onClick),
       })}
       onClick={onClick ? handleClick : undefined}
+      onContextMenu={openNearestTrackContextMenu}
       {...attributes}
       {...listeners}
     >

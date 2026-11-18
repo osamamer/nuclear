@@ -536,6 +536,7 @@ exports[`PlaylistDetail view > (Snapshot) renders playlist detail with tracks 1`
                                 data-headlessui-state=""
                                 data-state="closed"
                                 data-testid="track-context-menu-button"
+                                data-track-context-trigger=""
                                 id="radix-:rp:"
                                 type="button"
                               >
@@ -751,6 +752,7 @@ exports[`PlaylistDetail view > (Snapshot) renders playlist detail with tracks 1`
                                 data-headlessui-state=""
                                 data-state="closed"
                                 data-testid="track-context-menu-button"
+                                data-track-context-trigger=""
                                 id="radix-:rr:"
                                 type="button"
                               >

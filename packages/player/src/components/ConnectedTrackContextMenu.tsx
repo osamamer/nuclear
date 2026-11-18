@@ -1,4 +1,11 @@
-import { Heart, ListEnd, ListMusicIcon, ListStart, Play } from 'lucide-react';
+import {
+  Heart,
+  Layers,
+  ListEnd,
+  ListMusicIcon,
+  ListStart,
+  Play,
+} from 'lucide-react';
 import { FC, ReactNode } from 'react';
 
 import { useTranslation } from '@nuclearplayer/i18n';
@@ -8,6 +15,7 @@ import { Input, TrackContextMenu } from '@nuclearplayer/ui';
 import { usePlaylistSubmenu } from '../hooks/usePlaylistSubmenu';
 import { useTrackActions } from '../hooks/useTrackActions';
 import { playbackManager } from '../services/playback';
+import { useVersionPickerStore } from '../stores/versionPickerStore';
 
 type ConnectedTrackContextMenuProps = {
   track: Track;
@@ -28,6 +36,7 @@ export const ConnectedTrackContextMenu: FC<ConnectedTrackContextMenuProps> = ({
   const { t: tPlaylists } = useTranslation('playlists');
   const trackActions = useTrackActions();
   const playlistSubmenu = usePlaylistSubmenu();
+  const openVersionPicker = useVersionPickerStore((state) => state.open);
 
   const isFavorite = trackActions.isFavorite(track);
   const thumbnail = pickArtwork(track.artwork, 'thumbnail', 64)?.url;
@@ -63,6 +72,13 @@ export const ConnectedTrackContextMenu: FC<ConnectedTrackContextMenuProps> = ({
           onClick={() => trackActions.addToQueue(track)}
         >
           {t('actions.addToQueue')}
+        </TrackContextMenu.Action>
+        <TrackContextMenu.Action
+          icon={<Layers size={16} />}
+          onClick={() => openVersionPicker(track)}
+          data-testid="choose-version-action"
+        >
+          {t('actions.chooseVersion')}
         </TrackContextMenu.Action>
         <TrackContextMenu.Action
           icon={<Heart size={16} fill={isFavorite ? 'currentColor' : 'none'} />}

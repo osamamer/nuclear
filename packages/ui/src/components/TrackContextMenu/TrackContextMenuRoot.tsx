@@ -1,5 +1,7 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, useMemo, useState } from 'react';
+
+import { TrackContextMenuContext } from './context';
 
 type TrackContextMenuRootProps = {
   children: ReactNode;
@@ -8,5 +10,14 @@ type TrackContextMenuRootProps = {
 export const TrackContextMenuRoot: FC<TrackContextMenuRootProps> = ({
   children,
 }) => {
-  return <DropdownMenu.Root>{children}</DropdownMenu.Root>;
+  const [isOpen, setIsOpen] = useState(false);
+  const contextValue = useMemo(() => ({ open: () => setIsOpen(true) }), []);
+
+  return (
+    <TrackContextMenuContext.Provider value={contextValue}>
+      <DropdownMenu.Root open={isOpen} onOpenChange={setIsOpen}>
+        {children}
+      </DropdownMenu.Root>
+    </TrackContextMenuContext.Provider>
+  );
 };
