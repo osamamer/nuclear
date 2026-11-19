@@ -9,6 +9,8 @@
 @source '../videos';
 
 :root {
+  color-scheme: light;
+
   /* Surfaces and their foregrounds */
   --background: oklch(0.955 0.004 260);
   --foreground: oklch(0.2 0.006 260);
@@ -123,6 +125,9 @@
 }
 
 [data-theme='dark'] {
+  color-scheme: dark;
+  scrollbar-color: var(--muted-foreground) transparent;
+
   --background: #212121;
   --foreground: #ececec;
 

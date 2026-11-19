@@ -13,6 +13,10 @@
   }
 }
 
+#root:has(> .blacklist-refusal-shake) {
+  overflow-x: clip;
+}
+
 .blacklist-refusal-shake {
   animation: blacklist-refusal-shake 320ms ease-in-out;
 }
