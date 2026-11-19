@@ -297,6 +297,61 @@ describe('Discover view', () => {
       expect(Object.values(Wrapper.verifications)).toEqual(['roads-live']);
     });
 
+    it('previews a version inside the popup and stops it on a second click', async () => {
+      await Wrapper.mount();
+      await Wrapper.picks.find();
+      await Wrapper.picks.rightClick('Roads');
+      await Wrapper.contextMenu.chooseVersion();
+
+      await Wrapper.versionPicker.togglePreview(
+        'Portishead - Roads (Live at Roseland)',
+      );
+
+      await waitFor(async () => {
+        expect(
+          await Wrapper.versionPicker.findPreviewButton(
+            'Portishead - Roads (Live at Roseland)',
+          ),
+        ).toHaveAccessibleName('Stop preview');
+      });
+
+      await Wrapper.versionPicker.togglePreview(
+        'Portishead - Roads (Live at Roseland)',
+      );
+
+      expect(
+        await Wrapper.versionPicker.findPreviewButton(
+          'Portishead - Roads (Live at Roseland)',
+        ),
+      ).toHaveAccessibleName('Preview this version');
+    });
+
+    it('plays the previewed version as the chosen one', async () => {
+      await Wrapper.mount();
+      await Wrapper.picks.find();
+      await Wrapper.picks.rightClick('Roads');
+      await Wrapper.contextMenu.chooseVersion();
+
+      await Wrapper.versionPicker.togglePreview(
+        'Portishead - Roads (Live at Roseland)',
+      );
+      await waitFor(async () => {
+        expect(
+          await Wrapper.versionPicker.findPreviewButton(
+            'Portishead - Roads (Live at Roseland)',
+          ),
+        ).toHaveAccessibleName('Stop preview');
+      });
+      await Wrapper.versionPicker.selectOption(
+        'Portishead - Roads (Live at Roseland)',
+      );
+      await Wrapper.versionPicker.play();
+
+      const chosen = Wrapper.queue.currentTrack?.streamCandidates?.[0];
+      expect(chosen?.id).toBe('roads-live');
+      expect(chosen?.userSelected).toBe(true);
+    });
+
     it('does not remember the version when the user opts out', async () => {
       await Wrapper.mount();
       await Wrapper.picks.find();

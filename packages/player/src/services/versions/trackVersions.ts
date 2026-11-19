@@ -8,7 +8,7 @@ import { useQueueStore } from '../../stores/queueStore';
 import { useStreamVerificationStore } from '../../stores/streamVerificationStore';
 import { keyOfTrack } from '../discover/trackKeys';
 import { playbackManager } from '../playback';
-import { streamingHost } from '../streamingHost';
+import { hasFreshStream, streamingHost } from '../streamingHost';
 
 export const VERSION_VARIANTS = [
   'original',
@@ -50,9 +50,12 @@ const isSameTrack = (first: Track, second: Track) =>
     first.source.id === second.source.id) ||
   keyOfTrack(first) === keyOfTrack(second);
 
-const freshCandidate = (candidate: StreamCandidate): StreamCandidate => ({
-  ...omit(candidate, ['stream', 'lastResolvedAtIso']),
+const chosenCandidate = (candidate: StreamCandidate): StreamCandidate => ({
+  ...(hasFreshStream(candidate)
+    ? candidate
+    : omit(candidate, ['stream', 'lastResolvedAtIso'])),
   failed: false,
+  userSelected: true,
 });
 
 const promoteCandidate = (itemId: string, candidate: StreamCandidate) => {
@@ -69,7 +72,7 @@ const promoteCandidate = (itemId: string, candidate: StreamCandidate) => {
     error: undefined,
     track: {
       ...item.track,
-      streamCandidates: [freshCandidate(candidate), ...others],
+      streamCandidates: [chosenCandidate(candidate), ...others],
     },
   });
 };
@@ -88,7 +91,6 @@ export const applyVersion = async (
   const currentItem = useQueueStore.getState().getCurrentItem();
   if (currentItem && isSameTrack(currentItem.track, track)) {
     promoteCandidate(currentItem.id, candidate);
-    playbackManager.play();
     return;
   }
 
@@ -99,4 +101,14 @@ export const applyVersion = async (
   }
   promoteCandidate(newItem.id, candidate);
   playbackManager.play();
+};
+
+export const resolveVersionPreview = async (
+  candidate: StreamCandidate,
+): Promise<StreamCandidate> => {
+  const resolved = await streamingHost.resolveStreamForCandidate(candidate);
+  if (!resolved || resolved.failed || !resolved.stream) {
+    throw new Error('Could not load this version');
+  }
+  return resolved;
 };

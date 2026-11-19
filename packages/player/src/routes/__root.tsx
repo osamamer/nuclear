@@ -162,12 +162,7 @@ const RootComponent = () => {
 
   useEffect(() => {
     const window = getCurrentWindow();
-    const frame = requestAnimationFrame(() =>
-      requestAnimationFrame(() => {
-        void window.show().then(() => window.setFocus());
-      }),
-    );
-    return () => cancelAnimationFrame(frame);
+    void window.show().then(() => window.setFocus());
   }, []);
   return (
     <PlayerShell

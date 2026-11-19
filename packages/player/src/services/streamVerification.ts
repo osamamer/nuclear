@@ -11,6 +11,13 @@ export type VerifiedStream = {
   status: Exclude<StreamVerificationStatus, 'loading' | 'unverified'>;
 };
 
+export const rememberedStreamId = (track: Track): string | undefined =>
+  getSetting('core.playback.streamVerification')
+    ? useStreamVerificationStore.getState().verifications[
+        streamVerificationApi.verificationKey(track)
+      ]
+    : undefined;
+
 type RemoteWriteResult = 'skipped' | 'succeeded' | 'failed';
 
 class StreamVerification {
@@ -20,10 +27,7 @@ class StreamVerification {
     }
 
     try {
-      const localStreamId =
-        useStreamVerificationStore.getState().verifications[
-          streamVerificationApi.verificationKey(track)
-        ];
+      const localStreamId = rememberedStreamId(track);
       if (localStreamId) {
         return { streamId: localStreamId, status: 'verifiedByUser' };
       }

@@ -10,6 +10,7 @@ const store = new LazyStore(DOWNLOADS_FILE);
 type DownloadRecord = {
   fileName: string;
   downloadedAtIso: string;
+  streamId?: string;
 };
 
 type DownloadRecords = Record<string, DownloadRecord>;
@@ -48,11 +49,16 @@ const loadRecords = (): Promise<void> => {
 
 export const findDownloadedTrack = async (
   track: Track,
+  requiredStreamId?: string,
 ): Promise<string | undefined> => {
   await loadRecords();
   const key = trackDownloadKey(track);
   const record = records[key];
   if (!record) {
+    return undefined;
+  }
+
+  if (requiredStreamId && record.streamId !== requiredStreamId) {
     return undefined;
   }
 
@@ -70,6 +76,7 @@ export const findDownloadedTrack = async (
 export const saveDownloadedTrack = async (
   track: Track,
   fileName: string,
+  streamId?: string,
 ): Promise<void> => {
   await loadRecords();
   records = {
@@ -77,6 +84,7 @@ export const saveDownloadedTrack = async (
     [trackDownloadKey(track)]: {
       fileName,
       downloadedAtIso: new Date().toISOString(),
+      ...(streamId ? { streamId } : {}),
     },
   };
   await persistCatalog();

@@ -11,6 +11,7 @@ import { playlistFileService } from '../playlistFileService';
 import { providersHost } from '../providersHost';
 import { hasActiveStreamingProvider, streamingHost } from '../streamingHost';
 import { candidatesForTrack } from '../streamResolution/candidateSource';
+import { rememberedStreamId } from '../streamVerification';
 import { downloadTrack } from '../tauri/trackDownloads';
 import {
   findDownloadedTrack,
@@ -135,7 +136,7 @@ export const startPlaylistDownloadService = (): void => {
     }
     queuedKeys.add(key);
     try {
-      if (await findDownloadedTrack(track)) {
+      if (await findDownloadedTrack(track, rememberedStreamId(track))) {
         queuedKeys.delete(key);
         return;
       }
@@ -217,7 +218,7 @@ export const startPlaylistDownloadService = (): void => {
           trackDownloadKey(track),
           containerForStream(stream),
         );
-        await saveDownloadedTrack(track, fileName);
+        await saveDownloadedTrack(track, fileName, candidate.id);
         return;
       } catch (error) {
         lastError = error;

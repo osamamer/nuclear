@@ -32,6 +32,7 @@ export type StreamCandidate = {
   stream?: Stream;
   lastResolvedAtIso?: string;
   failed: boolean;
+  userSelected?: boolean;
   source: ProviderRef;
 };
 

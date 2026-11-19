@@ -503,6 +503,7 @@ export const useQueueStore = create<QueueStore>((set, get) => ({
     const retried = selected.map((candidate) => ({
       ...candidate,
       failed: false,
+      userSelected: true,
     }));
     get().updateItemState(itemId, {
       track: { ...track, streamCandidates: [...retried, ...rest] },

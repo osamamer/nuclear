@@ -9,8 +9,14 @@ import { findDownloadedTrack } from '../downloads/trackDownloadCatalog';
 import { Logger } from '../logger';
 import { playbackManager } from '../playback';
 import { hasActiveStreamingProvider, streamingHost } from '../streamingHost';
+import { rememberedStreamId } from '../streamVerification';
 import { AudioSourceFactory } from './audioSource';
 import { candidatesForTrack } from './candidateSource';
+
+const requiredStreamIdFor = (item: QueueItem): string | undefined => {
+  const head = item.track.streamCandidates?.[0];
+  return head?.userSelected ? head.id : rememberedStreamId(item.track);
+};
 
 export type ResolveOptions = {
   autoPlay: boolean;
@@ -35,7 +41,10 @@ export class StreamResolution {
 
     if (!options.skipDownloadedTrack) {
       try {
-        const fileName = await findDownloadedTrack(item.track);
+        const fileName = await findDownloadedTrack(
+          item.track,
+          requiredStreamIdFor(item),
+        );
         if (signal.aborted) {
           return;
         }

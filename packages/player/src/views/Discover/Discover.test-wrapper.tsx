@@ -20,7 +20,10 @@ import { useQueueStore } from '../../stores/queueStore';
 import { useStreamVerificationStore } from '../../stores/streamVerificationStore';
 import { MetadataProviderBuilder } from '../../test/builders/MetadataProviderBuilder';
 import { PlaylistBuilder } from '../../test/builders/PlaylistBuilder';
-import { StreamingProviderBuilder } from '../../test/builders/StreamingProviderBuilder';
+import {
+  createMockStream,
+  StreamingProviderBuilder,
+} from '../../test/builders/StreamingProviderBuilder';
 import type { TauriCommandMocks } from '../../test/utils/commandMocks';
 import { ok } from '../../test/utils/commandMocks';
 import { resetInMemoryTauriStore } from '../../test/utils/inMemoryTauriStore';
@@ -162,6 +165,7 @@ export const createDiscoverWrapper = (commandMocks: TauriCommandMocks) => ({
         .withSearchForTrack(
           async (_artist, title) => candidatesForQuery[title] ?? [],
         )
+        .withGetStreamUrl(async (candidateId) => createMockStream(candidateId))
         .build(),
     );
   },
@@ -331,6 +335,17 @@ export const createDiscoverWrapper = (commandMocks: TauriCommandMocks) => ({
         .getAllByTestId('version-option')
         .find((element) => within(element).queryByText(title));
       await user.click(option!);
+    },
+    async findPreviewButton(title: string) {
+      const list = await screen.findByTestId('version-picker-list');
+      const row = within(list)
+        .getAllByTestId('version-option')
+        .find((element) => within(element).queryByText(title))!
+        .closest('li')!;
+      return within(row).getByTestId('version-preview-button');
+    },
+    async togglePreview(title: string) {
+      await user.click(await this.findPreviewButton(title));
     },
     async toggleRemember() {
       await user.click(screen.getByTestId('version-remember-toggle'));

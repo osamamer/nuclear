@@ -762,6 +762,10 @@
       "remember": "Always play this version of the song",
       "cancel": "Cancel",
       "play": "Play this version",
+      "preview": "Preview this version",
+      "stopPreview": "Stop preview",
+      "previewFailed": "Couldn't load a preview",
+      "hint": "Tap a cover to hear a version before choosing it.",
       "variants": {
         "original": "Original",
         "live": "Live",
