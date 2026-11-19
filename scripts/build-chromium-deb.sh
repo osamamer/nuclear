@@ -17,7 +17,7 @@ if [[ -z "$electron_bin" && -x /usr/lib/nuclear-chromium/electron ]]; then
   fi
 fi
 if [[ -z "$electron_bin" ]]; then
-  electron_bin="$(ELECTRON_RUN_AS_NODE=1 pnpm dlx "electron@$electron_version" -p 'process.execPath')"
+  electron_bin="$(ELECTRON_RUN_AS_NODE=1 pnpm dlx "electron@$electron_version" -p 'process.execPath' | tail -n 1)"
 fi
 
 electron_dir="$(dirname -- "$(realpath -- "$electron_bin")")"
