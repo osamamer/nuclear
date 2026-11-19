@@ -1,0 +1,8 @@
+abi <abi/4.0>,
+include <tunables/global>
+
+profile nuclear-chromium /usr/lib/nuclear-chromium/electron flags=(unconfined) {
+  userns,
+  @{exec_path} mr,
+  include if exists <local/nuclear-chromium>
+}

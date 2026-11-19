@@ -1,6 +1,20 @@
 [
   {
     "date": "2026-11-20T00:00",
+    "description": "The version picker stays open and downloads remain playable when no streaming source is active.",
+    "type": "fix",
+    "contributors": [
+      "nukeop"
+    ],
+    "tags": [
+      {
+        "label": "Stability",
+        "color": "red"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-20T00:00",
     "description": "Added an experimental Chromium launcher for Linux that uses Nuclear’s existing interface and profiles.",
     "type": "improvement",
     "contributors": [

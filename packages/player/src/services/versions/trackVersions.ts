@@ -3,7 +3,6 @@ import omit from 'lodash-es/omit';
 import type { StreamCandidate, Track } from '@nuclearplayer/model';
 import { stripResolutionState } from '@nuclearplayer/model';
 
-import { streamVerificationApi } from '../../apis/streamVerificationApi';
 import { useQueueStore } from '../../stores/queueStore';
 import { useStreamVerificationStore } from '../../stores/streamVerificationStore';
 import { keyOfTrack } from '../discover/trackKeys';
@@ -39,11 +38,6 @@ export const findVersions = async (
   }
   return result.candidates;
 };
-
-export const preferredVersionId = (track: Track): string | undefined =>
-  useStreamVerificationStore.getState().verifications[
-    streamVerificationApi.verificationKey(track)
-  ];
 
 const isSameTrack = (first: Track, second: Track) =>
   (first.source.provider === second.source.provider &&

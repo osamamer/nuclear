@@ -318,6 +318,9 @@ export const createDiscoverWrapper = (commandMocks: TauriCommandMocks) => ({
     find() {
       return screen.findByTestId('version-picker');
     },
+    findEmpty() {
+      return screen.findByTestId('version-picker-empty');
+    },
     async findOptionTitles() {
       const list = await screen.findByTestId('version-picker-list');
       return within(list)

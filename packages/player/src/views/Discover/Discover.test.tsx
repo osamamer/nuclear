@@ -231,6 +231,18 @@ describe('Discover view', () => {
     });
   });
 
+  it('keeps the version picker open when no streaming provider is active', async () => {
+    seedRadioheadFan();
+    await Wrapper.mount();
+    await Wrapper.picks.find();
+
+    await Wrapper.picks.rightClick('Roads');
+    await Wrapper.contextMenu.chooseVersion();
+
+    expect(await Wrapper.versionPicker.findEmpty()).toBeInTheDocument();
+    expect(await Wrapper.versionPicker.find()).toBeInTheDocument();
+  });
+
   describe('choosing a version', () => {
     const LIVE = {
       id: 'roads-live',

@@ -1,0 +1,3 @@
+#!/bin/sh
+set -eu
+exec /usr/lib/nuclear-chromium/electron /usr/lib/nuclear-chromium/chromium/main.mjs "$@"

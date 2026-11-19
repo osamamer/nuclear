@@ -1,7 +1,9 @@
 # Chromium on Linux
 
-The Chromium launcher runs Nuclear's production frontend in Electron while the original Rust host handles desktop commands, plugins, stores, and profiles over private standard IO. The same frontend, theme assets, and player logic run in both desktop shells.
+Nuclear (Chromium Preview) runs the production frontend in Electron. The existing Rust host handles desktop commands, plugins, stores, and profiles over private standard IO.
 
-Build the player and install the backend with `./scripts/build-install-deb.sh` from the repository root. Close the regular app before trying `./scripts/dev-chromium.sh` because both hosts use the same profile stores. A light or independent profile can be selected with `--profile NAME`. The script uses Electron 45.3.3 unless `NUCLEAR_ELECTRON_BIN` points to a different Electron executable. Set `NUCLEAR_CHROMIUM_BACKEND` to use a locally built backend in place of the installed binary.
+Run `./scripts/build-install-deb.sh --chromium` from the repository root and open **Nuclear (Chromium Preview)** from the application menu. The Debian package installs Electron at a fixed system path and grants that executable the AppArmor user namespace access needed for Chromium's sandbox.
 
-This launcher is experimental. The full Debian release still uses the standard window, and the compatibility backend still uses a hidden Tauri webview for native IPC. Restart the Chromium launcher after switching between native and custom window decorations.
+Close the regular player before opening the preview because both use the same profile stores. Pass `--profile NAME` to `nuclear-chromium` to select a profile. The `./scripts/dev-chromium.sh` launcher runs the working tree's frontend with the installed runtime. Set `NUCLEAR_ELECTRON_BIN` or `NUCLEAR_CHROMIUM_BACKEND` to use an alternate executable.
+
+The compatibility backend still uses a hidden Tauri webview for native IPC. Restart the preview after switching between native and custom window decorations.

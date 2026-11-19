@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+
+if [ "$1" = configure ] && [ -d /sys/kernel/security/apparmor ] && command -v apparmor_parser >/dev/null; then
+  apparmor_parser --replace --write-cache /etc/apparmor.d/nuclear-chromium
+fi

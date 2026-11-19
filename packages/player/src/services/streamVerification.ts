@@ -5,17 +5,23 @@ import { streamVerificationApi } from '../apis/streamVerificationApi';
 import { getSetting } from '../stores/settingsStore';
 import { useStreamVerificationStore } from '../stores/streamVerificationStore';
 import { Logger } from './logger';
+import { hasActiveStreamingProvider } from './streamingHost';
 
 export type VerifiedStream = {
   streamId: string;
   status: Exclude<StreamVerificationStatus, 'loading' | 'unverified'>;
 };
 
-export const rememberedStreamId = (track: Track): string | undefined =>
-  getSetting('core.playback.streamVerification')
+export const getLocalStreamId = (track: Track): string | undefined =>
+  hasActiveStreamingProvider()
     ? useStreamVerificationStore.getState().verifications[
         streamVerificationApi.verificationKey(track)
       ]
+    : undefined;
+
+export const rememberedStreamId = (track: Track): string | undefined =>
+  getSetting('core.playback.streamVerification')
+    ? getLocalStreamId(track)
     : undefined;
 
 type RemoteWriteResult = 'skipped' | 'succeeded' | 'failed';

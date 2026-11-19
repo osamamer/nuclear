@@ -18,10 +18,10 @@ import {
 import { useCoreSetting } from '../hooks/useCoreSetting';
 import { useVersionPreview } from '../hooks/useVersionPreview';
 import { keyOfTrack } from '../services/discover/trackKeys';
+import { getLocalStreamId } from '../services/streamVerification';
 import {
   applyVersion,
   findVersions,
-  preferredVersionId,
   VERSION_VARIANTS,
   VersionVariant,
 } from '../services/versions/trackVersions';
@@ -99,7 +99,7 @@ const VersionList: FC<VersionListProps> = ({
   preview,
 }) => {
   const { t } = useTranslation('track');
-  const preferredId = preferredVersionId(track);
+  const preferredId = getLocalStreamId(track);
   const { data, isLoading, isError } = useQuery({
     queryKey: ['track-versions', keyOfTrack(track), variant],
     queryFn: () => findVersions(track, variant),

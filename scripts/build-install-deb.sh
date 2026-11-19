@@ -2,6 +2,15 @@
 set -euo pipefail
 
 repo_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+with_chromium=false
+if [[ "${1:-}" == --chromium ]]; then
+  with_chromium=true
+  shift
+fi
+if (( $# > 0 )); then
+  printf 'Usage: %s [--chromium]\n' "$0" >&2
+  exit 2
+fi
 player_dir="$repo_root/packages/player"
 config_file="$player_dir/src-tauri/tauri.conf.json"
 tauri_cli="$player_dir/node_modules/.bin/tauri"
@@ -46,13 +55,20 @@ if [[ "$package_name" != nuclear || "$package_version" != "$version" || "$packag
   exit 1
 fi
 
-printf 'Installing %s\n' "$deb_file"
+packages=("$deb_file")
+if $with_chromium; then
+  chromium_deb="$(dirname -- "$deb_file")/Nuclear-Chromium_${version}_${architecture}.deb"
+  "$repo_root/scripts/build-chromium-deb.sh" "$version" "$architecture" "$chromium_deb"
+  packages+=("$chromium_deb")
+fi
+
+printf 'Installing %s\n' "${packages[@]}"
 if (( EUID == 0 )); then
-  dpkg -i "$deb_file"
+  dpkg -i "${packages[@]}"
 elif command -v pkexec >/dev/null 2>&1; then
-  pkexec dpkg -i "$deb_file"
+  pkexec dpkg -i "${packages[@]}"
 elif command -v sudo >/dev/null 2>&1; then
-  sudo dpkg -i "$deb_file"
+  sudo dpkg -i "${packages[@]}"
 else
   printf 'Administrator authentication requires pkexec or sudo.\n' >&2
   exit 1
@@ -66,3 +82,17 @@ fi
 
 dpkg -V nuclear
 printf 'Installed and verified Nuclear %s from %s\n' "$version" "$deb_file"
+
+if $with_chromium; then
+  chromium_version="$(dpkg-query -W -f='${Version}' nuclear-chromium)"
+  if [[ "$chromium_version" != "$version" ]]; then
+    printf 'Installed Chromium preview version %s does not match %s.\n' "$chromium_version" "$version" >&2
+    exit 1
+  fi
+  chromium_verification="$(dpkg -V nuclear-chromium)"
+  if [[ -n "$chromium_verification" ]]; then
+    printf '%s\n' "$chromium_verification" >&2
+    exit 1
+  fi
+  printf 'Installed and verified Nuclear (Chromium Preview) %s\n' "$chromium_version"
+fi
