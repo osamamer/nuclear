@@ -87,6 +87,8 @@ const SettingsPanelDemo = () => {
       <SettingsPanel
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
+        title="Preferences"
+        backLabel="Back"
         sections={sections}
       >
         <div className="p-6">

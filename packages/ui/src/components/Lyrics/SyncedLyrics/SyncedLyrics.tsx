@@ -54,10 +54,7 @@ export const SyncedLyrics: FC<SyncedLyricsProps> = ({
 
   return (
     <div
-      className={cn(
-        'font-heading contents leading-tight font-bold tracking-tight font-stretch-semi-condensed',
-        className,
-      )}
+      className={cn('contents leading-snug font-semibold', className)}
       {...props}
     >
       <div className="h-2/10 shrink-0" />

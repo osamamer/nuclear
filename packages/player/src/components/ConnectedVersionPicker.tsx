@@ -241,7 +241,10 @@ const VersionPickerBody: FC<{ track: Track; onClose: () => void }> = ({
         track={track}
         variant={variant}
         selectedId={selected?.id}
-        onSelect={setSelected}
+        onSelect={(candidate) => {
+          setSelected(candidate);
+          void preview.start(candidate);
+        }}
         preview={preview}
       />
       {preview.source && (

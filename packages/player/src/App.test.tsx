@@ -41,4 +41,22 @@ describe('App', () => {
     await AppWrapper.toggleLeftSidebar();
     expect(AppWrapper.getLayoutState().leftSidebar.isCollapsed).toBe(false);
   });
+
+  it('hides and restores the queue from the playback bar', async () => {
+    render(<App queryClientProp={new QueryClient()} />);
+
+    expect(AppWrapper.queueVisibilityToggle).toHaveAccessibleName(
+      'Hide queue panel',
+    );
+    await AppWrapper.toggleQueueVisibility();
+    expect(AppWrapper.queueVisibilityToggle).toHaveAttribute(
+      'aria-expanded',
+      'false',
+    );
+    expect(AppWrapper.queueVisibilityToggle).toHaveAccessibleName(
+      'Show queue panel',
+    );
+    await AppWrapper.toggleQueueVisibility();
+    expect(AppWrapper.queuePanel).toBeVisible();
+  });
 });

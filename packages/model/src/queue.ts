@@ -5,6 +5,7 @@ export type QueueItem = {
   track: Track;
   playlistId?: string;
   queuedByUser?: boolean;
+  isPlaylistHistory?: boolean;
   status: 'idle' | 'loading' | 'success' | 'error';
   error?: string;
   addedAtIso: string;

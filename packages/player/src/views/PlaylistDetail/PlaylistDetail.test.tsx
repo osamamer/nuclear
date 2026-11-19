@@ -1,6 +1,6 @@
 import * as dialog from '@tauri-apps/plugin-dialog';
 import * as fs from '@tauri-apps/plugin-fs';
-import { screen, waitFor } from '@testing-library/react';
+import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi, type Mock } from 'vitest';
 
@@ -10,6 +10,7 @@ import { PlayerBarWrapper } from '../../integration-tests/PlayerBar.test-wrapper
 import { QueueWrapper } from '../../integration-tests/Queue.test-wrapper';
 import { providersHost } from '../../services/providersHost';
 import { useQueueStore } from '../../stores/queueStore';
+import { useSoundStore } from '../../stores/soundStore';
 import { useStartupStore } from '../../stores/startupStore';
 import { MetadataProviderBuilder } from '../../test/builders/MetadataProviderBuilder';
 import { PlaylistBuilder } from '../../test/builders/PlaylistBuilder';
@@ -19,6 +20,7 @@ import {
   StreamingProviderBuilder,
 } from '../../test/builders/StreamingProviderBuilder';
 import { resetInMemoryTauriStore } from '../../test/utils/inMemoryTauriStore';
+import { createMockTrack } from '../../test/utils/mockTrack';
 import { mockUuid } from '../../test/utils/mockUuid';
 import { PlaylistDetailWrapper } from './PlaylistDetail.test-wrapper';
 
@@ -67,6 +69,39 @@ describe('PlaylistDetail view', () => {
     const { getByTestId } = await PlaylistDetailWrapper.mount('test-playlist');
 
     expect(getByTestId('player-workspace-main')).toMatchSnapshot();
+  });
+
+  it('continues from the selected song and keeps earlier playback and explicit queue entries', async () => {
+    PlaylistDetailWrapper.seedPlaylist(
+      defaultPlaylist().withTrackNames(['Prelude', 'So What', 'Finale']),
+    );
+    const queue = useQueueStore.getState();
+    queue.replaceQueue(
+      ['Earlier', 'Playing', 'Old continuation'].map(createMockTrack),
+      'old-playlist',
+      1,
+    );
+    queue.addToQueue([createMockTrack('Queued manually')]);
+    queue.addNext([createMockTrack('Play next')]);
+
+    await PlaylistDetailWrapper.mount('test-playlist');
+    act(() => useSoundStore.getState().play());
+    await PlaylistDetailWrapper.playTrack('So What');
+
+    expect(queue.getCurrentItem()?.track.title).toBe('So What');
+    expect(QueueWrapper.getItems().map((track) => track.title)).toEqual([
+      'Earlier',
+      'Playing',
+      'So What',
+      'Play next',
+      'Queued manually',
+      'Finale',
+    ]);
+
+    act(queue.goToPrevious);
+    expect(queue.getCurrentItem()?.track.title).toBe('Playing');
+    act(queue.goToPrevious);
+    expect(queue.getCurrentItem()?.track.title).toBe('Earlier');
   });
 
   it('displays the playlist name', async () => {
@@ -222,12 +257,11 @@ describe('PlaylistDetail view', () => {
     expect(PlaylistDetailWrapper.trackTable).not.toBeInTheDocument();
   });
 
-  it('removes a track from the playlist when clicking the delete button', async () => {
+  it('removes the selected track through its right-click menu', async () => {
     await PlaylistDetailWrapper.mount('test-playlist');
 
     expect(PlaylistDetailWrapper.trackTitle('Giant Steps')).toBeInTheDocument();
     expect(PlaylistDetailWrapper.trackTitle('So What')).toBeInTheDocument();
-    expect(PlaylistDetailWrapper.removeButtons).toHaveLength(2);
 
     await PlaylistDetailWrapper.removeTrack('Giant Steps');
 
@@ -239,7 +273,7 @@ describe('PlaylistDetail view', () => {
     expect(PlaylistDetailWrapper.trackTitle('So What')).toBeInTheDocument();
   });
 
-  it('does not show remove buttons for read-only playlists', async () => {
+  it('does not offer track removal from a read-only playlist', async () => {
     PlaylistDetailWrapper.seedPlaylist(
       new PlaylistBuilder()
         .withId('readonly-playlist')
@@ -251,8 +285,10 @@ describe('PlaylistDetail view', () => {
 
     await PlaylistDetailWrapper.mount('readonly-playlist');
 
-    expect(PlaylistDetailWrapper.trackTable).toBeInTheDocument();
-    expect(PlaylistDetailWrapper.removeButtons).toHaveLength(0);
+    await PlaylistDetailWrapper.openTrackMenu('Track B');
+    expect(PlaylistDetailWrapper.trackMenuLabels).not.toContain(
+      'Remove from playlist',
+    );
   });
 
   it('enables reorder for editable playlists', async () => {

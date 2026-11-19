@@ -2,6 +2,8 @@ import { FC } from 'react';
 
 import type { LineAnnotation } from '@nuclearplayer/model';
 
+import { getLyricsDirection } from '../utils';
+
 export const LyricsAnnotations: FC<{ annotations: LineAnnotation[] }> = ({
   annotations,
 }) =>
@@ -11,7 +13,8 @@ export const LyricsAnnotations: FC<{ annotations: LineAnnotation[] }> = ({
       data-testid="lyrics-annotation"
       data-type={annotation.type}
       lang={annotation.language}
-      className="block font-sans text-base font-normal tracking-normal opacity-60"
+      dir={getLyricsDirection(annotation.text)}
+      className="rtl:font-lyrics-arabic block text-start font-sans text-base font-normal tracking-normal opacity-60"
     >
       {annotation.text}
     </span>

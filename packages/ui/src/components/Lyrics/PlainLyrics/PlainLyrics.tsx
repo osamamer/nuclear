@@ -20,10 +20,7 @@ export const PlainLyrics: FC<PlainLyricsProps> = ({
   ...props
 }) => (
   <div
-    className={cn(
-      'font-heading flex flex-col gap-6 leading-tight font-bold tracking-tight font-stretch-semi-condensed',
-      className,
-    )}
+    className={cn('flex flex-col gap-6 leading-snug font-semibold', className)}
     {...props}
   >
     {sections.map((section, index) => (

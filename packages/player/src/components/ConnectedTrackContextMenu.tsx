@@ -5,6 +5,7 @@ import {
   ListMusicIcon,
   ListStart,
   Play,
+  Trash2,
 } from 'lucide-react';
 import { FC, ReactNode } from 'react';
 
@@ -23,6 +24,7 @@ type ConnectedTrackContextMenuProps = {
   playlistId?: string;
   playlistTracks?: Track[];
   index?: number;
+  onRemoveFromPlaylist?: () => void;
 };
 
 export const ConnectedTrackContextMenu: FC<ConnectedTrackContextMenuProps> = ({
@@ -31,6 +33,7 @@ export const ConnectedTrackContextMenu: FC<ConnectedTrackContextMenuProps> = ({
   playlistId,
   playlistTracks,
   index,
+  onRemoveFromPlaylist,
 }) => {
   const { t } = useTranslation('track');
   const { t: tPlaylists } = useTranslation('playlists');
@@ -121,6 +124,14 @@ export const ConnectedTrackContextMenu: FC<ConnectedTrackContextMenuProps> = ({
               ))}
             </TrackContextMenu.Submenu.Content>
           </TrackContextMenu.Submenu>
+        )}
+        {onRemoveFromPlaylist && (
+          <TrackContextMenu.Action
+            icon={<Trash2 size={16} />}
+            onClick={onRemoveFromPlaylist}
+          >
+            {t('actions.removeFromPlaylist')}
+          </TrackContextMenu.Action>
         )}
       </TrackContextMenu.Content>
     </TrackContextMenu>

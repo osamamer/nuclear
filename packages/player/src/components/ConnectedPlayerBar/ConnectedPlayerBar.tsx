@@ -1,10 +1,11 @@
 import { Link } from '@tanstack/react-router';
-import { MicVocalIcon } from 'lucide-react';
+import { ListMusicIcon, MicVocalIcon } from 'lucide-react';
 import { FC } from 'react';
 
 import { useTranslation } from '@nuclearplayer/i18n';
-import { PlayerBar, Tooltip } from '@nuclearplayer/ui';
+import { Button, PlayerBar, Tooltip } from '@nuclearplayer/ui';
 
+import { useLayoutStore } from '../../stores/layoutStore';
 import { useIsLightProfile } from '../../stores/lightProfileStore';
 import { ConnectedControls } from './ConnectedControls';
 import { ConnectedNowPlaying } from './ConnectedNowPlaying';
@@ -14,7 +15,15 @@ import { ConnectedVolume } from './ConnectedVolume';
 
 export const ConnectedPlayerBar: FC = () => {
   const { t } = useTranslation('navigation');
+  const { t: tQueue } = useTranslation('queue');
   const isLight = useIsLightProfile();
+  const isQueueHidden = useLayoutStore((state) => state.rightSidebar.isHidden);
+  const toggleQueueVisibility = useLayoutStore(
+    (state) => state.toggleRightSidebarVisibility,
+  );
+  const queueLabel = tQueue(
+    isQueueHidden ? 'actions.showPanel' : 'actions.hidePanel',
+  );
 
   return (
     <PlayerBar
@@ -40,6 +49,19 @@ export const ConnectedPlayerBar: FC = () => {
               </Link>
             </Tooltip>
           )}
+          <Tooltip content={queueLabel} side="top">
+            <Button
+              size="icon-sm"
+              variant="text"
+              aria-label={queueLabel}
+              aria-expanded={!isQueueHidden}
+              className="aria-expanded:bg-primary/10 aria-expanded:text-primary"
+              data-testid="toggle-queue-panel-button"
+              onClick={toggleQueueVisibility}
+            >
+              <ListMusicIcon size={16} />
+            </Button>
+          </Tooltip>
           <ConnectedVolume />
         </div>
       }

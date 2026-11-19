@@ -13,7 +13,7 @@ export const LyricsHighlighter: FC<LyricsHighlighterProps> = ({
 }) => (
   <span
     className={cn(
-      'from-primary to-primary bg-linear-to-r bg-left-bottom bg-no-repeat transition-[background-size] duration-300 ease-linear',
+      'from-primary to-primary bg-linear-to-r bg-left-bottom bg-no-repeat transition-[background-size] duration-300 ease-linear rtl:bg-right-bottom',
       className,
     )}
     style={{ backgroundSize: `${progress * 100}% 0.1em` }}

@@ -190,42 +190,6 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
             </div>
           </div>
           <button
-            aria-label="Hide queue panel"
-            class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground hover:bg-primary/10 size-8 justify-center"
-            data-headlessui-state=""
-            data-testid="toggle-queue-panel-button"
-            title="Hide queue panel"
-            type="button"
-          >
-            <svg
-              aria-hidden="true"
-              class="lucide lucide-panel-right-close"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect
-                height="18"
-                rx="2"
-                width="18"
-                x="3"
-                y="3"
-              />
-              <path
-                d="M15 3v18"
-              />
-              <path
-                d="m8 9 3 3-3 3"
-              />
-            </svg>
-          </button>
-          <button
             aria-checked="false"
             aria-label="Toggle theme"
             class="border-border focus:ring-ring focus:ring-offset-muted relative inline-flex h-6 w-11 cursor-pointer items-center rounded-full border-(length:--border-width) transition-all focus:ring-2 focus:ring-offset-2 focus:outline-none surface-input data-checked:border-primary/60 hover:border-primary/40 data-disabled:cursor-not-allowed data-disabled:opacity-50 group justify-self-end"
@@ -1412,6 +1376,46 @@ exports[`Search view > (Snapshot) renders the search view 1`] = `
                   />
                 </svg>
               </a>
+            </div>
+            <div>
+              <button
+                aria-expanded="true"
+                aria-label="Hide queue panel"
+                class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground hover:bg-primary/10 size-8 justify-center aria-expanded:bg-primary/10 aria-expanded:text-primary"
+                data-headlessui-state=""
+                data-testid="toggle-queue-panel-button"
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-list-music"
+                  fill="none"
+                  height="16"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="16"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M21 15V6"
+                  />
+                  <path
+                    d="M18.5 18a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"
+                  />
+                  <path
+                    d="M12 12H3"
+                  />
+                  <path
+                    d="M16 6H3"
+                  />
+                  <path
+                    d="M12 18H3"
+                  />
+                </svg>
+              </button>
             </div>
             <div
               class="flex items-center gap-2"

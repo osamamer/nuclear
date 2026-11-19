@@ -27,9 +27,9 @@ export const PlaylistActions: FC<PlaylistActionsProps> = ({
   return (
     <div className={cn('flex items-center gap-2', className)}>
       <Button
-        variant="default"
+        variant="text"
         size="icon"
-        className="size-12 rounded-full"
+        className="bg-primary text-primary-foreground hover:bg-primary/85 size-12 rounded-full motion-safe:transition-[transform,background-color] motion-safe:hover:scale-105 motion-safe:active:scale-95"
         onClick={() => {
           playbackManager.playTracks(tracks, playlistId);
         }}
@@ -43,8 +43,10 @@ export const PlaylistActions: FC<PlaylistActionsProps> = ({
         panelClassName="surface-background px-0 py-0"
         trigger={
           <Button
-            variant="tertiary"
+            variant="text"
             size="icon"
+            className="rounded-full"
+            aria-label={t('common:actions.moreActions')}
             data-testid="playlist-actions-button"
           >
             <EllipsisVerticalIcon size={16} />

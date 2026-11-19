@@ -471,7 +471,7 @@ describe('Playlists view', () => {
       useQueueStore.getState().addToQueue([existingTrack]);
     });
 
-    it('plays a playlist in place of the queue', async () => {
+    it('starts a playlist and keeps a manually queued track next', async () => {
       providersHost.register(
         new StreamingProviderBuilder()
           .withSearchForTrack(async (artist: string, title: string) => [
@@ -487,7 +487,11 @@ describe('Playlists view', () => {
       await vi.waitFor(() => {
         expect(PlayerBarWrapper.isPlaying).toBe(true);
       });
-      expect(queuedTracks().map(stripResolutionState)).toEqual(roadTripTracks);
+      expect(queuedTracks().map(stripResolutionState)).toEqual([
+        roadTripTracks[0],
+        existingTrack,
+        ...roadTripTracks.slice(1),
+      ]);
       expect(PlaylistsWrapper.detailView).not.toBeInTheDocument();
     });
 

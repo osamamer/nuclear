@@ -3,6 +3,25 @@ import { render, screen } from '@testing-library/react';
 import { PlainLyrics } from '.';
 
 describe('PlainLyrics', () => {
+  it('sets Arabic lines right to left independently of the English lines around them', () => {
+    render(
+      <PlainLyrics
+        sections={[
+          {
+            lines: [
+              { segments: [{ text: '“يا ليل”' }] },
+              { segments: [{ text: 'When the evening comes' }] },
+            ],
+          },
+        ]}
+      />,
+    );
+
+    const [arabic, english] = screen.getAllByTestId('lyrics-line');
+    expect(arabic).toHaveAttribute('dir', 'rtl');
+    expect(english).toHaveAttribute('dir', 'auto');
+  });
+
   it('(Snapshot) renders sections with and without labels', () => {
     const { container } = render(
       <PlainLyrics

@@ -40,9 +40,19 @@ type QueueStore = Queue & {
     tracks: Track[],
     playlistId?: string,
     startIndex?: number,
+    options?: { selectedVersion?: StreamCandidate },
+  ) => boolean;
+  playPlaylist: (
+    tracks: Track[],
+    playlistId: string,
+    startIndex: number,
   ) => boolean;
   addToQueue: (tracks: Track[], playlistId?: string) => void;
-  appendToQueue: (tracks: Track[], playlistId?: string) => void;
+  appendToQueue: (
+    tracks: Track[],
+    playlistId?: string,
+    queuedByUser?: boolean,
+  ) => void;
   addNext: (tracks: Track[], playlistId?: string) => void;
   addAt: (tracks: Track[], index: number, playlistId?: string) => void;
   removeByIds: (ids: string[]) => void;
@@ -122,6 +132,73 @@ const getShuffledIndex = (length: number, currentIndex: number): number => {
   }
 
   return nextIndex;
+};
+
+const getNextShuffledIndex = (state: QueueStore): number => {
+  const { items, currentIndex } = state;
+  const isPlaylistQueue = items.some(
+    (item) => item.isPlaylistHistory || (item.playlistId && !item.queuedByUser),
+  );
+  if (!isPlaylistQueue) {
+    return getShuffledIndex(items.length, currentIndex);
+  }
+  if (items[currentIndex]?.isPlaylistHistory) {
+    return getDirectionalIndex(state, 'forward');
+  }
+
+  const visited = new Set(visitedItemIds.slice(0, visitedIndex + 1));
+  const nextQueuedIndex = items.findIndex(
+    (item, index) =>
+      index > currentIndex &&
+      item.queuedByUser &&
+      !item.isPlaylistHistory &&
+      !visited.has(item.id),
+  );
+  if (nextQueuedIndex !== -1) {
+    return nextQueuedIndex;
+  }
+  const playlistIndices = items.flatMap((item, index) =>
+    !item.isPlaylistHistory && !item.queuedByUser && index !== currentIndex
+      ? [index]
+      : [],
+  );
+  const unplayed = playlistIndices.filter(
+    (index) => !visited.has(items[index].id),
+  );
+  const choices =
+    unplayed.length === 0 && getSetting('core.playback.repeat') === 'all'
+      ? playlistIndices
+      : unplayed;
+  return choices[Math.floor(Math.random() * choices.length)] ?? currentIndex;
+};
+
+const getPlaylistHistory = (state: QueueStore): QueueItem[] => {
+  const preceding = state.items.slice(0, state.currentIndex);
+  const current = state.getCurrentItem();
+  const { status, hasStartedPlayback } = useSoundStore.getState();
+  const hasPlayedCurrent = status !== 'stopped' && hasStartedPlayback;
+  if (getSetting('core.playback.shuffle') !== true || visitedIndex <= 0) {
+    return current && hasPlayedCurrent ? [...preceding, current] : preceding;
+  }
+
+  const byId = new Map(state.items.map((item) => [item.id, item]));
+  const history = new Map(
+    preceding
+      .filter((item) => item.isPlaylistHistory)
+      .map((item) => [item.id, item]),
+  );
+  for (const id of visitedItemIds.slice(0, visitedIndex)) {
+    const item = byId.get(id);
+    if (item) {
+      history.delete(id);
+      history.set(id, item);
+    }
+  }
+  if (current && hasPlayedCurrent) {
+    history.delete(current.id);
+    history.set(current.id, current);
+  }
+  return [...history.values()];
 };
 
 const emitSkip = (): void => {
@@ -294,29 +371,41 @@ export const useQueueStore = create<QueueStore>((set, get) => ({
     Logger.queue.debug(`Queued ${playableTracks.length} tracks`);
   }),
 
-  appendToQueue: withPersistence((tracks: Track[], playlistId?: string) => {
-    const playableTracks = getPlayableTrackEntries(tracks).map(
-      ({ track }) => track,
-    );
-    set(
-      produce((state: QueueStore) => {
-        const newItems = playableTracks.map((track) =>
-          createQueueItem(track, playlistId),
-        );
-        state.items.push(...newItems);
-      }),
-    );
-    Logger.queue.debug(`Appended ${playableTracks.length} tracks to queue`);
-  }),
+  appendToQueue: withPersistence(
+    (tracks: Track[], playlistId?: string, queuedByUser = false) => {
+      const playableTracks = getPlayableTrackEntries(tracks).map(
+        ({ track }) => track,
+      );
+      set(
+        produce((state: QueueStore) => {
+          const newItems = playableTracks.map((track) => ({
+            ...createQueueItem(track, playlistId),
+            ...(queuedByUser && { queuedByUser }),
+          }));
+          state.items.push(...newItems);
+        }),
+      );
+      Logger.queue.debug(`Appended ${playableTracks.length} tracks to queue`);
+    },
+  ),
 
   replaceQueue: withPersistence(
-    (tracks: Track[], playlistId?: string, startIndex = 0) => {
+    (
+      tracks: Track[],
+      playlistId?: string,
+      startIndex = 0,
+      options?: { selectedVersion?: StreamCandidate },
+    ) => {
       const playableEntries = getPlayableTrackEntries(tracks);
       if (tracks.length > 0 && playableEntries.length === 0) {
         return false;
       }
 
-      if (get().items.length > 0 && isLeavingCurrentTrackRefused(get())) {
+      if (
+        !options?.selectedVersion &&
+        get().items.length > 0 &&
+        isLeavingCurrentTrackRefused(get())
+      ) {
         return false;
       }
       const requestedIndex = Math.min(
@@ -335,11 +424,56 @@ export const useQueueStore = create<QueueStore>((set, get) => ({
           : firstPlayableAtOrAfter === -1
             ? items.length - 1
             : firstPlayableAtOrAfter;
+      const currentItem = items[currentIndex];
+      if (currentItem && options?.selectedVersion) {
+        currentItem.track.streamCandidates = [options.selectedVersion];
+      }
       visitedItemIds.length = 0;
       visitedIndex = -1;
       set({ items, currentIndex });
       useSoundStore.getState().stop();
       Logger.queue.info(`Replaced queue with ${items.length} items`);
+      return true;
+    },
+  ),
+
+  playPlaylist: withPersistence(
+    (tracks: Track[], playlistId: string, startIndex: number) => {
+      const state = get();
+      const playable = getPlayableTrackEntries(tracks);
+      if (!playable.length || isLeavingCurrentTrackRefused(state)) {
+        return false;
+      }
+
+      const requestedIndex = Math.min(
+        Math.max(Math.trunc(startIndex), 0),
+        tracks.length - 1,
+      );
+      const firstPlayable = playable.findIndex(
+        ({ index }) => index >= requestedIndex,
+      );
+      const [selected, ...continuation] = playable
+        .slice(firstPlayable === -1 ? -1 : firstPlayable)
+        .map(({ track }) => createQueueItem(track, playlistId));
+      const history = getPlaylistHistory(state).map((item) => ({
+        ...item,
+        isPlaylistHistory: true,
+      }));
+      const historyIds = new Set(history.map((item) => item.id));
+      const queued = state.items
+        .slice(state.currentIndex)
+        .filter(
+          (item) =>
+            item.queuedByUser &&
+            !item.isPlaylistHistory &&
+            !historyIds.has(item.id),
+        );
+
+      useSoundStore.getState().stop();
+      set({
+        items: [...history, selected, ...queued, ...continuation],
+        currentIndex: history.length,
+      });
       return true;
     },
   ),
@@ -356,9 +490,10 @@ export const useQueueStore = create<QueueStore>((set, get) => ({
       );
       set(
         produce((state: QueueStore) => {
-          const newItems = playableTracks.map((track) =>
-            createQueueItem(track, playlistId),
-          );
+          const newItems = playableTracks.map((track) => ({
+            ...createQueueItem(track, playlistId),
+            queuedByUser: true,
+          }));
           state.items.splice(index, 0, ...newItems);
           if (index <= state.currentIndex) {
             state.currentIndex += newItems.length;
@@ -530,8 +665,7 @@ export const useQueueStore = create<QueueStore>((set, get) => ({
     const shuffled = getSetting('core.playback.shuffle') === true;
     const visited = shuffled ? findVisitedTrack(state, 1) : undefined;
     const nextIndex = shuffled
-      ? (visited?.index ??
-        getShuffledIndex(state.items.length, state.currentIndex))
+      ? (visited?.index ?? getNextShuffledIndex(state))
       : getDirectionalIndex(state, 'forward');
     if (nextIndex === state.currentIndex) {
       return;

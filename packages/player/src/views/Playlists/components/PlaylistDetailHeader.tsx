@@ -9,7 +9,6 @@ import {
   cn,
   formatTimeMillis,
   Input,
-  StatChip,
   Textarea,
   Tooltip,
 } from '@nuclearplayer/ui';
@@ -51,25 +50,40 @@ export const PlaylistDetailHeader: FC<PlaylistDetailHeaderProps> = ({
   } = usePlaylistDetailHeader(playlist);
 
   return (
-    <div
+    <section
       className={cn(
-        'border-border bg-card/50 text-card-foreground relative flex flex-col gap-4 rounded-2xl border-(length:--border-width) p-4 md:flex-row',
+        'border-foreground/10 bg-card @container relative isolate flex flex-col overflow-hidden rounded-2xl border',
         className,
       )}
     >
+      <div
+        aria-hidden="true"
+        className="from-primary/30 via-card to-background pointer-events-none absolute inset-0 -z-10 overflow-hidden bg-radial-[at_80%_0%]"
+      >
+        {thumbnails?.[0] && (
+          <img
+            src={thumbnails[0]}
+            alt=""
+            decoding="async"
+            className="absolute inset-0 size-full scale-110 object-cover opacity-65 blur-3xl"
+          />
+        )}
+        <div className="from-background via-background/65 pointer-events-none absolute inset-0 bg-linear-to-t to-transparent" />
+      </div>
       {!playlist.isReadOnly && !isEditing && (
         <Button
-          variant="tertiary"
+          variant="text"
           size="icon-sm"
-          className="absolute top-4 right-4 z-10"
+          className="bg-background/55 absolute top-3 right-3 z-10 rounded-full backdrop-blur-sm"
           onClick={startEditing}
+          aria-label={t('common:actions.edit')}
           data-testid="edit-playlist-button"
         >
           <PencilIcon size={14} />
         </Button>
       )}
       {playlist.isReadOnly && playlist.origin && (
-        <div className="absolute top-4 right-4 z-10">
+        <div className="absolute top-3 right-3 z-10">
           <Tooltip
             content={t('readOnlyTooltip', { source: playlist.origin.provider })}
             side="bottom"
@@ -80,21 +94,20 @@ export const PlaylistDetailHeader: FC<PlaylistDetailHeaderProps> = ({
           </Tooltip>
         </div>
       )}
-      <div className="border-border h-48 w-48 shrink-0 overflow-hidden rounded-2xl border-(length:--border-width) select-none">
-        <PlaylistArtwork
-          name={playlist.name}
-          thumbnails={
-            isEditing
-              ? editArtworkUrl.trim()
-                ? [editArtworkUrl.trim()]
-                : []
-              : thumbnails
-          }
-        />
-      </div>
-
-      <div className="flex min-w-0 flex-1 flex-col gap-4 lg:flex-row">
-        <div className="flex min-w-0 flex-1 flex-col gap-3">
+      <div className="flex min-w-0 items-end gap-4 px-4 pt-6 pb-4 @md:gap-6 @md:px-6 @md:pt-8 @md:pb-5">
+        <div className="bg-background/55 motion-safe:animate-in motion-safe:fade-in-70 motion-safe:zoom-in-95 aspect-square w-[clamp(4.75rem,18cqw,10rem)] shrink-0 overflow-hidden rounded-xl shadow-lg ring-1 shadow-black/25 ring-white/10 select-none motion-safe:transition-transform motion-safe:duration-400 motion-safe:hover:-translate-y-1">
+          <PlaylistArtwork
+            name={playlist.name}
+            thumbnails={
+              isEditing
+                ? editArtworkUrl.trim()
+                  ? [editArtworkUrl.trim()]
+                  : []
+                : thumbnails
+            }
+          />
+        </div>
+        <div className="flex min-w-0 flex-1 flex-col gap-3 pr-7">
           {isEditing ? (
             <div className="flex flex-col gap-3">
               <Input
@@ -135,51 +148,49 @@ export const PlaylistDetailHeader: FC<PlaylistDetailHeaderProps> = ({
               </div>
             </div>
           ) : (
-            <div className="flex flex-col gap-2">
+            <div className="motion-safe:animate-in motion-safe:fade-in-70 motion-safe:slide-in-from-bottom-2 flex min-w-0 flex-col gap-2 motion-safe:duration-400">
               <h1
-                className="font-heading text-4xl font-extrabold tracking-tight"
+                className="font-heading text-[clamp(1.5rem,6cqw,3.75rem)] leading-none font-extrabold tracking-tight"
+                dir="auto"
                 data-testid="playlist-detail-title"
               >
                 {playlist.name}
               </h1>
               {playlist.description && (
                 <p
-                  className="text-card-foreground/60 text-lg"
+                  className="text-foreground/75 line-clamp-2 text-sm @md:text-base"
+                  dir="auto"
                   data-testid="playlist-detail-description"
                 >
                   {playlist.description}
                 </p>
               )}
-            </div>
-          )}
-
-          {children}
-
-          {!isEditing && (
-            <div
-              className="flex flex-wrap gap-2"
-              data-testid="playlist-detail-stats"
-            >
-              <StatChip
-                value={playlist.items.length}
-                label={t('sortBy.trackCount')}
-              />
-              <StatChip
-                value={
-                  totalDurationMs > 0 ? formatTimeMillis(totalDurationMs) : '—'
-                }
-                label={t('sortBy.duration')}
-              />
+              <div
+                className="text-foreground/60 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm tabular-nums"
+                data-testid="playlist-detail-stats"
+              >
+                <span>{t('trackCount', { count: playlist.items.length })}</span>
+                {totalDurationMs > 0 && (
+                  <>
+                    <span aria-hidden="true">·</span>
+                    <span>{formatTimeMillis(totalDurationMs)}</span>
+                  </>
+                )}
+              </div>
             </div>
           )}
         </div>
-
-        {!isEditing && controls && (
-          <div className="flex w-full flex-col gap-2 lg:w-56 lg:shrink-0 lg:pt-10">
-            {controls}
-          </div>
-        )}
       </div>
-    </div>
+      {!isEditing && (children || controls) && (
+        <div className="border-foreground/10 bg-background/45 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t px-4 py-2 @md:px-6">
+          {children}
+          {controls && (
+            <div className="flex min-w-0 flex-[1_1_20rem] flex-wrap items-center justify-end gap-2 [&>*]:w-auto [&>*]:min-w-0 [&>*]:flex-1 @lg:[&>*]:max-w-48">
+              {controls}
+            </div>
+          )}
+        </div>
+      )}
+    </section>
   );
 };

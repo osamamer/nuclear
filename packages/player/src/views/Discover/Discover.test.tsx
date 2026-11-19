@@ -342,25 +342,23 @@ describe('Discover view', () => {
       ).toHaveAccessibleName('Preview this version');
     });
 
-    it('plays the previewed version as the chosen one', async () => {
+    it('previews and plays a clicked version while another song is in its skip waiting period', async () => {
+      Wrapper.queue.startListening('Another song');
       await Wrapper.mount();
       await Wrapper.picks.find();
       await Wrapper.picks.rightClick('Roads');
       await Wrapper.contextMenu.chooseVersion();
 
-      await Wrapper.versionPicker.togglePreview(
-        'Portishead - Roads (Live at Roseland)',
-      );
-      await waitFor(async () => {
-        expect(
-          await Wrapper.versionPicker.findPreviewButton(
-            'Portishead - Roads (Live at Roseland)',
-          ),
-        ).toHaveAccessibleName('Stop preview');
-      });
       await Wrapper.versionPicker.selectOption(
         'Portishead - Roads (Live at Roseland)',
       );
+      await waitFor(() => {
+        expect(Wrapper.versionPicker.previewAudio?.src).toContain('/stream/');
+      });
+      Wrapper.versionPicker.readyPreviewAudio();
+      expect(Wrapper.versionPicker.previewAudio.paused).toBe(false);
+      expect(Wrapper.queue.currentTrack?.title).toBe('Another song');
+
       await Wrapper.versionPicker.play();
 
       const chosen = Wrapper.queue.currentTrack?.streamCandidates?.[0];

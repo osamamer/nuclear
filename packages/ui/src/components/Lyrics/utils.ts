@@ -2,6 +2,11 @@ import clamp from 'lodash-es/clamp';
 
 import type { LyricsSection } from '@nuclearplayer/model';
 
+export const getLyricsDirection = (text: string) => {
+  const firstLetter = text.match(/\p{Letter}/u)?.[0];
+  return firstLetter && /\p{Script=Arabic}/u.test(firstLetter) ? 'rtl' : 'auto';
+};
+
 type TimeRange = {
   startMs: number;
   endMs: number;

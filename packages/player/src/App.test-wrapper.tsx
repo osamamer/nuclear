@@ -23,6 +23,18 @@ export const AppWrapper = {
     }
   },
 
+  async toggleQueueVisibility() {
+    await userEvent.click(screen.getByTestId('toggle-queue-panel-button'));
+  },
+
+  get queueVisibilityToggle() {
+    return screen.getByTestId('toggle-queue-panel-button');
+  },
+
+  get queuePanel() {
+    return screen.getByTestId('sidebar-right');
+  },
+
   getLayoutState() {
     return useLayoutStore.getState();
   },
@@ -30,7 +42,7 @@ export const AppWrapper = {
   resetState() {
     useLayoutStore.setState({
       leftSidebar: { isCollapsed: false, width: 200 },
-      rightSidebar: { isCollapsed: false, width: 200 },
+      rightSidebar: { isCollapsed: false, isHidden: false, width: 200 },
     });
     useStartupStore.setState({ isStartingUp: false });
   },

@@ -39,10 +39,11 @@ export class PlaybackManager {
   };
 
   playTracks = (tracks: Track[], playlistId?: string, startIndex = 0): void => {
-    const queueReplaced = useQueueStore
-      .getState()
-      .replaceQueue(tracks, playlistId, startIndex);
-    if (!queueReplaced) {
+    const queue = useQueueStore.getState();
+    const started = playlistId
+      ? queue.playPlaylist(tracks, playlistId, startIndex)
+      : queue.replaceQueue(tracks, undefined, startIndex);
+    if (!started) {
       return;
     }
     this.play();

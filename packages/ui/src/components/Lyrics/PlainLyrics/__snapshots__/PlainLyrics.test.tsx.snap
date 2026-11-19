@@ -3,15 +3,15 @@
 exports[`PlainLyrics > (Snapshot) renders ruby, background vocals, and annotations 1`] = `
 <div>
   <div
-    class="font-heading flex flex-col gap-6 leading-tight font-bold tracking-tight font-stretch-semi-condensed"
+    class="flex flex-col gap-6 leading-snug font-semibold"
   >
     <div
       data-testid="lyrics-section"
     >
       <div
-        class="py-1 text-left"
+        class="font-lyrics rtl:font-lyrics-arabic py-1 text-start tracking-tight rtl:tracking-normal"
         data-testid="lyrics-line"
-        dir="ltr"
+        dir="auto"
       >
         <p>
           <ruby
@@ -56,17 +56,19 @@ exports[`PlainLyrics > (Snapshot) renders ruby, background vocals, and annotatio
           </span>
         </p>
         <span
-          class="block font-sans text-base font-normal tracking-normal opacity-60"
+          class="rtl:font-lyrics-arabic block text-start font-sans text-base font-normal tracking-normal opacity-60"
           data-testid="lyrics-annotation"
           data-type="romanization"
+          dir="auto"
           lang="ja-Latn"
         >
           Yoru ni kakeru
         </span>
         <span
-          class="block font-sans text-base font-normal tracking-normal opacity-60"
+          class="rtl:font-lyrics-arabic block text-start font-sans text-base font-normal tracking-normal opacity-60"
           data-testid="lyrics-annotation"
           data-type="translation"
+          dir="auto"
           lang="en"
         >
           Racing into the night
@@ -80,7 +82,7 @@ exports[`PlainLyrics > (Snapshot) renders ruby, background vocals, and annotatio
 exports[`PlainLyrics > (Snapshot) renders sections with and without labels 1`] = `
 <div>
   <div
-    class="font-heading flex flex-col gap-6 leading-tight font-bold tracking-tight font-stretch-semi-condensed"
+    class="flex flex-col gap-6 leading-snug font-semibold"
   >
     <div
       data-testid="lyrics-section"
@@ -92,18 +94,18 @@ exports[`PlainLyrics > (Snapshot) renders sections with and without labels 1`] =
         Verse 1
       </div>
       <div
-        class="py-1 text-left"
+        class="font-lyrics rtl:font-lyrics-arabic py-1 text-start tracking-tight rtl:tracking-normal"
         data-testid="lyrics-line"
-        dir="ltr"
+        dir="auto"
       >
         <p>
           Lorem ipsum dolor sit amet
         </p>
       </div>
       <div
-        class="py-1 text-left"
+        class="font-lyrics rtl:font-lyrics-arabic py-1 text-start tracking-tight rtl:tracking-normal"
         data-testid="lyrics-line"
-        dir="ltr"
+        dir="auto"
       >
         <p>
           Consectetur 
@@ -115,9 +117,9 @@ exports[`PlainLyrics > (Snapshot) renders sections with and without labels 1`] =
       data-testid="lyrics-section"
     >
       <div
-        class="py-1 text-left"
+        class="font-lyrics rtl:font-lyrics-arabic py-1 text-start tracking-tight rtl:tracking-normal"
         data-testid="lyrics-line"
-        dir="ltr"
+        dir="auto"
       >
         <p>
           Sed do eiusmod tempor

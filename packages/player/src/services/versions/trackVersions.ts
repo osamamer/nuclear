@@ -52,24 +52,15 @@ const chosenCandidate = (candidate: StreamCandidate): StreamCandidate => ({
   userSelected: true,
 });
 
-const promoteCandidate = (itemId: string, candidate: StreamCandidate) => {
-  const queue = useQueueStore.getState();
-  const item = queue.getItemById(itemId);
-  if (!item) {
-    return;
-  }
-  const others = (item.track.streamCandidates ?? []).filter(
-    (current) => current.id !== candidate.id,
-  );
-  queue.updateItemState(itemId, {
-    status: 'idle',
-    error: undefined,
-    track: {
-      ...item.track,
-      streamCandidates: [chosenCandidate(candidate), ...others],
-    },
-  });
-};
+const trackWithVersion = (track: Track, candidate: StreamCandidate): Track => ({
+  ...track,
+  streamCandidates: [
+    chosenCandidate(candidate),
+    ...(track.streamCandidates ?? []).filter(
+      (current) => current.id !== candidate.id,
+    ),
+  ],
+});
 
 export const applyVersion = async (
   track: Track,
@@ -82,19 +73,23 @@ export const applyVersion = async (
       .saveVerification(track, candidate.id);
   }
 
-  const currentItem = useQueueStore.getState().getCurrentItem();
+  const queue = useQueueStore.getState();
+  const currentItem = queue.getCurrentItem();
   if (currentItem && isSameTrack(currentItem.track, track)) {
-    promoteCandidate(currentItem.id, candidate);
+    queue.updateItemState(currentItem.id, {
+      status: 'idle',
+      error: undefined,
+      track: trackWithVersion(currentItem.track, candidate),
+    });
     return;
   }
 
-  const replaced = useQueueStore.getState().replaceQueue([track]);
-  const newItem = useQueueStore.getState().getCurrentItem();
-  if (!replaced || !newItem) {
-    return;
+  const replaced = queue.replaceQueue([track], undefined, 0, {
+    selectedVersion: chosenCandidate(candidate),
+  });
+  if (replaced) {
+    playbackManager.play();
   }
-  promoteCandidate(newItem.id, candidate);
-  playbackManager.play();
 };
 
 export const resolveVersionPreview = async (

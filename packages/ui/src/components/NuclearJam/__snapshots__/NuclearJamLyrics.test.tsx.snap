@@ -14,24 +14,24 @@ exports[`NuclearJamLyrics > (Snapshot) renders plain lyrics 1`] = `
         style="scrollbar-width: none;"
       >
         <div
-          class="font-heading flex flex-col gap-6 font-bold tracking-tight font-stretch-semi-condensed text-2xl"
+          class="flex flex-col gap-6 font-semibold text-2xl"
         >
           <div
             data-testid="lyrics-section"
           >
             <div
-              class="py-1 text-left"
+              class="font-lyrics rtl:font-lyrics-arabic py-1 text-start tracking-tight rtl:tracking-normal"
               data-testid="lyrics-line"
-              dir="ltr"
+              dir="auto"
             >
               <p>
                 Paper boats in a parking lot
               </p>
             </div>
             <div
-              class="py-1 text-left"
+              class="font-lyrics rtl:font-lyrics-arabic py-1 text-start tracking-tight rtl:tracking-normal"
               data-testid="lyrics-line"
-              dir="ltr"
+              dir="auto"
             >
               <p>
                 Sinking slow in the summer heat
@@ -59,23 +59,23 @@ exports[`NuclearJamLyrics > (Snapshot) renders synced lyrics 1`] = `
         style="scrollbar-width: none;"
       >
         <div
-          class="font-heading contents font-bold tracking-tight font-stretch-semi-condensed text-2xl"
+          class="contents font-semibold text-2xl"
         >
           <div
             class="h-2/10 shrink-0"
           />
           <button
-            class="hover:text-foreground block w-full cursor-pointer py-1 text-left transition-colors duration-100 text-foreground/40"
+            class="font-lyrics rtl:font-lyrics-arabic hover:text-foreground block w-full cursor-pointer py-1 text-start tracking-tight transition-colors duration-100 rtl:tracking-normal text-foreground/40"
             data-active="false"
             data-testid="lyrics-line"
-            dir="ltr"
+            dir="auto"
             type="button"
           >
             <span
               class="block"
             >
               <span
-                class="from-primary to-primary bg-linear-to-r bg-left-bottom bg-no-repeat transition-[background-size] duration-300 ease-out"
+                class="from-primary to-primary bg-linear-to-r bg-left-bottom bg-no-repeat transition-[background-size] duration-300 rtl:bg-right-bottom ease-out"
                 style="background-size: 0% 0.1em;"
               >
                 Neon rain on the overpass
@@ -83,17 +83,17 @@ exports[`NuclearJamLyrics > (Snapshot) renders synced lyrics 1`] = `
             </span>
           </button>
           <button
-            class="hover:text-foreground block w-full cursor-pointer py-1 text-left transition-colors duration-100 text-foreground"
+            class="font-lyrics rtl:font-lyrics-arabic hover:text-foreground block w-full cursor-pointer py-1 text-start tracking-tight transition-colors duration-100 rtl:tracking-normal text-foreground"
             data-active="true"
             data-testid="lyrics-line"
-            dir="ltr"
+            dir="auto"
             type="button"
           >
             <span
               class="block"
             >
               <span
-                class="from-primary to-primary bg-linear-to-r bg-left-bottom bg-no-repeat transition-[background-size] duration-300 ease-out"
+                class="from-primary to-primary bg-linear-to-r bg-left-bottom bg-no-repeat transition-[background-size] duration-300 rtl:bg-right-bottom ease-out"
                 style="background-size: 100% 0.1em;"
               >
                 Counting static in the glass
@@ -101,17 +101,17 @@ exports[`NuclearJamLyrics > (Snapshot) renders synced lyrics 1`] = `
             </span>
           </button>
           <button
-            class="text-foreground/60 hover:text-foreground block w-full cursor-pointer py-1 text-left transition-colors duration-100"
+            class="font-lyrics rtl:font-lyrics-arabic text-foreground/60 hover:text-foreground block w-full cursor-pointer py-1 text-start tracking-tight transition-colors duration-100 rtl:tracking-normal"
             data-active="false"
             data-testid="lyrics-line"
-            dir="ltr"
+            dir="auto"
             type="button"
           >
             <span
               class="block"
             >
               <span
-                class="from-primary to-primary bg-linear-to-r bg-left-bottom bg-no-repeat transition-[background-size] duration-300 ease-out"
+                class="from-primary to-primary bg-linear-to-r bg-left-bottom bg-no-repeat transition-[background-size] duration-300 rtl:bg-right-bottom ease-out"
                 style="background-size: 0% 0.1em;"
               >
                 Every signal fades too fast
@@ -142,23 +142,23 @@ exports[`NuclearJamLyrics > (Snapshot) renders synced lyrics with the largest te
         style="scrollbar-width: none;"
       >
         <div
-          class="font-heading contents font-bold tracking-tight font-stretch-semi-condensed text-3xl"
+          class="contents font-semibold text-3xl"
         >
           <div
             class="h-2/10 shrink-0"
           />
           <button
-            class="hover:text-foreground block w-full cursor-pointer py-1 text-left transition-colors duration-100 text-foreground/40"
+            class="font-lyrics rtl:font-lyrics-arabic hover:text-foreground block w-full cursor-pointer py-1 text-start tracking-tight transition-colors duration-100 rtl:tracking-normal text-foreground/40"
             data-active="false"
             data-testid="lyrics-line"
-            dir="ltr"
+            dir="auto"
             type="button"
           >
             <span
               class="block"
             >
               <span
-                class="from-primary to-primary bg-linear-to-r bg-left-bottom bg-no-repeat transition-[background-size] duration-300 ease-out"
+                class="from-primary to-primary bg-linear-to-r bg-left-bottom bg-no-repeat transition-[background-size] duration-300 rtl:bg-right-bottom ease-out"
                 style="background-size: 0% 0.1em;"
               >
                 Neon rain on the overpass
@@ -166,17 +166,17 @@ exports[`NuclearJamLyrics > (Snapshot) renders synced lyrics with the largest te
             </span>
           </button>
           <button
-            class="hover:text-foreground block w-full cursor-pointer py-1 text-left transition-colors duration-100 text-foreground"
+            class="font-lyrics rtl:font-lyrics-arabic hover:text-foreground block w-full cursor-pointer py-1 text-start tracking-tight transition-colors duration-100 rtl:tracking-normal text-foreground"
             data-active="true"
             data-testid="lyrics-line"
-            dir="ltr"
+            dir="auto"
             type="button"
           >
             <span
               class="block"
             >
               <span
-                class="from-primary to-primary bg-linear-to-r bg-left-bottom bg-no-repeat transition-[background-size] duration-300 ease-out"
+                class="from-primary to-primary bg-linear-to-r bg-left-bottom bg-no-repeat transition-[background-size] duration-300 rtl:bg-right-bottom ease-out"
                 style="background-size: 100% 0.1em;"
               >
                 Counting static in the glass
@@ -184,17 +184,17 @@ exports[`NuclearJamLyrics > (Snapshot) renders synced lyrics with the largest te
             </span>
           </button>
           <button
-            class="text-foreground/60 hover:text-foreground block w-full cursor-pointer py-1 text-left transition-colors duration-100"
+            class="font-lyrics rtl:font-lyrics-arabic text-foreground/60 hover:text-foreground block w-full cursor-pointer py-1 text-start tracking-tight transition-colors duration-100 rtl:tracking-normal"
             data-active="false"
             data-testid="lyrics-line"
-            dir="ltr"
+            dir="auto"
             type="button"
           >
             <span
               class="block"
             >
               <span
-                class="from-primary to-primary bg-linear-to-r bg-left-bottom bg-no-repeat transition-[background-size] duration-300 ease-out"
+                class="from-primary to-primary bg-linear-to-r bg-left-bottom bg-no-repeat transition-[background-size] duration-300 rtl:bg-right-bottom ease-out"
                 style="background-size: 0% 0.1em;"
               >
                 Every signal fades too fast

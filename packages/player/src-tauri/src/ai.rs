@@ -187,9 +187,11 @@ async fn complete_with_codex_cli(request: &AiRequest) -> Result<String, String> 
     command
         .env("PATH", search_path_env(&executable))
         .arg("exec")
+        .arg("--ignore-user-config")
         .arg("--skip-git-repo-check")
         .arg("--sandbox")
         .arg("read-only")
+        .arg("--ephemeral")
         .arg("--output-last-message")
         .arg(&output_file);
     if let Some(model) = request.model.as_ref().filter(|model| !model.trim().is_empty()) {

@@ -34,6 +34,7 @@ export const useVersionPreview = () => {
   const requestRef = useRef(0);
   const pausedMainRef = useRef(false);
   const keepMainPausedRef = useRef(false);
+  const { candidateId } = state;
 
   const pauseMainPlayback = () => {
     if (useSoundStore.getState().status === 'playing') {
@@ -47,14 +48,14 @@ export const useVersionPreview = () => {
     setState(IDLE);
   }, []);
 
-  const toggle = useCallback(
+  const start = useCallback(
     async (candidate: StreamCandidate) => {
-      if (state.candidateId === candidate.id) {
-        stop();
+      if (candidateId === candidate.id) {
         return;
       }
 
       const request = ++requestRef.current;
+      setFailedIds((current) => current.filter((id) => id !== candidate.id));
       setState({ ...IDLE, candidateId: candidate.id, isLoading: true });
       pauseMainPlayback();
 
@@ -79,17 +80,24 @@ export const useVersionPreview = () => {
         setState(IDLE);
       }
     },
-    [state.candidateId, stop],
+    [candidateId],
   );
 
+  const toggle = (candidate: StreamCandidate) => {
+    if (candidateId === candidate.id) {
+      stop();
+    } else {
+      void start(candidate);
+    }
+  };
+
   const failCurrent = useCallback(() => {
-    const { candidateId } = state;
     if (candidateId) {
       setFailedIds((current) => [...current, candidateId]);
       resolvedRef.current.delete(candidateId);
     }
     stop();
-  }, [state, stop]);
+  }, [candidateId, stop]);
 
   const updateProgress = useCallback(
     ({ position, duration }: { position: number; duration: number }) => {
@@ -110,6 +118,7 @@ export const useVersionPreview = () => {
 
   useEffect(
     () => () => {
+      requestRef.current += 1;
       if (pausedMainRef.current && !keepMainPausedRef.current) {
         playbackManager.play();
       }
@@ -120,6 +129,7 @@ export const useVersionPreview = () => {
   return {
     ...state,
     failedIds,
+    start,
     toggle,
     stop,
     failCurrent,

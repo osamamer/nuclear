@@ -754,6 +754,7 @@
       "addToQueue": "Add to queue",
       "addToFavorites": "Add to favorites",
       "removeFromFavorites": "Remove from favorites",
+      "removeFromPlaylist": "Remove from playlist",
       "chooseVersion": "Choose version…"
     },
     "versions": {
@@ -766,7 +767,7 @@
       "preview": "Preview this version",
       "stopPreview": "Stop preview",
       "previewFailed": "Couldn't load a preview",
-      "hint": "Tap a cover to hear a version before choosing it.",
+      "hint": "Select a version to hear a preview.",
       "variants": {
         "original": "Original",
         "live": "Live",

@@ -7,7 +7,7 @@ import type {
 
 import { cn } from '../../../utils';
 import { LyricsAnnotations, LyricsBackgroundVocals } from '../LyricsLineParts';
-import { getTimingState } from '../utils';
+import { getLyricsDirection, getTimingState } from '../utils';
 
 export type SyncedLyricsLineShellProps = ComponentPropsWithoutRef<'button'> & {
   line: SyncedLyricsLineModel<LyricsSegment>;
@@ -29,9 +29,11 @@ export const SyncedLyricsLineShell = forwardRef<
       type="button"
       data-testid="lyrics-line"
       data-active={isActive}
-      dir="ltr"
+      dir={getLyricsDirection(
+        line.segments.map((segment) => segment.text).join(''),
+      )}
       className={cn(
-        'text-foreground/60 hover:text-foreground block w-full cursor-pointer py-1 text-left transition-colors duration-100',
+        'font-lyrics rtl:font-lyrics-arabic text-foreground/60 hover:text-foreground block w-full cursor-pointer py-1 text-start tracking-tight transition-colors duration-100 rtl:tracking-normal',
         isPast && 'text-foreground/40',
         isActive && 'text-foreground',
         className,

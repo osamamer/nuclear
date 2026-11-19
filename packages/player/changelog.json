@@ -1,6 +1,66 @@
 [
   {
     "date": "2026-11-20T00:00",
+    "description": "The AI Curator can run Codex even when a personal MCP server is offline.",
+    "type": "fix",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Stability",
+        "color": "red"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-20T00:00",
+    "description": "Selecting a song version starts its preview in the picker. Confirming the version starts playback immediately without waiting for the skip countdown.",
+    "type": "fix",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Playback",
+        "color": "purple"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-20T00:00",
+    "description": "Remove tracks from editable playlists using the track context menu.",
+    "type": "improvement",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Appearance",
+        "color": "purple"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-20T00:00",
+    "description": "Playing a song from a playlist keeps earlier tracks and manual queue requests. The queue can be hidden from the playback bar.",
+    "type": "fix",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Playback",
+        "color": "purple"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-20T00:00",
+    "description": "Playlist headers use animated artwork, Preferences opens in a compact dialog, and lyrics use new typefaces with right-to-left layout for Arabic.",
+    "type": "improvement",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Appearance",
+        "color": "purple"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-20T00:00",
     "description": "Nuclear launches in Chromium on Debian. Side drawers open more smoothly, Playlists expands in place, and track menus open at the pointer. Playlist columns align, the AI Curator stays visible, and a desktop timeout closes Nuclear without a crash popup.",
     "type": "improvement",
     "contributors": ["nukeop"],

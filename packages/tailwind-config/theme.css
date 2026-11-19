@@ -67,6 +67,8 @@
 
   --font-sans: var(--font-family);
   --font-heading: var(--font-family-heading);
+  --font-lyrics: 'Fraunces', Georgia, var(--font-sans);
+  --font-lyrics-arabic: 'IBM Plex Sans Arabic', var(--font-lyrics);
   --font-mono: var(--font-family-mono);
 
   --shadow:

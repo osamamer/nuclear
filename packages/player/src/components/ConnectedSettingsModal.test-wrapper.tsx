@@ -32,6 +32,18 @@ export const ConnectedSettingsModalWrapper = {
     return component;
   },
 
+  get dialog() {
+    return screen.getByRole('dialog', { name: 'Preferences' });
+  },
+
+  get preferencesButton() {
+    return screen.getByRole('button', { name: 'Preferences' });
+  },
+
+  async goBack() {
+    await user.click(within(this.dialog).getByRole('button', { name: 'Back' }));
+  },
+
   get generalSection() {
     return navigationSection('general');
   },

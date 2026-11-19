@@ -13,6 +13,14 @@ describe('ConnectedSettingsModal', () => {
     });
   });
 
+  it('returns to the player using the Preferences back button', async () => {
+    await ConnectedSettingsModalWrapper.mount();
+
+    expect(ConnectedSettingsModalWrapper.dialog).toBeInTheDocument();
+    await ConnectedSettingsModalWrapper.goBack();
+    expect(ConnectedSettingsModalWrapper.preferencesButton).toBeVisible();
+  });
+
   it('lists one section per settings category under Settings and the app views under App', async () => {
     await ConnectedSettingsModalWrapper.mount();
 

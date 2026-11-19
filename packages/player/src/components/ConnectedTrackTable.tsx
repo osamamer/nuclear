@@ -38,6 +38,8 @@ export const ConnectedTrackTable: FC<ConnectedTrackTableProps> = (props) => {
   const queueActions = useQueueActions();
   const labels = useTrackTableLabels();
   const { hasStartedPlayback, isPaused } = usePlaybackActivity();
+  const onRemove = externalActions?.onRemove;
+  const onReorder = externalActions?.onReorder;
 
   const playNow = useCallback(
     (track: Track, index: number) => {
@@ -59,12 +61,17 @@ export const ConnectedTrackTable: FC<ConnectedTrackTableProps> = (props) => {
             playlistId={sourcePlaylistId}
             playlistTracks={tracks}
             index={index}
+            onRemoveFromPlaylist={
+              onRemove && index !== undefined
+                ? () => onRemove(track, index)
+                : undefined
+            }
           >
             {children}
           </ConnectedTrackContextMenu>
         );
       },
-    [sourcePlaylistId, tracks],
+    [sourcePlaylistId, tracks, onRemove],
   );
 
   const resolvedDisplay = useMemo(
@@ -75,8 +82,6 @@ export const ConnectedTrackTable: FC<ConnectedTrackTableProps> = (props) => {
     [display],
   );
 
-  const onRemove = externalActions?.onRemove;
-  const onReorder = externalActions?.onReorder;
   const actions = useMemo<TrackTableActions<Track>>(
     () => ({
       onAddToQueue: (track: Track) =>
@@ -86,7 +91,6 @@ export const ConnectedTrackTable: FC<ConnectedTrackTableProps> = (props) => {
       onPlayNext: (track: Track) =>
         queueActions.addNext([track], sourcePlaylistId),
       onToggleFavorite: trackActions.toggleFavorite,
-      onRemove,
       onReorder,
       onPlayAll: () => playbackManager.playTracks(tracks, sourcePlaylistId),
       onAddAllToQueue: () => {
@@ -99,7 +103,6 @@ export const ConnectedTrackTable: FC<ConnectedTrackTableProps> = (props) => {
       playNow,
       playOnRowClick,
       trackActions.toggleFavorite,
-      onRemove,
       onReorder,
       tracks,
     ],

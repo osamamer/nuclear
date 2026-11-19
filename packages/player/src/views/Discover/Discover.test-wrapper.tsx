@@ -1,6 +1,12 @@
 import { QueryClient } from '@tanstack/react-query';
 import { createMemoryHistory, createRouter } from '@tanstack/react-router';
-import { render, RenderResult, screen, within } from '@testing-library/react';
+import {
+  act,
+  render,
+  RenderResult,
+  screen,
+  within,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import type {
@@ -17,6 +23,7 @@ import { useDiscoverStore } from '../../stores/discoverStore';
 import { useFavoritesStore } from '../../stores/favoritesStore';
 import { usePlaylistStore } from '../../stores/playlistStore';
 import { useQueueStore } from '../../stores/queueStore';
+import { useSoundStore } from '../../stores/soundStore';
 import { useStreamVerificationStore } from '../../stores/streamVerificationStore';
 import { MetadataProviderBuilder } from '../../test/builders/MetadataProviderBuilder';
 import { PlaylistBuilder } from '../../test/builders/PlaylistBuilder';
@@ -27,6 +34,7 @@ import {
 import type { TauriCommandMocks } from '../../test/utils/commandMocks';
 import { ok } from '../../test/utils/commandMocks';
 import { resetInMemoryTauriStore } from '../../test/utils/inMemoryTauriStore';
+import { createMockTrack } from '../../test/utils/mockTrack';
 
 const user = userEvent.setup();
 
@@ -92,6 +100,8 @@ export const createDiscoverWrapper = (commandMocks: TauriCommandMocks) => ({
       loaded: true,
     });
     useQueueStore.setState({ items: [], currentIndex: 0 });
+    useSoundStore.getState().stop();
+    useSoundStore.getState().setSrc(null);
     useStreamVerificationStore.setState({ verifications: {} });
     useDiscoverStore.setState({
       mode: 'balanced',
@@ -350,6 +360,19 @@ export const createDiscoverWrapper = (commandMocks: TauriCommandMocks) => ({
     async togglePreview(title: string) {
       await user.click(await this.findPreviewButton(title));
     },
+    get previewAudio() {
+      const [audio] = screen
+        .getByTestId('version-picker')
+        .getElementsByTagName('audio');
+      return audio;
+    },
+    readyPreviewAudio() {
+      const audio = this.previewAudio;
+      act(() => {
+        Object.defineProperty(audio, 'readyState', { value: 3 });
+        audio.dispatchEvent(new Event('canplay'));
+      });
+    },
     async toggleRemember() {
       await user.click(screen.getByTestId('version-remember-toggle'));
     },
@@ -362,6 +385,13 @@ export const createDiscoverWrapper = (commandMocks: TauriCommandMocks) => ({
   },
 
   queue: {
+    startListening(title: string) {
+      act(() => {
+        useQueueStore.getState().replaceQueue([createMockTrack(title)]);
+        useSoundStore.getState().play();
+        useSoundStore.getState().updatePlayback(30, 240);
+      });
+    },
     get currentTrack() {
       const { items, currentIndex } = useQueueStore.getState();
       return items[currentIndex]?.track;

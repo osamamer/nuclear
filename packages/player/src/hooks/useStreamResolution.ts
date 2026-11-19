@@ -24,7 +24,10 @@ export const useStreamResolution = (): void => {
       }
 
       const resolutionKey = buildResolutionKey(currentItem);
-      if (resolutionKey === resolutionKeyRef.current) {
+      if (
+        resolutionKey === resolutionKeyRef.current &&
+        currentItem.status !== 'idle'
+      ) {
         return;
       }
       resolutionKeyRef.current = resolutionKey;

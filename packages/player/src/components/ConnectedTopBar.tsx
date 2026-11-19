@@ -1,13 +1,10 @@
 import { useCanGoBack, useRouter } from '@tanstack/react-router';
-import { PanelRightClose, PanelRightOpen } from 'lucide-react';
 import { FC } from 'react';
 
-import { useTranslation } from '@nuclearplayer/i18n';
-import { Button, TopBar, TopBarNavigation } from '@nuclearplayer/ui';
+import { TopBar, TopBarNavigation } from '@nuclearplayer/ui';
 
 import { useCanGoForward } from '../hooks/useCanGoForward';
 import { useFramelessWindow } from '../hooks/useFramelessWindow';
-import { useLayoutStore } from '../stores/layoutStore';
 import { useIsLightProfile } from '../stores/lightProfileStore';
 import { ConnectedThemeController } from './ConnectedThemeController';
 import { JamQrCodeButton } from './JamQrCodeButton';
@@ -20,11 +17,6 @@ export const ConnectedTopBar: FC = () => {
   const canGoBack = useCanGoBack();
   const canGoForward = useCanGoForward();
   const frameless = useFramelessWindow();
-  const isHidden = useLayoutStore((state) => state.rightSidebar.isHidden);
-  const toggleVisibility = useLayoutStore(
-    (state) => state.toggleRightSidebarVisibility,
-  );
-  const { t } = useTranslation('queue');
   const isLight = useIsLightProfile();
 
   return (
@@ -42,16 +34,6 @@ export const ConnectedTopBar: FC = () => {
       <div className="flex flex-row items-center justify-end gap-2">
         {!isLight && <PlaylistDownloadStatus />}
         {!isLight && <JamQrCodeButton />}
-        <Button
-          size="icon-sm"
-          variant="text"
-          aria-label={t(isHidden ? 'actions.showPanel' : 'actions.hidePanel')}
-          title={t(isHidden ? 'actions.showPanel' : 'actions.hidePanel')}
-          data-testid="toggle-queue-panel-button"
-          onClick={toggleVisibility}
-        >
-          {isHidden ? <PanelRightOpen /> : <PanelRightClose />}
-        </Button>
         <ConnectedThemeController />
       </div>
     </TopBar>

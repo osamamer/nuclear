@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import { LineSyncedLyricsLine } from '.';
 
@@ -9,6 +9,17 @@ const LINE = {
 };
 
 describe('LineSyncedLyricsLine', () => {
+  it('sets a timed Arabic line right to left after leading punctuation and numbers', () => {
+    render(
+      <LineSyncedLyricsLine
+        line={{ ...LINE, segments: [{ text: '٢٠٢٦ — ' }, { text: 'يا ليل' }] }}
+        positionMs={2500}
+      />,
+    );
+
+    expect(screen.getByRole('button')).toHaveAttribute('dir', 'rtl');
+  });
+
   it('(Snapshot) renders a line that has already played', () => {
     const { container } = render(
       <LineSyncedLyricsLine line={LINE} positionMs={5000} />,

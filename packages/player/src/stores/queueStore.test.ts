@@ -514,6 +514,37 @@ describe('useQueueStore', () => {
       queue.goToPrevious();
       expect(queue.getCurrentItem()?.track.title).toBe('Track 1');
     });
+
+    it('keeps the actual shuffle history when switching playlists and plays explicit requests before the new continuation', () => {
+      const queue = useQueueStore.getState();
+      queue.replaceQueue(
+        queue.items.map((item) => item.track),
+        'first-list',
+      );
+      useSettingsStore.setState({ values: { 'core.playback.shuffle': true } });
+      const randomSpy = vi.spyOn(Math, 'random').mockReturnValue(0.99);
+      queue.goToNext('automatic');
+      randomSpy.mockRestore();
+      expect(queue.getCurrentItem()?.track.title).toBe('Track 3');
+      useSoundStore.getState().play();
+      queue.addNext([createMockTrack('Requested')]);
+      playbackManager.playTracks(
+        ['Selection', 'Continuation'].map(createMockTrack),
+        'second-list',
+      );
+      expect(queue.getCurrentItem()?.track.title).toBe('Selection');
+
+      queue.goToPrevious();
+      expect(queue.getCurrentItem()?.track.title).toBe('Track 3');
+      queue.goToPrevious();
+      expect(queue.getCurrentItem()?.track.title).toBe('Track 1');
+      queue.goToNext();
+      queue.goToNext();
+      queue.goToNext();
+      expect(queue.getCurrentItem()?.track.title).toBe('Requested');
+      queue.goToNext();
+      expect(queue.getCurrentItem()?.track.title).toBe('Continuation');
+    });
   });
 
   describe('skip gate', () => {

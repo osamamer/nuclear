@@ -29,7 +29,13 @@ const sections: SettingsNavigationSection[] = [
 describe('SettingsPanel', () => {
   it('(Snapshot) renders when open', () => {
     const { asFragment } = render(
-      <SettingsPanel isOpen onClose={() => {}} sections={sections}>
+      <SettingsPanel
+        isOpen
+        onClose={() => {}}
+        title="Preferences"
+        backLabel="Back"
+        sections={sections}
+      >
         <div>General content</div>
       </SettingsPanel>,
     );

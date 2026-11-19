@@ -60,9 +60,8 @@ export const PlaylistDetail: FC = () => {
       displayArtist: true,
       displayDuration: hasDurations,
       displayQueueControls: true,
-      displayDeleteButton: editing.isEditable,
     }),
-    [hasDurations, editing.isEditable],
+    [hasDurations],
   );
 
   return (
@@ -72,6 +71,7 @@ export const PlaylistDetail: FC = () => {
     >
       {playlist && (
         <PlaylistDetailHeader
+          key={playlistId}
           playlist={playlist}
           thumbnails={thumbnails}
           className="mx-6 mt-4 shrink-0"

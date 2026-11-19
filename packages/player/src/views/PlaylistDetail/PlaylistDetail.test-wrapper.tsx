@@ -78,6 +78,10 @@ export const PlaylistDetailWrapper = {
   trackTitle(name: string) {
     return screen.queryByText(name);
   },
+
+  async playTrack(name: string) {
+    await user.click(screen.getByRole('button', { name, exact: true }));
+  },
   get readOnlyBadge() {
     return screen.queryByTestId('read-only-badge');
   },
@@ -141,14 +145,26 @@ export const PlaylistDetailWrapper = {
     return screen.queryByTestId('playlists-view');
   },
 
-  get removeButtons() {
-    return screen.queryAllByLabelText('Remove from list');
+  get trackMenuLabels() {
+    return within(screen.getByRole('menu'))
+      .getAllByRole('menuitem')
+      .map((item) => item.textContent);
+  },
+
+  async openTrackMenu(trackTitle: string) {
+    const row = screen
+      .getByRole('button', { name: trackTitle, exact: true })
+      .closest('tr')!;
+    await user.click(within(row).getByTestId('track-context-menu-button'));
   },
 
   async removeTrack(trackTitle: string) {
-    const row = screen
-      .getAllByTestId('track-row')
-      .find((r) => r.textContent?.includes(trackTitle))!;
-    await user.click(within(row).getByLabelText('Remove from list'));
+    await user.pointer({
+      keys: '[MouseRight]',
+      target: screen.getByRole('button', { name: trackTitle, exact: true }),
+    });
+    await user.click(
+      screen.getByRole('menuitem', { name: 'Remove from playlist' }),
+    );
   },
 };
