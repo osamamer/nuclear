@@ -1,6 +1,8 @@
 pub mod ai;
 pub mod app_icon;
 pub mod bridge;
+#[cfg(target_os = "linux")]
+mod chromium_host;
 pub mod commands;
 pub mod db;
 pub mod discord;
@@ -124,6 +126,16 @@ pub fn run() {
         context.config_mut().identifier = profile::profile_identifier(&default_identifier, name);
     }
 
+    #[cfg(target_os = "linux")]
+    let chromium = chromium_host::enabled();
+    #[cfg(not(target_os = "linux"))]
+    let chromium = false;
+
+    #[cfg(target_os = "linux")]
+    if chromium {
+        chromium_host::configure(&mut context);
+    }
+
     let specta_builder = specta_builder();
 
     #[cfg(debug_assertions)]
@@ -152,7 +164,7 @@ pub fn run() {
                 )
                 .build(),
         )
-        .plugin(setup::log_plugin());
+        .plugin(setup::log_plugin(chromium));
 
     if !is_flatpak {
         builder = builder
@@ -160,8 +172,19 @@ pub fn run() {
             .plugin(tauri_plugin_process::init());
     }
 
+    let invoke_commands = specta_builder.invoke_handler();
+    #[cfg(target_os = "linux")]
+    let invoke_chromium: fn(tauri::ipc::Invoke<tauri::Wry>) -> bool =
+        tauri::generate_handler![chromium_host::chromium_host_message];
+
     builder
-        .invoke_handler(specta_builder.invoke_handler())
+        .invoke_handler(move |invoke| {
+            #[cfg(target_os = "linux")]
+            if invoke.message.command() == "chromium_host_message" {
+                return invoke_chromium(invoke);
+            }
+            invoke_commands(invoke)
+        })
         .manage(profile::DefaultIdentifier(default_identifier))
         .manage(light_profile::CurrentProfile::new(profile.clone()))
         .setup(move |app| {
@@ -176,6 +199,12 @@ pub fn run() {
             stream_server::init_stream_server(app.handle().clone());
             discord::init_discord(app.handle().clone());
             history::init_history(app.handle().clone());
+
+            #[cfg(target_os = "linux")]
+            if chromium {
+                chromium_host::read_requests(app);
+                return Ok(());
+            }
 
             #[cfg(target_os = "linux")]
             maximize_for_gamescope(app);

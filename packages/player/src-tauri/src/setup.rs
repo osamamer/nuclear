@@ -3,10 +3,15 @@ use crate::logging;
 const MAX_LOG_FILE_SIZE: u128 = 5_000_000; // 5MB
 const MAX_LOG_FILES: usize = 7;
 
-pub fn log_plugin<R: tauri::Runtime>() -> tauri::plugin::TauriPlugin<R> {
+pub fn log_plugin<R: tauri::Runtime>(use_stderr: bool) -> tauri::plugin::TauriPlugin<R> {
+    let terminal = if use_stderr {
+        tauri_plugin_log::TargetKind::Stderr
+    } else {
+        tauri_plugin_log::TargetKind::Stdout
+    };
     tauri_plugin_log::Builder::default()
         .targets([
-            tauri_plugin_log::Target::new(tauri_plugin_log::TargetKind::Stdout),
+            tauri_plugin_log::Target::new(terminal),
             tauri_plugin_log::Target::new(tauri_plugin_log::TargetKind::LogDir { file_name: None }),
             tauri_plugin_log::Target::new(tauri_plugin_log::TargetKind::Webview),
         ])

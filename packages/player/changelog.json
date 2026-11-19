@@ -1,5 +1,19 @@
 [
   {
+    "date": "2026-11-20T00:00",
+    "description": "Added an experimental Chromium launcher for Linux that uses Nuclear’s existing interface and profiles.",
+    "type": "improvement",
+    "contributors": [
+      "nukeop"
+    ],
+    "tags": [
+      {
+        "label": "Linux",
+        "color": "purple"
+      }
+    ]
+  },
+  {
     "date": "2026-11-19T00:00",
     "description": "Fixed the app freezing when opening Discover or loading many playlists at once, and the window now always appears on startup.",
     "type": "fix",
