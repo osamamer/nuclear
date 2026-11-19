@@ -1,6 +1,30 @@
 [
   {
     "date": "2026-11-20T00:00",
+    "description": "Nuclear launches in Chromium on Debian. Side drawers open more smoothly, Playlists expands in place, and track menus open at the pointer. Playlist columns align, the AI Curator stays visible, and a desktop timeout closes Nuclear without a crash popup.",
+    "type": "improvement",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Appearance",
+        "color": "purple"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-20T00:00",
+    "description": "Previous Track follows shuffle history and falls back to queue order. Lyrics opens from the playback bar, and the active lyric has a thinner underline.",
+    "type": "fix",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Playback",
+        "color": "purple"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-20T00:00",
     "description": "Scrollbar tracks follow the dark theme, and the rejection shake no longer flashes a horizontal scrollbar.",
     "type": "fix",
     "contributors": [

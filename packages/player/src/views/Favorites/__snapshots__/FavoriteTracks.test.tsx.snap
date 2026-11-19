@@ -237,6 +237,12 @@ exports[`FavoriteTracks view > (Snapshot) renders with tracks 1`] = `
                     class="relative w-full table-fixed border-separate border-spacing-0"
                     role="table"
                   >
+                    <colgroup>
+                      <col />
+                      <col
+                        class="w-10"
+                      />
+                    </colgroup>
                     <thead
                       class="sticky top-0 z-10"
                     >
@@ -245,7 +251,7 @@ exports[`FavoriteTracks view > (Snapshot) renders with tracks 1`] = `
                         role="row"
                       >
                         <th
-                          class="text-foreground/55 px-2 py-2 text-left text-[11px] font-semibold tracking-wider uppercase w-[40%] cursor-pointer"
+                          class="text-foreground/55 px-2 py-2 text-left text-[11px] font-semibold tracking-wider uppercase pl-15 cursor-pointer"
                           role="columnheader"
                         >
                           <span
@@ -380,12 +386,12 @@ exports[`FavoriteTracks view > (Snapshot) renders with tracks 1`] = `
                                 aria-expanded="false"
                                 aria-haspopup="menu"
                                 aria-label="Track options"
-                                class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground hover:bg-primary/10 size-8 justify-center opacity-0 transition-none group-hover:opacity-100"
+                                class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground hover:bg-primary/10 size-8 justify-center opacity-0 transition-none group-hover:opacity-100 focus-visible:opacity-100"
                                 data-headlessui-state=""
                                 data-state="closed"
                                 data-testid="track-context-menu-button"
                                 data-track-context-trigger=""
-                                id="radix-:rq:"
+                                id=":rq:"
                                 type="button"
                               >
                                 <svg
@@ -547,12 +553,12 @@ exports[`FavoriteTracks view > (Snapshot) renders with tracks 1`] = `
                                 aria-expanded="false"
                                 aria-haspopup="menu"
                                 aria-label="Track options"
-                                class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground hover:bg-primary/10 size-8 justify-center opacity-0 transition-none group-hover:opacity-100"
+                                class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground hover:bg-primary/10 size-8 justify-center opacity-0 transition-none group-hover:opacity-100 focus-visible:opacity-100"
                                 data-headlessui-state=""
                                 data-state="closed"
                                 data-testid="track-context-menu-button"
                                 data-track-context-trigger=""
-                                id="radix-:rs:"
+                                id=":rs:"
                                 type="button"
                               >
                                 <svg

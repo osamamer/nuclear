@@ -214,6 +214,10 @@ fn launcher_executable() -> Result<String, String> {
     if let Ok(appimage) = std::env::var("APPIMAGE") {
         return Ok(appimage);
     }
+    #[cfg(target_os = "linux")]
+    if crate::chromium_host::enabled() {
+        return Ok("/usr/bin/nuclear-music-player".into());
+    }
     std::env::current_exe()
         .map(|path| path.to_string_lossy().to_string())
         .map_err(|error| format!("Failed to find the Nuclear executable: {error}"))

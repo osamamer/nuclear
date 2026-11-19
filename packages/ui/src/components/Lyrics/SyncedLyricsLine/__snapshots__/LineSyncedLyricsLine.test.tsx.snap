@@ -6,14 +6,15 @@ exports[`LineSyncedLyricsLine > (Snapshot) renders a line halfway through 1`] = 
     class="hover:text-foreground block w-full cursor-pointer py-1 text-left transition-colors duration-100 text-foreground"
     data-active="true"
     data-testid="lyrics-line"
+    dir="ltr"
     type="button"
   >
     <span
       class="block"
     >
       <span
-        class="to-primary bg-linear-to-b from-transparent from-60% to-60% bg-no-repeat transition-all duration-300 ease-out"
-        style="background-size: 100%;"
+        class="from-primary to-primary bg-linear-to-r bg-left-bottom bg-no-repeat transition-[background-size] duration-300 ease-out"
+        style="background-size: 100% 0.1em;"
       >
         Lorem ipsum dolor sit amet
       </span>
@@ -28,14 +29,15 @@ exports[`LineSyncedLyricsLine > (Snapshot) renders a line that has already playe
     class="hover:text-foreground block w-full cursor-pointer py-1 text-left transition-colors duration-100 text-foreground/40"
     data-active="false"
     data-testid="lyrics-line"
+    dir="ltr"
     type="button"
   >
     <span
       class="block"
     >
       <span
-        class="to-primary bg-linear-to-b from-transparent from-60% to-60% bg-no-repeat transition-all duration-300 ease-out"
-        style="background-size: 0%;"
+        class="from-primary to-primary bg-linear-to-r bg-left-bottom bg-no-repeat transition-[background-size] duration-300 ease-out"
+        style="background-size: 0% 0.1em;"
       >
         Lorem ipsum dolor sit amet
       </span>
@@ -50,14 +52,15 @@ exports[`LineSyncedLyricsLine > (Snapshot) renders a line that has not played ye
     class="text-foreground/60 hover:text-foreground block w-full cursor-pointer py-1 text-left transition-colors duration-100"
     data-active="false"
     data-testid="lyrics-line"
+    dir="ltr"
     type="button"
   >
     <span
       class="block"
     >
       <span
-        class="to-primary bg-linear-to-b from-transparent from-60% to-60% bg-no-repeat transition-all duration-300 ease-out"
-        style="background-size: 0%;"
+        class="from-primary to-primary bg-linear-to-r bg-left-bottom bg-no-repeat transition-[background-size] duration-300 ease-out"
+        style="background-size: 0% 0.1em;"
       >
         Lorem ipsum dolor sit amet
       </span>
@@ -72,14 +75,15 @@ exports[`LineSyncedLyricsLine > (Snapshot) renders ruby, background vocals, and 
     class="hover:text-foreground block w-full cursor-pointer py-1 text-left transition-colors duration-100 text-foreground"
     data-active="true"
     data-testid="lyrics-line"
+    dir="ltr"
     type="button"
   >
     <span
       class="block"
     >
       <span
-        class="to-primary bg-linear-to-b from-transparent from-60% to-60% bg-no-repeat transition-all duration-300 ease-out"
-        style="background-size: 100%;"
+        class="from-primary to-primary bg-linear-to-r bg-left-bottom bg-no-repeat transition-[background-size] duration-300 ease-out"
+        style="background-size: 100% 0.1em;"
       >
         <ruby
           data-testid="lyrics-ruby"

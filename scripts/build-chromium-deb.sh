@@ -6,55 +6,64 @@ repo_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 player="$repo_root/packages/player"
 chromium="$player/chromium"
 linux="$chromium/linux"
-version="${1:?Version is required}"
-architecture="${2:?Debian architecture is required}"
-destination="${3:?Output file is required}"
+backend_deb="${1:?Tauri Debian package is required}"
+destination="${2:?Output file is required}"
+electron_version=45.3.3
 electron_bin="${NUCLEAR_ELECTRON_BIN:-}"
 
+if [[ -z "$electron_bin" && -x /usr/lib/nuclear-chromium/electron ]]; then
+  if [[ "$(ELECTRON_RUN_AS_NODE=1 /usr/lib/nuclear-chromium/electron -p 'process.versions.electron')" == "$electron_version" ]]; then
+    electron_bin=/usr/lib/nuclear-chromium/electron
+  fi
+fi
 if [[ -z "$electron_bin" ]]; then
-  export npm_config_manage_package_manager_versions=false
-  pnpm dlx electron@45.3.3 --version >&2
-  electron_bin="$(ELECTRON_RUN_AS_NODE=1 pnpm dlx electron@45.3.3 -p 'process.execPath')"
+  electron_bin="$(ELECTRON_RUN_AS_NODE=1 pnpm dlx "electron@$electron_version" -p 'process.execPath')"
 fi
 
 electron_dir="$(dirname -- "$(realpath -- "$electron_bin")")"
-if [[ ! -x "$electron_dir/electron" || ! -f "$electron_dir/icudtl.dat" ]]; then
-  printf 'An Electron 45.3.3 distribution is required.\n' >&2
+if [[ ! -x "$electron_dir/electron" || ! -f "$electron_dir/icudtl.dat" ||
+      "$(ELECTRON_RUN_AS_NODE=1 "$electron_dir/electron" -p 'process.versions.electron')" != "$electron_version" ]]; then
+  printf 'An Electron %s distribution is required.\n' "$electron_version" >&2
   exit 1
 fi
 
 stage="$(mktemp -d)"
 trap 'rm -rf -- "$stage"' EXIT
+chmod 755 "$stage"
+dpkg-deb --raw-extract "$backend_deb" "$stage"
 runtime="$stage/usr/lib/nuclear-chromium"
-install -d "$stage/DEBIAN" "$stage/etc/apparmor.d" "$stage/usr/bin" \
-  "$stage/usr/share/applications" "$runtime/chromium" "$runtime/src-tauri/icons"
+install -d "$stage/etc/apparmor.d" "$runtime/chromium" "$runtime/src-tauri/icons"
 
-cp -R -- "$electron_dir/." "$runtime/"
-chmod 755 "$stage" "$runtime"
+for file in "$electron_dir"/*; do
+  case "${file##*/}" in
+    chromium|dist|src-tauri|nuclear-music-player) continue ;;
+  esac
+  cp -R -- "$file" "$runtime/"
+done
+mv -- "$stage/usr/bin/nuclear-music-player" "$runtime/"
 cp -R -- "$player/dist" "$runtime/dist"
 find "$runtime" -type d -exec chmod 0755 {} +
 find "$runtime/dist" -type f -exec chmod 0644 {} +
 install -m644 "$chromium/main.mjs" "$chromium/preload.cjs" "$chromium/renderer.js" "$runtime/chromium/"
 install -m644 "$player/src-tauri/icons/icon.png" "$runtime/src-tauri/icons/"
-install -m755 "$linux/nuclear-chromium" "$stage/usr/bin/"
-install -m644 "$linux/com.nuclearplayer.ChromiumPreview.desktop" "$stage/usr/share/applications/"
+install -m755 "$linux/nuclear-music-player" "$stage/usr/bin/"
 install -m644 "$linux/nuclear-chromium.apparmor" "$stage/etc/apparmor.d/nuclear-chromium"
 install -m755 "$linux/postinst" "$linux/prerm" "$stage/DEBIAN/"
-printf '/etc/apparmor.d/nuclear-chromium\n' > "$stage/DEBIAN/conffiles"
+printf '/etc/apparmor.d/nuclear-chromium\n' >> "$stage/DEBIAN/conffiles"
 
-cat > "$stage/DEBIAN/control" <<EOF
-Package: nuclear-chromium
-Version: $version
-Architecture: $architecture
-Section: sound
-Priority: optional
-Maintainer: Nuclear contributors
-Homepage: https://nuclearplayer.com
-Depends: nuclear (= $version), libgtk-3-0t64 | libgtk-3-0, libasound2t64 | libasound2, libnss3, libgbm1, libxss1
-Recommends: apparmor
-Description: Chromium preview for Nuclear Music Player
- Runs the existing Nuclear interface and player features in Chromium.
-EOF
+installed_size="$(du -sk "$stage/usr" "$stage/etc" | awk '{ sum += $1 } END { print sum }')"
+dependencies='libgtk-3-0t64 | libgtk-3-0, libasound2t64 | libasound2, libnss3, libgbm1, libxss1'
+awk -v size="$installed_size" -v dependencies="$dependencies" '
+  /^Installed-Size:/ { print "Installed-Size: " size; next }
+  /^Depends:/ { print $0 ", " dependencies; next }
+  /^Description:/ {
+    print "Conflicts: nuclear-chromium"
+    print "Replaces: nuclear-chromium"
+    print "Recommends: apparmor"
+  }
+  { print }
+' "$stage/DEBIAN/control" > "$stage/DEBIAN/control.new"
+mv -- "$stage/DEBIAN/control.new" "$stage/DEBIAN/control"
 
 (
   cd "$stage"

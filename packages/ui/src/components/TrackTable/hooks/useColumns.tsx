@@ -40,7 +40,10 @@ export function useColumns<T extends Track = Track>(
           id: 'title',
           enableSorting: true,
           header: (context) => (
-            <TextHeader context={context} className="w-[40%]">
+            <TextHeader
+              context={context}
+              className={display?.displayThumbnail ? 'pl-15' : undefined}
+            >
               {labels.headers.title}
             </TextHeader>
           ),
@@ -66,7 +69,7 @@ export function useColumns<T extends Track = Track>(
             id: 'duration',
             enableSorting: true,
             header: (context) => (
-              <TextHeader context={context} className="w-24">
+              <TextHeader context={context} className="[&>span]:justify-end">
                 {labels.headers.duration}
               </TextHeader>
             ),

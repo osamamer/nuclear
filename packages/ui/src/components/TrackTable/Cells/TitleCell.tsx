@@ -53,8 +53,7 @@ const ContextMenuButton = forwardRef<HTMLElement, ContextMenuButtonProps>(
         data-testid="track-context-menu-button"
         size="icon-sm"
         variant="text"
-        className="opacity-0 transition-none group-hover:opacity-100"
-        onClick={(e) => e.stopPropagation()}
+        className="opacity-0 transition-none group-hover:opacity-100 focus-visible:opacity-100"
         aria-label={label}
       >
         <EllipsisVertical size={16} />

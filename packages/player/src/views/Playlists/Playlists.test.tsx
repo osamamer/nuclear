@@ -108,8 +108,10 @@ describe('Playlists view', () => {
     expect(PlaylistsWrapper.sidebarPlaylistLinks).toHaveLength(0);
     await PlaylistsWrapper.playlistsNavigation.click();
     expect(PlaylistsWrapper.sidebarPlaylistLinks).toHaveLength(22);
+    await PlaylistsWrapper.card(0).click();
     await PlaylistsWrapper.playlistsNavigation.click();
     expect(PlaylistsWrapper.sidebarPlaylistLinks).toHaveLength(0);
+    expect(PlaylistsWrapper.detailView).toBeInTheDocument();
     await PlaylistsWrapper.settingsNavigation.click();
     expect(PlaylistsWrapper.settingsDialog).toBeInTheDocument();
   });

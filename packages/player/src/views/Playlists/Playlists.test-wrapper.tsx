@@ -126,9 +126,7 @@ export const PlaylistsWrapper = {
 
   playlistsNavigation: {
     get element() {
-      return within(
-        screen.getByRole('link', { name: 'Playlists' }),
-      ).getByTestId('sidebar-navigation-item');
+      return screen.getByRole('button', { name: 'Playlists', exact: true });
     },
     async click() {
       await user.click(this.element);

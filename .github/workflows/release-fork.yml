@@ -1,8 +1,5 @@
 name: Release Fork
 
-# Every push to master publishes a Linux build of this fork as a GitHub release,
-# with the latest.json the in-app updater reads (see plugins.updater in
-# packages/player/src-tauri/tauri.conf.json). Installed copies update themselves.
 on:
   push:
     branches: [master]
@@ -75,22 +72,39 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf gstreamer1.0-libav
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf gstreamer1.0-libav libasound2 libgbm1 libnss3 libxss1
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build and publish release
-        uses: tauri-apps/tauri-action@v1
+      - name: Build Chromium Debian package
+        run: |
+          pnpm --filter @nuclearplayer/player exec tauri build --bundles deb --no-sign --config '{"bundle":{"createUpdaterArtifacts":false}}'
+          mkdir -p release-assets
+          scripts/build-chromium-deb.sh \
+            "packages/player/src-tauri/target/release/bundle/deb/Nuclear_${VERSION}_amd64.deb" \
+            "release-assets/Nuclear_${VERSION}_amd64.deb"
+
+      - name: Sign package and write updater manifest
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
-        with:
-          args: --bundles appimage,deb
-          tagName: v__VERSION__
-          releaseName: Nuclear (osama fork) v__VERSION__
-          releaseBody: Automated build of ${{ github.sha }}. Installed copies update themselves; for a first install grab the AppImage or .deb below.
-          releaseDraft: false
-          prerelease: false
-          includeUpdaterJson: true
+        run: |
+          asset="Nuclear_${VERSION}_amd64.deb"
+          pnpm --filter @nuclearplayer/player exec tauri signer sign "$GITHUB_WORKSPACE/release-assets/$asset"
+          jq -n --arg version "$VERSION" \
+            --arg url "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/releases/download/v$VERSION/$asset" \
+            --rawfile signature "release-assets/$asset.sig" \
+            '{version: $version, platforms: {"linux-x86_64-deb": {url: $url, signature: ($signature | rtrimstr("\n"))}}}' \
+            > release-assets/latest.json
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if gh release view "v$VERSION" >/dev/null 2>&1; then
+            gh release upload "v$VERSION" release-assets/* --clobber
+          else
+            gh release create "v$VERSION" release-assets/* --target "$GITHUB_SHA" \
+              --title "Nuclear v$VERSION" --notes "Debian build with sandboxed Chromium from $GITHUB_SHA."
+          fi

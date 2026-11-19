@@ -1,4 +1,4 @@
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import { Slot } from '@radix-ui/react-slot';
 import { FC, ReactNode } from 'react';
 
 import { useTrackContextMenu } from './context';
@@ -11,20 +11,36 @@ type TrackContextMenuTriggerProps = {
 export const TrackContextMenuTrigger: FC<TrackContextMenuTriggerProps> = ({
   children,
 }) => {
-  const { open } = useTrackContextMenu();
+  const { isOpen, open, triggerRef, triggerId, contentId } =
+    useTrackContextMenu();
 
   return (
-    <DropdownMenu.Trigger
-      asChild
+    <Slot
+      ref={triggerRef}
+      id={triggerId}
+      aria-haspopup="menu"
+      aria-expanded={isOpen}
+      aria-controls={isOpen ? contentId : undefined}
+      data-state={isOpen ? 'open' : 'closed'}
       {...{ [TRACK_CONTEXT_MENU_TRIGGER_ATTRIBUTE]: '' }}
-      onClick={(event) => event.stopPropagation()}
-      onContextMenu={(event) => {
-        event.preventDefault();
+      onClick={(event) => {
         event.stopPropagation();
         open();
       }}
+      onKeyDown={(event) => {
+        if (event.key === 'ArrowDown') {
+          event.preventDefault();
+          open();
+        }
+      }}
+      onContextMenu={(event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const { clientX, clientY, button, ctrlKey } = event;
+        open(button === 2 || ctrlKey ? { clientX, clientY } : undefined);
+      }}
     >
       {children}
-    </DropdownMenu.Trigger>
+    </Slot>
   );
 };

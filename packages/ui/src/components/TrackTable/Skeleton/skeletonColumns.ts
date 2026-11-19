@@ -15,14 +15,19 @@ export const getSkeletonColumns = (
 ): SkeletonColumn[] => {
   const columns: SkeletonColumnDefinition[] = [
     { id: 'position', kind: 'icon', visible: display.displayPosition },
-    { id: 'title', kind: 'text', visible: true, className: 'w-[40%]' },
+    {
+      id: 'title',
+      kind: 'text',
+      visible: true,
+      className: display.displayThumbnail ? 'pl-15' : undefined,
+    },
     { id: 'album', kind: 'text', visible: display.displayAlbum },
     { id: 'favorite', kind: 'icon', visible: display.displayFavorite },
     {
       id: 'duration',
       kind: 'text',
       visible: display.displayDuration,
-      className: 'w-24',
+      className: '[&>div]:justify-end',
     },
     { id: 'delete', kind: 'icon', visible: display.displayDeleteButton },
   ];

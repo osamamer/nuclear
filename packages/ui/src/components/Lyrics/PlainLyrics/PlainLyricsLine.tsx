@@ -13,7 +13,7 @@ type PlainLyricsLineProps = {
 };
 
 export const PlainLyricsLine: FC<PlainLyricsLineProps> = ({ line }) => (
-  <div data-testid="lyrics-line" className="py-1">
+  <div data-testid="lyrics-line" dir="ltr" className="py-1 text-left">
     <p>
       <LyricsSegments segments={line.segments} />
       {line.background && <LyricsBackgroundVocals segments={line.background} />}

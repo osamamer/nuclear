@@ -9,8 +9,9 @@ exports[`PlainLyrics > (Snapshot) renders ruby, background vocals, and annotatio
       data-testid="lyrics-section"
     >
       <div
-        class="py-1"
+        class="py-1 text-left"
         data-testid="lyrics-line"
+        dir="ltr"
       >
         <p>
           <ruby
@@ -91,16 +92,18 @@ exports[`PlainLyrics > (Snapshot) renders sections with and without labels 1`] =
         Verse 1
       </div>
       <div
-        class="py-1"
+        class="py-1 text-left"
         data-testid="lyrics-line"
+        dir="ltr"
       >
         <p>
           Lorem ipsum dolor sit amet
         </p>
       </div>
       <div
-        class="py-1"
+        class="py-1 text-left"
         data-testid="lyrics-line"
+        dir="ltr"
       >
         <p>
           Consectetur 
@@ -112,8 +115,9 @@ exports[`PlainLyrics > (Snapshot) renders sections with and without labels 1`] =
       data-testid="lyrics-section"
     >
       <div
-        class="py-1"
+        class="py-1 text-left"
         data-testid="lyrics-line"
+        dir="ltr"
       >
         <p>
           Sed do eiusmod tempor

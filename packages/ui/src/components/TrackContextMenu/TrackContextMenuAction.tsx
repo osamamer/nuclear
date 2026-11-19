@@ -1,4 +1,4 @@
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import * as Menu from '@radix-ui/react-menu';
 import { FC, ReactNode } from 'react';
 
 import { cn } from '../../utils';
@@ -17,7 +17,7 @@ export const TrackContextMenuAction: FC<TrackContextMenuActionProps> = ({
   'data-testid': testId,
 }) => {
   return (
-    <DropdownMenu.Item
+    <Menu.Item
       className={cn(
         'flex w-full cursor-pointer items-center gap-3 border-t border-transparent px-3 py-2 text-left text-sm outline-none not-last:border-b',
         'data-[highlighted]:bg-muted data-[highlighted]:border-border nth-[2]:border-t-transparent',
@@ -27,6 +27,6 @@ export const TrackContextMenuAction: FC<TrackContextMenuActionProps> = ({
     >
       <span className="shrink-0">{icon}</span>
       <span>{children}</span>
-    </DropdownMenu.Item>
+    </Menu.Item>
   );
 };

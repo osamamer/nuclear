@@ -200,6 +200,7 @@
   },
   "playlists": {
     "title": "Playlists",
+    "allPlaylists": "All playlists",
     "empty": "No playlists yet",
     "emptyDescription": "Create a playlist or import one to get started",
     "emptyTracks": "No tracks in this playlist",

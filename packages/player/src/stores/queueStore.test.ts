@@ -479,13 +479,40 @@ describe('useQueueStore', () => {
       randomSpy.mockRestore();
     });
 
-    it('goToPrevious picks a different random index when shuffle is enabled', () => {
-      const randomSpy = vi.spyOn(Math, 'random').mockReturnValue(0.4);
+    it('retraces the tracks played on shuffle in both directions after reordering', () => {
+      const randomSpy = vi
+        .spyOn(Math, 'random')
+        .mockReturnValueOnce(0.9)
+        .mockReturnValueOnce(0.4);
       useSettingsStore.setState({ values: { 'core.playback.shuffle': true } });
-      useQueueStore.setState({ currentIndex: 2 });
-      useQueueStore.getState().goToPrevious('automatic');
-      expect(useQueueStore.getState().currentIndex).toBe(1);
+      const queue = useQueueStore.getState();
+      queue.goToNext('automatic');
+      queue.goToNext('automatic');
       randomSpy.mockRestore();
+      expect(queue.getCurrentItem()?.track.title).toBe('Track 2');
+      queue.reorder(2, 0);
+
+      queue.goToPrevious();
+      expect(queue.getCurrentItem()?.track.title).toBe('Track 3');
+      queue.goToPrevious();
+      expect(queue.getCurrentItem()?.track.title).toBe('Track 1');
+      queue.goToNext();
+      expect(queue.getCurrentItem()?.track.title).toBe('Track 3');
+    });
+
+    it('steps back in queue order when there is no shuffle history', () => {
+      const queue = useQueueStore.getState();
+      queue.replaceQueue(
+        queue.items.map((item) => item.track),
+        undefined,
+        2,
+      );
+      useSettingsStore.setState({ values: { 'core.playback.shuffle': true } });
+
+      queue.goToPrevious();
+      expect(queue.getCurrentItem()?.track.title).toBe('Track 2');
+      queue.goToPrevious();
+      expect(queue.getCurrentItem()?.track.title).toBe('Track 1');
     });
   });
 

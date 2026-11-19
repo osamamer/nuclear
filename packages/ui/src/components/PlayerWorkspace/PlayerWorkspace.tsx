@@ -38,7 +38,7 @@ const PlayerWorkspaceImpl: FC<PlayerWorkspaceProps> = ({
   return (
     <div
       className={cn(
-        'surface-muted relative grid h-full min-h-0 grid-cols-[auto_1fr_auto]',
+        'surface-muted relative grid h-full min-h-0 grid-cols-[auto_minmax(0,1fr)_auto]',
         className,
       )}
     >

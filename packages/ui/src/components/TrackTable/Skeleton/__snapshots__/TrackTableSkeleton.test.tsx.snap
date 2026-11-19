@@ -7,12 +7,18 @@ exports[`TrackTableSkeleton > (Snapshot) Defaults 1`] = `
     data-testid="track-table-skeleton"
     role="table"
   >
+    <colgroup>
+      <col />
+      <col
+        class="w-24"
+      />
+    </colgroup>
     <thead>
       <tr
         class="border-border/50 bg-background/95 text-foreground/55 border-b text-xs font-semibold tracking-wide uppercase"
       >
         <th
-          class="px-2 text-left w-[40%]"
+          class="px-2 text-left pl-15"
           role="columnheader"
         >
           <div
@@ -25,7 +31,7 @@ exports[`TrackTableSkeleton > (Snapshot) Defaults 1`] = `
           </div>
         </th>
         <th
-          class="px-2 text-left w-24"
+          class="px-2 text-left [&>div]:justify-end"
           role="columnheader"
         >
           <div
@@ -512,6 +518,12 @@ exports[`TrackTableSkeleton > (Snapshot) WithPositionAndWithoutDuration 1`] = `
     data-testid="track-table-skeleton"
     role="table"
   >
+    <colgroup>
+      <col
+        class="w-10"
+      />
+      <col />
+    </colgroup>
     <thead>
       <tr
         class="border-border/50 bg-background/95 text-foreground/55 border-b text-xs font-semibold tracking-wide uppercase"
@@ -530,7 +542,7 @@ exports[`TrackTableSkeleton > (Snapshot) WithPositionAndWithoutDuration 1`] = `
           </div>
         </th>
         <th
-          class="px-2 text-left w-[40%]"
+          class="px-2 text-left pl-15"
           role="columnheader"
         >
           <div

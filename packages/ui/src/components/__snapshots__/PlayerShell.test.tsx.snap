@@ -15,51 +15,56 @@ exports[`PlayerShell > matches snapshot with complete layout 1`] = `
       data-tauri-drag-region="true"
     />
     <div
-      class="surface-muted relative grid h-full min-h-0 grid-cols-[auto_1fr_auto]"
+      class="surface-muted relative grid h-full min-h-0 grid-cols-[auto_minmax(0,1fr)_auto]"
     >
       <div
-        class="border-border relative flex flex-col overflow-hidden transition-[width] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none surface-sidebar-left border-r-(length:--border-width) p-2"
+        class="border-border relative flex min-h-0 flex-col overflow-clip transition-[width] duration-280 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none surface-sidebar-left border-r-(length:--border-width) p-2"
         data-testid="sidebar-left"
-        style="width: 200px;"
+        style="width: 200px; --sidebar-content-width: 200px;"
       >
-        <span
-          class="mb-3 flex flex-row items-center justify-start px-2 pt-2"
-        >
-          <button
-            class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground/60 hover:bg-muted/70 hover:text-foreground size-8 justify-center p-0 [&>svg]:size-4"
-            data-headlessui-state=""
-            data-testid="sidebar-toggle-left"
-            type="button"
-          >
-            <svg
-              aria-hidden="true"
-              class="lucide lucide-panel-left"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect
-                height="18"
-                rx="2"
-                width="18"
-                x="3"
-                y="3"
-              />
-              <path
-                d="M9 3v18"
-              />
-            </svg>
-          </button>
-        </span>
         <div
-          class="flex flex-1 flex-col overflow-hidden px-2 pb-2"
-        />
+          class="flex h-full min-h-0 flex-col w-[calc(var(--sidebar-content-width)-var(--border-width)-1rem)]"
+        >
+          <span
+            class="mb-3 flex flex-row items-center gap-1 px-2 pt-2"
+          >
+            <button
+              aria-expanded="true"
+              class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground/60 hover:bg-muted/70 hover:text-foreground size-8 shrink-0 justify-center p-0 [&>svg]:size-4"
+              data-headlessui-state=""
+              data-testid="sidebar-toggle-left"
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-panel-left"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect
+                  height="18"
+                  rx="2"
+                  width="18"
+                  x="3"
+                  y="3"
+                />
+                <path
+                  d="M9 3v18"
+                />
+              </svg>
+            </button>
+          </span>
+          <div
+            class="flex min-h-0 flex-1 flex-col overflow-hidden px-2 pb-2 motion-safe:animate-in motion-safe:fade-in-0 motion-safe:duration-300 motion-safe:ease-out motion-safe:slide-in-from-left-2"
+          />
+        </div>
         <div
           class="absolute top-0 bottom-0 w-1 cursor-col-resize transition-colors right-0"
         />
@@ -69,48 +74,53 @@ exports[`PlayerShell > matches snapshot with complete layout 1`] = `
         data-testid="player-workspace-main"
       />
       <div
-        class="border-border relative flex flex-col overflow-hidden transition-[width] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none surface-sidebar-right border-l-(length:--border-width)"
+        class="border-border relative flex min-h-0 flex-col overflow-clip transition-[width] duration-280 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none surface-sidebar-right border-l-(length:--border-width)"
         data-testid="sidebar-right"
-        style="width: 200px;"
+        style="width: 200px; --sidebar-content-width: 200px;"
       >
-        <span
-          class="mb-3 flex flex-row items-center justify-start px-2 pt-2"
-        >
-          <button
-            class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground/60 hover:bg-muted/70 hover:text-foreground size-8 justify-center p-0 [&>svg]:size-4"
-            data-headlessui-state=""
-            data-testid="sidebar-toggle-right"
-            type="button"
-          >
-            <svg
-              aria-hidden="true"
-              class="lucide lucide-panel-right"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect
-                height="18"
-                rx="2"
-                width="18"
-                x="3"
-                y="3"
-              />
-              <path
-                d="M15 3v18"
-              />
-            </svg>
-          </button>
-        </span>
         <div
-          class="flex flex-1 flex-col overflow-hidden px-2 pb-2"
-        />
+          class="flex h-full min-h-0 flex-col w-[calc(var(--sidebar-content-width)-var(--border-width))] self-end"
+        >
+          <span
+            class="mb-3 flex items-center gap-1 px-2 pt-2 flex-row-reverse"
+          >
+            <button
+              aria-expanded="true"
+              class="data-selected:bg-primary/10 data-selected:text-primary inline-flex cursor-pointer items-center rounded-md whitespace-nowrap transition-colors outline-none disabled:cursor-not-allowed disabled:opacity-50 text-foreground/60 hover:bg-muted/70 hover:text-foreground size-8 shrink-0 justify-center p-0 [&>svg]:size-4"
+              data-headlessui-state=""
+              data-testid="sidebar-toggle-right"
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-panel-right"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect
+                  height="18"
+                  rx="2"
+                  width="18"
+                  x="3"
+                  y="3"
+                />
+                <path
+                  d="M15 3v18"
+                />
+              </svg>
+            </button>
+          </span>
+          <div
+            class="flex min-h-0 flex-1 flex-col overflow-hidden px-2 pb-2 motion-safe:animate-in motion-safe:fade-in-0 motion-safe:duration-300 motion-safe:ease-out motion-safe:slide-in-from-right-2"
+          />
+        </div>
         <div
           class="absolute top-0 bottom-0 w-1 cursor-col-resize transition-colors left-0"
         />

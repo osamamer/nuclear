@@ -11,12 +11,15 @@ export const openNearestTrackContextMenu = (event: MouseEvent<HTMLElement>) => {
     return;
   }
   event.preventDefault();
+  event.stopPropagation();
   trigger.dispatchEvent(
     new window.MouseEvent('contextmenu', {
       bubbles: true,
       cancelable: true,
       clientX: event.clientX,
       clientY: event.clientY,
+      button: event.button,
+      ctrlKey: event.ctrlKey,
     }),
   );
 };

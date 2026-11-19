@@ -79,9 +79,11 @@ function startBackend() {
   return new Promise((ready, fail) => {
     const args = profile ? ['--profile', profile] : [];
     child = spawn(
-      process.env.NUCLEAR_CHROMIUM_BACKEND || '/usr/bin/nuclear-music-player',
+      process.env.NUCLEAR_CHROMIUM_BACKEND ||
+        '/usr/lib/nuclear-chromium/nuclear-music-player',
       args,
       {
+        argv0: '/usr/bin/nuclear-music-player',
         env: { ...process.env, NUCLEAR_CHROMIUM_HOST: 'stdio' },
         stdio: ['pipe', 'pipe', 'inherit'],
       },
@@ -96,13 +98,21 @@ function startBackend() {
       fail(error);
       stopPending(error.message);
     });
-    child.on('exit', (code) => {
-      const error = `The Nuclear backend exited (${code ?? 'signal'})`;
+    child.on('exit', (code, signal) => {
+      const error = `The Nuclear backend exited (${signal ?? code})`;
+      const normalShutdown =
+        stopping || code === 0 || signal === 'SIGTERM' || signal === 'SIGINT';
       clearTimeout(timer);
+      if (normalShutdown) {
+        stopping = true;
+      }
       fail(new Error(error));
       stopPending(error);
-      if (!stopping && window && !window.isDestroyed()) {
-        dialog.showErrorBox('Nuclear', error);
+      if (window && !window.isDestroyed()) {
+        if (!normalShutdown) {
+          console.error(error);
+          dialog.showErrorBox('Nuclear', error);
+        }
         app.quit();
       }
     });
@@ -199,6 +209,10 @@ async function invoke(event, command, args, options) {
     case 'plugin:window|set_decorations':
     case 'plugin:window|set_minimizable':
     case 'plugin:window|start_dragging':
+      break;
+    case 'plugin:process|restart':
+      app.relaunch();
+      app.quit();
       break;
     case 'set_app_icon':
       window.setIcon(nativeImage.createFromBuffer(Buffer.from(args.png)));
@@ -332,11 +346,15 @@ async function start() {
 
 app.on('before-quit', shutdown);
 app.on('window-all-closed', () => app.quit());
+process.once('SIGTERM', () => app.quit());
+process.once('SIGINT', () => app.quit());
 app
   .whenReady()
   .then(start)
   .catch((error) => {
-    console.error(error.message);
-    dialog.showErrorBox('Nuclear', error.message);
+    if (!stopping) {
+      console.error(error.message);
+      dialog.showErrorBox('Nuclear', error.message);
+    }
     app.quit();
   });

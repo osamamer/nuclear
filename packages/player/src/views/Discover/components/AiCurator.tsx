@@ -66,7 +66,7 @@ export const AiCurator: FC<{ profile: TasteProfile | undefined }> = ({
     <>
       <section
         data-testid="discover-ai"
-        className="border-border bg-primary/10 shadow-shadow relative mb-8 w-full overflow-hidden rounded-3xl border-(length:--border-width) p-5 sm:p-7"
+        className="border-border bg-primary/10 shadow-shadow relative mb-8 w-full shrink-0 overflow-hidden rounded-3xl border-(length:--border-width) p-5 sm:p-7"
       >
         <div className="bg-primary/25 pointer-events-none absolute -top-16 -right-16 size-56 rounded-full blur-3xl" />
         <div className="relative">

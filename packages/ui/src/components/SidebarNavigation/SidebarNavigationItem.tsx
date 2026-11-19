@@ -1,4 +1,5 @@
 import { Link } from '@tanstack/react-router';
+import { ChevronDown } from 'lucide-react';
 import { FC, ReactNode } from 'react';
 
 import { cn } from '../../utils';
@@ -13,6 +14,7 @@ type SidebarNavigationItemProps = {
   to?: string;
   onClick?: () => void;
   isFeatured?: boolean;
+  isExpanded?: boolean;
   exact?: boolean;
   isPlaying?: boolean;
   isPaused?: boolean;
@@ -42,6 +44,7 @@ export const SidebarNavigationItem: FC<SidebarNavigationItemProps> = ({
   to,
   onClick,
   isFeatured = false,
+  isExpanded,
   exact = false,
   isPlaying = false,
   isPaused = false,
@@ -50,13 +53,17 @@ export const SidebarNavigationItem: FC<SidebarNavigationItemProps> = ({
   const isCompact = useSidebarCompact();
   const tooltipLabel =
     isPlaying && playingLabel ? `${label} · ${playingLabel}` : label;
+  const disclosure = isExpanded !== undefined;
+  const Item = disclosure ? 'button' : 'div';
 
   return (
     <MaybeNavLink to={to} exact={exact} isSelected={isSelected}>
       {(active) => (
         <Tooltip content={tooltipLabel} side="right" disabled={!isCompact}>
-          <div
-            role={onClick ? 'button' : undefined}
+          <Item
+            type={disclosure ? 'button' : undefined}
+            role={onClick && !disclosure ? 'button' : undefined}
+            aria-expanded={isExpanded}
             aria-label={isCompact ? tooltipLabel : undefined}
             onClick={onClick}
             data-testid="sidebar-navigation-item"
@@ -74,7 +81,7 @@ export const SidebarNavigationItem: FC<SidebarNavigationItemProps> = ({
               isCompact && 'h-9 min-h-9 justify-center gap-0 px-0',
             )}
           >
-            <div
+            <span
               className={cn(
                 'relative flex size-9 shrink-0 items-center justify-center [&>svg]:size-[18px]',
                 {
@@ -96,7 +103,7 @@ export const SidebarNavigationItem: FC<SidebarNavigationItemProps> = ({
                   <MovingEqualizer isPaused={isPaused} />
                 </span>
               )}
-            </div>
+            </span>
             {!isCompact && (
               <span
                 className={cn(
@@ -116,7 +123,16 @@ export const SidebarNavigationItem: FC<SidebarNavigationItemProps> = ({
                 <MovingEqualizer size="md" isPaused={isPaused} />
               </span>
             )}
-          </div>
+            {disclosure && !isCompact && (
+              <ChevronDown
+                aria-hidden="true"
+                className={cn(
+                  'text-foreground/60 mr-2 ml-auto size-4 shrink-0 transition-transform duration-200 motion-reduce:transition-none',
+                  !isExpanded && '-rotate-90',
+                )}
+              />
+            )}
+          </Item>
         </Tooltip>
       )}
     </MaybeNavLink>

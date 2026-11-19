@@ -29,6 +29,8 @@ import { useSoundStore } from './soundStore';
 
 const QUEUE_FILE = 'queue.json';
 const store = new LazyStore(QUEUE_FILE);
+const visitedItemIds: string[] = [];
+let visitedIndex = -1;
 
 type QueueStore = Queue & {
   isLoading: boolean;
@@ -74,16 +76,10 @@ const getDirectionalIndex = (
   direction: 'forward' | 'backward',
 ): number => {
   const { items, currentIndex } = state;
-  const shuffleEnabled =
-    (getSetting('core.playback.shuffle') as boolean) ?? false;
   const repeatMode = (getSetting('core.playback.repeat') as string) ?? 'off';
 
   if (items.length === 0) {
     return currentIndex;
-  }
-
-  if (shuffleEnabled) {
-    return getShuffledIndex(items.length, currentIndex);
   }
 
   if (direction === 'forward') {
@@ -98,6 +94,21 @@ const getDirectionalIndex = (
   }
 
   return repeatMode === 'all' ? items.length - 1 : currentIndex;
+};
+
+const findVisitedTrack = (state: QueueStore, step: -1 | 1) => {
+  for (
+    let historyIndex = visitedIndex + step;
+    historyIndex >= 0 && historyIndex < visitedItemIds.length;
+    historyIndex += step
+  ) {
+    const index = state.items.findIndex(
+      (item) => item.id === visitedItemIds[historyIndex],
+    );
+    if (index !== -1 && index !== state.currentIndex) {
+      return { index, historyIndex };
+    }
+  }
 };
 
 const getShuffledIndex = (length: number, currentIndex: number): number => {
@@ -244,6 +255,8 @@ export const useQueueStore = create<QueueStore>((set, get) => ({
           ? resetItems.length - 1
           : firstPlayableAtOrAfter;
 
+    visitedItemIds.length = 0;
+    visitedIndex = -1;
     set({
       items: resetItems,
       currentIndex: sanitizedIndex,
@@ -322,6 +335,8 @@ export const useQueueStore = create<QueueStore>((set, get) => ({
           : firstPlayableAtOrAfter === -1
             ? items.length - 1
             : firstPlayableAtOrAfter;
+      visitedItemIds.length = 0;
+      visitedIndex = -1;
       set({ items, currentIndex });
       useSoundStore.getState().stop();
       Logger.queue.info(`Replaced queue with ${items.length} items`);
@@ -512,12 +527,20 @@ export const useQueueStore = create<QueueStore>((set, get) => ({
 
   goToNext: withPersistence((reason: 'manual' | 'automatic' = 'manual') => {
     const state = get();
-    const nextIndex = getDirectionalIndex(state, 'forward');
+    const shuffled = getSetting('core.playback.shuffle') === true;
+    const visited = shuffled ? findVisitedTrack(state, 1) : undefined;
+    const nextIndex = shuffled
+      ? (visited?.index ??
+        getShuffledIndex(state.items.length, state.currentIndex))
+      : getDirectionalIndex(state, 'forward');
     if (nextIndex === state.currentIndex) {
       return;
     }
     if (reason === 'manual' && isLeavingCurrentTrackRefused(state)) {
       return;
+    }
+    if (visited) {
+      visitedIndex = visited.historyIndex;
     }
     moveToIndex(nextIndex);
     Logger.queue.debug(`Moved to next track (index ${nextIndex})`);
@@ -525,12 +548,20 @@ export const useQueueStore = create<QueueStore>((set, get) => ({
 
   goToPrevious: withPersistence((reason: 'manual' | 'automatic' = 'manual') => {
     const state = get();
-    const previousIndex = getDirectionalIndex(state, 'backward');
+    const shuffled = getSetting('core.playback.shuffle') === true;
+    const visited = shuffled ? findVisitedTrack(state, -1) : undefined;
+    const previousIndex =
+      visited?.index ?? getDirectionalIndex(state, 'backward');
     if (previousIndex === state.currentIndex) {
       return;
     }
     if (reason === 'manual' && isLeavingCurrentTrackRefused(state)) {
       return;
+    }
+    if (visited) {
+      visitedIndex = visited.historyIndex;
+    } else if (shuffled) {
+      visitedItemIds.splice(visitedIndex, 0, state.items[previousIndex].id);
     }
     moveToIndex(previousIndex);
     Logger.queue.debug(`Moved to previous track (index ${previousIndex})`);
@@ -574,6 +605,13 @@ export const useQueueStore = create<QueueStore>((set, get) => ({
 
 useQueueStore.subscribe((state, previousState) => {
   const currentItemId = state.items[state.currentIndex]?.id ?? null;
+  if (currentItemId === null) {
+    visitedItemIds.length = 0;
+    visitedIndex = -1;
+  } else if (visitedItemIds[visitedIndex] !== currentItemId) {
+    visitedIndex += 1;
+    visitedItemIds.splice(visitedIndex, visitedItemIds.length, currentItemId);
+  }
   const previousItemId =
     previousState.items[previousState.currentIndex]?.id ?? null;
   if (currentItemId !== previousItemId) {

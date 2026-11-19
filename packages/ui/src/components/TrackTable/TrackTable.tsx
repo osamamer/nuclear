@@ -25,7 +25,11 @@ import { SortableRow } from './SortableRow';
 import { Toolbar } from './Toolbar';
 import { TrackTableProvider } from './TrackTableContext';
 import { TrackTableProps } from './types';
-import { DEFAULT_OVERSCAN, DEFAULT_ROW_HEIGHT } from './utils/constants';
+import {
+  DEFAULT_OVERSCAN,
+  DEFAULT_ROW_HEIGHT,
+  TRACK_COLUMN_WIDTHS,
+} from './utils/constants';
 import { VirtualizedBody } from './VirtualizedBody';
 
 const defaultGetItemId = <T extends Track>(track: T) => track.source.id;
@@ -118,7 +122,7 @@ function TrackTableBase<T extends Track = Track>({
   });
 
   const { rows } = table.getRowModel();
-  const colCount = table.getVisibleFlatColumns().length;
+  const visibleColumns = table.getVisibleLeafColumns();
 
   const scrollParentRef = useRef<HTMLDivElement | null>(null);
   const { virtualItems, paddingTop, paddingBottom } = useVirtualRows({
@@ -184,6 +188,11 @@ function TrackTableBase<T extends Track = Track>({
                 classes?.root,
               )}
             >
+              <colgroup>
+                {visibleColumns.map(({ id }) => (
+                  <col key={id} className={TRACK_COLUMN_WIDTHS[id]} />
+                ))}
+              </colgroup>
               {resolvedFeatures?.header && (
                 <thead className="sticky top-0 z-10">
                   {table.getHeaderGroups().map((headerGroup) => (
@@ -207,7 +216,7 @@ function TrackTableBase<T extends Track = Track>({
                 virtualItems={virtualItems}
                 paddingTop={paddingTop}
                 paddingBottom={paddingBottom}
-                colSpan={colCount}
+                colSpan={visibleColumns.length}
                 rowHeight={rowHeight}
                 renderRow={({ row }) => (
                   <SortableRow

@@ -1,7 +1,7 @@
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import { FC, ReactNode, useMemo, useState } from 'react';
+import * as Menu from '@radix-ui/react-menu';
+import { FC, ReactNode, useId, useMemo, useRef, useState } from 'react';
 
-import { TrackContextMenuContext } from './context';
+import { MenuPoint, TrackContextMenuContext } from './context';
 
 type TrackContextMenuRootProps = {
   children: ReactNode;
@@ -11,13 +11,40 @@ export const TrackContextMenuRoot: FC<TrackContextMenuRootProps> = ({
   children,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const contextValue = useMemo(() => ({ open: () => setIsOpen(true) }), []);
+  const [pointer, setPointer] = useState<MenuPoint>();
+  const triggerRef = useRef<HTMLElement>(null);
+  const triggerId = useId();
+  const contentId = useId();
+  const anchor = useMemo(
+    () => ({
+      current: {
+        getBoundingClientRect: () =>
+          pointer
+            ? new DOMRect(pointer.clientX, pointer.clientY)
+            : (triggerRef.current?.getBoundingClientRect() ?? new DOMRect()),
+      },
+    }),
+    [pointer],
+  );
 
   return (
-    <TrackContextMenuContext.Provider value={contextValue}>
-      <DropdownMenu.Root open={isOpen} onOpenChange={setIsOpen}>
+    <TrackContextMenuContext.Provider
+      value={{
+        isOpen,
+        pointer,
+        triggerRef,
+        triggerId,
+        contentId,
+        open: (point) => {
+          setPointer(point);
+          setIsOpen(true);
+        },
+      }}
+    >
+      <Menu.Root open={isOpen} onOpenChange={setIsOpen}>
+        <Menu.Anchor virtualRef={anchor} />
         {children}
-      </DropdownMenu.Root>
+      </Menu.Root>
     </TrackContextMenuContext.Provider>
   );
 };

@@ -1,3 +1,4 @@
+import { LayoutGrid } from 'lucide-react';
 import type { FC } from 'react';
 
 import { useTranslation } from '@nuclearplayer/i18n';
@@ -22,18 +23,20 @@ export const PlaylistSidebarEntries: FC<PlaylistSidebarEntriesProps> = ({
   const { hasStartedPlayback, isPaused } = usePlaybackActivity();
   const playlists = new PlaylistIndexTree(index).playlists();
 
-  if (playlists.length === 0) {
-    return null;
-  }
-
   return (
     <div
       className={
         isCompact
-          ? 'flex flex-col gap-1'
-          : 'border-foreground/15 ml-5 flex flex-col gap-1 border-l pl-2'
+          ? 'mt-1 flex flex-col gap-1'
+          : 'border-foreground/15 mt-1 ml-5 flex flex-col gap-1 border-l pl-2'
       }
     >
+      <SidebarNavigationItem
+        to="/playlists"
+        icon={<LayoutGrid />}
+        label={t('allPlaylists')}
+        exact
+      />
       {playlists.map((playlist) => {
         const isPlaying =
           hasStartedPlayback && currentPlaylistId === playlist.id;

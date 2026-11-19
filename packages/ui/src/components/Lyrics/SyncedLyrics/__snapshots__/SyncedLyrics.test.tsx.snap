@@ -12,14 +12,15 @@ exports[`SyncedLyrics > (Snapshot) renders line synced lyrics 1`] = `
       class="hover:text-foreground block w-full cursor-pointer py-1 text-left transition-colors duration-100 text-foreground/40"
       data-active="false"
       data-testid="lyrics-line"
+      dir="ltr"
       type="button"
     >
       <span
         class="block"
       >
         <span
-          class="to-primary bg-linear-to-b from-transparent from-60% to-60% bg-no-repeat transition-all duration-300 ease-out"
-          style="background-size: 0%;"
+          class="from-primary to-primary bg-linear-to-r bg-left-bottom bg-no-repeat transition-[background-size] duration-300 ease-out"
+          style="background-size: 0% 0.1em;"
         >
           Lorem ipsum dolor
         </span>
@@ -29,14 +30,15 @@ exports[`SyncedLyrics > (Snapshot) renders line synced lyrics 1`] = `
       class="hover:text-foreground block w-full cursor-pointer py-1 text-left transition-colors duration-100 text-foreground"
       data-active="true"
       data-testid="lyrics-line"
+      dir="ltr"
       type="button"
     >
       <span
         class="block"
       >
         <span
-          class="to-primary bg-linear-to-b from-transparent from-60% to-60% bg-no-repeat transition-all duration-300 ease-out"
-          style="background-size: 100%;"
+          class="from-primary to-primary bg-linear-to-r bg-left-bottom bg-no-repeat transition-[background-size] duration-300 ease-out"
+          style="background-size: 100% 0.1em;"
         >
           Sit amet
         </span>
@@ -46,14 +48,15 @@ exports[`SyncedLyrics > (Snapshot) renders line synced lyrics 1`] = `
       class="text-foreground/60 hover:text-foreground block w-full cursor-pointer py-1 text-left transition-colors duration-100"
       data-active="false"
       data-testid="lyrics-line"
+      dir="ltr"
       type="button"
     >
       <span
         class="block"
       >
         <span
-          class="to-primary bg-linear-to-b from-transparent from-60% to-60% bg-no-repeat transition-all duration-300 ease-out"
-          style="background-size: 0%;"
+          class="from-primary to-primary bg-linear-to-r bg-left-bottom bg-no-repeat transition-[background-size] duration-300 ease-out"
+          style="background-size: 0% 0.1em;"
         >
           Consectetur adipiscing
         </span>
@@ -78,13 +81,14 @@ exports[`SyncedLyrics > (Snapshot) renders word synced lyrics 1`] = `
       class="hover:text-foreground block w-full cursor-pointer py-1 text-left transition-colors duration-100 text-foreground"
       data-active="true"
       data-testid="lyrics-line"
+      dir="ltr"
       type="button"
     >
       <span
         class="block"
       >
         <span
-          class="before:bg-primary relative isolate before:absolute before:bottom-0 before:-left-px before:-z-10 before:h-2/5 before:w-(--fill-width)"
+          class="before:bg-primary relative isolate before:absolute before:bottom-0 before:-left-px before:-z-10 before:h-[0.1em] before:w-(--fill-width)"
           data-active="true"
           data-testid="lyrics-word"
           style="--fill-width: calc((100% + 1px) * 1);"
@@ -92,7 +96,7 @@ exports[`SyncedLyrics > (Snapshot) renders word synced lyrics 1`] = `
           Lorem 
         </span>
         <span
-          class="before:bg-primary relative isolate before:absolute before:bottom-0 before:-left-px before:-z-10 before:h-2/5 before:w-(--fill-width)"
+          class="before:bg-primary relative isolate before:absolute before:bottom-0 before:-left-px before:-z-10 before:h-[0.1em] before:w-(--fill-width)"
           data-active="true"
           data-testid="lyrics-word"
           style="--fill-width: calc((100% + 1px) * 0.5);"
@@ -100,7 +104,7 @@ exports[`SyncedLyrics > (Snapshot) renders word synced lyrics 1`] = `
           ipsum 
         </span>
         <span
-          class="before:bg-primary relative isolate before:absolute before:bottom-0 before:-left-px before:-z-10 before:h-2/5 before:w-(--fill-width)"
+          class="before:bg-primary relative isolate before:absolute before:bottom-0 before:-left-px before:-z-10 before:h-[0.1em] before:w-(--fill-width)"
           data-active="false"
           data-testid="lyrics-word"
           style="--fill-width: calc((100% + 1px) * 0);"
@@ -113,6 +117,7 @@ exports[`SyncedLyrics > (Snapshot) renders word synced lyrics 1`] = `
       class="text-foreground/60 hover:text-foreground block w-full cursor-pointer py-1 text-left transition-colors duration-100"
       data-active="false"
       data-testid="lyrics-line"
+      dir="ltr"
       type="button"
     >
       <span

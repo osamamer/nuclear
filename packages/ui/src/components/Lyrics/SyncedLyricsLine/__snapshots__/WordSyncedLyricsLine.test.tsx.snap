@@ -6,13 +6,14 @@ exports[`WordSyncedLyricsLine > (Snapshot) renders a line halfway through its se
     class="hover:text-foreground block w-full cursor-pointer py-1 text-left transition-colors duration-100 text-foreground"
     data-active="true"
     data-testid="lyrics-line"
+    dir="ltr"
     type="button"
   >
     <span
       class="block"
     >
       <span
-        class="before:bg-primary relative isolate before:absolute before:bottom-0 before:-left-px before:-z-10 before:h-2/5 before:w-(--fill-width)"
+        class="before:bg-primary relative isolate before:absolute before:bottom-0 before:-left-px before:-z-10 before:h-[0.1em] before:w-(--fill-width)"
         data-active="true"
         data-testid="lyrics-word"
         style="--fill-width: calc((100% + 1px) * 1);"
@@ -20,7 +21,7 @@ exports[`WordSyncedLyricsLine > (Snapshot) renders a line halfway through its se
         Lorem 
       </span>
       <span
-        class="before:bg-primary relative isolate before:absolute before:bottom-0 before:-left-px before:-z-10 before:h-2/5 before:w-(--fill-width)"
+        class="before:bg-primary relative isolate before:absolute before:bottom-0 before:-left-px before:-z-10 before:h-[0.1em] before:w-(--fill-width)"
         data-active="true"
         data-testid="lyrics-word"
         style="--fill-width: calc((100% + 1px) * 0.5);"
@@ -28,7 +29,7 @@ exports[`WordSyncedLyricsLine > (Snapshot) renders a line halfway through its se
         ipsum 
       </span>
       <span
-        class="before:bg-primary relative isolate before:absolute before:bottom-0 before:-left-px before:-z-10 before:h-2/5 before:w-(--fill-width)"
+        class="before:bg-primary relative isolate before:absolute before:bottom-0 before:-left-px before:-z-10 before:h-[0.1em] before:w-(--fill-width)"
         data-active="false"
         data-testid="lyrics-word"
         style="--fill-width: calc((100% + 1px) * 0);"
@@ -46,6 +47,7 @@ exports[`WordSyncedLyricsLine > (Snapshot) renders a line that has already playe
     class="hover:text-foreground block w-full cursor-pointer py-1 text-left transition-colors duration-100 text-foreground/40"
     data-active="false"
     data-testid="lyrics-line"
+    dir="ltr"
     type="button"
   >
     <span
@@ -65,6 +67,7 @@ exports[`WordSyncedLyricsLine > (Snapshot) renders a line that has not played ye
     class="text-foreground/60 hover:text-foreground block w-full cursor-pointer py-1 text-left transition-colors duration-100"
     data-active="false"
     data-testid="lyrics-line"
+    dir="ltr"
     type="button"
   >
     <span
@@ -84,13 +87,14 @@ exports[`WordSyncedLyricsLine > (Snapshot) renders ruby, background vocals, and 
     class="hover:text-foreground block w-full cursor-pointer py-1 text-left transition-colors duration-100 text-foreground"
     data-active="true"
     data-testid="lyrics-line"
+    dir="ltr"
     type="button"
   >
     <span
       class="block"
     >
       <span
-        class="before:bg-primary relative isolate before:absolute before:bottom-0 before:-left-px before:-z-10 before:h-2/5 before:w-(--fill-width)"
+        class="before:bg-primary relative isolate before:absolute before:bottom-0 before:-left-px before:-z-10 before:h-[0.1em] before:w-(--fill-width)"
         data-active="true"
         data-testid="lyrics-word"
         style="--fill-width: calc((100% + 1px) * 1);"
@@ -112,7 +116,7 @@ exports[`WordSyncedLyricsLine > (Snapshot) renders ruby, background vocals, and 
         </ruby>
       </span>
       <span
-        class="before:bg-primary relative isolate before:absolute before:bottom-0 before:-left-px before:-z-10 before:h-2/5 before:w-(--fill-width)"
+        class="before:bg-primary relative isolate before:absolute before:bottom-0 before:-left-px before:-z-10 before:h-[0.1em] before:w-(--fill-width)"
         data-active="true"
         data-testid="lyrics-word"
         style="--fill-width: calc((100% + 1px) * 0.5);"
@@ -120,7 +124,7 @@ exports[`WordSyncedLyricsLine > (Snapshot) renders ruby, background vocals, and 
         に
       </span>
       <span
-        class="before:bg-primary relative isolate before:absolute before:bottom-0 before:-left-px before:-z-10 before:h-2/5 before:w-(--fill-width)"
+        class="before:bg-primary relative isolate before:absolute before:bottom-0 before:-left-px before:-z-10 before:h-[0.1em] before:w-(--fill-width)"
         data-active="false"
         data-testid="lyrics-word"
         style="--fill-width: calc((100% + 1px) * 0);"
@@ -142,7 +146,7 @@ exports[`WordSyncedLyricsLine > (Snapshot) renders ruby, background vocals, and 
         </ruby>
       </span>
       <span
-        class="before:bg-primary relative isolate before:absolute before:bottom-0 before:-left-px before:-z-10 before:h-2/5 before:w-(--fill-width)"
+        class="before:bg-primary relative isolate before:absolute before:bottom-0 before:-left-px before:-z-10 before:h-[0.1em] before:w-(--fill-width)"
         data-active="false"
         data-testid="lyrics-word"
         style="--fill-width: calc((100% + 1px) * 0);"

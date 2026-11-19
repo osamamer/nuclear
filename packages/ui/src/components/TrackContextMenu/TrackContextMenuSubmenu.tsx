@@ -1,6 +1,6 @@
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import * as Menu from '@radix-ui/react-menu';
 import { ChevronRight } from 'lucide-react';
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, useState } from 'react';
 
 import { cn } from '../../utils';
 
@@ -10,7 +10,14 @@ type TrackContextMenuSubmenuProps = {
 
 export const TrackContextMenuSubmenu: FC<TrackContextMenuSubmenuProps> = ({
   children,
-}) => <DropdownMenu.Sub>{children}</DropdownMenu.Sub>;
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <Menu.Sub open={isOpen} onOpenChange={setIsOpen}>
+      {children}
+    </Menu.Sub>
+  );
+};
 
 type TrackContextMenuSubmenuTriggerProps = {
   icon?: ReactNode;
@@ -20,7 +27,7 @@ type TrackContextMenuSubmenuTriggerProps = {
 export const TrackContextMenuSubmenuTrigger: FC<
   TrackContextMenuSubmenuTriggerProps
 > = ({ icon, children }) => (
-  <DropdownMenu.SubTrigger
+  <Menu.SubTrigger
     className={cn(
       'flex w-full cursor-pointer items-center justify-between gap-3 border-t border-transparent px-3 py-2 text-left text-sm outline-none not-last:border-b',
       'data-[highlighted]:bg-muted data-[highlighted]:border-border',
@@ -32,7 +39,7 @@ export const TrackContextMenuSubmenuTrigger: FC<
       <span>{children}</span>
     </span>
     <ChevronRight size={14} />
-  </DropdownMenu.SubTrigger>
+  </Menu.SubTrigger>
 );
 
 type TrackContextMenuSubmenuContentProps = {
@@ -42,13 +49,13 @@ type TrackContextMenuSubmenuContentProps = {
 export const TrackContextMenuSubmenuContent: FC<
   TrackContextMenuSubmenuContentProps
 > = ({ children }) => (
-  <DropdownMenu.Portal>
-    <DropdownMenu.SubContent
+  <Menu.Portal>
+    <Menu.SubContent
       className="surface-background border-border data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 shadow-shadow z-50 w-48 overflow-hidden rounded-sm border-(length:--border-width) backdrop-blur-xl outline-none"
       sideOffset={4}
       data-testid="submenu-content"
     >
       {children}
-    </DropdownMenu.SubContent>
-  </DropdownMenu.Portal>
+    </Menu.SubContent>
+  </Menu.Portal>
 );

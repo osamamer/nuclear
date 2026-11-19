@@ -6,7 +6,6 @@ export const SIDEBAR_ITEM_IDS = {
   favoriteTracks: 'favorite-tracks',
   favoriteArtists: 'favorite-artists',
   history: 'history',
-  lyrics: 'lyrics',
   sources: 'sources',
   settings: 'settings',
 } as const;

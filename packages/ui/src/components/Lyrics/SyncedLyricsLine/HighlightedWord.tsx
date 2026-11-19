@@ -23,7 +23,7 @@ export const HighlightedWord: FC<HighlightedWordProps> = ({
     <span
       data-testid="lyrics-word"
       data-active={hasStarted}
-      className="before:bg-primary relative isolate before:absolute before:bottom-0 before:-left-px before:-z-10 before:h-2/5 before:w-(--fill-width)"
+      className="before:bg-primary relative isolate before:absolute before:bottom-0 before:-left-px before:-z-10 before:h-[0.1em] before:w-(--fill-width)"
       style={fillWidth(progress)}
     >
       <LyricsSegment segment={segment} />

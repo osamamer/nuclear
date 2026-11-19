@@ -4,6 +4,7 @@ import { FC } from 'react';
 import { cn } from '../../../utils';
 import { defaultDisplay } from '../defaults';
 import { TrackTableProps } from '../types';
+import { TRACK_COLUMN_WIDTHS } from '../utils/constants';
 import { getSkeletonColumns } from './skeletonColumns';
 import { SkeletonHeaderRow } from './SkeletonHeaderRow';
 import { SkeletonRow } from './SkeletonRow';
@@ -35,6 +36,11 @@ export const TrackTableSkeleton: FC<TrackTableSkeletonProps> = ({
         className,
       )}
     >
+      <colgroup>
+        {columns.map(({ id }) => (
+          <col key={id} className={TRACK_COLUMN_WIDTHS[id]} />
+        ))}
+      </colgroup>
       {header && (
         <thead>
           <SkeletonHeaderRow columns={columns} />

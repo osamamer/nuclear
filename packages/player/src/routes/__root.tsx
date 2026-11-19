@@ -11,7 +11,6 @@ import {
   GaugeIcon,
   HistoryIcon,
   ListMusicIcon,
-  MicVocalIcon,
   MusicIcon,
   SettingsIcon,
   UserIcon,
@@ -20,6 +19,7 @@ import { useEffect } from 'react';
 
 import { useTranslation } from '@nuclearplayer/i18n';
 import {
+  cn,
   PlayerShell,
   PlayerWorkspace,
   RouteTransition,
@@ -138,13 +138,6 @@ const RootComponent = () => {
       isFeatured: false,
     },
     {
-      id: SIDEBAR_ITEM_IDS.lyrics,
-      to: '/lyrics',
-      icon: <MicVocalIcon />,
-      label: t('lyrics'),
-      isFeatured: false,
-    },
-    {
       id: SIDEBAR_ITEM_IDS.sources,
       to: '/sources',
       icon: <CableIcon />,
@@ -195,28 +188,43 @@ const RootComponent = () => {
                 >
                   {sidebarItems
                     .filter((item) => isSidebarItemVisible(item.id))
-                    .map((item) => (
-                      <div key={item.id} className="contents">
+                    .map((item) =>
+                      item.id === SIDEBAR_ITEM_IDS.playlists ? (
+                        <div key={item.id} className="shrink-0">
+                          <SidebarNavigationItem
+                            icon={item.icon}
+                            label={item.label}
+                            isFeatured={item.isFeatured}
+                            isExpanded={playlistsExpanded}
+                            onClick={togglePlaylistsExpanded}
+                          />
+                          <div
+                            aria-hidden={!playlistsExpanded}
+                            {...{ inert: playlistsExpanded ? undefined : '' }}
+                            className={cn(
+                              'grid transition-[grid-template-rows,opacity] duration-250 ease-out motion-reduce:transition-none',
+                              playlistsExpanded
+                                ? 'grid-rows-[1fr] opacity-100'
+                                : 'grid-rows-[0fr] opacity-0',
+                            )}
+                          >
+                            <div className="min-h-0 overflow-clip">
+                              <PlaylistSidebarEntries
+                                isCompact={leftSidebar.isCollapsed}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
                         <SidebarNavigationItem
+                          key={item.id}
                           to={item.to}
                           icon={item.icon}
                           label={item.label}
                           isFeatured={item.isFeatured}
-                          exact={item.id === SIDEBAR_ITEM_IDS.playlists}
-                          onClick={
-                            item.id === SIDEBAR_ITEM_IDS.playlists
-                              ? togglePlaylistsExpanded
-                              : undefined
-                          }
                         />
-                        {item.id === SIDEBAR_ITEM_IDS.playlists &&
-                          playlistsExpanded && (
-                            <PlaylistSidebarEntries
-                              isCompact={leftSidebar.isCollapsed}
-                            />
-                          )}
-                      </div>
-                    ))}
+                      ),
+                    )}
                   {!isLight && <CustomViewSidebarEntries />}
                 </div>
                 {!isLight && (
