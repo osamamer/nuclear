@@ -66,19 +66,19 @@ export const ConnectedTrackContextMenu: FC<ConnectedTrackContextMenuProps> = ({
         </TrackContextMenu.Action>
         <TrackContextMenu.Action
           icon={<ListStart size={16} />}
-          onClick={() => trackActions.addNext(track)}
+          onClick={() => trackActions.addNext(track, playlistId)}
         >
           {t('actions.playNext')}
         </TrackContextMenu.Action>
         <TrackContextMenu.Action
           icon={<ListEnd size={16} />}
-          onClick={() => trackActions.addToQueue(track)}
+          onClick={() => trackActions.addToQueue(track, playlistId)}
         >
           {t('actions.addToQueue')}
         </TrackContextMenu.Action>
         <TrackContextMenu.Action
           icon={<Layers size={16} />}
-          onClick={() => openVersionPicker(track)}
+          onClick={() => openVersionPicker(track, playlistId)}
           data-testid="choose-version-action"
         >
           {t('actions.chooseVersion')}

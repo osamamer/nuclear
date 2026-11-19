@@ -9,6 +9,7 @@ import type { PlaylistItem } from '@nuclearplayer/model';
 import { PlayerBarWrapper } from '../../integration-tests/PlayerBar.test-wrapper';
 import { QueueWrapper } from '../../integration-tests/Queue.test-wrapper';
 import { providersHost } from '../../services/providersHost';
+import { useLayoutStore } from '../../stores/layoutStore';
 import { useQueueStore } from '../../stores/queueStore';
 import { useSoundStore } from '../../stores/soundStore';
 import { useStartupStore } from '../../stores/startupStore';
@@ -22,6 +23,7 @@ import {
 import { resetInMemoryTauriStore } from '../../test/utils/inMemoryTauriStore';
 import { createMockTrack } from '../../test/utils/mockTrack';
 import { mockUuid } from '../../test/utils/mockUuid';
+import { PlaylistsWrapper } from '../Playlists/Playlists.test-wrapper';
 import { PlaylistDetailWrapper } from './PlaylistDetail.test-wrapper';
 
 vi.mock('@tauri-apps/plugin-dialog', () => ({
@@ -69,6 +71,29 @@ describe('PlaylistDetail view', () => {
     const { getByTestId } = await PlaylistDetailWrapper.mount('test-playlist');
 
     expect(getByTestId('player-workspace-main')).toMatchSnapshot();
+  });
+
+  it('highlights the playlist in the expanded sidebar when a version starts playing from it', async () => {
+    useLayoutStore.setState({ playlistsExpanded: true });
+    providersHost.register(
+      new StreamingProviderBuilder()
+        .withSearchForTrack(async () => [
+          createMockCandidate('live-version', 'Giant Steps (Live)'),
+        ])
+        .build(),
+    );
+    await PlaylistDetailWrapper.mount('test-playlist');
+
+    await PlaylistDetailWrapper.playTrackVersion(
+      'Giant Steps',
+      'Giant Steps (Live)',
+    );
+
+    await waitFor(() => {
+      expect(
+        PlaylistsWrapper.playlistEqualizer('Test Playlist'),
+      ).toHaveAttribute('data-paused', 'false');
+    });
   });
 
   it('continues from the selected song and keeps earlier playback and explicit queue entries', async () => {

@@ -66,6 +66,7 @@ export const applyVersion = async (
   track: Track,
   candidate: StreamCandidate,
   remember: boolean,
+  playlistId?: string,
 ): Promise<void> => {
   if (remember) {
     await useStreamVerificationStore
@@ -75,7 +76,11 @@ export const applyVersion = async (
 
   const queue = useQueueStore.getState();
   const currentItem = queue.getCurrentItem();
-  if (currentItem && isSameTrack(currentItem.track, track)) {
+  if (
+    currentItem &&
+    isSameTrack(currentItem.track, track) &&
+    (!playlistId || currentItem.playlistId === playlistId)
+  ) {
     queue.updateItemState(currentItem.id, {
       status: 'idle',
       error: undefined,
@@ -84,7 +89,7 @@ export const applyVersion = async (
     return;
   }
 
-  const replaced = queue.replaceQueue([track], undefined, 0, {
+  const replaced = queue.replaceQueue([track], playlistId, 0, {
     selectedVersion: chosenCandidate(candidate),
   });
   if (replaced) {

@@ -378,7 +378,7 @@ exports[`Artist view > with bio provider > (Snapshot) renders the artist view 1`
                     </div>
                     <div
                       aria-hidden="true"
-                      class="grid transition-[grid-template-rows,opacity] duration-250 ease-out motion-reduce:transition-none grid-rows-[0fr] opacity-0"
+                      class="grid grid-cols-1 transition-[grid-template-rows,opacity] duration-250 ease-out motion-reduce:transition-none grid-rows-[0fr] opacity-0"
                       inert=""
                     >
                       <div
@@ -2480,7 +2480,7 @@ exports[`Artist view > with social stats provider > (Snapshot) renders the artis
                     </div>
                     <div
                       aria-hidden="true"
-                      class="grid transition-[grid-template-rows,opacity] duration-250 ease-out motion-reduce:transition-none grid-rows-[0fr] opacity-0"
+                      class="grid grid-cols-1 transition-[grid-template-rows,opacity] duration-250 ease-out motion-reduce:transition-none grid-rows-[0fr] opacity-0"
                       inert=""
                     >
                       <div

@@ -1,6 +1,18 @@
 [
   {
     "date": "2026-11-20T00:00",
+    "description": "Long playlist names no longer push the playing playlist’s equalizer out of the sidebar. Choosing a track version from a playlist keeps the playlist indicator active.",
+    "type": "fix",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Playback",
+        "color": "purple"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-20T00:00",
     "description": "The AI Curator can run Codex even when a personal MCP server is offline.",
     "type": "fix",
     "contributors": ["nukeop"],

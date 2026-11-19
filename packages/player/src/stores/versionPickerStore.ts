@@ -4,12 +4,13 @@ import type { Track } from '@nuclearplayer/model';
 
 type VersionPickerState = {
   track: Track | null;
-  open: (track: Track) => void;
+  playlistId?: string;
+  open: (track: Track, playlistId?: string) => void;
   close: () => void;
 };
 
 export const useVersionPickerStore = create<VersionPickerState>((set) => ({
   track: null,
-  open: (track) => set({ track }),
-  close: () => set({ track: null }),
+  open: (track, playlistId) => set({ track, playlistId }),
+  close: () => set({ track: null, playlistId: undefined }),
 }));

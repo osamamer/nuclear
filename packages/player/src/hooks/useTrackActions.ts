@@ -24,12 +24,14 @@ export const useTrackActions = () => {
   );
 
   const addNext = useCallback(
-    (track: Track) => queueActions.addNext([track]),
+    (track: Track, playlistId?: string) =>
+      queueActions.addNext([track], playlistId),
     [queueActions],
   );
 
   const addToQueue = useCallback(
-    (track: Track) => queueActions.addToQueue([track]),
+    (track: Track, playlistId?: string) =>
+      queueActions.addToQueue([track], playlistId),
     [queueActions],
   );
 

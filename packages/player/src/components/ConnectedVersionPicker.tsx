@@ -193,10 +193,11 @@ const VersionList: FC<VersionListProps> = ({
   );
 };
 
-const VersionPickerBody: FC<{ track: Track; onClose: () => void }> = ({
-  track,
-  onClose,
-}) => {
+const VersionPickerBody: FC<{
+  track: Track;
+  playlistId?: string;
+  onClose: () => void;
+}> = ({ track, playlistId, onClose }) => {
   const { t } = useTranslation('track');
   const [variant, setVariant] = useState<VersionVariant>('original');
   const [selected, setSelected] = useState<StreamCandidate | null>(null);
@@ -212,7 +213,12 @@ const VersionPickerBody: FC<{ track: Track; onClose: () => void }> = ({
     preview.keepMainPaused();
     preview.stop();
     onClose();
-    await applyVersion(track, preview.resolvedCandidate(selected), remember);
+    await applyVersion(
+      track,
+      preview.resolvedCandidate(selected),
+      remember,
+      playlistId,
+    );
   };
 
   return (
@@ -284,11 +290,18 @@ const VersionPickerBody: FC<{ track: Track; onClose: () => void }> = ({
 
 export const ConnectedVersionPicker: FC = () => {
   const track = useVersionPickerStore((state) => state.track);
+  const playlistId = useVersionPickerStore((state) => state.playlistId);
   const close = useVersionPickerStore((state) => state.close);
 
   return (
     <Dialog.Root isOpen={track !== null} onClose={close} className="max-w-xl">
-      {track && <VersionPickerBody track={track} onClose={close} />}
+      {track && (
+        <VersionPickerBody
+          track={track}
+          playlistId={playlistId}
+          onClose={close}
+        />
+      )}
     </Dialog.Root>
   );
 };

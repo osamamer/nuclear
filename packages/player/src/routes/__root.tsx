@@ -202,7 +202,7 @@ const RootComponent = () => {
                             aria-hidden={!playlistsExpanded}
                             {...{ inert: playlistsExpanded ? undefined : '' }}
                             className={cn(
-                              'grid transition-[grid-template-rows,opacity] duration-250 ease-out motion-reduce:transition-none',
+                              'grid grid-cols-1 transition-[grid-template-rows,opacity] duration-250 ease-out motion-reduce:transition-none',
                               playlistsExpanded
                                 ? 'grid-rows-[1fr] opacity-100'
                                 : 'grid-rows-[0fr] opacity-0',

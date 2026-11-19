@@ -124,6 +124,13 @@ export const PlaylistsWrapper = {
     );
   },
 
+  playlistEqualizer(title: string) {
+    const playlistLink = within(
+      screen.getByTestId('sidebar-navigation'),
+    ).getByRole('link', { name: (name) => name.startsWith(title) });
+    return within(playlistLink).getByTestId('moving-equalizer');
+  },
+
   playlistsNavigation: {
     get element() {
       return screen.getByRole('button', { name: 'Playlists', exact: true });

@@ -158,6 +158,14 @@ export const PlaylistDetailWrapper = {
     await user.click(within(row).getByTestId('track-context-menu-button'));
   },
 
+  async playTrackVersion(trackTitle: string, versionTitle: string) {
+    await this.openTrackMenu(trackTitle);
+    await user.click(screen.getByTestId('choose-version-action'));
+    const picker = within(await screen.findByTestId('version-picker'));
+    await user.click(await picker.findByRole('button', { name: versionTitle }));
+    await user.click(picker.getByTestId('version-play-button'));
+  },
+
   async removeTrack(trackTitle: string) {
     await user.pointer({
       keys: '[MouseRight]',

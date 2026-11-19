@@ -53,6 +53,7 @@ export const PlaylistSidebarEntries: FC<PlaylistSidebarEntriesProps> = ({
               />
             }
             label={playlist.name}
+            isSelected={isPlaying}
             isPlaying={isPlaying}
             isPaused={isPaused}
             playingLabel={t('nowPlaying')}
