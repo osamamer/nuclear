@@ -5,6 +5,7 @@ import { PlayerBar } from '@nuclearplayer/ui';
 import { ConnectedControls } from './ConnectedControls';
 import { ConnectedNowPlaying } from './ConnectedNowPlaying';
 import { ConnectedSeekBar } from './ConnectedSeekBar';
+import { ConnectedElapsedTime, ConnectedTotalTime } from './ConnectedTime';
 import { ConnectedVolume } from './ConnectedVolume';
 
 export const ConnectedPlayerBar: FC = () => {
@@ -12,7 +13,13 @@ export const ConnectedPlayerBar: FC = () => {
     <PlayerBar
       seekBar={<ConnectedSeekBar />}
       left={<ConnectedNowPlaying />}
-      center={<ConnectedControls />}
+      center={
+        <div className="flex items-center gap-3">
+          <ConnectedElapsedTime />
+          <ConnectedControls />
+          <ConnectedTotalTime />
+        </div>
+      }
       right={<ConnectedVolume />}
     />
   );

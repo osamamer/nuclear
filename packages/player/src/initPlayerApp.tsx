@@ -7,6 +7,7 @@ import { initLogStream } from './hooks/useLogStream';
 import { applyAccentColor } from './services/accentColor';
 import { applyThemeFromSettingsIfAny } from './services/advancedThemeService';
 import { startAdvancedThemeWatcher } from './services/advancedThemeWatcher';
+import { initAppIconSync } from './services/appIcon';
 import { initBridgeHandler } from './services/bridge/bridgeHandler';
 import { registerBuiltInCoreSettings } from './services/coreSettings';
 import { initDiscordHandler } from './services/discordHandler';
@@ -63,8 +64,19 @@ const initRemoteControl = () =>
 const initLanguage = () =>
   applyLanguageFromSettings().then(() => initLanguageWatcher());
 
+const applyDarkModeFromSettings = () => {
+  const isDark = (getSetting('core.theme.dark') as boolean | undefined) ?? true;
+  if (isDark) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+  }
+  document.documentElement.style.removeProperty('background-color');
+};
+
 const initThemes = () =>
-  startAdvancedThemeWatcher()
+  Promise.resolve(applyDarkModeFromSettings())
+    .then(() => startAdvancedThemeWatcher())
     .then(() => loadMarketplaceThemes())
     .then(() => hydrateThemeStore())
     .then(() => applyThemeFromSettingsIfAny())
@@ -104,7 +116,8 @@ export const initPlayerApp = async (
     .then(() => initHistoryService())
     .then(() => initLanguage())
     .then(() => initThemes())
-    .then(() => startBackgroundTasks(isLight));
+    .then(() => startBackgroundTasks(isLight))
+    .then(() => initAppIconSync());
 
   root.render(
     <React.StrictMode>

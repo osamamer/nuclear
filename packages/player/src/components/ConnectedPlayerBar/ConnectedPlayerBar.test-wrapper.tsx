@@ -142,6 +142,22 @@ export const ConnectedPlayerBarWrapper = {
     return useSoundStore.getState().seek;
   },
 
+  setPlaybackTiming(seekSeconds: number, durationSeconds: number) {
+    useSoundStore.setState({
+      seek: seekSeconds,
+      duration: durationSeconds,
+      status: 'playing',
+    });
+  },
+
+  get elapsedTime() {
+    return screen.getByTestId('player-elapsed-time');
+  },
+
+  get totalTime() {
+    return screen.getByTestId('player-total-time');
+  },
+
   seedVolume(volume01: number) {
     useSettingsStore.setState({
       values: { 'core.playback.volume': volume01 },

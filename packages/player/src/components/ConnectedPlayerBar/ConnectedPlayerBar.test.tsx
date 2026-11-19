@@ -227,6 +227,20 @@ describe('ConnectedControls', () => {
   });
 });
 
+describe('ConnectedPlayerBar time', () => {
+  it('shows elapsed time and total length of the current track', async () => {
+    Wrapper.seedQueueItem(new Wrapper.QueueItemBuilder().build());
+    await Wrapper.mount();
+
+    act(() => {
+      Wrapper.setPlaybackTiming(83, 245);
+    });
+
+    expect(Wrapper.elapsedTime).toHaveTextContent('1:23');
+    expect(Wrapper.totalTime).toHaveTextContent('4:05');
+  });
+});
+
 describe('ConnectedVolume', () => {
   it('volume slider reflects the current volume from settings store', async () => {
     Wrapper.seedVolume(0.6);

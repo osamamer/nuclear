@@ -40,6 +40,7 @@ type QueueStore = Queue & {
     startIndex?: number,
   ) => boolean;
   addToQueue: (tracks: Track[], playlistId?: string) => void;
+  appendToQueue: (tracks: Track[], playlistId?: string) => void;
   addNext: (tracks: Track[], playlistId?: string) => void;
   addAt: (tracks: Track[], index: number, playlistId?: string) => void;
   removeByIds: (ids: string[]) => void;
@@ -263,13 +264,36 @@ export const useQueueStore = create<QueueStore>((set, get) => ({
     );
     set(
       produce((state: QueueStore) => {
+        const newItems = playableTracks.map((track) => ({
+          ...createQueueItem(track, playlistId),
+          queuedByUser: true,
+        }));
+        let insertIndex = Math.min(state.currentIndex + 1, state.items.length);
+        while (
+          insertIndex < state.items.length &&
+          state.items[insertIndex].queuedByUser
+        ) {
+          insertIndex += 1;
+        }
+        state.items.splice(insertIndex, 0, ...newItems);
+      }),
+    );
+    Logger.queue.debug(`Queued ${playableTracks.length} tracks`);
+  }),
+
+  appendToQueue: withPersistence((tracks: Track[], playlistId?: string) => {
+    const playableTracks = getPlayableTrackEntries(tracks).map(
+      ({ track }) => track,
+    );
+    set(
+      produce((state: QueueStore) => {
         const newItems = playableTracks.map((track) =>
           createQueueItem(track, playlistId),
         );
         state.items.push(...newItems);
       }),
     );
-    Logger.queue.debug(`Added ${playableTracks.length} tracks to queue`);
+    Logger.queue.debug(`Appended ${playableTracks.length} tracks to queue`);
   }),
 
   replaceQueue: withPersistence(

@@ -22,7 +22,7 @@ export const createQueueHost = (): QueueHost => {
     },
 
     addToQueue: async (tracks: Track[]) => {
-      useQueueStore.getState().addToQueue(tracks);
+      useQueueStore.getState().appendToQueue(tracks);
     },
 
     addNext: async (tracks: Track[]) => {

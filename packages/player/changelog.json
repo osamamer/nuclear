@@ -1,5 +1,53 @@
 [
   {
+    "date": "2026-11-19T00:00",
+    "description": "\"Add to queue\" now puts the song right after the one that's playing, after anything else you've queued, instead of at the end of the queue.",
+    "type": "fix",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Queue",
+        "color": "blue"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-19T00:00",
+    "description": "The player bar shows how much of the song has played and how long it is.",
+    "type": "improvement",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Player",
+        "color": "green"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-19T00:00",
+    "description": "The app icon changes to match your accent color.",
+    "type": "feature",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Appearance",
+        "color": "purple"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-19T00:00",
+    "description": "No more flash of light mode or half-drawn layout when the app starts.",
+    "type": "fix",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Appearance",
+        "color": "purple"
+      }
+    ]
+  },
+  {
     "date": "2026-11-18T00:00",
     "description": "New Discover page: song and artist picks based on your listening history, playlists and favorites. Tap artists in your taste DNA to steer the picks, pick a mode from comfort zone to adventurous, and find old favorites you haven't played in a while.",
     "type": "feature",

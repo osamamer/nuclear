@@ -43,7 +43,7 @@ export const initDiscoveryService = () => {
       );
 
       if (recommendations.length > 0) {
-        useQueueStore.getState().addToQueue(recommendations);
+        useQueueStore.getState().appendToQueue(recommendations);
       }
     } catch (error) {
       reportError('discovery', {

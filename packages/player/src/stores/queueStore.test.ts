@@ -42,7 +42,7 @@ describe('useQueueStore', () => {
   });
 
   describe('addToQueue', () => {
-    it('appends tracks to the end', () => {
+    it('queues tracks into an empty queue', () => {
       const tracks = [createMockTrack('Track 1'), createMockTrack('Track 2')];
       useQueueStore.getState().addToQueue(tracks);
 
@@ -56,6 +56,40 @@ describe('useQueueStore', () => {
 
       const state = useQueueStore.getState();
       expect(state.items).toMatchSnapshot();
+    });
+
+    it('inserts after the current track and after earlier queued tracks', () => {
+      useQueueStore
+        .getState()
+        .replaceQueue([
+          createMockTrack('A'),
+          createMockTrack('B'),
+          createMockTrack('C'),
+        ]);
+
+      useQueueStore.getState().addToQueue([createMockTrack('Queued 1')]);
+      useQueueStore.getState().addToQueue([createMockTrack('Queued 2')]);
+
+      const titles = useQueueStore
+        .getState()
+        .items.map((item) => item.track.title);
+      expect(titles).toEqual(['A', 'Queued 1', 'Queued 2', 'B', 'C']);
+      expect(useQueueStore.getState().currentIndex).toBe(0);
+    });
+  });
+
+  describe('appendToQueue', () => {
+    it('appends tracks to the very end', () => {
+      useQueueStore
+        .getState()
+        .replaceQueue([createMockTrack('A'), createMockTrack('B')]);
+
+      useQueueStore.getState().appendToQueue([createMockTrack('Z')]);
+
+      const titles = useQueueStore
+        .getState()
+        .items.map((item) => item.track.title);
+      expect(titles).toEqual(['A', 'B', 'Z']);
     });
   });
 

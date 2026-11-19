@@ -45,6 +45,7 @@ export const commands = {
 	lightProfilesSave: (profiles: LightProfile[]) => typedError<null, string>(__TAURI_INVOKE("light_profiles_save", { profiles })),
 	aiComplete: (request: AiRequest) => typedError<string, string>(__TAURI_INVOKE("ai_complete", { request })),
 	aiDetectBackends: () => __TAURI_INVOKE<AiAvailability>("ai_detect_backends"),
+	setAppIcon: (png: number[]) => typedError<null, string>(__TAURI_INVOKE("set_app_icon", { png })),
 };
 
 /* Types */

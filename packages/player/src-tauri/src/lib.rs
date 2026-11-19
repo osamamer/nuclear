@@ -1,4 +1,5 @@
 pub mod ai;
+pub mod app_icon;
 pub mod bridge;
 pub mod commands;
 pub mod db;
@@ -82,7 +83,8 @@ fn specta_builder() -> tauri_specta::Builder<tauri::Wry> {
         light_profile::light_profiles_list,
         light_profile::light_profiles_save,
         ai::ai_complete,
-        ai::ai_detect_backends
+        ai::ai_detect_backends,
+        app_icon::set_app_icon
     ])
 }
 

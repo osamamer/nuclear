@@ -162,7 +162,12 @@ const RootComponent = () => {
 
   useEffect(() => {
     const window = getCurrentWindow();
-    window.show().then(() => window.setFocus());
+    const frame = requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        void window.show().then(() => window.setFocus());
+      }),
+    );
+    return () => cancelAnimationFrame(frame);
   }, []);
   return (
     <PlayerShell
@@ -219,15 +224,13 @@ const RootComponent = () => {
                     ))}
                   {!isLight && <CustomViewSidebarEntries />}
                 </div>
-                <div className="border-foreground/10 mt-auto flex flex-col gap-1 border-t pt-2">
-                  {isSidebarItemVisible(SIDEBAR_ITEM_IDS.settings) && (
+                {!isLight && (
+                  <div className="border-foreground/10 mt-auto flex flex-col gap-1 border-t pt-2">
                     <SidebarNavigationItem
                       icon={<SettingsIcon />}
                       label={tPrefs('title')}
                       onClick={() => openSettings()}
                     />
-                  )}
-                  {!isLight && (
                     <SidebarNavigationVisibilityMenu
                       isCompact={leftSidebar.isCollapsed}
                       builtInItems={sidebarItems.map(({ id, label, icon }) => ({
@@ -236,8 +239,8 @@ const RootComponent = () => {
                         icon,
                       }))}
                     />
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
             </SidebarNavigation>
           </PlayerWorkspace.LeftSidebar>
