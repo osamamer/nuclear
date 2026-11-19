@@ -38,6 +38,27 @@ fn maximize_for_gamescope(app: &tauri::App) {
     }
 }
 
+const WINDOW_SHOW_FALLBACK_DELAY: std::time::Duration = std::time::Duration::from_secs(8);
+
+fn show_main_window_if_frontend_stalls(app: &tauri::App) {
+    use tauri::Manager;
+
+    let handle = app.handle().clone();
+    std::thread::spawn(move || {
+        std::thread::sleep(WINDOW_SHOW_FALLBACK_DELAY);
+        let Some(window) = handle.get_webview_window("main") else {
+            return;
+        };
+        let is_visible = window.is_visible().unwrap_or(true);
+        let is_minimized = window.is_minimized().unwrap_or(false);
+        if !is_visible && !is_minimized {
+            log::warn!("Frontend did not show the main window in time, showing it from the backend");
+            let _ = window.show();
+            let _ = window.set_focus();
+        }
+    });
+}
+
 fn typescript_export_config() -> specta_typescript::Typescript {
     specta_typescript::Typescript::default().header("/* eslint-disable */")
 }
@@ -161,6 +182,8 @@ pub fn run() {
 
             #[cfg(target_os = "linux")]
             webkit_tuning::tune_main_webview(app);
+
+            show_main_window_if_frontend_stalls(app);
 
             Ok(())
         })

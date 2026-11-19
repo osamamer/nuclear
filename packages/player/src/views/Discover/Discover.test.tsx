@@ -15,6 +15,10 @@ const commandMocks = await vi.hoisted(async () => {
 
 vi.mock('../../services/tauri/bindings', () => commandMocks.moduleFactory());
 
+vi.mock('@tauri-apps/api/core', () => ({
+  invoke: vi.fn().mockResolvedValue(9100),
+}));
+
 const Wrapper = createDiscoverWrapper(commandMocks);
 
 const GRAPH: RelatedGraph = {

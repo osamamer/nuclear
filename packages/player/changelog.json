@@ -1,6 +1,18 @@
 [
   {
     "date": "2026-11-19T00:00",
+    "description": "Fixed the app freezing when opening Discover or loading many playlists at once, and the window now always appears on startup.",
+    "type": "fix",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Stability",
+        "color": "red"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-19T00:00",
     "description": "\"Add to queue\" now puts the song right after the one that's playing, after anything else you've queued, instead of at the end of the queue.",
     "type": "fix",
     "contributors": ["nukeop"],
