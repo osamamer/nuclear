@@ -101,7 +101,8 @@ export const PlayerWorkspaceSidebar: FC<PlayerWorkspaceSidebarProps> = ({
           {!isCollapsed && headerActions && (
             <span
               className={cn(
-                'flex flex-1 items-center justify-start gap-1',
+                'flex flex-1 items-center gap-1',
+                side === 'right' ? 'justify-end' : 'justify-start',
                 reveal,
               )}
             >

@@ -1,7 +1,19 @@
 [
   {
     "date": "2026-11-20T00:00",
-    "description": "Open the version picker for the active song from the button beside its title in the Now Playing bar.",
+    "description": "The queue sidebar uses smaller, borderless action buttons beside the collapse control.",
+    "type": "improvement",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Appearance",
+        "color": "purple"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-20T00:00",
+    "description": "Open the version picker for the active song from the controls on the left side of the player bar.",
     "type": "improvement",
     "contributors": ["nukeop"],
     "tags": [

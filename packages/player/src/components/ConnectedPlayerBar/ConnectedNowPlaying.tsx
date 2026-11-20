@@ -44,28 +44,6 @@ export const ConnectedNowPlaying: FC = () => {
       title={title}
       artist={artist}
       coverUrl={artwork?.url}
-      titleAction={
-        currentItem && (
-          <Tooltip
-            content={chooseVersionLabel}
-            side="top"
-            wrapperClassName="flex shrink-0"
-          >
-            <Button
-              size="flexible"
-              variant="text"
-              className="size-5 justify-center focus-visible:ring-2 focus-visible:ring-inset"
-              aria-label={chooseVersionLabel}
-              aria-haspopup="dialog"
-              onClick={() =>
-                openVersionPicker(currentItem.track, currentItem.playlistId)
-              }
-            >
-              <Layers size={14} />
-            </Button>
-          </Tooltip>
-        )
-      }
       onArtistClick={
         artist
           ? () => {
@@ -96,14 +74,30 @@ export const ConnectedNowPlaying: FC = () => {
           : undefined
       }
       action={
-        track && (
-          <FavoriteButton
-            size="sm"
-            isFavorite={isFavorite}
-            onToggle={handleToggleFavorite}
-            ariaLabelAdd={tTrack('actions.addToFavorites')}
-            ariaLabelRemove={tTrack('actions.removeFromFavorites')}
-          />
+        currentItem && (
+          <div className="flex shrink-0 items-center gap-2">
+            <FavoriteButton
+              size="sm"
+              isFavorite={isFavorite}
+              onToggle={handleToggleFavorite}
+              ariaLabelAdd={tTrack('actions.addToFavorites')}
+              ariaLabelRemove={tTrack('actions.removeFromFavorites')}
+            />
+            <Tooltip content={chooseVersionLabel} side="top">
+              <Button
+                size="icon-sm"
+                variant="text"
+                className="focus-visible:ring-2 focus-visible:ring-inset"
+                aria-label={chooseVersionLabel}
+                aria-haspopup="dialog"
+                onClick={() =>
+                  openVersionPicker(currentItem.track, currentItem.playlistId)
+                }
+              >
+                <Layers size={16} />
+              </Button>
+            </Tooltip>
+          </div>
         )
       }
     />

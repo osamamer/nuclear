@@ -15,6 +15,9 @@ type ConnectedQueuePanelProps = {
   isCollapsed?: boolean;
 };
 
+const queueActionClassName =
+  'text-foreground/60 hover:bg-muted/70 hover:text-foreground focus-visible:ring-foreground/50 focus-visible:ring-2 focus-visible:ring-inset [&>svg]:size-4';
+
 export const ConnectedQueuePanel: FC<ConnectedQueuePanelProps> = ({
   isCollapsed = false,
 }) => {
@@ -84,13 +87,28 @@ export const QueueHeaderActions: FC = () => {
 
   return (
     <>
-      <Button size="icon" data-testid="clear-queue-button" onClick={clearQueue}>
+      <Button
+        variant="text"
+        size="icon-sm"
+        className={queueActionClassName}
+        aria-label={t('actions.clear')}
+        title={t('actions.clear')}
+        data-testid="clear-queue-button"
+        onClick={clearQueue}
+      >
         <Trash2Icon />
       </Button>
       <Popover
         className="relative"
         trigger={
-          <Button size="icon" data-testid="queue-more-button">
+          <Button
+            variant="text"
+            size="icon-sm"
+            className={queueActionClassName}
+            aria-label={t('common:actions.moreActions')}
+            title={t('common:actions.moreActions')}
+            data-testid="queue-more-button"
+          >
             <EllipsisIcon />
           </Button>
         }
