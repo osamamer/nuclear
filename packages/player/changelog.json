@@ -1,6 +1,18 @@
 [
   {
     "date": "2026-11-20T00:00",
+    "description": "Open the version picker for the active song from the button beside its title in the Now Playing bar.",
+    "type": "improvement",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Playback",
+        "color": "purple"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-20T00:00",
     "description": "Choose favorite albums alongside playlists in Light Profiles and play them from the profile launcher.",
     "type": "improvement",
     "contributors": ["nukeop"],

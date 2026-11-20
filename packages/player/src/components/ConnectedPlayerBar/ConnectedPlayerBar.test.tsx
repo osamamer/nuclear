@@ -59,6 +59,30 @@ describe('ConnectedNowPlaying', () => {
     expect(Wrapper.nowPlaying.thumbnail).not.toBeInTheDocument();
   });
 
+  it('opens the version picker for the active song', async () => {
+    Wrapper.seedQueueItems(
+      [
+        new Wrapper.QueueItemBuilder()
+          .withId('first')
+          .withTitle('First')
+          .build(),
+        new Wrapper.QueueItemBuilder()
+          .withId('second')
+          .withTitle('Paranoid Android')
+          .withArtist('Radiohead')
+          .build(),
+      ],
+      1,
+    );
+    await Wrapper.mount();
+
+    await Wrapper.nowPlaying.chooseVersion();
+
+    expect(
+      await Wrapper.nowPlaying.findVersionTrack('Paranoid Android · Radiohead'),
+    ).toBeInTheDocument();
+  });
+
   it('shows placeholder when track has no artwork', async () => {
     const item = new Wrapper.QueueItemBuilder().build();
     Wrapper.seedQueueItem(item);

@@ -9,6 +9,7 @@ type PlayerBarNowPlayingProps = {
   coverUrl?: string;
   className?: string;
   action?: ReactNode;
+  titleAction?: ReactNode;
   onTitleClick?: () => void;
   onArtistClick?: () => void;
 };
@@ -19,6 +20,7 @@ export const PlayerBarNowPlaying: FC<PlayerBarNowPlayingProps> = ({
   coverUrl,
   className = '',
   action,
+  titleAction,
   onTitleClick,
   onArtistClick,
 }) => (
@@ -41,14 +43,17 @@ export const PlayerBarNowPlaying: FC<PlayerBarNowPlayingProps> = ({
       )}
     </div>
     <div className="min-w-0 flex-1">
-      <div
-        className={cn('truncate text-sm leading-5 font-semibold', {
-          'cursor-pointer hover:underline': onTitleClick,
-        })}
-        data-testid="now-playing-title"
-        onClick={onTitleClick}
-      >
-        {title}
+      <div className="flex items-center gap-1">
+        <div
+          className={cn('truncate text-sm leading-5 font-semibold', {
+            'cursor-pointer hover:underline': onTitleClick,
+          })}
+          data-testid="now-playing-title"
+          onClick={onTitleClick}
+        >
+          {title}
+        </div>
+        {titleAction}
       </div>
       <div
         className={cn('text-foreground/60 truncate text-xs', {

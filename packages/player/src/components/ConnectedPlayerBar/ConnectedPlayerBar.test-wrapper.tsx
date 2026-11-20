@@ -200,6 +200,13 @@ export const ConnectedPlayerBarWrapper = {
     async clickTitle() {
       await user.click(screen.getByTestId('now-playing-title'));
     },
+    async chooseVersion() {
+      await user.click(screen.getByRole('button', { name: 'Choose version…' }));
+    },
+    async findVersionTrack(text: string) {
+      const picker = await screen.findByTestId('version-picker');
+      return within(picker).getByText(text);
+    },
     async clickArtist() {
       await user.click(screen.getByTestId('player-now-playing-artist'));
     },
