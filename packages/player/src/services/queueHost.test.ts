@@ -84,7 +84,7 @@ describe('queueHost', () => {
     await queueHost.goToIndex(1);
     expect((await queueHost.getQueue()).currentIndex).toBe(0);
 
-    vi.setSystemTime(Date.now() + 5000);
+    vi.setSystemTime(Date.now() + 10_000);
     await queueHost.goToNext();
     expect((await queueHost.getQueue()).currentIndex).toBe(1);
   });

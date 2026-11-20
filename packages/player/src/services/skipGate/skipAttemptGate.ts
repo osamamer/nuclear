@@ -4,7 +4,7 @@ import {
 } from '../../stores/skipCountdownStore';
 import { rewindGate } from './rewindGate';
 
-export const SKIP_COUNTDOWN_MS = 5_000;
+export const SKIP_COUNTDOWN_MS = 10_000;
 export const FREE_SKIP_INTRO_MS = 10_000;
 export const FREE_SKIP_FRACTION = 0.7;
 export const LONG_TRACK_MS = 10 * 60_000;

@@ -608,7 +608,7 @@ describe('useQueueStore', () => {
       expect(useSkipCountdownStore.getState().skip).toBeNull();
     });
 
-    it('refuses the second skip and starts a five-second countdown', () => {
+    it('refuses the second skip and starts a ten-second countdown', () => {
       useSoundStore.getState().play();
       useQueueStore.getState().goToNext();
       advanceSeconds(10);
@@ -617,7 +617,7 @@ describe('useQueueStore', () => {
 
       expect(currentTitle()).toBe('Track 1');
       expect(useSkipCountdownStore.getState().skip?.deadlineMs).toBe(
-        Date.now() + 5000,
+        Date.now() + 10_000,
       );
     });
 
@@ -626,7 +626,7 @@ describe('useQueueStore', () => {
       useQueueStore.getState().goToNext();
       useQueueStore.getState().goToNext();
 
-      advanceSeconds(4.9);
+      advanceSeconds(9.9);
       useQueueStore.getState().goToNext();
       expect(currentTitle()).toBe('Track 1');
 
@@ -641,7 +641,7 @@ describe('useQueueStore', () => {
       useSoundStore.getState().play();
       useQueueStore.getState().goToNext();
       useQueueStore.getState().goToNext();
-      advanceSeconds(5);
+      advanceSeconds(10);
       useQueueStore.getState().goToNext();
       useSoundStore.getState().play();
       useSoundStore.setState({ seek: 20 });
@@ -663,7 +663,7 @@ describe('useQueueStore', () => {
       expect(currentTitle()).toBe('Track 2');
       expect(useQueueStore.getState().items).toHaveLength(3);
 
-      advanceSeconds(5);
+      advanceSeconds(10);
       playbackManager.playTracks([createMockTrack('New Track')]);
       expect(currentTitle()).toBe('New Track');
     });
@@ -681,10 +681,10 @@ describe('useQueueStore', () => {
       expect(useQueueStore.getState().items).toHaveLength(2);
     });
 
-    it('lets anything through five seconds after pausing, even after resuming', () => {
+    it('lets anything through ten seconds after pausing, even after resuming', () => {
       useSoundStore.getState().play();
       useSoundStore.getState().pause();
-      advanceSeconds(5);
+      advanceSeconds(10);
       useSoundStore.getState().play();
 
       useQueueStore.getState().goToNext();
@@ -692,7 +692,7 @@ describe('useQueueStore', () => {
       expect(currentTitle()).toBe('Track 2');
     });
 
-    it('only waits out what is left of the five seconds since a recent pause', () => {
+    it('only waits out what is left of the ten seconds since a recent pause', () => {
       useSoundStore.getState().play();
       useSoundStore.getState().pause();
       advanceSeconds(3);
@@ -702,10 +702,10 @@ describe('useQueueStore', () => {
       useQueueStore.getState().goToNext();
       expect(currentTitle()).toBe('Track 1');
       expect(useSkipCountdownStore.getState().skip?.deadlineMs).toBe(
-        Date.now() + 2000,
+        Date.now() + 7_000,
       );
 
-      advanceSeconds(2);
+      advanceSeconds(7);
       useQueueStore.getState().goToNext();
       expect(currentTitle()).toBe('Track 2');
     });

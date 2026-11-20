@@ -38,6 +38,16 @@ impl CurrentProfile {
 pub struct LightProfile {
     pub name: String,
     pub playlist_ids: Vec<String>,
+    #[serde(default)]
+    pub albums: Vec<LightProfileAlbum>,
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, specta::Type)]
+#[serde(rename_all = "camelCase")]
+pub struct LightProfileAlbum {
+    pub key: String,
+    pub label: String,
+    pub playlist_json: String,
 }
 
 #[derive(Serialize, Deserialize, Default)]
@@ -101,6 +111,12 @@ pub fn read_playlists(default_dir: &Path, playlist_ids: &[String]) -> Vec<String
             value.get("playlist").map(|playlist| playlist.to_string())
         })
         .collect()
+}
+
+fn profile_playlists(default_dir: &Path, profile: &LightProfile) -> Vec<String> {
+    let mut playlists = read_playlists(default_dir, &profile.playlist_ids);
+    playlists.extend(profile.albums.iter().map(|album| album.playlist_json.clone()));
+    playlists
 }
 
 fn copy_dir(from: &Path, to: &Path) -> std::io::Result<()> {
@@ -249,8 +265,8 @@ pub fn light_profile_active(
         *mirrored = true;
     }
     Ok(Some(ActiveLightProfile {
+        playlists_json: profile_playlists(&default_dir, &profile),
         name: profile.name,
-        playlists_json: read_playlists(&default_dir, &profile.playlist_ids),
     }))
 }
 

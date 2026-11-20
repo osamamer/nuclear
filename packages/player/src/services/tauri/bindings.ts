@@ -108,11 +108,6 @@ export type HourlyListeningTime = {
 	values: number[],
 };
 
-export type LightProfile = {
-	name: string,
-	playlistIds: string[],
-};
-
 export type HttpApiStartResult = {
 	port: number,
 	lan_address: string | null,
@@ -129,6 +124,18 @@ export type HttpResponse = {
 	status: number,
 	headers: { [key in string]: string },
 	body: string,
+};
+
+export type LightProfile = {
+	name: string,
+	playlistIds: string[],
+	albums?: LightProfileAlbum[],
+};
+
+export type LightProfileAlbum = {
+	key: string,
+	label: string,
+	playlistJson: string,
 };
 
 export type Page<T> = {

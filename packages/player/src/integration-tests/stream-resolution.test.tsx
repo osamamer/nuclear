@@ -524,7 +524,7 @@ describe('Stream Resolution Integration', () => {
       await StreamResolutionWrapper.selectQueueItem('Giant Steps');
       await StreamResolutionWrapper.waitForPlayback();
       act(() => useSoundStore.getState().pause());
-      vi.setSystemTime(Date.now() + 5000);
+      vi.setSystemTime(Date.now() + 10_000);
 
       await StreamResolutionWrapper.selectQueueItem('Countdown');
       await StreamResolutionWrapper.waitForPlayback();

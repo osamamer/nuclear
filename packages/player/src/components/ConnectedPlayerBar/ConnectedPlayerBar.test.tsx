@@ -149,7 +149,7 @@ describe('ConnectedControls', () => {
       'data-ready',
       'false',
     );
-    expect(Wrapper.skipBubble.seconds).toHaveTextContent('5');
+    expect(Wrapper.skipBubble.seconds).toHaveTextContent('10');
   });
 
   it('refuses Previous on a playing track', async () => {

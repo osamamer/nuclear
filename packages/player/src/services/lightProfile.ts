@@ -1,6 +1,9 @@
-import type { Playlist } from '@nuclearplayer/model';
+import { v4 as uuidv4 } from 'uuid';
+
+import type { Album, Playlist } from '@nuclearplayer/model';
 import { playlistSchema } from '@nuclearplayer/model';
 
+import { albumToTracks } from '../queries/albumDetails';
 import { useLightProfileStore } from '../stores/lightProfileStore';
 import { usePlaylistStore } from '../stores/playlistStore';
 import { Logger } from './logger';
@@ -11,9 +14,33 @@ export const parseLightProfilePlaylists = (
   playlistsJson: string[],
 ): Playlist[] =>
   playlistsJson.flatMap((json) => {
-    const parsed = playlistSchema.safeParse(JSON.parse(json));
-    return parsed.success ? [{ ...parsed.data, isReadOnly: true }] : [];
+    try {
+      const parsed = playlistSchema.safeParse(JSON.parse(json));
+      return parsed.success ? [{ ...parsed.data, isReadOnly: true }] : [];
+    } catch {
+      return [];
+    }
   });
+
+export const albumAsProfilePlaylist = (
+  album: Album,
+  title: string,
+): Playlist => {
+  const now = new Date().toISOString();
+  return playlistSchema.parse({
+    id: uuidv4(),
+    name: title,
+    artwork: album.artwork,
+    createdAtIso: now,
+    lastModifiedIso: now,
+    isReadOnly: true,
+    items: albumToTracks(album).map((track) => ({
+      id: uuidv4(),
+      track,
+      addedAtIso: now,
+    })),
+  });
+};
 
 export const showOnlyPlaylists = (playlists: Playlist[]) => {
   usePlaylistStore.setState({

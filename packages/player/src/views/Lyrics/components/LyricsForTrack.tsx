@@ -1,10 +1,9 @@
 import find from 'lodash-es/find';
 import head from 'lodash-es/head';
-import isNil from 'lodash-es/isNil';
 import { FC, useRef, useState } from 'react';
 
 import type { QueueItem } from '@nuclearplayer/model';
-import { cn, ScrollableArea } from '@nuclearplayer/ui';
+import { ScrollableArea } from '@nuclearplayer/ui';
 
 import { useCoreSetting } from '../../../hooks/useCoreSetting';
 import { useLyricsOffset } from '../../../hooks/useLyricsOffset';
@@ -12,6 +11,12 @@ import { useProviders } from '../../../hooks/useProviders';
 import { useLyrics } from '../hooks/useLyrics';
 import { LyricsContent } from './LyricsContent';
 import { LyricsToolbar } from './LyricsToolbar';
+
+const LYRICS_TEXT_SIZES = [
+  'text-4xl/[1.45]',
+  'text-5xl/[1.45]',
+  'text-6xl/[1.45]',
+];
 
 type LyricsForTrackProps = {
   currentItem: QueueItem | undefined;
@@ -41,7 +46,7 @@ export const LyricsForTrack: FC<LyricsForTrackProps> = ({ currentItem }) => {
         data-testid="lyrics-scroll-area"
         viewportRef={viewportRef}
         className="min-h-0 flex-1"
-        viewportClassName="scroll-smooth mask-y-from-95% px-10 py-10"
+        viewportClassName="scroll-smooth mask-y-from-95% px-6 py-10 sm:px-[max(2.5rem,calc((100%_-_56rem)/2))]"
       >
         <LyricsContent
           currentItem={currentItem}
@@ -50,9 +55,9 @@ export const LyricsForTrack: FC<LyricsForTrackProps> = ({ currentItem }) => {
           result={selectedResult}
           offsetMs={offsetMs}
           viewportRef={viewportRef}
-          textSizeClass={cn(
-            !isNil(textSize) && ['text-3xl', 'text-4xl', 'text-5xl'][textSize],
-          )}
+          textSizeClass={
+            LYRICS_TEXT_SIZES[textSize ?? 1] ?? LYRICS_TEXT_SIZES[1]
+          }
         />
       </ScrollableArea>
     </>

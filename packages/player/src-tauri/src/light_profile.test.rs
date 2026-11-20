@@ -1,14 +1,15 @@
 use std::fs;
 
 use super::{
-    launcher_path, mirror_default_data, read_playlists, read_profiles, sync_launchers,
-    validate_profiles, write_profiles, LightProfile,
+    launcher_path, mirror_default_data, profile_playlists, read_playlists, read_profiles,
+    sync_launchers, validate_profiles, write_profiles, LightProfile, LightProfileAlbum,
 };
 
 fn calm(playlist_ids: &[&str]) -> LightProfile {
     LightProfile {
         name: "calm".into(),
         playlist_ids: playlist_ids.iter().map(|id| id.to_string()).collect(),
+        albums: vec![],
     }
 }
 
@@ -16,6 +17,18 @@ fn calm(playlist_ids: &[&str]) -> LightProfile {
 fn saved_profiles_are_read_back() {
     let dir = tempfile::tempdir().unwrap();
     write_profiles(dir.path(), &[calm(&["one"])]).unwrap();
+    assert_eq!(read_profiles(dir.path()), vec![calm(&["one"])]);
+}
+
+#[test]
+fn existing_profiles_without_albums_are_loaded() {
+    let dir = tempfile::tempdir().unwrap();
+    fs::write(
+        dir.path().join(super::PROFILES_FILE),
+        r#"{"profiles":[{"name":"calm","playlistIds":["one"]}]}"#,
+    )
+    .unwrap();
+
     assert_eq!(read_profiles(dir.path()), vec![calm(&["one"])]);
 }
 
@@ -30,7 +43,7 @@ fn duplicate_or_unsafe_names_are_refused() {
     assert!(validate_profiles(&[calm(&[]), calm(&[])]).is_err());
     let unsafe_name = LightProfile {
         name: "../calm".into(),
-        playlist_ids: vec![],
+        ..calm(&[])
     };
     assert!(validate_profiles(&[unsafe_name]).is_err());
     assert!(validate_profiles(&[calm(&[])]).is_ok());
@@ -47,6 +60,29 @@ fn only_the_chosen_playlists_are_read_and_missing_ones_are_skipped() {
     let found = read_playlists(dir.path(), &["one".into(), "gone".into(), "../two".into()]);
 
     assert_eq!(found, vec![r#"{"id":"one"}"#.to_string()]);
+}
+
+#[test]
+fn saved_album_playlists_are_loaded_with_the_chosen_playlists() {
+    let dir = tempfile::tempdir().unwrap();
+    let playlists = dir.path().join("playlists");
+    fs::create_dir_all(&playlists).unwrap();
+    fs::write(playlists.join("one.json"), r#"{"playlist":{"id":"one"}}"#).unwrap();
+    let profile = LightProfile {
+        albums: vec![LightProfileAlbum {
+            key: r#"["provider","album"]"#.into(),
+            label: "Giant Steps".into(),
+            playlist_json: r#"{"id":"album"}"#.into(),
+        }],
+        ..calm(&["one"])
+    };
+    write_profiles(dir.path(), &[profile]).unwrap();
+    let profiles = read_profiles(dir.path());
+
+    assert_eq!(
+        profile_playlists(dir.path(), &profiles[0]),
+        vec![r#"{"id":"one"}"#, r#"{"id":"album"}"#]
+    );
 }
 
 #[test]
@@ -80,7 +116,7 @@ fn launchers_follow_the_profiles_but_claritard_wrapped_ones_are_left_alone() {
     let applications = dir.path();
     let focus = LightProfile {
         name: "focus".into(),
-        playlist_ids: vec![],
+        ..calm(&[])
     };
     sync_launchers(applications, "/usr/bin/nuclear-music-player", &[calm(&[]), focus.clone()])
         .unwrap();

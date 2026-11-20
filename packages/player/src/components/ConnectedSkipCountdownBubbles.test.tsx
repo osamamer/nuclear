@@ -29,19 +29,19 @@ describe('ConnectedSkipCountdownBubbles', () => {
     act(() => {
       useSkipCountdownStore.getState().setSkip({
         trackKey: 'track',
-        deadlineMs: Date.now() + 5000,
-        durationMs: 5000,
+        deadlineMs: Date.now() + 10_000,
+        durationMs: 10_000,
       });
     });
 
     const bubble = screen.getByTestId('skip-countdown-bubble');
     expect(bubble).toHaveAttribute('data-ready', 'false');
-    expect(within(bubble).getByText('5')).toBeInTheDocument();
+    expect(within(bubble).getByText('10')).toBeInTheDocument();
 
     await advance(2100);
-    expect(within(bubble).getByText('3')).toBeInTheDocument();
+    expect(within(bubble).getByText('8')).toBeInTheDocument();
 
-    await advance(3000);
+    await advance(8000);
     expect(
       screen.getByRole('status', { name: 'Skip allowed' }),
     ).toBeInTheDocument();
@@ -76,8 +76,8 @@ describe('ConnectedSkipCountdownBubbles', () => {
     act(() => {
       useSkipCountdownStore.getState().setSkip({
         trackKey: 'track',
-        deadlineMs: Date.now() + 5000,
-        durationMs: 5000,
+        deadlineMs: Date.now() + 10_000,
+        durationMs: 10_000,
       });
     });
     act(() => useSkipCountdownStore.getState().setSkip(null));

@@ -1,6 +1,42 @@
 [
   {
     "date": "2026-11-20T00:00",
+    "description": "Choose favorite albums alongside playlists in Light Profiles and play them from the profile launcher.",
+    "type": "improvement",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Playback",
+        "color": "purple"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-20T00:00",
+    "description": "The manual song-skip countdown and pause-to-skip wait now last ten seconds.",
+    "type": "improvement",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Playback",
+        "color": "purple"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-20T00:00",
+    "description": "The full lyrics view uses a centered column, larger type, and more space between lines.",
+    "type": "improvement",
+    "contributors": ["nukeop"],
+    "tags": [
+      {
+        "label": "Appearance",
+        "color": "purple"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-20T00:00",
     "description": "Long playlist names no longer push the playing playlist’s equalizer out of the sidebar. Choosing a track version from a playlist keeps the playlist indicator active.",
     "type": "fix",
     "contributors": ["nukeop"],
