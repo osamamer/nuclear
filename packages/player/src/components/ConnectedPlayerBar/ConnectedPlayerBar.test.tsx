@@ -1,4 +1,4 @@
-import { act } from '@testing-library/react';
+import { act, waitFor, within } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { providersHost } from '../../services/providersHost';
@@ -34,6 +34,29 @@ beforeEach(() => {
 });
 
 describe('ConnectedNowPlaying', () => {
+  it('opens the active track menu on right-click', async () => {
+    Wrapper.seedQueueItem(new Wrapper.QueueItemBuilder().build());
+    await Wrapper.mount();
+
+    const menu = await Wrapper.nowPlaying.openContextMenu();
+
+    expect(
+      within(menu).getByRole('menuitem', { name: 'Play now' }),
+    ).toBeVisible();
+  });
+
+  it('returns to the previous view when the lyrics control is clicked again', async () => {
+    const { router } = await Wrapper.mount();
+
+    await Wrapper.toggleLyrics();
+    expect(router.state.location.pathname).toBe('/lyrics');
+
+    await Wrapper.toggleLyrics();
+    await waitFor(() =>
+      expect(router.state.location.pathname).toBe('/dashboard'),
+    );
+  });
+
   it('shows track title, artist, and thumbnail when a track is playing', async () => {
     const item = new Wrapper.QueueItemBuilder()
       .withTitle('Paranoid Android')

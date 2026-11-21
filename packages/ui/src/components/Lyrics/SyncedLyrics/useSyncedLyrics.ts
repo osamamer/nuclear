@@ -47,15 +47,23 @@ export const useSyncedLyrics = ({
     const lineTop =
       activeLine.getBoundingClientRect().top -
       viewport.getBoundingClientRect().top;
-    viewport.scrollTop =
+    const top =
       viewport.scrollTop + lineTop - viewport.clientHeight * ANCHOR_RATIO;
+    if (
+      typeof viewport.scrollTo === 'function' &&
+      !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+    ) {
+      viewport.scrollTo({ top, behavior: 'smooth' });
+    } else {
+      viewport.scrollTop = top;
+    }
   }, [viewportRef]);
 
   useEffect(() => {
     if (autoScroll) {
       scrollToActiveLine();
     }
-  }, [autoScroll, activeLineIndex, scrollToActiveLine]);
+  }, [autoScroll, activeLineIndex, lines, scrollToActiveLine]);
 
   return {
     activeLineRef,

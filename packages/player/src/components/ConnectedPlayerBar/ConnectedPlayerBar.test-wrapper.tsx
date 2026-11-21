@@ -183,6 +183,13 @@ export const ConnectedPlayerBarWrapper = {
   },
 
   nowPlaying: {
+    async openContextMenu() {
+      await user.pointer({
+        keys: '[MouseRight]',
+        target: screen.getByTestId('now-playing-title'),
+      });
+      return screen.findByRole('menu');
+    },
     title(text: string) {
       return within(screen.getByTestId('now-playing-title')).getByText(text);
     },
@@ -210,6 +217,10 @@ export const ConnectedPlayerBarWrapper = {
     async clickArtist() {
       await user.click(screen.getByTestId('player-now-playing-artist'));
     },
+  },
+
+  async toggleLyrics() {
+    await user.click(screen.getByRole('link', { name: 'Lyrics' }));
   },
 
   skipBubble: {

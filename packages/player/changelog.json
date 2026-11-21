@@ -1,5 +1,12 @@
 [
   {
+    "date": "2026-11-21T00:00",
+    "description": "Keep the active playlist visible in the collapsed sidebar, surface recently played playlists, and show playlist dates and context actions. The lyrics button now closes lyrics, synced lyrics scroll smoothly, and the player bar opens the track menu on right-click.",
+    "type": "improvement",
+    "contributors": ["osamamer"],
+    "tags": [{ "label": "Playback", "color": "purple" }]
+  },
+  {
     "date": "2026-11-20T00:00",
     "description": "The queue sidebar uses smaller, borderless action buttons beside the collapse control.",
     "type": "improvement",

@@ -13,6 +13,7 @@ import {
   Tooltip,
 } from '@nuclearplayer/ui';
 
+import { usePlaylistPreferencesStore } from '../../../stores/playlistPreferencesStore';
 import { PlaylistArtwork } from './PlaylistArtwork';
 import { usePlaylistDetailHeader } from './usePlaylistDetailHeader';
 
@@ -32,6 +33,18 @@ export const PlaylistDetailHeader: FC<PlaylistDetailHeaderProps> = ({
   controls,
 }) => {
   const { t } = useTranslation('playlists');
+  const lastPlayed = usePlaylistPreferencesStore(
+    (state) => state.lastPlayedByPlaylist[playlist.id],
+  );
+  const dates = [
+    { key: 'createdDate', date: new Date(playlist.createdAtIso) },
+    ...(playlist.createdAtIso === playlist.lastModifiedIso
+      ? []
+      : [{ key: 'updatedDate', date: new Date(playlist.lastModifiedIso) }]),
+    ...(lastPlayed === undefined
+      ? []
+      : [{ key: 'lastPlayedDate', date: new Date(lastPlayed) }]),
+  ] as const;
   const totalDurationMs = playlist.items.reduce(
     (total, item) => total + (item.track.durationMs ?? 0),
     0,
@@ -176,6 +189,18 @@ export const PlaylistDetailHeader: FC<PlaylistDetailHeaderProps> = ({
                     <span>{formatTimeMillis(totalDurationMs)}</span>
                   </>
                 )}
+              </div>
+              <div
+                className="text-foreground/60 flex flex-wrap gap-x-3 gap-y-1 text-xs"
+                data-testid="playlist-detail-dates"
+              >
+                {dates
+                  .filter(({ date }) => Number.isFinite(date.getTime()))
+                  .map(({ key, date }) => (
+                    <time key={key} dateTime={date.toISOString()}>
+                      {t(key, { date })}
+                    </time>
+                  ))}
               </div>
             </div>
           )}

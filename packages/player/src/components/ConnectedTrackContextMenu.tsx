@@ -25,6 +25,7 @@ type ConnectedTrackContextMenuProps = {
   playlistTracks?: Track[];
   index?: number;
   onRemoveFromPlaylist?: () => void;
+  contextOnly?: boolean;
 };
 
 export const ConnectedTrackContextMenu: FC<ConnectedTrackContextMenuProps> = ({
@@ -34,6 +35,7 @@ export const ConnectedTrackContextMenu: FC<ConnectedTrackContextMenuProps> = ({
   playlistTracks,
   index,
   onRemoveFromPlaylist,
+  contextOnly,
 }) => {
   const { t } = useTranslation('track');
   const { t: tPlaylists } = useTranslation('playlists');
@@ -54,7 +56,9 @@ export const ConnectedTrackContextMenu: FC<ConnectedTrackContextMenuProps> = ({
 
   return (
     <TrackContextMenu>
-      <TrackContextMenu.Trigger>{children}</TrackContextMenu.Trigger>
+      <TrackContextMenu.Trigger contextOnly={contextOnly}>
+        {children}
+      </TrackContextMenu.Trigger>
       <TrackContextMenu.Content>
         <TrackContextMenu.Header
           title={track.title}

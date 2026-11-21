@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'motion/react';
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, Ref } from 'react';
 
 import { cn } from '../../utils';
 import { buttonVariants, shapeVariants } from './cardActionsAnimation';
@@ -17,6 +17,7 @@ type CardActionsProps = {
   menuItems?: ReactNode;
   labels?: CardLabels;
   isLoading?: boolean;
+  menuButtonRef?: Ref<HTMLButtonElement>;
 };
 
 export const CardActions: FC<CardActionsProps> = ({
@@ -24,6 +25,7 @@ export const CardActions: FC<CardActionsProps> = ({
   menuItems,
   labels,
   isLoading = false,
+  menuButtonRef,
 }) => (
   <div className="group-hover:translate-x-shadow-x group-hover:translate-y-shadow-y pointer-events-none absolute inset-0 border-(length:--border-width) border-transparent p-2 transition-all">
     <div className="relative aspect-square">
@@ -39,7 +41,9 @@ export const CardActions: FC<CardActionsProps> = ({
         >
           {menuItems && (
             <motion.div variants={buttonVariants}>
-              <CardMenu label={labels?.menu}>{menuItems}</CardMenu>
+              <CardMenu label={labels?.menu} triggerRef={menuButtonRef}>
+                {menuItems}
+              </CardMenu>
             </motion.div>
           )}
           {onPlay && (

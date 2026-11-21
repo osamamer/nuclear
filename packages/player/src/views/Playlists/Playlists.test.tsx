@@ -12,6 +12,7 @@ import {
 import { PlayerBarWrapper } from '../../integration-tests/PlayerBar.test-wrapper';
 import { providersHost } from '../../services/providersHost';
 import { useLayoutStore } from '../../stores/layoutStore';
+import { usePlaylistPreferencesStore } from '../../stores/playlistPreferencesStore';
 import { usePlaylistStore } from '../../stores/playlistStore';
 import { useQueueStore } from '../../stores/queueStore';
 import { getSetting } from '../../stores/settingsStore';
@@ -56,6 +57,7 @@ const mockPlaylistFile = (playlist: Playlist) =>
 describe('Playlists view', () => {
   beforeEach(() => {
     resetInMemoryTauriStore();
+    usePlaylistPreferencesStore.setState({ lastPlayedByPlaylist: {} });
     usePlaylistStore.setState({
       index: [],
       playlists: new Map(),
@@ -302,6 +304,29 @@ describe('Playlists view', () => {
       ]);
     });
 
+    it('shows played playlists first and still lets you restore custom order', async () => {
+      const index = usePlaylistStore.getState().index;
+      usePlaylistPreferencesStore.setState({
+        lastPlayedByPlaylist: { [index[1].id]: 100, [index[3].id]: 200 },
+      });
+
+      await PlaylistsWrapper.mount();
+
+      expect(PlaylistsWrapper.cardNames).toEqual([
+        'Bravo Rock',
+        'Alpha Rock',
+        'Delta Jazz',
+        'Charlie Jazz',
+      ]);
+      await PlaylistsWrapper.sort.select.select('Custom');
+      expect(PlaylistsWrapper.cardNames).toEqual([
+        'Delta Jazz',
+        'Alpha Rock',
+        'Charlie Jazz',
+        'Bravo Rock',
+      ]);
+    });
+
     it('lets the user drag every card in custom order', async () => {
       await PlaylistsWrapper.mount();
 
@@ -508,29 +533,42 @@ describe('Playlists view', () => {
       expect(PlaylistsWrapper.sidebarPlayingIndicators).toHaveLength(0);
     });
 
-    it('marks the playlist as playing in the sidebar once playback starts', async () => {
-      useSoundStore.setState({ status: 'stopped', hasStartedPlayback: false });
-      useLayoutStore.setState({ playlistsExpanded: true });
-      providersHost.register(
-        new StreamingProviderBuilder()
-          .withSearchForTrack(async (artist: string, title: string) => [
-            createMockCandidate(`candidate-${title}`, `${artist} - ${title}`),
-          ])
-          .build(),
-      );
-      await PlaylistsWrapper.savePlaylists(roadTrip);
+    it.each([true, false])(
+      'shows the active playlist with playlists expanded set to %s',
+      async (playlistsExpanded) => {
+        useSoundStore.setState({
+          status: 'stopped',
+          hasStartedPlayback: false,
+        });
+        useLayoutStore.setState({ playlistsExpanded });
+        providersHost.register(
+          new StreamingProviderBuilder()
+            .withSearchForTrack(async (artist: string, title: string) => [
+              createMockCandidate(`candidate-${title}`, `${artist} - ${title}`),
+            ])
+            .build(),
+        );
+        await PlaylistsWrapper.savePlaylists(roadTrip);
 
-      await PlaylistsWrapper.mount();
-      expect(PlaylistsWrapper.sidebarPlayingIndicators).toHaveLength(0);
-      await PlaylistsWrapper.card(0).play();
+        await PlaylistsWrapper.mount();
+        expect(PlaylistsWrapper.sidebarPlayingIndicators).toHaveLength(0);
+        await PlaylistsWrapper.card(0).play();
 
-      await vi.waitFor(() => {
-        expect(PlayerBarWrapper.isPlaying).toBe(true);
-      });
-      await vi.waitFor(() => {
-        expect(PlaylistsWrapper.sidebarPlayingIndicators).toHaveLength(1);
-      });
-    });
+        await vi.waitFor(() => {
+          expect(PlayerBarWrapper.isPlaying).toBe(true);
+        });
+        await vi.waitFor(() => {
+          expect(PlaylistsWrapper.sidebarPlayingIndicators).toHaveLength(1);
+        });
+        expect(PlaylistsWrapper.sidebarPlaylistLinks).toHaveLength(1);
+        const playlistId = usePlaylistStore.getState().index[0].id;
+        expect(
+          usePlaylistPreferencesStore.getState().lastPlayedByPlaylist[
+            playlistId
+          ],
+        ).toBeGreaterThan(0);
+      },
+    );
 
     it('has no play button for an empty playlist', async () => {
       PlaylistsWrapper.createPlaylists(

@@ -6,15 +6,23 @@ import type {
   PlaylistIndexNode,
 } from '@nuclearplayer/model';
 
+import { usePlaylistPreferencesStore } from '../../../stores/playlistPreferencesStore';
+
 export type PlaylistSortBy =
-  'custom' | 'name' | 'dateAdded' | 'dateModified' | 'trackCount' | 'duration';
+  | 'custom'
+  | 'recentlyPlayed'
+  | 'name'
+  | 'dateAdded'
+  | 'dateModified'
+  | 'trackCount'
+  | 'duration';
 
 export type SortDirection = 'asc' | 'desc';
 
 const comparePlaylists = (
   left: PlaylistIndexEntry,
   right: PlaylistIndexEntry,
-  sortBy: Exclude<PlaylistSortBy, 'custom'>,
+  sortBy: Exclude<PlaylistSortBy, 'custom' | 'recentlyPlayed'>,
 ): number => {
   switch (sortBy) {
     case 'name':
@@ -48,8 +56,19 @@ const compareNames = (left: PlaylistFolder, right: PlaylistFolder) =>
   left.name.localeCompare(right.name);
 
 export const usePlaylistSort = (entries: PlaylistIndexNode[]) => {
-  const [sortBy, setSortBy] = useState<PlaylistSortBy>('custom');
+  const [selectedSortBy, setSortBy] = useState<PlaylistSortBy>();
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
+  const lastPlayed = usePlaylistPreferencesStore(
+    (state) => state.lastPlayedByPlaylist,
+  );
+  const sortBy =
+    selectedSortBy ??
+    (entries.some(
+      (entry) =>
+        entry.kind === 'playlist' && lastPlayed[entry.id] !== undefined,
+    )
+      ? 'recentlyPlayed'
+      : 'custom');
 
   const selectSortBy = (nextSortBy: PlaylistSortBy) => {
     setSortBy(nextSortBy);
@@ -74,6 +93,16 @@ export const usePlaylistSort = (entries: PlaylistIndexNode[]) => {
 
     const folders = entries.filter((entry) => entry.kind === 'folder');
     const playlists = entries.filter((entry) => entry.kind === 'playlist');
+    if (sortBy === 'recentlyPlayed') {
+      playlists.sort(
+        (left, right) =>
+          (lastPlayed[right.id] ?? 0) - (lastPlayed[left.id] ?? 0),
+      );
+      let playlistIndex = 0;
+      return entries.map((entry) =>
+        entry.kind === 'folder' ? entry : playlists[playlistIndex++],
+      );
+    }
 
     return [
       ...sortInDirection(folders, compareNames, sortDirection),
@@ -83,7 +112,7 @@ export const usePlaylistSort = (entries: PlaylistIndexNode[]) => {
         sortDirection,
       ),
     ];
-  }, [entries, sortBy, sortDirection]);
+  }, [entries, sortBy, sortDirection, lastPlayed]);
 
   return {
     sortBy,

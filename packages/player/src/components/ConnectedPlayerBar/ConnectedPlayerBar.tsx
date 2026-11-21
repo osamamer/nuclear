@@ -1,4 +1,9 @@
-import { Link } from '@tanstack/react-router';
+import {
+  Link,
+  useCanGoBack,
+  useMatchRoute,
+  useRouter,
+} from '@tanstack/react-router';
 import { ListMusicIcon, MicVocalIcon } from 'lucide-react';
 import { FC } from 'react';
 
@@ -17,6 +22,10 @@ export const ConnectedPlayerBar: FC = () => {
   const { t } = useTranslation('navigation');
   const { t: tQueue } = useTranslation('queue');
   const isLight = useIsLightProfile();
+  const router = useRouter();
+  const canGoBack = useCanGoBack();
+  const matchRoute = useMatchRoute();
+  const lyricsOpen = Boolean(matchRoute({ to: '/lyrics' }));
   const isQueueHidden = useLayoutStore((state) => state.rightSidebar.isHidden);
   const toggleQueueVisibility = useLayoutStore(
     (state) => state.toggleRightSidebarVisibility,
@@ -41,7 +50,22 @@ export const ConnectedPlayerBar: FC = () => {
           {!isLight && (
             <Tooltip content={t('lyrics')} side="top">
               <Link
-                to="/lyrics"
+                to={lyricsOpen && !canGoBack ? '/' : '/lyrics'}
+                replace={lyricsOpen && !canGoBack}
+                onClick={(event) => {
+                  if (
+                    lyricsOpen &&
+                    canGoBack &&
+                    event.button === 0 &&
+                    !event.metaKey &&
+                    !event.ctrlKey &&
+                    !event.shiftKey &&
+                    !event.altKey
+                  ) {
+                    event.preventDefault();
+                    router.history.back();
+                  }
+                }}
                 aria-label={t('lyrics')}
                 className="text-foreground hover:bg-primary/10 aria-[current=page]:bg-primary/10 aria-[current=page]:text-primary flex size-8 shrink-0 items-center justify-center rounded-md transition-colors"
               >

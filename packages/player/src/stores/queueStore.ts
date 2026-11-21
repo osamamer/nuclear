@@ -23,6 +23,7 @@ import {
 import { errorMessage } from '../utils/errorMessage';
 import { secondsToMs } from '../utils/time';
 import { matchesBlacklistRule, useBlacklistStore } from './blacklistStore';
+import { usePlaylistPreferencesStore } from './playlistPreferencesStore';
 import { getSetting } from './settingsStore';
 import { useSkipFeedbackStore } from './skipFeedbackStore';
 import { useSoundStore } from './soundStore';
@@ -751,18 +752,32 @@ useQueueStore.subscribe((state, previousState) => {
   if (currentItemId !== previousItemId) {
     skipAttemptGate.onCurrentTrackChanged(currentItemId);
     rewindGate.onCurrentTrackChanged(currentItemId);
+    const playlistId = state.getCurrentItem()?.playlistId;
+    if (
+      playlistId &&
+      playlistId !==
+        previousState.items[previousState.currentIndex]?.playlistId &&
+      useSoundStore.getState().status === 'playing'
+    ) {
+      usePlaylistPreferencesStore.getState().recordPlayed(playlistId);
+    }
   }
 });
 
-useSoundStore.subscribe((state) => {
-  const currentItemId = useQueueStore.getState().getCurrentItem()?.id;
-  if (!currentItemId) {
+useSoundStore.subscribe((state, previousState) => {
+  const currentItem = useQueueStore.getState().getCurrentItem();
+  if (!currentItem) {
     return;
   }
   if (state.status === 'playing') {
-    skipAttemptGate.onTrackPlaying(currentItemId);
+    skipAttemptGate.onTrackPlaying(currentItem.id);
+    if (previousState.status !== 'playing' && currentItem.playlistId) {
+      usePlaylistPreferencesStore
+        .getState()
+        .recordPlayed(currentItem.playlistId);
+    }
   } else {
-    skipAttemptGate.onTrackPaused(currentItemId);
+    skipAttemptGate.onTrackPaused(currentItem.id);
   }
 });
 

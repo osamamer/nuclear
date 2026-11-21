@@ -82,6 +82,9 @@ export const PlaylistDetailWrapper = {
   async playTrack(name: string) {
     await user.click(screen.getByRole('button', { name, exact: true }));
   },
+  get dates() {
+    return screen.getByTestId('playlist-detail-dates');
+  },
   get readOnlyBadge() {
     return screen.queryByTestId('read-only-badge');
   },

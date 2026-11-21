@@ -8,8 +8,10 @@ import type { PlaylistIndexEntry } from '@nuclearplayer/model';
 import type { DashboardProvider } from '@nuclearplayer/plugin-sdk';
 import { formatTimeMillis, ViewShell } from '@nuclearplayer/ui';
 
+import { PlaylistContextMenu } from '../../components/PlaylistContextMenu';
 import { useProviders } from '../../hooks/useProviders';
 import { PlaylistIndexTree } from '../../stores/PlaylistIndexTree';
+import { usePlaylistPreferencesStore } from '../../stores/playlistPreferencesStore';
 import { usePlaylistStore } from '../../stores/playlistStore';
 import { useStartupStore } from '../../stores/startupStore';
 import { PlaylistArtwork } from '../Playlists/components/PlaylistArtwork';
@@ -66,39 +68,44 @@ const YourPlaylists: FC<{ playlists: PlaylistIndexEntry[] }> = ({
       {playlists.length > 0 ? (
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
           {playlists.map((playlist) => (
-            <button
+            <PlaylistContextMenu
               key={playlist.id}
-              type="button"
-              data-testid="dashboard-playlist-card"
-              className="border-border/70 bg-background hover:border-primary/60 hover:bg-muted/70 group flex min-w-0 cursor-pointer items-center gap-3 rounded-2xl border p-2 text-left transition-colors"
-              onClick={() =>
-                navigate({
-                  to: '/playlists/$playlistId',
-                  params: { playlistId: playlist.id },
-                })
-              }
+              playlistId={playlist.id}
+              hasTracks={playlist.itemCount > 0}
             >
-              <div className="bg-muted size-16 shrink-0 overflow-hidden rounded-xl sm:size-20">
-                <PlaylistArtwork
-                  name={playlist.name}
-                  thumbnails={playlist.thumbnails}
+              <button
+                type="button"
+                data-testid="dashboard-playlist-card"
+                className="border-border/70 bg-background hover:border-primary/60 hover:bg-muted/70 group flex w-full min-w-0 cursor-pointer items-center gap-3 rounded-2xl border p-2 text-left transition-colors"
+                onClick={() =>
+                  navigate({
+                    to: '/playlists/$playlistId',
+                    params: { playlistId: playlist.id },
+                  })
+                }
+              >
+                <div className="bg-muted size-16 shrink-0 overflow-hidden rounded-xl sm:size-20">
+                  <PlaylistArtwork
+                    name={playlist.name}
+                    thumbnails={playlist.thumbnails}
+                  />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <span className="text-foreground block truncate font-semibold">
+                    {playlist.name}
+                  </span>
+                  <span className="text-foreground/55 block truncate text-xs">
+                    {t('playlists:trackCount', { count: playlist.itemCount })}
+                    {playlist.totalDurationMs > 0 &&
+                      ` · ${formatTimeMillis(playlist.totalDurationMs)}`}
+                  </span>
+                </div>
+                <ArrowUpRight
+                  size={17}
+                  className="text-foreground/35 group-hover:text-primary mr-1 shrink-0 transition-colors"
                 />
-              </div>
-              <div className="min-w-0 flex-1">
-                <span className="text-foreground block truncate font-semibold">
-                  {playlist.name}
-                </span>
-                <span className="text-foreground/55 block truncate text-xs">
-                  {t('playlists:trackCount', { count: playlist.itemCount })}
-                  {playlist.totalDurationMs > 0 &&
-                    ` · ${formatTimeMillis(playlist.totalDurationMs)}`}
-                </span>
-              </div>
-              <ArrowUpRight
-                size={17}
-                className="text-foreground/35 group-hover:text-primary mr-1 shrink-0 transition-colors"
-              />
-            </button>
+              </button>
+            </PlaylistContextMenu>
           ))}
         </div>
       ) : (
@@ -114,17 +121,22 @@ const YourPlaylists: FC<{ playlists: PlaylistIndexEntry[] }> = ({
 export const Dashboard: FC = () => {
   const { t } = useTranslation('dashboard');
   const index = usePlaylistStore((state) => state.index);
+  const lastPlayed = usePlaylistPreferencesStore(
+    (state) => state.lastPlayedByPlaylist,
+  );
   const isStartingUp = useStartupStore((state) => state.isStartingUp);
   const providers = useProviders('dashboard') as DashboardProvider[];
   const playlists = useMemo(
     () =>
       new PlaylistIndexTree(index)
         .playlists()
-        .sort((first, second) =>
-          second.lastModifiedIso.localeCompare(first.lastModifiedIso),
+        .sort(
+          (first, second) =>
+            (lastPlayed[second.id] ?? 0) - (lastPlayed[first.id] ?? 0) ||
+            second.lastModifiedIso.localeCompare(first.lastModifiedIso),
         )
         .slice(0, 8),
-    [index],
+    [index, lastPlayed],
   );
 
   const activeWidgets = useMemo(() => {

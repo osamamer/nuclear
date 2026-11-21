@@ -135,6 +135,16 @@ exports[`PlaylistDetail view > (Snapshot) renders playlist detail with tracks 1`
                     6:00
                   </span>
                 </div>
+                <div
+                  class="text-foreground/60 flex flex-wrap gap-x-3 gap-y-1 text-xs"
+                  data-testid="playlist-detail-dates"
+                >
+                  <time
+                    datetime="2024-01-15T10:00:00.000Z"
+                  >
+                    Created 1/15/2024
+                  </time>
+                </div>
               </div>
             </div>
           </div>

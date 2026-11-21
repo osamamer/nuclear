@@ -198,6 +198,12 @@ const RootComponent = () => {
                             isExpanded={playlistsExpanded}
                             onClick={togglePlaylistsExpanded}
                           />
+                          {!playlistsExpanded && (
+                            <PlaylistSidebarEntries
+                              isCompact={leftSidebar.isCollapsed}
+                              activeOnly
+                            />
+                          )}
                           <div
                             aria-hidden={!playlistsExpanded}
                             {...{ inert: playlistsExpanded ? undefined : '' }}
@@ -209,9 +215,11 @@ const RootComponent = () => {
                             )}
                           >
                             <div className="min-h-0 overflow-clip">
-                              <PlaylistSidebarEntries
-                                isCompact={leftSidebar.isCollapsed}
-                              />
+                              {playlistsExpanded && (
+                                <PlaylistSidebarEntries
+                                  isCompact={leftSidebar.isCollapsed}
+                                />
+                              )}
                             </div>
                           </div>
                         </div>

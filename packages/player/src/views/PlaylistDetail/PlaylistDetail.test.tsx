@@ -10,6 +10,7 @@ import { PlayerBarWrapper } from '../../integration-tests/PlayerBar.test-wrapper
 import { QueueWrapper } from '../../integration-tests/Queue.test-wrapper';
 import { providersHost } from '../../services/providersHost';
 import { useLayoutStore } from '../../stores/layoutStore';
+import { usePlaylistPreferencesStore } from '../../stores/playlistPreferencesStore';
 import { useQueueStore } from '../../stores/queueStore';
 import { useSoundStore } from '../../stores/soundStore';
 import { useStartupStore } from '../../stores/startupStore';
@@ -61,6 +62,7 @@ describe('PlaylistDetail view', () => {
     resetInMemoryTauriStore();
     useQueueStore.setState({ items: [], currentIndex: 0 });
     useStartupStore.setState({ isStartingUp: false });
+    usePlaylistPreferencesStore.setState({ lastPlayedByPlaylist: {} });
     providersHost.clear();
     PlaylistDetailWrapper.seedPlaylist(defaultPlaylist());
     (dialog.save as Mock).mockResolvedValue(null);
@@ -68,6 +70,11 @@ describe('PlaylistDetail view', () => {
   });
 
   it('(Snapshot) renders playlist detail with tracks', async () => {
+    PlaylistDetailWrapper.seedPlaylist(
+      defaultPlaylist()
+        .withCreatedAt('2024-01-15T10:00:00.000Z')
+        .withLastModified('2024-01-15T10:00:00.000Z'),
+    );
     const { getByTestId } = await PlaylistDetailWrapper.mount('test-playlist');
 
     expect(getByTestId('player-workspace-main')).toMatchSnapshot();
@@ -135,6 +142,25 @@ describe('PlaylistDetail view', () => {
     expect(PlaylistDetailWrapper.title.display).toHaveTextContent(
       'Test Playlist',
     );
+  });
+
+  it('shows when the playlist was created, updated, and last played', async () => {
+    PlaylistDetailWrapper.seedPlaylist(
+      defaultPlaylist()
+        .withCreatedAt('2024-01-15T10:00:00.000Z')
+        .withLastModified('2024-03-20T10:00:00.000Z'),
+    );
+    usePlaylistPreferencesStore.setState({
+      lastPlayedByPlaylist: {
+        'test-playlist': Date.parse('2024-05-01T10:00:00.000Z'),
+      },
+    });
+
+    await PlaylistDetailWrapper.mount('test-playlist');
+
+    expect(PlaylistDetailWrapper.dates).toHaveTextContent(/Created .*2024/);
+    expect(PlaylistDetailWrapper.dates).toHaveTextContent(/Updated .*2024/);
+    expect(PlaylistDetailWrapper.dates).toHaveTextContent(/Played .*2024/);
   });
 
   it('shows read-only badge for external playlists', async () => {

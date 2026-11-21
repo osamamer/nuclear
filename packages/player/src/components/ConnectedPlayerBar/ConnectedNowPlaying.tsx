@@ -9,6 +9,7 @@ import { Button, FavoriteButton, PlayerBar, Tooltip } from '@nuclearplayer/ui';
 import { useFavoritesStore } from '../../stores/favoritesStore';
 import { useQueueStore } from '../../stores/queueStore';
 import { useVersionPickerStore } from '../../stores/versionPickerStore';
+import { ConnectedTrackContextMenu } from '../ConnectedTrackContextMenu';
 
 export const ConnectedNowPlaying: FC = () => {
   const { t } = useTranslation('playerBar');
@@ -39,7 +40,7 @@ export const ConnectedNowPlaying: FC = () => {
     }
   };
 
-  return (
+  const nowPlaying = (
     <PlayerBar.NowPlaying
       title={title}
       artist={artist}
@@ -101,5 +102,19 @@ export const ConnectedNowPlaying: FC = () => {
         )
       }
     />
+  );
+
+  return currentItem ? (
+    <ConnectedTrackContextMenu
+      track={currentItem.track}
+      playlistId={currentItem.playlistId}
+      contextOnly
+    >
+      <div className="min-w-0" tabIndex={0}>
+        {nowPlaying}
+      </div>
+    </ConnectedTrackContextMenu>
+  ) : (
+    nowPlaying
   );
 };

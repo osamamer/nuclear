@@ -60,6 +60,7 @@ export const PlaylistCard: FC<PlaylistCardProps> = ({ playlist, onClick }) => {
           .join(' · ')}
         onClick={onClick}
         onPlay={hasTracks ? play : undefined}
+        menuOnContextClick
         menuItems={
           <PlaylistCardMenuItems
             playlistId={playlist.id}

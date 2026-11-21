@@ -1,5 +1,5 @@
 import { CassetteTape } from 'lucide-react';
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, useRef } from 'react';
 
 import { cn } from '../../utils';
 import { Box } from '../Box';
@@ -20,6 +20,7 @@ type CardProps = {
   labels?: CardLabels;
   isLoading?: boolean;
   imageReveal?: boolean;
+  menuOnContextClick?: boolean;
 };
 
 const CardBase: FC<CardProps> = ({
@@ -34,71 +35,91 @@ const CardBase: FC<CardProps> = ({
   labels,
   isLoading,
   imageReveal = true,
-}) => (
-  <div
-    data-testid="card-container"
-    className={cn('group relative w-42', className)}
-  >
-    <Button
-      data-testid="card"
-      size="flexible"
-      className="surface-card group-hover:translate-x-shadow-x group-hover:translate-y-shadow-y flex w-full flex-col items-stretch gap-2 p-2 text-left group-hover:shadow-none"
-      onClick={onClick}
-    >
-      <Box
-        variant="primary"
-        shadow="none"
-        className="surface-card relative aspect-square w-full items-center justify-center overflow-hidden p-0"
-      >
-        {image ?? (
-          <ImageReveal
-            enabled={imageReveal}
-            src={src}
-            alt={title}
-            className="absolute inset-0"
-            imgClassName="h-full w-full object-cover"
-            placeholder={
-              <CassetteTape
-                size={96}
-                absoluteStrokeWidth
-                className="opacity-20"
-              />
+  menuOnContextClick = false,
+}) => {
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+
+  return (
+    <div
+      data-testid="card-container"
+      className={cn('group relative w-42', className)}
+      onContextMenu={
+        menuOnContextClick && menuItems && !isLoading
+          ? (event) => {
+              const menuButton = menuButtonRef.current;
+              if (menuButton) {
+                event.preventDefault();
+                event.stopPropagation();
+                if (menuButton.getAttribute('aria-expanded') !== 'true') {
+                  menuButton.click();
+                }
+              }
             }
-          />
+          : undefined
+      }
+    >
+      <Button
+        data-testid="card"
+        size="flexible"
+        className="surface-card group-hover:translate-x-shadow-x group-hover:translate-y-shadow-y flex w-full flex-col items-stretch gap-2 p-2 text-left group-hover:shadow-none"
+        onClick={onClick}
+      >
+        <Box
+          variant="primary"
+          shadow="none"
+          className="surface-card relative aspect-square w-full items-center justify-center overflow-hidden p-0"
+        >
+          {image ?? (
+            <ImageReveal
+              enabled={imageReveal}
+              src={src}
+              alt={title}
+              className="absolute inset-0"
+              imgClassName="h-full w-full object-cover"
+              placeholder={
+                <CassetteTape
+                  size={96}
+                  absoluteStrokeWidth
+                  className="opacity-20"
+                />
+              }
+            />
+          )}
+        </Box>
+
+        {(title || subtitle) && (
+          <div className="min-w-0">
+            {title && (
+              <div
+                data-testid="card-title"
+                className="text-card-foreground truncate text-sm font-bold"
+              >
+                {title}
+              </div>
+            )}
+            {subtitle && (
+              <div
+                data-testid="card-subtitle"
+                className="text-card-foreground truncate text-xs opacity-60"
+              >
+                {subtitle}
+              </div>
+            )}
+          </div>
         )}
-      </Box>
+      </Button>
 
-      {(title || subtitle) && (
-        <div className="min-w-0">
-          {title && (
-            <div
-              data-testid="card-title"
-              className="text-card-foreground truncate text-sm font-bold"
-            >
-              {title}
-            </div>
-          )}
-          {subtitle && (
-            <div
-              data-testid="card-subtitle"
-              className="text-card-foreground truncate text-xs opacity-60"
-            >
-              {subtitle}
-            </div>
-          )}
-        </div>
+      {(onPlay || menuItems) && (
+        <CardActions
+          onPlay={onPlay}
+          menuItems={menuItems}
+          labels={labels}
+          isLoading={isLoading}
+          menuButtonRef={menuOnContextClick ? menuButtonRef : undefined}
+        />
       )}
-    </Button>
-
-    {(onPlay || menuItems) && (
-      <CardActions
-        onPlay={onPlay}
-        menuItems={menuItems}
-        labels={labels}
-        isLoading={isLoading}
-      />
-    )}
-  </div>
-);
+    </div>
+  );
+};
 
 export const Card = Object.assign(CardBase, { Skeleton: CardSkeleton });
