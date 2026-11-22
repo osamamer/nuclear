@@ -16,7 +16,7 @@ export const useNavigateToPlaylist = () => {
       );
 
       if (!matchingProvider) {
-        return;
+        return false;
       }
 
       navigate({
@@ -24,6 +24,7 @@ export const useNavigateToPlaylist = () => {
         params: { providerId: matchingProvider.id },
         search: { url: encodeURIComponent(url) },
       });
+      return true;
     },
     [navigate],
   );

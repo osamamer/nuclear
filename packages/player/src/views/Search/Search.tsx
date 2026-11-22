@@ -1,10 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate, useSearch } from '@tanstack/react-router';
+import { openUrl } from '@tauri-apps/plugin-opener';
 import { Sparkles } from 'lucide-react';
 import { useMemo, type FC } from 'react';
+import { toast } from 'sonner';
 
 import { useTranslation } from '@nuclearplayer/i18n';
-import { pickArtwork, type PlaylistIndexEntry } from '@nuclearplayer/model';
+import {
+  pickArtwork,
+  type PlaylistIndexEntry,
+  type ProviderRef,
+} from '@nuclearplayer/model';
 import type {
   MetadataProvider,
   SearchResults,
@@ -24,8 +30,10 @@ import { useNavigateToPlaylist } from '../../hooks/useNavigateToPlaylist';
 import { metadataHost } from '../../services/metadataHost';
 import { PlaylistIndexTree } from '../../stores/PlaylistIndexTree';
 import { usePlaylistStore } from '../../stores/playlistStore';
+import { reportError } from '../../utils/logging';
 import { useAiBackend } from '../Discover/hooks/useDiscover';
 import { PlaylistCard } from '../Playlists/components/PlaylistCard';
+import { playlistResultUrl } from './playlistResultUrl';
 import { SearchEmptyState } from './SearchEmptyState';
 
 const SearchContent: FC<{
@@ -39,6 +47,23 @@ const SearchContent: FC<{
   const { t } = useTranslation(['search', 'common']);
   const navigate = useNavigate();
   const navigateToPlaylist = useNavigateToPlaylist();
+  const openPlaylistResult = async (source: ProviderRef) => {
+    const url = playlistResultUrl(source);
+    if (!url) {
+      toast.error(t('search:playlistUnavailable'));
+      return;
+    }
+    try {
+      if (!navigateToPlaylist(url)) {
+        await openUrl(url);
+      }
+    } catch (error) {
+      reportError('playlists', {
+        userMessage: t('search:playlistUnavailable'),
+        error,
+      });
+    }
+  };
   const playlistTab = (localPlaylists.length > 0 ||
     (results?.playlists?.length ?? 0) > 0) && {
     id: 'playlists',
@@ -57,17 +82,14 @@ const SearchContent: FC<{
             }
           />
         ))}
-        {results?.playlists?.map((playlist) => {
-          const url = playlist.source.url;
-          return (
-            <Card
-              key={`${playlist.source.provider}:${playlist.source.id}`}
-              title={playlist.name}
-              src={pickArtwork(playlist.artwork, 'cover', 300)?.url}
-              onClick={url ? () => navigateToPlaylist(url) : undefined}
-            />
-          );
-        })}
+        {results?.playlists?.map((playlist) => (
+          <Card
+            key={`${playlist.source.provider}:${playlist.source.id}`}
+            title={playlist.name}
+            src={pickArtwork(playlist.artwork, 'cover', 300)?.url}
+            onClick={() => void openPlaylistResult(playlist.source)}
+          />
+        ))}
       </CardGrid>
     ),
   };

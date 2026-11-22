@@ -480,7 +480,7 @@ describe('Lyrics view', () => {
       expect(LyricsWrapper.autoScroll).toBe(true);
     });
 
-    it('scrolls to the current line when auto-scroll is turned on', async () => {
+    it('scrolls to the current lyric position when auto-scroll is turned on', async () => {
       LyricsWrapper.setAutoScroll(false);
       ConnectedPlayerBarWrapper.setPlaybackPosition(5);
       await LyricsWrapper.mountLyrics();
@@ -488,7 +488,7 @@ describe('Lyrics view', () => {
 
       await LyricsWrapper.autoScrollToggle.click();
 
-      expect(LyricsWrapper.scrollPosition).toBe(100);
+      expect(LyricsWrapper.scrollPosition).toBe(125);
     });
 
     describe('current line button', () => {
@@ -570,7 +570,7 @@ describe('Lyrics view', () => {
         vi.useRealTimers();
       });
 
-      it('follows the active line', async () => {
+      it('keeps scrolling into the next interval as playback advances', async () => {
         ConnectedPlayerBarWrapper.setPlaybackPosition(3.9);
         await LyricsWrapper.mountLyrics();
         LyricsWrapper.layOutLyrics();
@@ -580,10 +580,11 @@ describe('Lyrics view', () => {
           vi.advanceTimersByTime(200);
         });
 
-        expect(LyricsWrapper.scrollPosition).toBe(100);
+        expect(LyricsWrapper.scrollPosition).toBeGreaterThan(100);
+        expect(LyricsWrapper.scrollPosition).toBeLessThan(105);
       });
 
-      it('follows the active line after scrolling away', async () => {
+      it('returns to the playback position after scrolling away', async () => {
         ConnectedPlayerBarWrapper.setPlaybackPosition(3.9);
         await LyricsWrapper.mountLyrics();
         LyricsWrapper.layOutLyrics();
@@ -594,7 +595,8 @@ describe('Lyrics view', () => {
           vi.advanceTimersByTime(200);
         });
 
-        expect(LyricsWrapper.scrollPosition).toBe(100);
+        expect(LyricsWrapper.scrollPosition).toBeGreaterThan(100);
+        expect(LyricsWrapper.scrollPosition).toBeLessThan(105);
       });
 
       it("doesn't follow the active line when auto-scroll is off", async () => {

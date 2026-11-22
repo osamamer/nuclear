@@ -1,6 +1,13 @@
 [
   {
     "date": "2026-11-22T00:00",
+    "description": "Open provider playlist search results in Nuclear when a playlist plugin supports them. Results with a web link can also open in your browser when no import plugin is available.",
+    "type": "fix",
+    "contributors": ["osamamer"],
+    "tags": [{ "label": "Search", "color": "purple" }]
+  },
+  {
+    "date": "2026-11-22T00:00",
     "description": "Search saved and provider playlists and reuse recent queries across launches. Playlist context menus include library actions, lyrics scroll with playback, and selected versions pick up where their previews left off. This also fixes sidebar layering and artwork clipping, settings wheel behavior, and theme colors during startup.",
     "type": "improvement",
     "contributors": ["osamamer"],

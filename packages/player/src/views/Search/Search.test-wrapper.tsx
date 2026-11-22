@@ -145,10 +145,14 @@ export const SearchWrapper = {
     return screen.findByText(`Query: "${query}"`);
   },
 
-  async openPlaylistResult(name: string) {
+  async clickPlaylistResult(name: string) {
     await user.click(
       await screen.findByRole('button', { name: new RegExp(name) }),
     );
+  },
+
+  async openPlaylistResult(name: string) {
+    await this.clickPlaylistResult(name);
     return screen.findByTestId('playlist-detail-title');
   },
 

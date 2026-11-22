@@ -302,6 +302,7 @@
     "noResults": "No results found",
     "searching": "Searching...",
     "failedToLoad": "Failed to load results.",
+    "playlistUnavailable": "This playlist could not be opened.",
     "clearRecentSearches": "Clear recent searches",
     "recentSearches": "Recent searches",
     "results": {

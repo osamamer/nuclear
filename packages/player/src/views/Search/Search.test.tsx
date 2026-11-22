@@ -1,4 +1,5 @@
 import { createMemoryHistory, createRouter } from '@tanstack/react-router';
+import { openUrl } from '@tauri-apps/plugin-opener';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
@@ -8,10 +9,15 @@ import { providersHost } from '../../services/providersHost';
 import { usePlaylistStore } from '../../stores/playlistStore';
 import { MetadataProviderBuilder } from '../../test/builders/MetadataProviderBuilder';
 import { PlaylistBuilder } from '../../test/builders/PlaylistBuilder';
+import { PlaylistProviderBuilder } from '../../test/builders/PlaylistProviderBuilder';
 import { PlaylistsWrapper } from '../Playlists/Playlists.test-wrapper';
 import { SearchWrapper } from './Search.test-wrapper';
 
 const user = userEvent.setup();
+
+vi.mock('@tauri-apps/plugin-opener', () => ({
+  openUrl: vi.fn().mockResolvedValue(undefined),
+}));
 
 describe('Search view', () => {
   beforeEach(() => {
@@ -49,6 +55,59 @@ describe('Search view', () => {
     expect(
       await SearchWrapper.openPlaylistResult('Night Drive'),
     ).toHaveTextContent('Night Drive');
+  });
+
+  it('opens a Spotify playlist result that only has a provider ID', async () => {
+    const url = 'https://open.spotify.com/playlist/37i9dQZF1DX0XUsuxWHRQd';
+    providersHost.register(
+      MetadataProviderBuilder.bioStyleProvider()
+        .withSearch(async () => ({
+          playlists: [
+            {
+              id: '37i9dQZF1DX0XUsuxWHRQd',
+              name: 'Provider playlist',
+              source: { provider: 'spotify', id: '37i9dQZF1DX0XUsuxWHRQd' },
+            },
+          ],
+        }))
+        .build(),
+    );
+    providersHost.register(
+      new PlaylistProviderBuilder()
+        .withMatchesUrl((candidate) => candidate === url)
+        .thatReturnsPlaylist(
+          new PlaylistBuilder().withName('Imported playlist').build(),
+        )
+        .build(),
+    );
+
+    await SearchWrapper.mount('provider playlist');
+
+    expect(
+      await SearchWrapper.openPlaylistResult('Provider playlist'),
+    ).toHaveTextContent('Imported playlist');
+  });
+
+  it('opens the provider link when no playlist plugin can import it', async () => {
+    const url = 'https://music.example.com/playlist/night-drive';
+    providersHost.register(
+      MetadataProviderBuilder.bioStyleProvider()
+        .withSearch(async () => ({
+          playlists: [
+            {
+              id: 'night-drive',
+              name: 'External playlist',
+              source: { provider: 'example', id: 'night-drive', url },
+            },
+          ],
+        }))
+        .build(),
+    );
+
+    await SearchWrapper.mount('external playlist');
+    await SearchWrapper.clickPlaylistResult('External playlist');
+
+    expect(openUrl).toHaveBeenCalledWith(url);
   });
 
   it('shows a skeleton while search results are loading', async () => {
