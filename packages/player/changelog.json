@@ -1,5 +1,12 @@
 [
   {
+    "date": "2026-11-22T00:00",
+    "description": "Search saved and provider playlists and reuse recent queries across launches. Playlist context menus include library actions, lyrics scroll with playback, and selected versions pick up where their previews left off. This also fixes sidebar layering and artwork clipping, settings wheel behavior, and theme colors during startup.",
+    "type": "improvement",
+    "contributors": ["osamamer"],
+    "tags": [{ "label": "Playback", "color": "purple" }]
+  },
+  {
     "date": "2026-11-21T00:00",
     "description": "Keep the active playlist visible in the collapsed sidebar, surface recently played playlists, and show playlist dates and context actions. The lyrics button now closes lyrics, synced lyrics scroll smoothly, and the player bar opens the track menu on right-click.",
     "type": "improvement",

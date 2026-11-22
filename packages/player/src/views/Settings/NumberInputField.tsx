@@ -20,6 +20,7 @@ export const NumberInputField: FC<Props> = ({
     label={label}
     description={description}
     value={String(value ?? '')}
+    onWheel={(event) => event.currentTarget.blur()}
     onChange={(e) => setValue(Number(e.target.value))}
   />
 );

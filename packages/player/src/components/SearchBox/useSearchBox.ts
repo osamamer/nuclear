@@ -11,11 +11,16 @@ export const useSearchBox = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [suggestionQuery, setSuggestionQuery] = useState('');
 
-  const openPopover = () => setIsPopoverOpen(true);
+  const openPopover = () => {
+    setSuggestionQuery('');
+    setIsPopoverOpen(true);
+  };
   const closePopover = () => setIsPopoverOpen(false);
 
   const goToSearch = (searchQuery: string) => {
+    addRecentSearch(searchQuery);
     navigate({ to: '/search', search: { q: searchQuery } });
     inputRef.current?.blur();
   };
@@ -23,17 +28,18 @@ export const useSearchBox = () => {
   const popover = useSearchPopover({
     isOpen: isPopoverOpen,
     onSelect: goToSearch,
+    query: suggestionQuery,
   });
 
   const updateQuery = (value: string) => {
     popover.clearHighlight();
+    setSuggestionQuery(value);
     setQuery(value);
   };
 
   const submit = () => {
     const trimmed = query.trim();
     if (trimmed.length > 0) {
-      addRecentSearch(trimmed);
       goToSearch(trimmed);
     }
   };

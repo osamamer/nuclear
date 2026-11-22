@@ -5,7 +5,10 @@ import userEvent from '@testing-library/user-event';
 import App from '../../App';
 import { routeTree } from '../../routeTree.gen';
 import { providersHost } from '../../services/providersHost';
+import { usePlaylistStore } from '../../stores/playlistStore';
 import { MetadataProviderBuilder } from '../../test/builders/MetadataProviderBuilder';
+import { PlaylistBuilder } from '../../test/builders/PlaylistBuilder';
+import { PlaylistsWrapper } from '../Playlists/Playlists.test-wrapper';
 import { SearchWrapper } from './Search.test-wrapper';
 
 const user = userEvent.setup();
@@ -13,6 +16,7 @@ const user = userEvent.setup();
 describe('Search view', () => {
   beforeEach(() => {
     providersHost.clear();
+    usePlaylistStore.setState({ index: [], playlists: new Map() });
   });
 
   it('(Snapshot) renders the search view', async () => {
@@ -35,6 +39,16 @@ describe('Search view', () => {
   it('shows empty state when no metadata provider is available', async () => {
     await SearchWrapper.mount('test');
     expect(SearchWrapper.emptyState).toBeInTheDocument();
+  });
+
+  it('lets you search and open a saved playlist without a metadata provider', async () => {
+    await PlaylistsWrapper.savePlaylists(
+      new PlaylistBuilder().withName('Night Drive'),
+    );
+    await SearchWrapper.mount('night drive');
+    expect(
+      await SearchWrapper.openPlaylistResult('Night Drive'),
+    ).toHaveTextContent('Night Drive');
   });
 
   it('shows a skeleton while search results are loading', async () => {

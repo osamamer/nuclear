@@ -1,9 +1,10 @@
-import { waitFor } from '@testing-library/react';
+import { act, waitFor } from '@testing-library/react';
 
 import type { QueueItem, StreamCandidate } from '@nuclearplayer/model';
 
 import { saveDownloadedTrack } from '../services/downloads/trackDownloadCatalog';
 import { providersHost } from '../services/providersHost';
+import { applyVersion } from '../services/versions/trackVersions';
 import { useQueueStore } from '../stores/queueStore';
 import { setSetting } from '../stores/settingsStore';
 import { useSoundStore } from '../stores/soundStore';
@@ -71,5 +72,18 @@ export const VersionChoiceWrapper = {
 
   get currentItem() {
     return useQueueStore.getState().getCurrentItem();
+  },
+
+  async chooseVersionAt(
+    item: QueueItem,
+    candidate: StreamCandidate,
+    position: number,
+  ) {
+    await act(() =>
+      applyVersion(item.track, candidate, false, undefined, position),
+    );
+    await waitFor(() =>
+      expect(useSoundStore.getState().src?.startPositionSeconds).toBe(position),
+    );
   },
 };

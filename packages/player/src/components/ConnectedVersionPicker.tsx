@@ -218,6 +218,7 @@ const VersionPickerBody: FC<{
       preview.resolvedCandidate(selected),
       remember,
       playlistId,
+      preview.positionFor(selected.id),
     );
   };
 
@@ -253,12 +254,17 @@ const VersionPickerBody: FC<{
         }}
         preview={preview}
       />
-      {preview.source && (
+      {preview.source && preview.candidateId && (
         <Sound
+          key={preview.candidateId}
           src={preview.source}
           status="playing"
           volume={Math.round((volume ?? 1) * 100)}
-          onTimeUpdate={preview.updateProgress}
+          onTimeUpdate={(progress) => {
+            if (preview.candidateId) {
+              preview.updateProgress(preview.candidateId, progress);
+            }
+          }}
           onEnd={preview.stop}
           onError={preview.failCurrent}
         />

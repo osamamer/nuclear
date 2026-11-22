@@ -22,6 +22,7 @@ type SyncedLyricsLinesProps = {
   positionMs: number;
   activeLineIndex: number;
   activeLineRef: RefObject<HTMLButtonElement>;
+  nextLineRef: RefObject<HTMLButtonElement>;
   onLineClick: (startMs: number) => void;
 };
 
@@ -31,10 +32,15 @@ export const SyncedLyricsLines: FC<SyncedLyricsLinesProps> = ({
   positionMs,
   activeLineIndex,
   activeLineRef,
+  nextLineRef,
   onLineClick,
 }) => {
   const refFor = (index: number) =>
-    index === activeLineIndex ? activeLineRef : undefined;
+    index === activeLineIndex
+      ? activeLineRef
+      : index === activeLineIndex + 1
+        ? nextLineRef
+        : undefined;
 
   const breakBefore = (index: number) => {
     const instrumentalBreak = getBreakBefore(lines, index);

@@ -18,7 +18,8 @@ export const ConnectedThemeController: FC = () => {
 
   return (
     <ThemeController
-      isDark={isDark ?? false}
+      isDark={isDark}
+      defaultIsDark={document.documentElement.dataset.theme === 'dark'}
       onThemeChange={setIsDark}
       className="justify-self-end"
     />

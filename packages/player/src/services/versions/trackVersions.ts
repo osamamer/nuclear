@@ -8,6 +8,7 @@ import { useStreamVerificationStore } from '../../stores/streamVerificationStore
 import { keyOfTrack } from '../discover/trackKeys';
 import { playbackManager } from '../playback';
 import { hasFreshStream, streamingHost } from '../streamingHost';
+import { streamResolution } from '../streamResolution';
 
 export const VERSION_VARIANTS = [
   'original',
@@ -67,6 +68,7 @@ export const applyVersion = async (
   candidate: StreamCandidate,
   remember: boolean,
   playlistId?: string,
+  startPositionSeconds?: number,
 ): Promise<void> => {
   if (remember) {
     await useStreamVerificationStore
@@ -81,17 +83,24 @@ export const applyVersion = async (
     isSameTrack(currentItem.track, track) &&
     (!playlistId || currentItem.playlistId === playlistId)
   ) {
-    queue.updateItemState(currentItem.id, {
-      status: 'idle',
-      error: undefined,
-      track: trackWithVersion(currentItem.track, candidate),
-    });
+    streamResolution.withVersionStart(candidate.id, startPositionSeconds, () =>
+      queue.updateItemState(currentItem.id, {
+        status: 'idle',
+        error: undefined,
+        track: trackWithVersion(currentItem.track, candidate),
+      }),
+    );
     return;
   }
 
-  const replaced = queue.replaceQueue([track], playlistId, 0, {
-    selectedVersion: chosenCandidate(candidate),
-  });
+  const replaced = streamResolution.withVersionStart(
+    candidate.id,
+    startPositionSeconds,
+    () =>
+      queue.replaceQueue([track], playlistId, 0, {
+        selectedVersion: chosenCandidate(candidate),
+      }),
+  );
   if (replaced) {
     playbackManager.play();
   }

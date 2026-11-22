@@ -32,6 +32,7 @@ export const SliderField: FC<Props> = ({
       label={label}
       description={description}
       showFooter
+      disableWheel
       unit={unit}
       min={min}
       max={max}

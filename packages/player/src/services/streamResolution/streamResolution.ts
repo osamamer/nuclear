@@ -27,10 +27,35 @@ export type ResolveOptions = {
 export class StreamResolution {
   private activeController: AbortController | null = null;
   private activeItemId: string | null = null;
+  private versionStart: { candidateId: string; position: number } | undefined;
 
   constructor(private readonly audioSourceFactory = new AudioSourceFactory()) {}
 
+  withVersionStart<T>(
+    candidateId: string,
+    position: number | undefined,
+    changeQueue: () => T,
+  ): T {
+    if (position === undefined) {
+      return changeQueue();
+    }
+    this.versionStart = { candidateId, position };
+    try {
+      return changeQueue();
+    } finally {
+      this.versionStart = undefined;
+    }
+  }
+
   async resolve(item: QueueItem, options: ResolveOptions): Promise<void> {
+    const versionStart = this.versionStart;
+    if (
+      versionStart &&
+      requiredStreamIdFor(item) === versionStart.candidateId
+    ) {
+      this.versionStart = undefined;
+      options = { ...options, startPositionSeconds: versionStart.position };
+    }
     const signal = this.supersedeActiveResolution(item.id);
     const { updateItemState } = useQueueStore.getState();
 
@@ -53,6 +78,9 @@ export class StreamResolution {
             await this.audioSourceFactory.fromDownloadedFile(fileName);
           if (signal.aborted) {
             return;
+          }
+          if (options.startPositionSeconds !== undefined) {
+            audioSource.startPositionSeconds = options.startPositionSeconds;
           }
           updateItemState(item.id, { status: 'success' });
           this.activeItemId = null;

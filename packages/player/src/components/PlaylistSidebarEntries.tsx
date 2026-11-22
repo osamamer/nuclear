@@ -76,7 +76,7 @@ export const PlaylistSidebarEntries: FC<PlaylistSidebarEntriesProps> = ({
                 <PlaylistArtwork
                   name={playlist.name}
                   thumbnails={playlist.thumbnails}
-                  className="rounded-md"
+                  className="overflow-hidden rounded-md"
                 />
               }
               label={playlist.name}

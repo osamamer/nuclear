@@ -4,13 +4,22 @@ import { useRecentSearches } from './useRecentSearches';
 
 type SearchPopoverParams = {
   isOpen: boolean;
+  query: string;
   onSelect: (query: string) => void;
 };
 
 const NO_HIGHLIGHT = -1;
 
-export const useSearchPopover = ({ isOpen, onSelect }: SearchPopoverParams) => {
-  const { recentSearches, clearRecentSearches } = useRecentSearches();
+export const useSearchPopover = ({
+  isOpen,
+  onSelect,
+  query,
+}: SearchPopoverParams) => {
+  const { recentSearches: history, clearRecentSearches } = useRecentSearches();
+  const filter = query.trim().toLowerCase();
+  const recentSearches = history.filter((item) =>
+    item.toLowerCase().includes(filter),
+  );
   const [highlightedIndex, setHighlightedIndex] = useState(NO_HIGHLIGHT);
 
   const clearIndex = recentSearches.length;
@@ -52,8 +61,11 @@ export const useSearchPopover = ({ isOpen, onSelect }: SearchPopoverParams) => {
         return true;
       }
 
-      onSelect(recentSearches[highlightedIndex]);
-      return true;
+      const selected = recentSearches[highlightedIndex];
+      if (selected) {
+        onSelect(selected);
+        return true;
+      }
     }
 
     return false;

@@ -73,7 +73,7 @@ export const SidebarNavigationVisibilityMenu: FC<
     <Popover
       className="relative w-full"
       anchor="right"
-      panelClassName="max-h-[70vh] min-w-64 overflow-y-auto p-1"
+      panelClassName="z-50 max-h-[70vh] min-w-64 overflow-y-auto p-1"
       trigger={
         <Button
           variant="text"

@@ -145,6 +145,13 @@ export const SearchWrapper = {
     return screen.findByText(`Query: "${query}"`);
   },
 
+  async openPlaylistResult(name: string) {
+    await user.click(
+      await screen.findByRole('button', { name: new RegExp(name) }),
+    );
+    return screen.findByTestId('playlist-detail-title');
+  },
+
   async navigateToSearch(query: string) {
     await router.navigate({ to: '/search', search: { q: query } });
   },

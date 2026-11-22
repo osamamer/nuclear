@@ -16,7 +16,7 @@ import { usePlaylistExport } from '../../../hooks/usePlaylistExport';
 
 type PlaylistCardMenuItemsProps = {
   playlistId: string;
-  onAddToQueue: () => void;
+  onAddToQueue?: () => void;
   onDelete: () => void;
   canMoveToFolder: boolean;
   isInFolder: boolean;
@@ -39,13 +39,15 @@ export const PlaylistCardMenuItems: FC<PlaylistCardMenuItemsProps> = ({
 
   return (
     <>
-      <Popover.Item
-        icon={<PlusIcon size={16} />}
-        onClick={onAddToQueue}
-        data-testid="add-to-queue-action"
-      >
-        {t('addToQueue')}
-      </Popover.Item>
+      {onAddToQueue && (
+        <Popover.Item
+          icon={<PlusIcon size={16} />}
+          onClick={onAddToQueue}
+          data-testid="add-to-queue-action"
+        >
+          {t('addToQueue')}
+        </Popover.Item>
+      )}
       <Popover.Item
         icon={<ShareIcon size={16} />}
         onClick={exportAsJson}

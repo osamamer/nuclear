@@ -15,6 +15,7 @@ type SliderProps = {
   unit?: string;
   onValueChange?: (value: number) => void;
   disabled?: boolean;
+  disableWheel?: boolean;
   className?: string;
   label?: string;
   description?: string;
@@ -40,6 +41,7 @@ const SliderRoot: FC<
   unit,
   onValueChange,
   disabled,
+  disableWheel,
   className,
   children,
 }) => {
@@ -64,7 +66,7 @@ const SliderRoot: FC<
 
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   useSliderWheel(wrapperRef, {
-    disabled,
+    disabled: disabled || disableWheel,
     get: () => ({ value, step, min, max }),
     set: (next) => emit(next),
   });

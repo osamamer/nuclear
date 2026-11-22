@@ -31,6 +31,7 @@ export const useVersionPreview = () => {
   const [state, setState] = useState<PreviewState>(IDLE);
   const [failedIds, setFailedIds] = useState<string[]>([]);
   const resolvedRef = useRef(new Map<string, StreamCandidate>());
+  const positions = useRef(new Map<string, number>());
   const requestRef = useRef(0);
   const pausedMainRef = useRef(false);
   const keepMainPausedRef = useRef(false);
@@ -100,10 +101,23 @@ export const useVersionPreview = () => {
   }, [candidateId, stop]);
 
   const updateProgress = useCallback(
-    ({ position, duration }: { position: number; duration: number }) => {
-      setState((current) => ({ ...current, position, duration }));
+    (
+      id: string,
+      { position, duration }: { position: number; duration: number },
+    ) => {
+      if (id !== candidateId) {
+        return;
+      }
+      if (position > 0 && Number.isFinite(position)) {
+        positions.current.set(id, position);
+      }
+      setState((current) =>
+        current.candidateId === id
+          ? { ...current, position, duration }
+          : current,
+      );
     },
-    [],
+    [candidateId],
   );
 
   const resolvedCandidate = useCallback(
@@ -135,6 +149,7 @@ export const useVersionPreview = () => {
     failCurrent,
     updateProgress,
     resolvedCandidate,
+    positionFor: (id: string) => positions.current.get(id),
     keepMainPaused,
   };
 };

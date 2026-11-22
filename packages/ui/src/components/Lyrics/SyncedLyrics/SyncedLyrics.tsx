@@ -47,6 +47,7 @@ export const SyncedLyrics: FC<SyncedLyricsProps> = ({
   );
   const {
     activeLineRef,
+    nextLineRef,
     activeLineIndex,
     activeLineDirection,
     scrollToActiveLine,
@@ -64,6 +65,7 @@ export const SyncedLyrics: FC<SyncedLyricsProps> = ({
         positionMs={positionMs}
         activeLineIndex={activeLineIndex}
         activeLineRef={activeLineRef}
+        nextLineRef={nextLineRef}
         onLineClick={onSeek}
       />
       <div className="h-8/10 shrink-0" />

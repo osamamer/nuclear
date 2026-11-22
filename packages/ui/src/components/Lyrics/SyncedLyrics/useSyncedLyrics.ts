@@ -1,5 +1,5 @@
 import findLastIndex from 'lodash-es/findLastIndex';
-import { RefObject, useCallback, useEffect, useRef } from 'react';
+import { RefObject, useCallback, useLayoutEffect, useRef } from 'react';
 
 import type {
   LyricsSegment,
@@ -10,6 +10,12 @@ import type {
 import { useActiveLineDirection } from './useActiveLineDirection';
 
 const ANCHOR_RATIO = 0.3;
+
+const reducedMotion = () =>
+  window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
+const lineOffset = (viewport: HTMLDivElement, line: HTMLButtonElement) =>
+  line.getBoundingClientRect().top - viewport.getBoundingClientRect().top;
 
 type Options = {
   lines: (
@@ -28,6 +34,7 @@ export const useSyncedLyrics = ({
   autoScroll,
 }: Options) => {
   const activeLineRef = useRef<HTMLButtonElement>(null);
+  const nextLineRef = useRef<HTMLButtonElement>(null);
   const activeLineIndex = findLastIndex(
     lines,
     (line) => line.startMs <= positionMs,
@@ -44,29 +51,49 @@ export const useSyncedLyrics = ({
     if (!viewport || !activeLine) {
       return;
     }
-    const lineTop =
-      activeLine.getBoundingClientRect().top -
-      viewport.getBoundingClientRect().top;
     const top =
-      viewport.scrollTop + lineTop - viewport.clientHeight * ANCHOR_RATIO;
-    if (
-      typeof viewport.scrollTo === 'function' &&
-      !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
-    ) {
+      viewport.scrollTop +
+      lineOffset(viewport, activeLine) -
+      viewport.clientHeight * ANCHOR_RATIO;
+    if (typeof viewport.scrollTo === 'function' && !reducedMotion()) {
       viewport.scrollTo({ top, behavior: 'smooth' });
     } else {
       viewport.scrollTop = top;
     }
   }, [viewportRef]);
 
-  useEffect(() => {
-    if (autoScroll) {
-      scrollToActiveLine();
+  useLayoutEffect(() => {
+    const viewport = viewportRef.current;
+    const active = activeLineRef.current;
+    if (!autoScroll || !viewport || !active) {
+      return;
     }
-  }, [autoScroll, activeLineIndex, lines, scrollToActiveLine]);
+
+    const currentOffset = lineOffset(viewport, active);
+    const next = nextLineRef.current;
+    const currentStart = lines[activeLineIndex].startMs;
+    const nextStart = lines[activeLineIndex + 1]?.startMs;
+    const progress =
+      next && nextStart > currentStart && !reducedMotion()
+        ? (positionMs - currentStart) / (nextStart - currentStart)
+        : 0;
+    const offset =
+      next && progress > 0
+        ? currentOffset +
+          (lineOffset(viewport, next) - currentOffset) * progress
+        : currentOffset;
+    const top =
+      viewport.scrollTop + offset - viewport.clientHeight * ANCHOR_RATIO;
+    if (typeof viewport.scrollTo === 'function') {
+      viewport.scrollTo({ top, behavior: 'instant' });
+    } else {
+      viewport.scrollTop = top;
+    }
+  }, [activeLineIndex, autoScroll, lines, positionMs, viewportRef]);
 
   return {
     activeLineRef,
+    nextLineRef,
     activeLineIndex,
     activeLineDirection,
     scrollToActiveLine,

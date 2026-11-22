@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate, useSearch } from '@tanstack/react-router';
 import { Sparkles } from 'lucide-react';
-import type { FC } from 'react';
+import { useMemo, type FC } from 'react';
 
 import { useTranslation } from '@nuclearplayer/i18n';
-import { pickArtwork } from '@nuclearplayer/model';
+import { pickArtwork, type PlaylistIndexEntry } from '@nuclearplayer/model';
 import type {
   MetadataProvider,
   SearchResults,
@@ -20,8 +20,12 @@ import {
 
 import { ConnectedTrackTable } from '../../components/ConnectedTrackTable';
 import { useActiveProvider } from '../../hooks/useActiveProvider';
+import { useNavigateToPlaylist } from '../../hooks/useNavigateToPlaylist';
 import { metadataHost } from '../../services/metadataHost';
+import { PlaylistIndexTree } from '../../stores/PlaylistIndexTree';
+import { usePlaylistStore } from '../../stores/playlistStore';
 import { useAiBackend } from '../Discover/hooks/useDiscover';
+import { PlaylistCard } from '../Playlists/components/PlaylistCard';
 import { SearchEmptyState } from './SearchEmptyState';
 
 const SearchContent: FC<{
@@ -30,16 +34,53 @@ const SearchContent: FC<{
   isError: boolean;
   results: SearchResults | undefined;
   refetch: () => void;
-}> = ({ provider, isLoading, isError, results, refetch }) => {
+  localPlaylists: PlaylistIndexEntry[];
+}> = ({ provider, isLoading, isError, results, refetch, localPlaylists }) => {
   const { t } = useTranslation(['search', 'common']);
   const navigate = useNavigate();
+  const navigateToPlaylist = useNavigateToPlaylist();
+  const playlistTab = (localPlaylists.length > 0 ||
+    (results?.playlists?.length ?? 0) > 0) && {
+    id: 'playlists',
+    label: t('search:results.playlists'),
+    content: (
+      <CardGrid>
+        {localPlaylists.map((playlist) => (
+          <PlaylistCard
+            key={playlist.id}
+            playlist={playlist}
+            onClick={() =>
+              navigate({
+                to: '/playlists/$playlistId',
+                params: { playlistId: playlist.id },
+              })
+            }
+          />
+        ))}
+        {results?.playlists?.map((playlist) => {
+          const url = playlist.source.url;
+          return (
+            <Card
+              key={`${playlist.source.provider}:${playlist.source.id}`}
+              title={playlist.name}
+              src={pickArtwork(playlist.artwork, 'cover', 300)?.url}
+              onClick={url ? () => navigateToPlaylist(url) : undefined}
+            />
+          );
+        })}
+      </CardGrid>
+    ),
+  };
+  const localResults = playlistTab && (
+    <Tabs items={[playlistTab]} className="flex-1" />
+  );
 
   if (!provider) {
-    return <SearchEmptyState />;
+    return localResults || <SearchEmptyState />;
   }
 
   if (isLoading) {
-    return <CardGrid.Skeleton data-testid="search-skeleton" />;
+    return localResults || <CardGrid.Skeleton data-testid="search-skeleton" />;
   }
 
   if (isError) {
@@ -53,6 +94,7 @@ const SearchContent: FC<{
         >
           {t('common:actions.retry')}
         </Button>
+        {localResults}
       </div>
     );
   }
@@ -106,6 +148,7 @@ const SearchContent: FC<{
         </div>
       ),
     },
+    playlistTab,
   ].filter(Boolean);
 
   return <Tabs items={tabsItems as TabsItem[]} className="flex-1" />;
@@ -138,6 +181,17 @@ const AskAiBanner: FC<{ query: string }> = ({ query }) => {
 export const Search: FC = () => {
   const { t } = useTranslation(['search', 'common']);
   const { q } = useSearch({ from: '/search' });
+  const index = usePlaylistStore((state) => state.index);
+  const query = q.trim().toLowerCase();
+  const localPlaylists = useMemo(
+    () =>
+      query
+        ? new PlaylistIndexTree(index)
+            .playlists()
+            .filter((playlist) => playlist.name.toLowerCase().includes(query))
+        : [],
+    [index, query],
+  );
 
   const provider = useActiveProvider('metadata') as
     MetadataProvider | undefined;
@@ -169,6 +223,7 @@ export const Search: FC = () => {
         isError={isError}
         results={results}
         refetch={refetch}
+        localPlaylists={localPlaylists}
       />
     </ViewShell>
   );

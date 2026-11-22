@@ -65,4 +65,13 @@ describe('Choosing which version of a song plays', () => {
 
     expect(Wrapper.playingUrl).toBe(`local:${item.id}.m4a`);
   });
+
+  it('starts the selected version at the position reached in its preview', async () => {
+    const item = Wrapper.queueItem('Previewed', [STUDIO, LIVE]);
+    await Wrapper.play(item);
+
+    await Wrapper.chooseVersionAt(item, LIVE, 18.5);
+
+    expect(Wrapper.playingUrl).toBe('https://example.com/live.mp3');
+  });
 });

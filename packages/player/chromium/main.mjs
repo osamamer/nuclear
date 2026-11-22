@@ -10,6 +10,7 @@ import {
   dialog,
   ipcMain,
   nativeImage,
+  nativeTheme,
   net,
   protocol,
   session,
@@ -290,11 +291,20 @@ function readPreferences() {
 async function start() {
   const root = await realpath(join(player, 'dist'));
   const appHtml = await readFile(join(root, 'index.html'), 'utf8');
-  const index = appHtml.replace(
+  const settings = await readSettings();
+  const isDark = settings['core.theme.dark'] !== false;
+  const backgroundColor = isDark ? '#212121' : '#efeff1';
+  nativeTheme.themeSource = isDark ? 'dark' : 'light';
+  const initialHtml = isDark
+    ? appHtml
+    : appHtml.replace(
+        'data-theme="dark" style="background-color: #212121"',
+        'style="background-color: #efeff1"',
+      );
+  const index = initialHtml.replace(
     '<head>',
     '<head><script src="/_chromium-bootstrap.js"></script>',
   );
-  const settings = await readSettings();
   preferences = readPreferences();
   protocol.handle(scheme, (request) => localAsset(root, index, request.url));
   session.defaultSession.setPermissionRequestHandler(
@@ -308,8 +318,7 @@ async function start() {
     title: 'Nuclear Music Player',
     width: 1280,
     height: 720,
-    backgroundColor:
-      settings['core.theme.dark'] === false ? '#efeff1' : '#212121',
+    backgroundColor,
     icon: join(player, 'src-tauri/icons/icon.png'),
     frame,
     show: false,
